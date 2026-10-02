@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir -p output
 
-          cat > /tmp/tts.html <<'HTML'
+          cat > tts.html <<'HTML'
           <!doctype html>
           <html>
           <body>
@@ -51,7 +51,7 @@ jobs:
           </html>
           HTML
 
-          cat > /tmp/run.js <<'JS'
+          cat > run.js <<'JS'
           const { chromium } = require("playwright");
           const fs = require("fs");
 
@@ -59,7 +59,7 @@ jobs:
             const browser = await chromium.launch({headless: true});
             const page = await browser.newPage();
 
-            await page.goto("file:///tmp/tts.html");
+            await page.goto("file://" + process.cwd() + "/tts.html");
 
             await page.waitForFunction(
               () => typeof window.run === "function",
@@ -91,7 +91,7 @@ jobs:
           })();
           JS
 
-          node /tmp/run.js
+          node run.js
           file output/audio.wav
 
       - name: Upload WAV
