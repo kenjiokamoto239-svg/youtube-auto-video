@@ -1,0 +1,99 @@
+name: Auto Japanese Video
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Japanese Kokoro
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "kokoro_onnx@git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" soundfile
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Prepare
+        run: |
+          mkdir -p model input output
+
+          wget -q \
+            "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx" \
+            -O model/kokoro-v1.0.int8.onnx
+
+          wget -q \
+            "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main/voices/jf_alpha.bin" \
+            -O model/jf_alpha.bin
+
+      - name: Create sample script
+        run: |
+          if [ ! -f input/script.txt ]; then
+            cat > input/script.txt <<'EOF'
+          今日から人生を変えるために、まず一つだけ習慣を変えてみましょう。
+          大切なのは、いきなり大きな目標を達成することではありません。
+          毎日続けられる小さな行動を積み重ねることです。
+          EOF
+          fi
+
+      - name: Generate Japanese voice
+        run: |
+          cat > generate_tts.py <<'PY'
+          from kokoro_onnx import Kokoro
+          import soundfile as sf
+
+          with open("input/script.txt", "r", encoding="utf-8") as f:
+              text = f.read().strip()
+
+          model = Kokoro(
+              model_path="model/kokoro-v1.0.int8.onnx",
+              voice_path="model/jf_alpha.bin",
+          )
+
+          audio, sample_rate = model.create(text)
+
+          sf.write(
+              "input/audio.wav",
+              audio,
+              sample_rate
+          )
+
+          print("Japanese audio generated.")
+          PY
+
+          python generate_tts.py
+
+      - name: Generate MP4
+        run: |
+          ffmpeg -y \
+            -f lavfi \
+            -i color=c=black:s=1280x720:r=30 \
+            -i input/audio.wav \
+            -c:v libx264 \
+            -preset veryfast \
+            -tune stillimage \
+            -c:a aac \
+            -b:a 128k \
+            -shortest \
+            output/video.mp4
+
+      - name: Upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-japanese-video
+          path: |
+            input/script.txt
+            input/audio.wav
+            output/video.mp4
