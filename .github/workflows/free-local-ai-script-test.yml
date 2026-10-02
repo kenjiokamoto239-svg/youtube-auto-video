@@ -1,0 +1,41 @@
+name: Free Local AI Script Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama serve > /tmp/ollama.log 2>&1 &
+          sleep 5
+          ollama pull qwen2.5:0.5b
+
+      - name: Generate Japanese script
+        run: |
+          cat > prompt.txt <<'EOF'
+          日本語のYouTubeショート動画台本を1本作ってください。
+          テーマは「今日から人生を少し良くする習慣」。
+          300〜450文字。
+          最初の1文で興味を引く。
+          具体例を2つ入れる。
+          最後は短い行動提案で終える。
+          タイトルや説明は不要。台本本文だけ出力してください。
+          EOF
+
+          ollama run qwen2.5:0.5b < prompt.txt > script.txt
+
+          test -s script.txt
+          echo "===== GENERATED SCRIPT ====="
+          cat script.txt
+          echo "============================"
+
+      - name: Upload script
+        uses: actions/upload-artifact@v4
+        with:
+          name: free-local-ai-script-test
+          path: script.txt
