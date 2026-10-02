@@ -41,7 +41,7 @@ jobs:
 
             const audio = await tts.generate(
               "これは日本語音声の自動生成テストです。GitHub ActionsからKokoro TTSを実行しています。",
-              { voice: "jf_alpha" }
+              { voice: "jm_kumo" }
             );
 
             return audio.to_wav();
