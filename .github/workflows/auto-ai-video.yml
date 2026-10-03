@@ -3,6 +3,9 @@ name: Auto AI Japanese Video
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -100,6 +103,15 @@ jobs:
             -b:a 128k \
             -shortest \
             output/video.mp4
+
+      - name: Publish latest MP4 to public GitHub URL
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./output
+          force_orphan: true
+          keep_files: false
 
       - name: Upload final files
         uses: actions/upload-artifact@v4
