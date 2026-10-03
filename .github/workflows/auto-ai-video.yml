@@ -2,6 +2,8 @@ name: Auto AI Japanese Video
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * *"
 
 permissions:
   contents: write
@@ -94,24 +96,18 @@ jobs:
         run: |
           ffmpeg -y \
             -f lavfi \
-            -i color=c=black:s=1280x720:r=30 \
+            -i color=c=black:s=1080x1920:r=30 \
             -i input/audio.wav \
             -c:v libx264 \
             -preset veryfast \
             -tune stillimage \
+            -pix_fmt yuv420p \
             -c:a aac \
             -b:a 128k \
             -shortest \
             output/video.mp4
 
-      - name: Publish latest MP4 to public GitHub URL
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./output
-          force_orphan: true
-          keep_files: false
+          test -s output/video.mp4
 
       - name: Upload final files
         uses: actions/upload-artifact@v4
