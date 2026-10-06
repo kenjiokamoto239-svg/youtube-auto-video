@@ -118,6 +118,7 @@ jobs:
         run: |
           cat > upload_youtube.py <<'PY'
           import os
+          import re
 
           from google.oauth2.credentials import Credentials
           from googleapiclient.discovery import build
@@ -141,12 +142,23 @@ jobs:
           with open("input/script.txt", "r", encoding="utf-8") as f:
               script = f.read().strip()
 
-          title = script.splitlines()[0].strip()[:90]
+          first_line = script.splitlines()[0].strip()
+
+          title = re.sub(r"[<>]", "", first_line)
+          title = title[:90].strip()
+
+          if not title:
+              title = "今日から人生を少し良くする習慣"
+
+          description = (
+              "今日から人生を少し良くする習慣についてのショート動画です。\n"
+              "#習慣 #自己改善 #人生"
+          )
 
           body = {
               "snippet": {
                   "title": title,
-                  "description": script + "\n\n#習慣 #自己改善 #人生",
+                  "description": description,
                   "tags": [
                       "習慣",
                       "自己改善",
