@@ -49,10 +49,10 @@ jobs:
           python -m pip install "kokoro_onnx@git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" soundfile
           python -m pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
-      - name: Install FFmpeg
+      - name: Install FFmpeg and Japanese font
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
 
       - name: Prepare
         run: |
@@ -93,15 +93,45 @@ jobs:
 
           python generate_tts.py
 
-      - name: Generate MP4
+      - name: Generate subtitle text
         run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          text = Path("input/script.txt").read_text(encoding="utf-8").strip()
+
+          lines = []
+          current = ""
+
+          for char in text:
+              current += char
+              if len(current) >= 18 and char in "。！？、":
+                  lines.append(current.strip())
+                  current = ""
+
+          if current.strip():
+              lines.append(current.strip())
+
+          Path("input/subtitle.txt").write_text(
+              "\n".join(lines),
+              encoding="utf-8"
+          )
+
+          print("Subtitle created.")
+          print(Path("input/subtitle.txt").read_text(encoding="utf-8"))
+          PY
+
+      - name: Generate MP4 with subtitles
+        run: |
+          FONT="/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+
           ffmpeg -y \
             -f lavfi \
-            -i color=c=black:s=1080x1920:r=30 \
+            -i "color=c=black:s=1080x1920:r=30" \
             -i input/audio.wav \
+            -vf "drawtext=fontfile='${FONT}':textfile='input/subtitle.txt':fontcolor=white:fontsize=58:borderw=4:bordercolor=black:x=(w-text_w)/2:y=h*0.68:line_spacing=12:box=1:boxcolor=black@0.55:boxborderw=25" \
             -c:v libx264 \
             -preset veryfast \
-            -tune stillimage \
             -pix_fmt yuv420p \
             -c:a aac \
             -b:a 128k \
@@ -213,4 +243,5 @@ jobs:
           path: |
             input/script.txt
             input/audio.wav
+            input/subtitle.txt
             output/video.mp4
