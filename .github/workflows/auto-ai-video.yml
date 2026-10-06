@@ -110,7 +110,7 @@ jobs:
 
           test -s output/video.mp4
 
-      - name: Upload to YouTube
+      - name: Upload to YouTube and publish
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
@@ -123,17 +123,13 @@ jobs:
           from googleapiclient.discovery import build
           from googleapiclient.http import MediaFileUpload
 
-          client_id = os.environ["YOUTUBE_CLIENT_ID"]
-          client_secret = os.environ["YOUTUBE_CLIENT_SECRET"]
-          refresh_token = os.environ["YOUTUBE_REFRESH_TOKEN"]
-
           credentials = Credentials(
               token=None,
-              refresh_token=refresh_token,
+              refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
               token_uri="https://oauth2.googleapis.com/token",
-              client_id=client_id,
-              client_secret=client_secret,
-              scopes=["https://www.googleapis.com/auth/youtube.upload"],
+              client_id=os.environ["YOUTUBE_CLIENT_ID"],
+              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
+              scopes=["https://www.googleapis.com/auth/youtube"],
           )
 
           youtube = build(
@@ -145,19 +141,12 @@ jobs:
           with open("input/script.txt", "r", encoding="utf-8") as f:
               script = f.read().strip()
 
-          title = script.splitlines()[0].strip()
-          title = title[:90]
-
-          description = (
-              script
-              + "\n\n"
-              + "#習慣 #自己改善 #人生"
-          )
+          title = script.splitlines()[0].strip()[:90]
 
           body = {
               "snippet": {
                   "title": title,
-                  "description": description,
+                  "description": script + "\n\n#習慣 #自己改善 #人生",
                   "tags": [
                       "習慣",
                       "自己改善",
@@ -177,51 +166,33 @@ jobs:
               resumable=True
           )
 
-          request = youtube.videos().insert(
+          response = youtube.videos().insert(
               part="snippet,status",
               body=body,
               media_body=media
-          )
-
-          response = request.execute()
-
-          print("YouTube upload successful")
-          print("Video ID:", response["id"])
-          print("URL:", "https://www.youtube.com/watch?v=" + response["id"])
-          PY
-
-          python upload_youtube.py
+          ).execute()
 
           video_id = response["id"]
 
-publish_credentials = Credentials(
-    token=None,
-    refresh_token=refresh_token,
-    token_uri="https://oauth2.googleapis.com/token",
-    client_id=client_id,
-    client_secret=client_secret,
-    scopes=["https://www.googleapis.com/auth/youtube"],
-)
+          print("YouTube upload successful")
+          print("Video ID:", video_id)
 
-publish_youtube = build(
-    "youtube",
-    "v3",
-    credentials=publish_credentials
-)
+          publish_response = youtube.videos().update(
+              part="status",
+              body={
+                  "id": video_id,
+                  "status": {
+                      "privacyStatus": "public"
+                  }
+              }
+          ).execute()
 
-publish_response = publish_youtube.videos().update(
-    part="status",
-    body={
-        "id": video_id,
-        "status": {
-            "privacyStatus": "public"
-        }
-    }
-).execute()
+          print("YouTube publish successful")
+          print("Privacy:", publish_response["status"]["privacyStatus"])
+          print("URL:", "https://www.youtube.com/watch?v=" + video_id)
+          PY
 
-print("YouTube publish successful")
-print("Video ID:", publish_response["id"])
-print("Privacy:", publish_response["status"]["privacyStatus"])
+          python upload_youtube.py
 
       - name: Upload final files
         uses: actions/upload-artifact@v4
