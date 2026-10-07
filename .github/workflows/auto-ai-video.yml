@@ -23,20 +23,149 @@ jobs:
           sleep 5
           ollama pull qwen2.5:0.5b
 
+      - name: Generate random topic
+        run: |
+          python - <<'PY'
+          import random
+          from pathlib import Path
+
+          topics = [
+              "習慣",
+              "お金",
+              "仕事",
+              "人間関係",
+              "時間術",
+              "健康",
+              "自己成長",
+              "読書",
+              "メンタル",
+              "ランニング",
+              "人生",
+              "節約",
+              "集中力",
+              "行動力",
+              "睡眠",
+              "スマホとの付き合い方",
+              "介護の仕事術",
+              "40代の生き方"
+          ]
+
+          angles = [
+              "今日からできる小さな行動",
+              "知らないと損する考え方",
+              "多くの人がやってしまう失敗",
+              "人生が少し楽になる方法",
+              "忙しい人でも続けやすい方法",
+              "お金をかけずにできる方法",
+              "やめるだけで変わること",
+              "1日5分でできる方法",
+              "仕事の効率を上げる方法",
+              "将来の自分を助ける考え方"
+          ]
+
+          topic = random.choice(topics)
+          angle = random.choice(angles)
+
+          seed = random.randint(100000, 999999)
+
+          Path("topic.txt").write_text(
+              f"テーマ：{topic}\n"
+              f"切り口：{angle}\n"
+              f"今回の乱数：{seed}\n",
+              encoding="utf-8"
+          )
+
+          print(Path("topic.txt").read_text(encoding="utf-8"))
+          PY
+
       - name: Generate Japanese script
         run: |
           cat > prompt.txt <<'EOF'
-          日本語のYouTubeショート動画台本を1本作ってください。
-          テーマは「今日から人生を少し良くする習慣」。
-          300〜450文字。
-          最初の1文で興味を引く。
-          具体例を2つ入れる。
-          最後は短い行動提案で終える。
-          タイトルや説明は不要。台本本文だけ出力してください。
+          日本語のYouTubeショート動画を1本作ってください。
+
+          以下の条件を必ず守ってください。
+
+          - テーマと切り口はtopic.txtを使用する
+          - 今回だけのオリジナル内容にする
+          - 過去によくある一般論だけで終わらせない
+          - 最初の1文で興味を引く
+          - 具体例を2つ以上入れる
+          - 視聴者が「自分もやってみよう」と思える内容にする
+          - 最後は具体的な行動提案で終える
+          - 300〜450文字程度
+          - 日本語として自然な文章にする
+          - 絵文字は使わない
+          - ハッシュタグは入れない
+
+          出力形式は必ず以下にしてください。
+
+          TITLE: 30文字以内の短いタイトル
+
+          SCRIPT:
+          ここから台本本文
+
+          タイトルや説明以外の余計な文章は出力しない。
           EOF
 
-          ollama run qwen2.5:0.5b < prompt.txt > input_script.txt
-          test -s input_script.txt
+          cat topic.txt >> prompt.txt
+
+          ollama run qwen2.5:0.5b < prompt.txt > raw_output.txt
+
+          test -s raw_output.txt
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          raw = Path("raw_output.txt").read_text(encoding="utf-8").strip()
+
+          title_match = re.search(
+              r"TITLE:\s*(.+)",
+              raw
+          )
+
+          script_match = re.search(
+              r"SCRIPT:\s*(.*)",
+              raw,
+              re.S
+          )
+
+          if title_match:
+              title = title_match.group(1).strip()
+          else:
+              title = "今日から人生を少し良くする話"
+
+          if script_match:
+              script = script_match.group(1).strip()
+          else:
+              script = raw
+
+          title = re.sub(r"^[「『\"]|[」』\"]$", "", title)
+          title = title[:90].strip()
+
+          script = re.sub(r"^TITLE:.*$", "", script, flags=re.M)
+          script = re.sub(r"^SCRIPT:\s*", "", script)
+          script = script.strip()
+
+          if not script:
+              raise SystemExit("Script is empty")
+
+          Path("input_script.txt").write_text(
+              script,
+              encoding="utf-8"
+          )
+
+          Path("video_title.txt").write_text(
+              title,
+              encoding="utf-8"
+          )
+
+          print("TITLE:")
+          print(title)
+          print()
+          print("SCRIPT:")
+          print(script)
+          PY
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -46,7 +175,7 @@ jobs:
       - name: Install packages
         run: |
           python -m pip install --upgrade pip
-          python -m pip install "kokoro_onnx@git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" soundfile
+          python -m pip install "kokoro_onnx@git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" soundfile numpy
           python -m pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
       - name: Install FFmpeg and Japanese font
@@ -66,70 +195,198 @@ jobs:
 
           cp input_script.txt input/script.txt
 
-      - name: Generate Japanese voice
+      - name: Generate Japanese voice and timed subtitles
         run: |
           cat > generate_tts.py <<'PY'
-          from kokoro_onnx import Kokoro
+          from pathlib import Path
+          import re
+          import subprocess
+          import numpy as np
           import soundfile as sf
+          from kokoro_onnx import Kokoro
 
-          with open("input/script.txt", "r", encoding="utf-8") as f:
-              text = f.read().strip()
+          text = Path("input/script.txt").read_text(
+              encoding="utf-8"
+          ).strip()
+
+          # 台本を短いまとまりに分割
+          sentences = re.split(
+              r"(?<=[。！？])",
+              text
+          )
+
+          chunks = []
+          current = ""
+
+          for sentence in sentences:
+              sentence = sentence.strip()
+
+              if not sentence:
+                  continue
+
+              if len(current) + len(sentence) <= 70:
+                  current += sentence
+              else:
+                  if current:
+                      chunks.append(current)
+                  current = sentence
+
+          if current:
+              chunks.append(current)
+
+          # 長すぎる文をさらに分割
+          final_chunks = []
+
+          for chunk in chunks:
+              while len(chunk) > 70:
+                  cut = 60
+
+                  for i in range(60, 25, -1):
+                      if chunk[i] in "、。！？":
+                          cut = i + 1
+                          break
+
+                  final_chunks.append(chunk[:cut])
+                  chunk = chunk[cut:]
+
+              if chunk:
+                  final_chunks.append(chunk)
 
           model = Kokoro(
               model_path="model/kokoro-v1.0.int8.onnx",
               voice_path="model/jf_alpha.bin",
           )
 
-          audio, sample_rate = model.create(text)
+          audio_parts = []
+          subtitle_parts = []
+
+          current_time = 0.0
+
+          def timestamp(seconds):
+              ms = int(round(seconds * 1000))
+
+              h = ms // 3600000
+              ms %= 3600000
+
+              m = ms // 60000
+              ms %= 60000
+
+              s = ms // 1000
+              ms %= 1000
+
+              return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
+
+          for index, chunk in enumerate(final_chunks, 1):
+
+              print(f"TTS {index}/{len(final_chunks)}: {chunk}")
+
+              audio, sample_rate = model.create(chunk)
+
+              part_path = Path(
+                  f"input/part_{index:03d}.wav"
+              )
+
+              sf.write(
+                  part_path,
+                  audio,
+                  sample_rate
+              )
+
+              duration = len(audio) / sample_rate
+
+              start = current_time
+              end = current_time + duration
+
+              # 長すぎる字幕を1〜2行にする
+              display = chunk
+
+              if len(display) > 22:
+                  split_at = len(display) // 2
+
+                  candidates = [
+                      display.rfind("、", 0, split_at + 5),
+                      display.rfind("。", 0, split_at + 5),
+                      display.rfind(" ", 0, split_at + 5)
+                  ]
+
+                  best = max(candidates)
+
+                  if best > 8:
+                      display = (
+                          display[:best + 1]
+                          + "\n"
+                          + display[best + 1:]
+                      )
+
+              subtitle_parts.append(
+                  f"{index}\n"
+                  f"{timestamp(start)} --> {timestamp(end)}\n"
+                  f"{display}\n"
+              )
+
+              audio_parts.append(
+                  (part_path, sample_rate)
+              )
+
+              current_time = end
+
+          # 音声を連結
+          all_audio = []
+
+          sample_rate = audio_parts[0][1]
+
+          for path, sr in audio_parts:
+              data, current_sr = sf.read(path)
+
+              if current_sr != sample_rate:
+                  raise RuntimeError(
+                      "Sample rates do not match"
+                  )
+
+              all_audio.append(data)
+
+          combined = np.concatenate(all_audio)
 
           sf.write(
               "input/audio.wav",
-              audio,
+              combined,
               sample_rate
           )
 
-          print("Japanese audio generated.")
+          # SRT作成
+          Path(
+              "input/subtitles.srt"
+          ).write_text(
+              "\n".join(subtitle_parts),
+              encoding="utf-8"
+          )
+
+          print()
+          print("Timed subtitles:")
+          print(
+              Path(
+                  "input/subtitles.srt"
+              ).read_text(encoding="utf-8")
+          )
+
+          print(
+              f"Audio duration: "
+              f"{len(combined) / sample_rate:.2f} seconds"
+          )
           PY
 
           python generate_tts.py
 
-      - name: Generate subtitle text
+          test -s input/audio.wav
+          test -s input/subtitles.srt
+
+      - name: Generate MP4 with timed subtitles
         run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          text = Path("input/script.txt").read_text(encoding="utf-8").strip()
-
-          lines = []
-          current = ""
-
-          for char in text:
-              current += char
-              if len(current) >= 18 and char in "。！？、":
-                  lines.append(current.strip())
-                  current = ""
-
-          if current.strip():
-              lines.append(current.strip())
-
-          Path("input/subtitle.txt").write_text(
-              "\n".join(lines),
-              encoding="utf-8"
-          )
-
-          print("Subtitle created.")
-          print(Path("input/subtitle.txt").read_text(encoding="utf-8"))
-          PY
-
-      - name: Generate MP4 with subtitles
-        run: |
-          FONT="/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
-
           ffmpeg -y \
             -f lavfi \
             -i "color=c=black:s=1080x1920:r=30" \
             -i input/audio.wav \
-            -vf "drawtext=fontfile='${FONT}':textfile='input/subtitle.txt':fontcolor=white:fontsize=58:borderw=4:bordercolor=black:x=(w-text_w)/2:y=h*0.68:line_spacing=12:box=1:boxcolor=black@0.55:boxborderw=25" \
+            -vf "subtitles=input/subtitles.srt:force_style='FontName=Noto Sans CJK JP,FontSize=34,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=0,Alignment=2,MarginV=430'" \
             -c:v libx264 \
             -preset veryfast \
             -pix_fmt yuv420p \
@@ -148,7 +405,6 @@ jobs:
         run: |
           cat > upload_youtube.py <<'PY'
           import os
-          import re
 
           from google.oauth2.credentials import Credentials
           from googleapiclient.discovery import build
@@ -160,7 +416,9 @@ jobs:
               token_uri="https://oauth2.googleapis.com/token",
               client_id=os.environ["YOUTUBE_CLIENT_ID"],
               client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
-              scopes=["https://www.googleapis.com/auth/youtube"],
+              scopes=[
+                  "https://www.googleapis.com/auth/youtube"
+              ],
           )
 
           youtube = build(
@@ -169,30 +427,33 @@ jobs:
               credentials=credentials
           )
 
-          with open("input/script.txt", "r", encoding="utf-8") as f:
-              script = f.read().strip()
+          title = open(
+              "video_title.txt",
+              encoding="utf-8"
+          ).read().strip()
 
-          first_line = script.splitlines()[0].strip()
-
-          title = re.sub(r"[<>]", "", first_line)
-          title = title[:90].strip()
-
-          if not title:
-              title = "今日から人生を少し良くする習慣"
+          script = open(
+              "input/script.txt",
+              encoding="utf-8"
+          ).read().strip()
 
           description = (
-              "今日から人生を少し良くする習慣についてのショート動画です。\n"
-              "#習慣 #自己改善 #人生"
+              "今回のテーマについて、"
+              "今日から実践できるポイントを紹介します。\n\n"
+              "#習慣 #自己改善 #人生 #shorts"
           )
 
           body = {
               "snippet": {
-                  "title": title,
+                  "title": title[:90],
                   "description": description,
                   "tags": [
                       "習慣",
                       "自己改善",
-                      "人生"
+                      "人生",
+                      "仕事",
+                      "自己成長",
+                      "shorts"
                   ],
                   "categoryId": "22"
               },
@@ -216,8 +477,13 @@ jobs:
 
           video_id = response["id"]
 
-          print("YouTube upload successful")
-          print("Video ID:", video_id)
+          print(
+              "YouTube upload successful"
+          )
+          print(
+              "Video ID:",
+              video_id
+          )
 
           publish_response = youtube.videos().update(
               part="status",
@@ -229,9 +495,20 @@ jobs:
               }
           ).execute()
 
-          print("YouTube publish successful")
-          print("Privacy:", publish_response["status"]["privacyStatus"])
-          print("URL:", "https://www.youtube.com/watch?v=" + video_id)
+          print(
+              "YouTube publish successful"
+          )
+
+          print(
+              "Privacy:",
+              publish_response["status"]["privacyStatus"]
+          )
+
+          print(
+              "URL:",
+              "https://www.youtube.com/watch?v="
+              + video_id
+          )
           PY
 
           python upload_youtube.py
@@ -243,5 +520,5 @@ jobs:
           path: |
             input/script.txt
             input/audio.wav
-            input/subtitle.txt
+            input/subtitles.srt
             output/video.mp4
