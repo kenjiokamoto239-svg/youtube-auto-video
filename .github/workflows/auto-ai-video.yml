@@ -158,20 +158,9 @@ jobs:
               )
 
               bad_loop = (
-                  re.search(
-                      r"(2026){2,}",
-                      title
-                  )
-                  or re.search(
-                      r"(h2026){2,}",
-                      title,
-                      re.I
-                  )
-                  or re.search(
-                      r"(25h){2,}",
-                      title,
-                      re.I
-                  )
+                  re.search(r"(2026){2,}", title)
+                  or re.search(r"(h2026){2,}", title, re.I)
+                  or re.search(r"(25h){2,}", title, re.I)
               )
 
               if (
@@ -179,9 +168,7 @@ jobs:
                   and japanese_count >= 6
                   and not bad_loop
               ):
-                  Path(
-                      "video_title.txt"
-                  ).write_text(
+                  Path("video_title.txt").write_text(
                       title,
                       encoding="utf-8"
                   )
@@ -194,24 +181,13 @@ jobs:
 
               fallback = "今日から変わる小さな習慣"
 
-              Path(
-                  "video_title.txt"
-              ).write_text(
+              Path("video_title.txt").write_text(
                   fallback,
                   encoding="utf-8"
               )
 
-              print(
-                  "タイトル生成失敗"
-              )
-
-              print(
-                  "フォールバックタイトル：",
-                  fallback
-              )
-          PY
-
-          python generate_title.py
+              print("タイトル生成失敗")
+              print("フォールバックタイトル：", fallback)
 
       # ==========================================
       # 台本生成
@@ -228,6 +204,11 @@ jobs:
           import subprocess
           import re
           import random
+
+          # 最初からinputフォルダを作る
+          Path("input").mkdir(
+              exist_ok=True
+          )
 
           topic_text = Path(
               "topic.txt"
@@ -409,8 +390,10 @@ jobs:
 
               if valid(text):
 
+                  # ★ここが今回の修正ポイント
+                  # 最初から正しい場所へ保存する
                   Path(
-                      "input_script.txt"
+                      "input/script.txt"
                   ).write_text(
                       text,
                       encoding="utf-8"
@@ -447,8 +430,9 @@ jobs:
                   fallback_scripts
               )
 
+              # ★フォールバックも同じ場所
               Path(
-                  "input_script.txt"
+                  "input/script.txt"
               ).write_text(
                   text,
                   encoding="utf-8"
@@ -464,6 +448,21 @@ jobs:
               )
 
               print(text)
+
+      # ==========================================
+      # 台本ファイル確認
+      #
+      # ここで失敗したら後続処理を止める
+      # ==========================================
+      - name: Validate script
+        run: |
+          test -s input/script.txt
+
+          echo "===== 音声・字幕に使う本文 ====="
+          cat input/script.txt
+
+          echo ""
+          echo "台本ファイル確認OK"
 
       # ==========================================
       # Python
@@ -520,11 +519,12 @@ jobs:
             "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main/voices/jf_alpha.bin" \
             -O model/jf_alpha.bin
 
-          # 台本だけを音声用ファイルにする
-          cp input_script.txt input/script.txt
+          # input_script.txtからコピーする処理は削除
+          # 台本は最初からinput/script.txtに存在する
+
+          test -s input/script.txt
 
           echo "===== 音声・字幕に使う本文 ====="
-
           cat input/script.txt
 
       # ==========================================
@@ -633,7 +633,6 @@ jobs:
           cat > generate_background.py <<'PY'
           from PIL import Image, ImageDraw
           import random
-          import math
 
           WIDTH = 1080
           HEIGHT = 1920
@@ -647,7 +646,6 @@ jobs:
 
           pixels = img.load()
 
-          # 毎回少し違う背景
           base1 = (
               random.randint(15, 45),
               random.randint(20, 60),
@@ -697,7 +695,6 @@ jobs:
               "RGBA"
           )
 
-          # 大きな円を配置
           for _ in range(8):
 
               radius = random.randint(
@@ -732,7 +729,6 @@ jobs:
                   fill=color
               )
 
-          # 中央に少し暗い透明帯を作る
           draw.rounded_rectangle(
               (
                   65,
