@@ -6,19 +6,21 @@ on:
     - cron: "0 23 * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
 
       # ==========================================
-      # GitHubから取得
+      # GitHubリポジトリ取得
       # ==========================================
       - name: Checkout
         uses: actions/checkout@v4
+
 
       # ==========================================
       # Ollama
@@ -30,12 +32,23 @@ jobs:
           sleep 5
           ollama pull qwen2.5:1.5b
 
+
+      # ==========================================
+      # 作業フォルダ作成
+      # ==========================================
+      - name: Prepare folders
+        run: |
+          mkdir -p input
+          mkdir -p output
+          mkdir -p model
+
+
       # ==========================================
       # ランダムテーマ生成
       # ==========================================
       - name: Generate random topic
+        shell: python
         run: |
-          python - <<'PY'
           from pathlib import Path
           import random
 
@@ -77,26 +90,28 @@ jobs:
           angle = random.choice(angles)
           seed = random.randint(100000, 999999)
 
-          Path("topic.txt").write_text(
+          text = (
               f"テーマ：{topic}\n"
               f"切り口：{angle}\n"
-              f"乱数：{seed}\n",
+              f"乱数：{seed}\n"
+          )
+
+          Path("topic.txt").write_text(
+              text,
               encoding="utf-8"
           )
 
-          print(Path("topic.txt").read_text(encoding="utf-8"))
-          PY
+          print(text)
+
 
       # ==========================================
       # YouTubeタイトル生成
       #
-      # 重要：
-      # このタイトルはYouTube表示用だけ。
-      # 音声生成・字幕生成には絶対に渡さない。
+      # ※音声・字幕には使わない
       # ==========================================
       - name: Generate title
+        shell: python
         run: |
-          cat > generate_title.py <<'PY'
           from pathlib import Path
           import subprocess
           import re
@@ -116,7 +131,7 @@ jobs:
           ・18〜30文字程度
           ・続きを見たくなる
           ・自然な日本語
-          ・内容と関係する
+          ・テーマと関係する
           ・煽りすぎない
           ・タイトルだけ出力
           ・説明禁止
@@ -124,7 +139,10 @@ jobs:
           ・「タイトル：」禁止
           ・絵文字禁止
           ・ハッシュタグ禁止
+          ・数字や記号を無意味に繰り返さない
           """
+
+          title = ""
 
           for attempt in range(3):
 
@@ -135,118 +153,104 @@ jobs:
                   capture_output=True
               )
 
-              title = result.stdout.strip()
-              title = title.splitlines()[0].strip()
+              candidate = result.stdout.strip()
 
-              title = re.sub(
+              if not candidate:
+                  continue
+
+              candidate = candidate.splitlines()[0].strip()
+
+              candidate = re.sub(
                   r"^(タイトル|TITLE)\s*[:：]\s*",
                   "",
-                  title,
+                  candidate,
                   flags=re.I
               )
 
-              title = title.replace('"', "")
-              title = title.replace("'", "")
-              title = title.replace("#", "")
-              title = title.strip()
+              candidate = candidate.replace('"', "")
+              candidate = candidate.replace("'", "")
+              candidate = candidate.replace("#", "")
+              candidate = candidate.strip()
 
               japanese_count = len(
                   re.findall(
                       r"[ぁ-んァ-ヶ一-龠]",
-                      title
+                      candidate
                   )
               )
 
               bad_loop = (
-                  re.search(r"(2026){2,}", title)
-                  or re.search(r"(h2026){2,}", title, re.I)
-                  or re.search(r"(25h){2,}", title, re.I)
+                  re.search(r"(2026){2,}", candidate)
+                  or re.search(r"(h2026){2,}", candidate, re.I)
+                  or re.search(r"(25h){2,}", candidate, re.I)
               )
 
               if (
-                  8 <= len(title) <= 60
+                  8 <= len(candidate) <= 60
                   and japanese_count >= 6
                   and not bad_loop
               ):
-                  Path("video_title.txt").write_text(
-                      title,
-                      encoding="utf-8"
-                  )
-
-                  print("YouTube TITLE:")
-                  print(title)
+                  title = candidate
                   break
 
-          else:
+          if not title:
+              title = "今日から変わる小さな習慣"
 
-              fallback = "今日から変わる小さな習慣"
+          Path("video_title.txt").write_text(
+              title,
+              encoding="utf-8"
+          )
 
-              Path("video_title.txt").write_text(
-                  fallback,
-                  encoding="utf-8"
-              )
+          print("===== YouTubeタイトル =====")
+          print(title)
 
-              print("タイトル生成失敗")
-              print("フォールバックタイトル：", fallback)
 
       # ==========================================
       # 台本生成
       #
-      # ここで作った本文だけが
-      # 音声と字幕に使われる。
-      #
-      # タイトル・説明文は一切入らない。
+      # ★音声と字幕に使うのはここだけ
       # ==========================================
       - name: Generate script
+        shell: python
         run: |
-          cat > generate_script.py <<'PY'
           from pathlib import Path
           import subprocess
           import re
           import random
 
-          # 最初からinputフォルダを作る
-          Path("input").mkdir(
-              exist_ok=True
-          )
-
-          topic_text = Path(
-              "topic.txt"
-          ).read_text(
+          topic = Path("topic.txt").read_text(
               encoding="utf-8"
           )
 
           prompt = f"""
           あなたは日本語YouTubeショート動画の台本ライターです。
 
-          以下のテーマを使って、
-          40〜60秒程度のショート動画台本を書いてください。
+          以下のテーマについて、
+          視聴者が聞く台本本文だけを書いてください。
 
           【テーマ】
-          {topic_text}
+          {topic}
 
-          【絶対条件】
-          ・日本語だけ
+          【条件】
           ・140〜220文字
+          ・日本語
+          ・自然な日本語
           ・最初の1文で興味を引く
           ・具体例を1つ入れる
           ・内容を最後まで一貫させる
           ・最後は具体的な行動提案
-          ・自然な日本語
           ・短い文章を中心にする
-          ・句読点を正しく使う
-          ・絵文字禁止
+          ・句読点を使う
+          ・タイトルを書かない
+          ・説明を書かない
+          ・前置きを書かない
           ・ハッシュタグ禁止
+          ・絵文字禁止
           ・英語禁止
-          ・タイトル禁止
-          ・説明禁止
-          ・前置き禁止
-          ・「今回は」などの前置き禁止
-          ・数字や記号を意味なく繰り返さない
-          ・同じ文字列を繰り返さない
+          ・同じ文字を大量に繰り返さない
+          ・数字や記号を無意味に繰り返さない
 
-          出力するのは、
-          視聴者が聞く台本本文だけです。
+          出力は台本本文だけ。
           """
 
           def valid(text):
@@ -257,7 +261,7 @@ jobs:
                   text
               )
 
-              jp = len(
+              japanese_count = len(
                   re.findall(
                       r"[ぁ-んァ-ヶ一-龠]",
                       text
@@ -269,7 +273,7 @@ jobs:
               ):
                   return False
 
-              if jp < 80:
+              if japanese_count < 80:
                   return False
 
               if re.search(
@@ -298,22 +302,9 @@ jobs:
               ):
                   return False
 
-              for n in range(2, 6):
-
-                  for i in range(
-                      len(text) - n
-                  ):
-
-                      part = text[
-                          i:i+n
-                      ]
-
-                      if part * 6 in text:
-                          return False
-
               return True
 
-          success = False
+          script = ""
 
           for attempt in range(3):
 
@@ -324,93 +315,68 @@ jobs:
                   capture_output=True
               )
 
-              text = result.stdout.strip()
+              candidate = result.stdout.strip()
 
-              text = re.sub(
+              candidate = re.sub(
                   r"^(SCRIPT|台本)\s*[:：]\s*",
                   "",
-                  text,
+                  candidate,
                   flags=re.I
               )
 
-              text = re.sub(
+              candidate = re.sub(
                   r"\s+",
                   "",
-                  text
+                  candidate
               )
 
-              text = text.strip(
+              candidate = candidate.strip(
                   '"「」『』'
               )
 
-              text = re.sub(
+              candidate = re.sub(
                   r"#\S+",
                   "",
-                  text
+                  candidate
               )
 
-              text = text.replace(
-                  "\n",
-                  ""
-              )
+              if len(candidate) > 220:
 
-              if len(text) > 220:
-
-                  candidate = text[:220]
+                  short = candidate[:220]
 
                   positions = [
-                      candidate.rfind("。"),
-                      candidate.rfind("！"),
-                      candidate.rfind("？")
+                      short.rfind("。"),
+                      short.rfind("！"),
+                      short.rfind("？")
                   ]
 
-                  cut = max(
-                      positions
-                  )
+                  cut = max(positions)
 
                   if cut >= 120:
-                      text = candidate[
-                          :cut + 1
-                      ]
+                      candidate = short[:cut + 1]
                   else:
-                      text = candidate
+                      candidate = short
 
               print("")
               print(
-                  "台本生成試行:",
-                  attempt + 1
+                  f"台本生成試行 {attempt + 1}"
               )
 
               print(
-                  "文字数:",
-                  len(text)
+                  f"文字数：{len(candidate)}"
               )
 
-              print(text)
+              print(candidate)
 
-              if valid(text):
+              if valid(candidate):
 
-                  # ★ここが今回の修正ポイント
-                  # 最初から正しい場所へ保存する
-                  Path(
-                      "input/script.txt"
-                  ).write_text(
-                      text,
-                      encoding="utf-8"
-                  )
-
-                  success = True
-
-                  print(
-                      "台本生成成功"
-                  )
-
+                  script = candidate
                   break
 
           # ==========================================
-          # AI異常時の安全なフォールバック
+          # AIが失敗した場合の安全な台本
           # ==========================================
-          if not success:
+          if not script:
 
               fallback_scripts = [
 
@@ -426,36 +392,46 @@ jobs:
 
               ]
 
-              text = random.choice(
+              script = random.choice(
                   fallback_scripts
-              )
-
-              # ★フォールバックも同じ場所
-              Path(
-                  "input/script.txt"
-              ).write_text(
-                  text,
-                  encoding="utf-8"
               )
 
               print("")
               print(
-                  "AI台本生成失敗"
+                  "AI台本生成に失敗したため、"
+                  "安全な台本を使用します。"
               )
 
-              print(
-                  "安全な台本を使用"
-              )
+          # ★必ずここへ保存
+          output = Path(
+              "input/script.txt"
+          )
 
-              print(text)
+          output.write_text(
+              script,
+              encoding="utf-8"
+          )
+
+          print("")
+          print("===== 完成台本 =====")
+          print(script)
+          print("")
+          print(
+              f"台本文字数：{len(script)}"
+          )
+          print(
+              f"保存先：{output}"
+          )
+
 
       # ==========================================
       # 台本ファイル確認
-      #
-      # ここで失敗したら後続処理を止める
       # ==========================================
       - name: Validate script
+        shell: bash
         run: |
+          set -e
+
           test -s input/script.txt
 
           echo "===== 音声・字幕に使う本文 ====="
@@ -464,13 +440,15 @@ jobs:
           echo ""
           echo "台本ファイル確認OK"
 
+
       # ==========================================
-      # Python
+      # Python環境
       # ==========================================
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
 
       # ==========================================
       # Pythonパッケージ
@@ -491,6 +469,7 @@ jobs:
             google-auth-httplib2 \
             google-auth-oauthlib
 
+
       # ==========================================
       # FFmpeg
       # ==========================================
@@ -502,14 +481,13 @@ jobs:
             ffmpeg \
             fonts-noto-cjk
 
+
       # ==========================================
-      # フォルダとKokoroモデル準備
+      # Kokoroモデル準備
       # ==========================================
-      - name: Prepare
+      - name: Prepare Kokoro
         run: |
-          mkdir -p model
-          mkdir -p input
-          mkdir -p output
+          test -s input/script.txt
 
           wget -q \
             "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx" \
@@ -519,23 +497,20 @@ jobs:
             "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main/voices/jf_alpha.bin" \
             -O model/jf_alpha.bin
 
-          # input_script.txtからコピーする処理は削除
-          # 台本は最初からinput/script.txtに存在する
+          test -s model/kokoro-v1.0.int8.onnx
+          test -s model/jf_alpha.bin
 
-          test -s input/script.txt
+          echo "Kokoroモデル準備OK"
 
-          echo "===== 音声・字幕に使う本文 ====="
-          cat input/script.txt
 
       # ==========================================
       # 日本語音声生成
       #
-      # input/script.txtだけを読み込む。
-      # タイトル・説明文は一切読まない。
+      # 台本だけを使用
       # ==========================================
       - name: Generate Japanese voice
+        shell: python
         run: |
-          cat > generate_tts.py <<'PY'
           from pathlib import Path
           import soundfile as sf
 
@@ -575,29 +550,32 @@ jobs:
           )
 
           print(
-              f"音声時間: {duration:.2f}秒"
+              f"音声時間：{duration:.2f}秒"
           )
 
-          if duration > 70:
+          if duration < 12:
+              raise SystemExit(
+                  "音声が12秒未満です"
+              )
 
+          if duration > 70:
               raise SystemExit(
                   "音声が70秒を超えています"
               )
 
-          if duration < 12:
+          print("音声生成OK")
 
-              raise SystemExit(
-                  "音声が短すぎます"
-              )
-          PY
-
-          python generate_tts.py
 
       # ==========================================
-      # 音声時間チェック
+      # 音声チェック
       # ==========================================
       - name: Validate audio
+        shell: bash
         run: |
+          set -e
+
+          test -s input/audio.wav
+
           DURATION=$(ffprobe \
             -v error \
             -show_entries format=duration \
@@ -609,28 +587,22 @@ jobs:
           python - <<PY
           duration = float("$DURATION")
 
-          if duration > 70:
-              raise SystemExit(
-                  "音声が70秒を超えています"
-              )
-
           if duration < 12:
-              raise SystemExit(
-                  "音声が短すぎます"
-              )
+              raise SystemExit("音声が短すぎます")
+
+          if duration > 70:
+              raise SystemExit("音声が長すぎます")
 
           print("音声検査OK")
           PY
 
+
       # ==========================================
-      # 背景画像を自動生成
-      #
-      # 外部画像サイトは使わない。
-      # GitHub Actions内で毎回生成する。
+      # 自動背景生成
       # ==========================================
       - name: Generate background
+        shell: python
         run: |
-          cat > generate_background.py <<'PY'
           from PIL import Image, ImageDraw
           import random
 
@@ -644,62 +616,44 @@ jobs:
               (WIDTH, HEIGHT)
           )
 
-          pixels = img.load()
+          draw = ImageDraw.Draw(img)
 
-          base1 = (
-              random.randint(15, 45),
+          top = (
+              random.randint(10, 40),
               random.randint(20, 60),
-              random.randint(45, 100)
+              random.randint(60, 120)
           )
 
-          base2 = (
-              random.randint(50, 100),
+          bottom = (
+              random.randint(40, 100),
               random.randint(20, 70),
-              random.randint(70, 130)
+              random.randint(80, 150)
           )
 
+          # 高速な縦グラデーション
           for y in range(HEIGHT):
 
-              ratio = y / HEIGHT
+              ratio = y / (HEIGHT - 1)
 
-              r = int(
-                  base1[0]
-                  * (1 - ratio)
-                  + base2[0]
-                  * ratio
-              )
-
-              g = int(
-                  base1[1]
-                  * (1 - ratio)
-                  + base2[1]
-                  * ratio
-              )
-
-              b = int(
-                  base1[2]
-                  * (1 - ratio)
-                  + base2[2]
-                  * ratio
-              )
-
-              for x in range(WIDTH):
-                  pixels[x, y] = (
-                      r,
-                      g,
-                      b
+              color = tuple(
+                  int(
+                      top[i] * (1 - ratio)
+                      + bottom[i] * ratio
                   )
+                  for i in range(3)
+              )
 
-          draw = ImageDraw.Draw(
-              img,
-              "RGBA"
-          )
+              draw.line(
+                  [(0, y), (WIDTH, y)],
+                  fill=color
+              )
 
-          for _ in range(8):
+          # 光の円
+          for _ in range(10):
 
               radius = random.randint(
-                  120,
-                  420
+                  100,
+                  400
               )
 
               x = random.randint(
@@ -713,13 +667,23 @@ jobs:
               )
 
               color = (
-                  random.randint(80, 255),
-                  random.randint(80, 255),
-                  random.randint(80, 255),
-                  random.randint(25, 75)
+                  random.randint(100, 255),
+                  random.randint(100, 255),
+                  random.randint(100, 255),
+                  random.randint(20, 60)
               )
 
-              draw.ellipse(
+              overlay = Image.new(
+                  "RGBA",
+                  img.size,
+                  (0, 0, 0, 0)
+              )
+
+              overlay_draw = ImageDraw.Draw(
+                  overlay
+              )
+
+              overlay_draw.ellipse(
                   (
                       x - radius,
                       y - radius,
@@ -729,44 +693,53 @@ jobs:
                   fill=color
               )
 
-          draw.rounded_rectangle(
-              (
-                  65,
-                  570,
-                  WIDTH - 65,
-                  1350
-              ),
-              radius=55,
-              fill=(
-                  0,
-                  0,
-                  0,
-                  75
-              )
+              img = Image.alpha_composite(
+                  img.convert("RGBA"),
+                  overlay
+              ).convert("RGB")
+
+          # 中央の読みやすい領域
+          overlay = Image.new(
+              "RGBA",
+              img.size,
+              (0, 0, 0, 0)
           )
 
+          overlay_draw = ImageDraw.Draw(
+              overlay
+          )
+
+          overlay_draw.rounded_rectangle(
+              (
+                  55,
+                  500,
+                  WIDTH - 55,
+                  1420
+              ),
+              radius=60,
+              fill=(0, 0, 0, 65)
+          )
+
+          img = Image.alpha_composite(
+              img.convert("RGBA"),
+              overlay
+          ).convert("RGB")
+
           img.save(
-              "input/background.png",
-              quality=95
+              "input/background.png"
           )
 
           print(
-              "背景画像生成完了"
+              "背景画像生成OK"
           )
-          PY
 
-          python generate_background.py
-
-          test -s input/background.png
 
       # ==========================================
       # ASS字幕生成
-      #
-      # 字幕に使うのは台本本文だけ。
       # ==========================================
-      - name: Generate ASS subtitles
+      - name: Generate subtitles
+        shell: python
         run: |
-          cat > generate_ass.py <<'PY'
           from pathlib import Path
           import re
           import soundfile as sf
@@ -795,7 +768,6 @@ jobs:
           ]
 
           if not sentences:
-
               raise SystemExit(
                   "字幕文章がありません"
               )
@@ -817,10 +789,7 @@ jobs:
               candidates = []
 
               for i in range(
-                  max(
-                      5,
-                      middle - 8
-                  ),
+                  max(5, middle - 8),
                   min(
                       len(sentence) - 1,
                       middle + 8
@@ -828,7 +797,6 @@ jobs:
               ):
 
                   if sentence[i] in "、。！？":
-
                       candidates.append(i)
 
               if candidates:
@@ -840,13 +808,9 @@ jobs:
                   )
 
                   display_sentences.append(
-                      sentence[
-                          :cut + 1
-                      ]
+                      sentence[:cut + 1]
                       + "\\N"
-                      + sentence[
-                          cut + 1:
-                      ]
+                      + sentence[cut + 1:]
                   )
 
               else:
@@ -857,52 +821,62 @@ jobs:
 
           total_chars = sum(
               len(
-                  x.replace(
+                  s.replace(
                       "\\N",
                       ""
                   )
               )
-              for x in display_sentences
+              for s in display_sentences
           )
 
           def ass_time(seconds):
 
               total_cs = int(
-                  round(
-                      seconds * 100
-                  )
+                  round(seconds * 100)
               )
 
-              h = total_cs // 360000
+              hours = (
+                  total_cs // 360000
+              )
 
               total_cs %= 360000
 
-              m = total_cs // 6000
+              minutes = (
+                  total_cs // 6000
+              )
 
               total_cs %= 6000
 
-              s = total_cs // 100
-
-              cs = total_cs % 100
-
-              return (
-                  f"{h}:{m:02d}:{s:02d}.{cs:02d}"
+              seconds_value = (
+                  total_cs // 100
               )
 
-          header = """[Script Info]
-          ScriptType: v4.00+
-          PlayResX: 1080
-          PlayResY: 1920
-          WrapStyle: 2
-          ScaledBorderAndShadow: yes
+              centiseconds = (
+                  total_cs % 100
+              )
 
-          [V4+ Styles]
-          Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-          Style: Default,Noto Sans CJK JP,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,1,0,0,0,100,100,0,0,1,5,1,2,80,80,500,1
+              return (
+                  f"{hours}:"
+                  f"{minutes:02d}:"
+                  f"{seconds_value:02d}."
+                  f"{centiseconds:02d}"
+              )
 
-          [Events]
-          Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-          """
+          header = "\n".join([
+              "[Script Info]",
+              "ScriptType: v4.00+",
+              "PlayResX: 1080",
+              "PlayResY: 1920",
+              "WrapStyle: 2",
+              "ScaledBorderAndShadow: yes",
+              "",
+              "[V4+ Styles]",
+              "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
+              "Style: Default,Noto Sans CJK JP,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,1,0,0,0,100,100,0,0,1,5,1,2,80,80,500,1",
+              "",
+              "[Events]",
+              "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"
+          ])
 
           events = []
 
@@ -917,7 +891,7 @@ jobs:
                   ""
               )
 
-              part = (
+              portion = (
                   duration
                   * len(clean)
                   / total_chars
@@ -925,18 +899,18 @@ jobs:
 
               start = current
 
-              if (
-                  i
-                  == len(
-                      display_sentences
-                  ) - 1
-              ):
+              if i == len(
+                  display_sentences
+              ) - 1:
 
                   end = duration
 
               else:
 
-                  end = current + part
+                  end = (
+                      current
+                      + portion
+                  )
 
               subtitle = (
                   sentence
@@ -950,7 +924,7 @@ jobs:
                   )
               )
 
-              events.append(
+              event = (
                   "Dialogue: 0,"
                   + ass_time(start)
                   + ","
@@ -959,41 +933,47 @@ jobs:
                   + subtitle
               )
 
+              events.append(event)
+
               current = end
 
           Path(
               "input/subtitles.ass"
           ).write_text(
               header
+              + "\n"
               + "\n".join(events)
               + "\n",
               encoding="utf-8"
           )
 
           print(
-              "字幕生成完了"
+              "字幕生成OK"
           )
-          PY
 
-          python generate_ass.py
 
       # ==========================================
       # 字幕チェック
       # ==========================================
       - name: Validate subtitles
         run: |
+          set -e
+
           test -s input/subtitles.ass
 
           grep -q "Dialogue:" \
             input/subtitles.ass
 
-          echo "字幕ファイルOK"
+          echo "字幕検査OK"
+
 
       # ==========================================
-      # 背景＋音声＋字幕からMP4生成
+      # MP4生成
       # ==========================================
       - name: Generate MP4
         run: |
+          set -e
+
           ffmpeg -y \
             -loop 1 \
             -i input/background.png \
@@ -1010,11 +990,17 @@ jobs:
 
           test -s output/video.mp4
 
+          echo "MP4生成OK"
+
+
       # ==========================================
       # 完成動画チェック
       # ==========================================
       - name: Validate final video
+        shell: bash
         run: |
+          set -e
+
           DURATION=$(ffprobe \
             -v error \
             -show_entries format=duration \
@@ -1043,43 +1029,35 @@ jobs:
           width = int("$WIDTH")
           height = int("$HEIGHT")
 
-          if duration > 70:
-              raise SystemExit(
-                  "動画が70秒を超えています"
-              )
-
           if duration < 12:
-              raise SystemExit(
-                  "動画が短すぎます"
-              )
+              raise SystemExit("動画が短すぎます")
+
+          if duration > 70:
+              raise SystemExit("動画が長すぎます")
 
           if width != 1080:
-              raise SystemExit(
-                  "横幅が1080ではありません"
-              )
+              raise SystemExit("横幅が1080ではありません")
 
           if height != 1920:
-              raise SystemExit(
-                  "縦幅が1920ではありません"
-              )
+              raise SystemExit("縦幅が1920ではありません")
 
-          print("動画検査OK")
+          print("完成動画検査OK")
           PY
+
 
       # ==========================================
       # YouTubeアップロード＆公開
       #
-      # タイトルはYouTube表示用。
-      # 音声・字幕には使わない。
+      # タイトルは表示だけ。
+      # 台本は音声・字幕だけ。
       # ==========================================
       - name: Upload to YouTube and publish
+        shell: python
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-
         run: |
-          cat > upload_youtube.py <<'PY'
           import os
 
           from google.oauth2.credentials import Credentials
@@ -1090,6 +1068,7 @@ jobs:
 
 
           credentials = Credentials(
+
               token=None,
 
               refresh_token=os.environ[
@@ -1110,7 +1089,7 @@ jobs:
 
               scopes=[
                   "https://www.googleapis.com/auth/youtube"
-              ],
+              ]
           )
 
 
@@ -1121,21 +1100,16 @@ jobs:
           )
 
 
-          # ==========================================
           # YouTubeタイトル
-          # ==========================================
-          title = open(
+          with open(
               "video_title.txt",
               encoding="utf-8"
-          ).read().strip()
+          ) as f:
+
+              title = f.read().strip()
 
 
-          # ==========================================
           # YouTube説明欄
-          #
-          # これは説明欄にだけ入る。
-          # 音声には絶対に渡さない。
-          # ==========================================
           description = (
               "今日から実践できる考え方や習慣を紹介します。\n\n"
               "#習慣 #自己改善 #人生 #shorts"
@@ -1179,17 +1153,20 @@ jobs:
 
 
           response = youtube.videos().insert(
+
               part="snippet,status",
+
               body=body,
+
               media_body=media
+
           ).execute()
 
 
           video_id = response["id"]
 
-
           print(
-              "YouTube upload successful"
+              "YouTubeアップロード成功"
           )
 
           print(
@@ -1198,9 +1175,7 @@ jobs:
           )
 
 
-          # ==========================================
           # 公開
-          # ==========================================
           youtube.videos().update(
 
               part="status",
@@ -1221,27 +1196,22 @@ jobs:
 
 
           print(
-              "YouTube publish successful"
+              "YouTube公開成功"
           )
 
           print(
-              "URL:",
               "https://www.youtube.com/watch?v="
               + video_id
           )
-          PY
 
-          python upload_youtube.py
 
       # ==========================================
       # 完成ファイル保存
       # ==========================================
       - name: Upload final files
         uses: actions/upload-artifact@v4
-
         with:
           name: auto-ai-japanese-video
-
           path: |
             input/script.txt
             input/audio.wav
