@@ -26,7 +26,7 @@ jobs:
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_ANALYTICS_REFRESH_TOKEN }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_ANALYTICS_REFRESH_TOKEN || secrets.YOUTUBE_REFRESH_TOKEN }}
 
         run: |
           python - <<'PY'
@@ -41,8 +41,6 @@ jobs:
 
           jst = timezone(timedelta(hours=9))
           today = datetime.now(jst).date()
-
-          # 直近7日間のうち、終了した6日分を含む7日間
           end_date = today - timedelta(days=1)
           start_date = end_date - timedelta(days=6)
 
@@ -55,7 +53,7 @@ jobs:
           for key in required:
               if not os.environ.get(key):
                   raise RuntimeError(
-                      f"GitHub Secrets が未設定です: {key}"
+                      f"必要なGitHub Secretsが未設定です: {key}"
                   )
 
           credentials = Credentials(
@@ -65,7 +63,8 @@ jobs:
               client_id=os.environ["YOUTUBE_CLIENT_ID"],
               client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
               scopes=[
-                  "https://www.googleapis.com/auth/yt-analytics.readonly"
+                  "https://www.googleapis.com/auth/yt-analytics.readonly",
+                  "https://www.googleapis.com/auth/youtube.readonly"
               ]
           )
 
@@ -95,7 +94,6 @@ jobs:
 
               return service.reports().query(**args).execute()
 
-          # 日別データ
           daily = query(
               "views,estimatedMinutesWatched,"
               "averageViewDuration,subscribersGained,"
@@ -104,7 +102,6 @@ jobs:
               sort="day"
           )
 
-          # 動画別データ
           videos = query(
               "views,estimatedMinutesWatched,"
               "averageViewDuration,likes,comments,shares",
@@ -127,9 +124,7 @@ jobs:
                   for item in data.get("columnHeaders", [])
               ]
 
-              with (
-                  output / f"{name}.csv"
-              ).open(
+              with (output / f"{name}.csv").open(
                   "w",
                   newline="",
                   encoding="utf-8-sig"
