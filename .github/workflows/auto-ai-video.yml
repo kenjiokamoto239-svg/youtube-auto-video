@@ -5,13 +5,15 @@ on:
   schedule:
     - cron: "0 23 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v6
 
@@ -21,8 +23,14 @@ jobs:
 
       - name: Start Ollama
         run: |
-          nohup ollama serve > /tmp/ollama.log 2>&1 &
-          sleep 5
+          nohup ollama serve >/tmp/ollama.log 2>&1 &
+          for i in $(seq 1 30); do
+            if ollama list >/dev/null 2>&1; then
+              break
+            fi
+            sleep 2
+          done
+          ollama list
 
       - name: Pull AI model
         run: |
@@ -32,9 +40,6 @@ jobs:
         run: |
           mkdir -p input output model
 
-      # =========================
-      # テーマ
-      # =========================
       - name: Generate topic
         shell: python
         run: |
@@ -56,21 +61,13 @@ jobs:
               "スマホ時間を減らす方法",
               "集中力を高める簡単な習慣",
               "自分を変えるためにやめること",
-              "人生で本当に大切な時間の使い方"
+              "人生で大切な時間の使い方"
           ]
 
           topic = random.choice(topics)
+          Path("input/topic.txt").write_text(topic, encoding="utf-8")
+          print("テーマ:", topic)
 
-          Path("input/topic.txt").write_text(
-              topic,
-              encoding="utf-8"
-          )
-
-          print("テーマ：", topic)
-
-      # =========================
-      # YouTubeタイトル
-      # =========================
       - name: Generate title
         shell: python
         run: |
@@ -78,90 +75,43 @@ jobs:
           import re
           from pathlib import Path
 
-          topic = Path(
-              "input/topic.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
-
-          prompt = f"""
-          次のテーマからYouTube Shortsのタイトルを1つ作ってください。
-
-          テーマ：
-          {topic}
-
-          条件：
-          日本語だけ。
-          20文字程度。
-          タイトル本文だけを出力。
-          タイトルという言葉を書かない。
-          説明文を書かない。
-          ナレーションを書かない。
-          数字を書かない。
-          英語を書かない。
-          """
-
+          topic = Path("input/topic.txt").read_text(encoding="utf-8").strip()
           fallback = "今日から人生を少し良くする習慣"
 
+          prompt = f"""
+          YouTube Shortsのタイトルを1つ作ってください。
+          テーマ：{topic}
+          日本語のみ。短く自然に。
+          タイトル本文だけを出力。
+          説明、ナレーション、見出し、数字、英語は禁止。
+          """
+
           try:
-              result = subprocess.run(
+              r = subprocess.run(
                   ["ollama", "run", "qwen2.5:1.5b"],
-                  input=prompt,
-                  text=True,
-                  capture_output=True,
-                  timeout=60
+                  input=prompt, capture_output=True,
+                  text=True, timeout=90, check=True
               )
-              title = result.stdout.strip()
-          except Exception:
+              title = r.stdout.strip()
+          except Exception as e:
+              print("タイトル生成失敗:", e)
               title = fallback
 
-          title = re.sub(
-              r"https?://\S+",
-              "",
-              title
-          )
+          title = re.sub(r"https?://\S+", "", title)
+          title = re.sub(r"^[#>*・\-\s]*", "", title)
+          title = re.sub(r"^(タイトル|動画タイトル)\s*[:：]?\s*", "", title)
+          title = re.sub(r"[A-Za-z0-9０-９]", "", title)
+          title = re.sub(r"[�□☒☐■▯▪▫]", "", title)
+          title = re.sub(r"\s+", "", title)
+          title = title.strip("「」『』\"'")
 
-          title = re.sub(
-              r"[A-Za-z0-9０-９]",
-              "",
-              title
-          )
-
-          title = re.sub(
-              r"^(タイトル|動画タイトル)\s*[:：\-－]?\s*",
-              "",
-              title
-          )
-
-          title = title.replace("「", "")
-          title = title.replace("」", "")
-          title = title.replace('"', "")
-          title = title.replace("'", "")
-
-          title = re.sub(
-              r"\s+",
-              "",
-              title
-          )
-
-          if not title:
+          if len(title) < 5:
               title = fallback
 
-          title = title[:25]
+          title = title[:30]
+          Path("input/title.txt").write_text(title, encoding="utf-8")
+          print("YouTubeタイトル:", title)
 
-          Path(
-              "input/title.txt"
-          ).write_text(
-              title,
-              encoding="utf-8"
-          )
-
-          print("YouTubeタイトル")
-          print(title)
-
-      # =========================
-      # ナレーション本文
-      # =========================
       - name: Generate script
         shell: python
         run: |
@@ -170,325 +120,140 @@ jobs:
           import unicodedata
           from pathlib import Path
 
-          topic = Path(
-              "input/topic.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
-
-          title = Path(
-              "input/title.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
-
-          prompt = f"""
-          YouTube Shorts用の日本語ナレーション本文を書いてください。
-
-          テーマ：
-          {topic}
-
-          重要：
-          YouTubeタイトルは書かない。
-          説明文は書かない。
-          タイトルと同じ文章を書かない。
-
-          出力するのは実際にナレーターが読む本文だけ。
-
-          禁止：
-          「タイトル：」
-          「動画タイトル：」
-          「説明：」
-          「説明文：」
-          「ナレーション：」
-          「台本：」
-          「本文：」
-          「テーマ：」
-          見出し
-          箇条書き
-          Markdown
-          URL
-          英語
-          数字
-          乱数
-          特殊文字
-
-          140文字から220文字程度。
-          自然な日本語。
-          耳で聞いて理解できる文章。
-          一つの話として成立させる。
-          """
+          topic = Path("input/topic.txt").read_text(encoding="utf-8").strip()
+          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
 
           fallback = (
               "毎日を変えたいなら、最初から大きなことをする必要はありません。"
               "大切なのは、今日できる小さな行動を一つ決めることです。"
-              "五分だけ歩く、机の上を片付ける、スマホを見る時間を少し減らす。"
-              "小さな行動でも続ければ、やがて大きな差になります。"
-              "人生を変えるのは、一度の頑張りではなく、毎日の積み重ねです。"
+              "例えば、五分だけ歩く。机の上を片付ける。"
+              "そんな小さな行動でも、続ければ少しずつ変化が生まれます。"
+              "最初から完璧を目指さなくて大丈夫です。"
+              "今日できることを一つ選び、まずは始めてみましょう。"
           )
 
+          prompt = f"""
+          日本語のYouTube Shorts用ナレーション台本を書いてください。
+          テーマ：{topic}
+
+          重要：
+          タイトルや説明文は出力しない。
+          実際に読み上げる本文だけを書く。
+          140文字から220文字程度。
+          自然な会話調にする。
+          「、」「。」を意味の区切りに適切に使う。
+          冒頭でテーマを提示し、理由や具体例を説明し、
+          最後に実践できることや結論で締める。
+          文の途中で終わらせない。
+          最後の文は必ず完結させる。
+          見出し、箇条書き、数字、英語、URL、特殊文字は禁止。
+          """
+
           try:
-              result = subprocess.run(
+              r = subprocess.run(
                   ["ollama", "run", "qwen2.5:1.5b"],
-                  input=prompt,
-                  text=True,
-                  capture_output=True,
-                  timeout=120
+                  input=prompt, capture_output=True,
+                  text=True, timeout=120, check=True
               )
-
-              raw = result.stdout.strip()
-
+              raw = r.stdout.strip()
           except Exception as e:
-              print("AI生成失敗")
-              print(e)
+              print("台本生成失敗:", e)
               raw = fallback
 
-          def clean_script(text):
-
-              text = unicodedata.normalize(
-                  "NFKC",
-                  text
-              )
-
-              text = re.sub(
-                  r"https?://\S+",
-                  "",
-                  text
-              )
-
-              cleaned_lines = []
+          def clean(text):
+              text = unicodedata.normalize("NFKC", text)
+              text = re.sub(r"https?://\S+", "", text)
+              lines = []
 
               for line in text.splitlines():
-
                   line = line.strip()
-
                   if not line:
                       continue
 
-                  # 行頭のラベルだけ削除
-                  line = re.sub(
-                      r"^(タイトル|動画タイトル|説明文|説明|ナレーション|台本|本文|テーマ)"
-                      r"\s*[:：\-－]\s*",
-                      "",
+                  if re.match(
+                      r"^(タイトル|動画タイトル|説明文|説明|"
+                      r"ナレーション|台本|本文|テーマ)\s*[:：]",
                       line
-                  )
-
-                  # Markdownの見出し・箇条書き
-                  line = re.sub(
-                      r"^[#>*•・\-－―]+\s*",
-                      "",
-                      line
-                  )
-
-                  line = re.sub(
-                      r"^[0-9０-９]+[.)．、:：]\s*",
-                      "",
-                      line
-                  )
-
-                  line = line.strip()
-
-                  if not line:
+                  ):
                       continue
 
-                  cleaned_lines.append(line)
+                  line = re.sub(r"^[#>*•・\-－―]+\s*", "", line)
+                  lines.append(line)
 
-              text = "".join(
-                  cleaned_lines
-              )
+              text = "".join(lines)
 
-              # タイトルそのものが混入した場合は削除
-              if title and len(title) >= 6:
-                  text = text.replace(
-                      title,
-                      ""
-                  )
+              if title and len(title) >= 8:
+                  text = text.replace(title, "")
 
-              # 問題文字
-              bad_chars = [
-                  "�",
-                  "□",
-                  "☒",
-                  "☐",
-                  "■",
-                  "▯",
-                  "▪",
-                  "▫"
-              ]
+              text = re.sub(r"[�□☒☐■▯▪▫]", "", text)
+              text = re.sub(r"[A-Za-z0-9０-９]", "", text)
 
-              for char in bad_chars:
-                  text = text.replace(
-                      char,
-                      ""
-                  )
-
-              # 英数字
-              text = re.sub(
-                  r"[A-Za-z0-9０-９]",
-                  "",
-                  text
-              )
-
-              # 許可する文字だけ残す
               allowed = (
                   "ぁ-んァ-ヶ一-龯々"
                   "。、「」『』！？：；，、・…〜ー"
-                  "（）【】［］"
-                  " "
+                  "（）【】［］ "
               )
 
               text = "".join(
                   c for c in text
-                  if re.match(
-                      f"[{allowed}]",
-                      c
-                  )
+                  if re.fullmatch(f"[{allowed}]", c)
               )
 
-              text = re.sub(
-                  r"\s+",
-                  "",
-                  text
-              )
-
-              text = re.sub(
-                  r"。{2,}",
-                  "。",
-                  text
-              )
-
-              text = re.sub(
-                  r"、{2,}",
-                  "、",
-                  text
-              )
-
+              text = re.sub(r"\s+", "", text)
+              text = re.sub(r"、{2,}", "、", text)
+              text = re.sub(r"。{2,}", "。", text)
               return text.strip()
 
-          cleaned = clean_script(raw)
+          script = clean(raw)
 
-          if len(cleaned) < 80:
-              cleaned = clean_script(
-                  fallback
-              )
+          if len(script) < 80 or not re.search(r"[。！？]$", script):
+              script = clean(fallback)
 
-          if len(cleaned) > 230:
-
-              sentences = re.split(
-                  r"(?<=[。！？])",
-                  cleaned
-              )
-
-              result_text = ""
-
+          if len(script) > 230:
+              sentences = re.split(r"(?<=[。！？])", script)
+              result = ""
               for sentence in sentences:
-
-                  if not sentence:
-                      continue
-
-                  if len(result_text) + len(sentence) > 220:
+                  if len(result) + len(sentence) > 220:
                       break
+                  result += sentence
+              script = result
 
-                  result_text += sentence
+          if len(script) < 50 or not re.search(r"[。！？]$", script):
+              raise SystemExit("台本が短いか、完結していません")
 
-              cleaned = result_text.strip()
+          Path("input/script.txt").write_text(script, encoding="utf-8")
+          print("最終台本:", script)
+          print("文字数:", len(script))
 
-          Path(
-              "input/script.txt"
-          ).write_text(
-              cleaned,
-              encoding="utf-8"
-          )
-
-          print("==============================")
-          print("最終ナレーション本文")
-          print("==============================")
-          print(cleaned)
-          print("==============================")
-          print("文字数：", len(cleaned))
-
-      # =========================
-      # 台本チェック
-      # =========================
       - name: Validate script
         shell: python
         run: |
           import re
           from pathlib import Path
 
-          text = Path(
-              "input/script.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
-
-          if not text:
-              raise SystemExit(
-                  "台本が空です"
-              )
-
-          # 本当に禁止するのは「ラベル」
-          label_patterns = [
-              r"^タイトル\s*[:：]",
-              r"^動画タイトル\s*[:：]",
-              r"^説明文\s*[:：]",
-              r"^説明\s*[:：]",
-              r"^ナレーション\s*[:：]",
-              r"^台本\s*[:：]",
-              r"^本文\s*[:：]",
-              r"^テーマ\s*[:：]"
-          ]
-
-          for pattern in label_patterns:
-              if re.search(
-                  pattern,
-                  text
-              ):
-                  raise SystemExit(
-                      "ラベルが台本に残っています"
-                  )
-
-          # 特殊文字
-          bad = [
-              "�",
-              "□",
-              "☒",
-              "☐",
-              "■",
-              "▯"
-          ]
-
-          for char in bad:
-              if char in text:
-                  raise SystemExit(
-                      f"特殊文字が残っています：{char}"
-                  )
-
-          # 英数字
-          if re.search(
-              r"[A-Za-z0-9０-９]",
-              text
-          ):
-              raise SystemExit(
-                  "英数字が残っています"
-              )
+          text = Path("input/script.txt").read_text(encoding="utf-8").strip()
 
           if len(text) < 50:
-              raise SystemExit(
-                  "台本が短すぎます"
-              )
+              raise SystemExit("台本が短すぎます")
 
-          if len(text) > 240:
-              raise SystemExit(
-                  "台本が長すぎます"
-              )
+          if not re.search(r"[。！？]$", text):
+              raise SystemExit("台本が完結していません")
+
+          if re.search(r"[�□☒☐■▯▪▫]", text):
+              raise SystemExit("台本に文字化け候補があります")
+
+          if re.search(r"[A-Za-z0-9０-９]", text):
+              raise SystemExit("台本に英数字が残っています")
+
+          if re.search(
+              r"^(タイトル|動画タイトル|説明|説明文|ナレーション|台本|本文)\s*[:：]",
+              text
+          ):
+              raise SystemExit("台本にラベルが残っています")
 
           print("台本検証OK")
           print(text)
 
-      # =========================
-      # Python
-      # =========================
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -496,29 +261,22 @@ jobs:
 
       - name: Install Python packages
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install "kokoro_onnx@git+https://github.com/moonshine-ai/kokoro-onnx-ja.git"
           pip install soundfile numpy pillow google-api-python-client google-auth google-auth-oauthlib
 
-      # =========================
-      # FFmpeg
-      # =========================
-      - name: Install FFmpeg and font
+      - name: Install FFmpeg and fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-noto-cjk
 
-      # =========================
-      # Kokoro
-      # =========================
       - name: Download Kokoro model
         run: |
           wget -q https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx -O model/kokoro-v1.0.int8.onnx
           wget -q https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main/voices/jf_alpha.bin -O model/jf_alpha.bin
+          test -s model/kokoro-v1.0.int8.onnx
+          test -s model/jf_alpha.bin
 
-      # =========================
-      # 音声生成
-      # =========================
       - name: Generate Japanese voice
         shell: python
         run: |
@@ -526,118 +284,51 @@ jobs:
           import soundfile as sf
           from kokoro_onnx import Kokoro
 
-          text = Path(
-              "input/script.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
-
-          print("TTS本文")
-          print(text)
-
+          text = Path("input/script.txt").read_text(encoding="utf-8").strip()
           kokoro = Kokoro(
               model_path="model/kokoro-v1.0.int8.onnx",
               voice_path="model/jf_alpha.bin"
           )
 
-          audio, sample_rate = kokoro.create(
-              text
-          )
+          audio, sample_rate = kokoro.create(text)
+          sf.write("input/audio.wav", audio, sample_rate)
+          print("音声生成完了:", sample_rate)
 
-          sf.write(
-              "input/audio.wav",
-              audio,
-              sample_rate
-          )
-
-          print("音声生成完了")
-
-      # =========================
-      # 音声チェック
-      # =========================
       - name: Validate audio
         shell: python
         run: |
           import subprocess
 
-          result = subprocess.run(
-              [
-                  "ffprobe",
-                  "-v",
-                  "error",
-                  "-show_entries",
-                  "format=duration",
-                  "-of",
-                  "default=noprint_wrappers=1:nokey=1",
-                  "input/audio.wav"
-              ],
-              capture_output=True,
-              text=True
-          )
+          r = subprocess.run([
+              "ffprobe", "-v", "error",
+              "-show_entries", "format=duration",
+              "-of", "default=noprint_wrappers=1:nokey=1",
+              "input/audio.wav"
+          ], capture_output=True, text=True, check=True)
 
-          duration = float(
-              result.stdout.strip()
-          )
+          duration = float(r.stdout.strip())
+          print("音声時間:", duration)
 
-          print(
-              "音声時間：",
-              duration
-          )
+          if duration < 8 or duration > 70:
+              raise SystemExit("音声時間が範囲外です")
 
-          if duration < 8:
-              raise SystemExit(
-                  "音声が短すぎます"
-              )
-
-          if duration > 70:
-              raise SystemExit(
-                  "音声が長すぎます"
-              )
-
-      # =========================
-      # 背景
-      # =========================
       - name: Generate background
         shell: python
         run: |
           from PIL import Image, ImageDraw
 
-          width = 1080
-          height = 1920
+          w, h = 1080, 1920
+          image = Image.new("RGB", (w, h))
+          draw = ImageDraw.Draw(image)
 
-          image = Image.new(
-              "RGB",
-              (width, height)
-          )
-
-          pixels = image.load()
-
-          for y in range(height):
-
-              ratio = y / height
-
-              r = int(
-                  20 + 35 * ratio
+          for y in range(h):
+              ratio = y / h
+              color = (
+                  int(20 + 35 * ratio),
+                  int(25 + 30 * ratio),
+                  int(55 + 75 * ratio)
               )
-
-              g = int(
-                  25 + 30 * ratio
-              )
-
-              b = int(
-                  55 + 75 * ratio
-              )
-
-              for x in range(width):
-                  pixels[x, y] = (
-                      r,
-                      g,
-                      b
-                  )
-
-          draw = ImageDraw.Draw(
-              image
-          )
+              draw.line((0, y, w, y), fill=color)
 
           for cx, cy, radius in [
               (120, 260, 280),
@@ -645,31 +336,15 @@ jobs:
               (540, 1450, 500),
               (150, 1750, 250)
           ]:
-
               draw.ellipse(
-                  (
-                      cx - radius,
-                      cy - radius,
-                      cx + radius,
-                      cy + radius
-                  ),
-                  outline=(
-                      100,
-                      110,
-                      170
-                  ),
+                  (cx-radius, cy-radius, cx+radius, cy+radius),
+                  outline=(100, 110, 170),
                   width=5
               )
 
-          image.save(
-              "input/background.png"
-          )
-
+          image.save("input/background.png")
           print("背景生成完了")
 
-      # =========================
-      # 字幕
-      # =========================
       - name: Generate subtitles
         shell: python
         run: |
@@ -677,297 +352,166 @@ jobs:
           import re
           import subprocess
 
-          text = Path(
-              "input/script.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
+          text = Path("input/script.txt").read_text(encoding="utf-8").strip()
 
-          result = subprocess.run(
-              [
-                  "ffprobe",
-                  "-v",
-                  "error",
-                  "-show_entries",
-                  "format=duration",
-                  "-of",
-                  "default=noprint_wrappers=1:nokey=1",
-                  "input/audio.wav"
-              ],
-              capture_output=True,
-              text=True
-          )
+          r = subprocess.run([
+              "ffprobe", "-v", "error",
+              "-show_entries", "format=duration",
+              "-of", "default=noprint_wrappers=1:nokey=1",
+              "input/audio.wav"
+          ], capture_output=True, text=True, check=True)
 
-          duration = float(
-              result.stdout.strip()
-          )
+          duration = float(r.stdout.strip())
 
-          sentences = re.split(
-              r"(?<=[。！？])",
-              text
-          )
-
+          # 文単位に分ける
           sentences = [
-              x.strip()
-              for x in sentences
-              if x.strip()
+              s.strip() for s in re.split(r"(?<=[。！？])", text)
+              if s.strip()
           ]
 
-          total = sum(
-              len(x)
-              for x in sentences
-          )
+          # 1行12文字程度に分割し、字幕の横幅を抑える
+          lines = []
+          for sentence in sentences:
+              while len(sentence) > 12:
+                  cut = 12
+                  for p in ("、", "。", "！", "？"):
+                      pos = sentence.rfind(p, 0, 12)
+                      if pos >= 6:
+                          cut = pos + 1
+                          break
+                  lines.append(sentence[:cut])
+                  sentence = sentence[cut:]
+              if sentence:
+                  lines.append(sentence)
 
-          def ass_time(value):
+          # 2行ずつまとめる
+          captions = []
+          i = 0
+          while i < len(lines):
+              first = lines[i]
+              second = lines[i + 1] if i + 1 < len(lines) else ""
+              i += 2
+              captions.append(first + (r"\N" + second if second else ""))
 
-              hours = int(
-                  value // 3600
-              )
+          weights = [max(1, len(c.replace(r"\N", ""))) for c in captions]
+          total = sum(weights) or 1
 
-              minutes = int(
-                  (value % 3600) // 60
-              )
-
-              seconds = int(
-                  value % 60
-              )
-
-              centiseconds = int(
-                  (value - int(value)) * 100
-              )
-
-              return (
-                  f"{hours}:"
-                  f"{minutes:02d}:"
-                  f"{seconds:02d}."
-                  f"{centiseconds:02d}"
-              )
+          def stamp(t):
+              h = int(t // 3600)
+              m = int((t % 3600) // 60)
+              s = int(t % 60)
+              cs = int((t - int(t)) * 100)
+              return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
 
           ass = """[Script Info]
           ScriptType: v4.00+
+          WrapStyle: 2
           PlayResX: 1080
           PlayResY: 1920
+          ScaledBorderAndShadow: yes
 
           [V4+ Styles]
           Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
-          Style: Default,Noto Sans CJK JP,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,1,0,0,0,100,100,0,0,1,4,2,2,60,60,260,1
+          Style: Default,Noto Sans CJK JP,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,1,0,0,0,100,100,0,0,1,4,2,5,100,100,0,1
 
           [Events]
           Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
           """
 
           current = 0.0
-
-          for sentence in sentences:
-
-              ratio = (
-                  len(sentence) /
-                  max(total, 1)
-              )
-
-              length = duration * ratio
-
+          for caption, weight in zip(captions, weights):
+              span = duration * weight / total
               start = current
-              end = current + length
+              end = current + span
 
-              safe = sentence.replace(
-                  "\\",
-                  "￥"
-              )
-
-              safe = safe.replace(
-                  "{",
-                  ""
-              )
-
-              safe = safe.replace(
-                  "}",
-                  ""
-              )
-
+              safe = caption.replace("{", "").replace("}", "")
               ass += (
-                  "Dialogue: 0,"
-                  f"{ass_time(start)},"
-                  f"{ass_time(end)},"
-                  "Default,,0,0,0,,"
-                  f"{safe}\n"
+                  f"Dialogue: 0,{stamp(start)},{stamp(end)},"
+                  f"Default,,0,0,0,,{safe}\n"
               )
-
               current = end
 
-          Path(
-              "input/subtitles.ass"
-          ).write_text(
-              ass,
-              encoding="utf-8"
-          )
+          Path("input/subtitles.ass").write_text(ass, encoding="utf-8")
+          print("中央字幕を生成:", len(captions), "枚")
 
-          print("字幕生成完了")
-
-      # =========================
-      # 字幕チェック
-      # =========================
       - name: Validate subtitles
         shell: python
         run: |
           from pathlib import Path
 
-          text = Path(
-              "input/subtitles.ass"
-          ).read_text(
-              encoding="utf-8"
-          )
+          text = Path("input/subtitles.ass").read_text(encoding="utf-8")
 
-          bad = [
-              "�",
-              "□",
-              "☒",
-              "☐",
-              "■",
-              "▯"
-          ]
-
-          for char in bad:
-
+          for char in ["�", "□", "☒", "☐", "■", "▯", "▪", "▫"]:
               if char in text:
-                  raise SystemExit(
-                      f"字幕に特殊文字があります：{char}"
-                  )
+                  raise SystemExit(f"字幕に特殊文字があります: {char}")
 
-          print(
-              "字幕検証OK"
-          )
+          if "Alignment,MarginL" not in text:
+              raise SystemExit("字幕スタイルを確認できません")
 
-      # =========================
-      # MP4
-      # =========================
+          print("字幕検証OK")
+
       - name: Generate MP4
         run: |
           ffmpeg -y \
-            -loop 1 \
-            -i input/background.png \
+            -loop 1 -i input/background.png \
             -i input/audio.wav \
             -vf "scale=1080:1920:flags=lanczos,setsar=1,ass=input/subtitles.ass" \
-            -c:v libx264 \
-            -preset veryfast \
-            -crf 23 \
-            -r 30 \
-            -pix_fmt yuv420p \
-            -c:a aac \
-            -b:a 128k \
-            -shortest \
-            -movflags +faststart \
+            -c:v libx264 -preset veryfast -crf 23 \
+            -r 30 -pix_fmt yuv420p \
+            -c:a aac -b:a 128k \
+            -shortest -movflags +faststart \
             output/video.mp4
 
-      # =========================
-      # 最終動画チェック
-      # =========================
       - name: Validate final video
         shell: python
         run: |
           import subprocess
 
-          duration = subprocess.check_output(
-              [
-                  "ffprobe",
-                  "-v",
-                  "error",
-                  "-show_entries",
-                  "format=duration",
-                  "-of",
-                  "default=noprint_wrappers=1:nokey=1",
-                  "output/video.mp4"
-              ],
-              text=True
-          ).strip()
+          def probe(args):
+              return subprocess.check_output(args, text=True).strip()
 
-          video = subprocess.check_output(
-              [
-                  "ffprobe",
-                  "-v",
-                  "error",
-                  "-select_streams",
-                  "v:0",
-                  "-show_entries",
-                  "stream=codec_name,width,height",
-                  "-of",
-                  "csv=p=0",
-                  "output/video.mp4"
-              ],
-              text=True
-          ).strip()
+          duration = float(probe([
+              "ffprobe", "-v", "error",
+              "-show_entries", "format=duration",
+              "-of", "default=noprint_wrappers=1:nokey=1",
+              "output/video.mp4"
+          ]))
 
-          audio = subprocess.check_output(
-              [
-                  "ffprobe",
-                  "-v",
-                  "error",
-                  "-select_streams",
-                  "a:0",
-                  "-show_entries",
-                  "stream=codec_name",
-                  "-of",
-                  "csv=p=0",
-                  "output/video.mp4"
-              ],
-              text=True
-          ).strip()
+          video = probe([
+              "ffprobe", "-v", "error",
+              "-select_streams", "v:0",
+              "-show_entries", "stream=codec_name,width,height",
+              "-of", "csv=p=0",
+              "output/video.mp4"
+          ]).split(",")
 
-          print(
-              "動画時間：",
-              duration
-          )
+          audio = probe([
+              "ffprobe", "-v", "error",
+              "-select_streams", "a:0",
+              "-show_entries", "stream=codec_name",
+              "-of", "csv=p=0",
+              "output/video.mp4"
+          ])
 
-          print(
-              "映像：",
-              video
-          )
+          codec = video[0]
+          width = int(video[1])
+          height = int(video[2])
 
-          print(
-              "音声：",
-              audio
-          )
+          print("動画時間:", duration)
+          print("映像:", video)
+          print("音声:", audio)
 
-          d = float(duration)
+          if not 8 <= duration <= 70:
+              raise SystemExit("動画時間が範囲外です")
 
-          if d < 8 or d > 70:
-              raise SystemExit(
-                  "動画時間が範囲外です"
-              )
+          if (width, height) != (1080, 1920):
+              raise SystemExit("動画サイズが1080x1920ではありません")
 
-          parts = video.split(",")
+          if codec != "h264" or audio != "aac":
+              raise SystemExit("映像または音声の形式が不正です")
 
-          codec = parts[0]
-          width = int(parts[1])
-          height = int(parts[2])
+          print("最終動画検証OK")
 
-          if width != 1080:
-              raise SystemExit(
-                  f"横幅が1080ではありません：{width}"
-              )
-
-          if height != 1920:
-              raise SystemExit(
-                  f"高さが1920ではありません：{height}"
-              )
-
-          if codec != "h264":
-              raise SystemExit(
-                  f"映像codecがH.264ではありません：{codec}"
-              )
-
-          if audio != "aac":
-              raise SystemExit(
-                  f"音声codecがAACではありません：{audio}"
-              )
-
-          print(
-              "最終動画検証OK"
-          )
-
-      # =========================
-      # YouTube
-      # =========================
       - name: Upload to YouTube
         shell: python
         env:
@@ -977,50 +521,27 @@ jobs:
         run: |
           import os
           from pathlib import Path
-
           from google.oauth2.credentials import Credentials
           from googleapiclient.discovery import build
           from googleapiclient.http import MediaFileUpload
 
-          title = Path(
-              "input/title.txt"
-          ).read_text(
-              encoding="utf-8"
-          ).strip()
-
-          description = (
-              "自動生成された日本語ショート動画です。"
-          )
+          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
 
           credentials = Credentials(
               token=None,
-              refresh_token=os.environ[
-                  "YOUTUBE_REFRESH_TOKEN"
-              ],
-              token_uri=(
-                  "https://oauth2.googleapis.com/token"
-              ),
-              client_id=os.environ[
-                  "YOUTUBE_CLIENT_ID"
-              ],
-              client_secret=os.environ[
-                  "YOUTUBE_CLIENT_SECRET"
-              ],
-              scopes=[
-                  "https://www.googleapis.com/auth/youtube"
-              ]
+              refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
+              token_uri="https://oauth2.googleapis.com/token",
+              client_id=os.environ["YOUTUBE_CLIENT_ID"],
+              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
+              scopes=["https://www.googleapis.com/auth/youtube"]
           )
 
-          youtube = build(
-              "youtube",
-              "v3",
-              credentials=credentials
-          )
+          youtube = build("youtube", "v3", credentials=credentials)
 
           body = {
               "snippet": {
                   "title": title,
-                  "description": description,
+                  "description": "自動生成された日本語ショート動画です。",
                   "categoryId": "22"
               },
               "status": {
@@ -1035,42 +556,25 @@ jobs:
               resumable=True
           )
 
-          request = youtube.videos().insert(
+          response = youtube.videos().insert(
               part="snippet,status",
               body=body,
               media_body=media
-          )
-
-          response = request.execute()
+          ).execute()
 
           video_id = response["id"]
-
-          print(
-              "YouTubeアップロード完了"
-          )
-
-          print(
-              "Video ID:",
-              video_id
-          )
+          print("アップロード完了:", video_id)
 
           youtube.videos().update(
               part="status",
               body={
                   "id": video_id,
-                  "status": {
-                      "privacyStatus": "public"
-                  }
+                  "status": {"privacyStatus": "public"}
               }
           ).execute()
 
-          print(
-              "YouTube公開完了"
-          )
+          print("YouTube公開完了:", video_id)
 
-      # =========================
-      # 動画保存
-      # =========================
       - name: Upload video artifact
         uses: actions/upload-artifact@v6
         with:
