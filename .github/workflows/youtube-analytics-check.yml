@@ -1,0 +1,168 @@
+name: YouTube Analytics Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 23 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  analytics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install packages
+        run: pip install google-api-python-client google-auth
+
+      - name: Retrieve YouTube Analytics
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_ANALYTICS_REFRESH_TOKEN }}
+
+        run: |
+          python - <<'PY'
+          import os
+          import json
+          import csv
+          from pathlib import Path
+          from datetime import datetime, timedelta, timezone
+
+          from google.oauth2.credentials import Credentials
+          from googleapiclient.discovery import build
+
+          jst = timezone(timedelta(hours=9))
+          today = datetime.now(jst).date()
+
+          # 直近7日間のうち、終了した6日分を含む7日間
+          end_date = today - timedelta(days=1)
+          start_date = end_date - timedelta(days=6)
+
+          required = [
+              "YOUTUBE_CLIENT_ID",
+              "YOUTUBE_CLIENT_SECRET",
+              "YOUTUBE_REFRESH_TOKEN"
+          ]
+
+          for key in required:
+              if not os.environ.get(key):
+                  raise RuntimeError(
+                      f"GitHub Secrets が未設定です: {key}"
+                  )
+
+          credentials = Credentials(
+              token=None,
+              refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
+              token_uri="https://oauth2.googleapis.com/token",
+              client_id=os.environ["YOUTUBE_CLIENT_ID"],
+              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
+              scopes=[
+                  "https://www.googleapis.com/auth/yt-analytics.readonly"
+              ]
+          )
+
+          service = build(
+              "youtubeAnalytics",
+              "v2",
+              credentials=credentials,
+              cache_discovery=False
+          )
+
+          output = Path("analytics_output")
+          output.mkdir(exist_ok=True)
+
+          def query(metrics, dimensions=None, sort=None):
+              args = {
+                  "ids": "channel==MINE",
+                  "startDate": str(start_date),
+                  "endDate": str(end_date),
+                  "metrics": metrics
+              }
+
+              if dimensions:
+                  args["dimensions"] = dimensions
+
+              if sort:
+                  args["sort"] = sort
+
+              return service.reports().query(**args).execute()
+
+          # 日別データ
+          daily = query(
+              "views,estimatedMinutesWatched,"
+              "averageViewDuration,subscribersGained,"
+              "subscribersLost,likes,comments,shares",
+              dimensions="day",
+              sort="day"
+          )
+
+          # 動画別データ
+          videos = query(
+              "views,estimatedMinutesWatched,"
+              "averageViewDuration,likes,comments,shares",
+              dimensions="video",
+              sort="-views"
+          )
+
+          def save_report(data, name):
+              (output / f"{name}.json").write_text(
+                  json.dumps(
+                      data,
+                      ensure_ascii=False,
+                      indent=2
+                  ),
+                  encoding="utf-8"
+              )
+
+              headers = [
+                  item["name"]
+                  for item in data.get("columnHeaders", [])
+              ]
+
+              with (
+                  output / f"{name}.csv"
+              ).open(
+                  "w",
+                  newline="",
+                  encoding="utf-8-sig"
+              ) as f:
+                  writer = csv.writer(f)
+
+                  if headers:
+                      writer.writerow(headers)
+                      writer.writerows(data.get("rows", []))
+
+          save_report(daily, "daily_report")
+          save_report(videos, "video_report")
+
+          print("取得期間:", start_date, "〜", end_date)
+          print("日別データ件数:", len(daily.get("rows", [])))
+          print("動画別データ件数:", len(videos.get("rows", [])))
+
+          print("\n日別データ:")
+          for row in daily.get("rows", []):
+              print(row)
+
+          print("\n動画別データ:")
+          for row in videos.get("rows", [])[:20]:
+              print(row)
+
+          print("\nレポート作成完了")
+          PY
+
+      - name: Save reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: youtube-analytics-reports
+          path: analytics_output/
+          if-no-files-found: warn
+          retention-days: 30
