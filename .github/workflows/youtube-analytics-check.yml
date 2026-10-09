@@ -1,4 +1,4 @@
-name: YouTube Analytics Check
+name: YouTube Analytics Auto Improvement
 
 on:
   workflow_dispatch:
@@ -6,14 +6,19 @@ on:
     - cron: "30 23 * * *"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   analytics:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -22,7 +27,7 @@ jobs:
       - name: Install packages
         run: pip install google-api-python-client google-auth
 
-      - name: Retrieve YouTube Analytics
+      - name: Retrieve analytics and build improvement data
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
@@ -32,26 +37,17 @@ jobs:
           import os
           import json
           import csv
+          import subprocess
           from pathlib import Path
           from datetime import datetime, timedelta, timezone
 
           from google.oauth2.credentials import Credentials
           from googleapiclient.discovery import build
 
-          # 日本時間で直近7日間を取得
-          jst = timezone(timedelta(hours=9))
-          today = datetime.now(jst).date()
-          end_date = today - timedelta(days=1)
-          start_date = end_date - timedelta(days=6)
-
-          output = Path("analytics_output")
-          output.mkdir(parents=True, exist_ok=True)
-
-          # 必要な認証情報を確認
           required = [
               "YOUTUBE_CLIENT_ID",
               "YOUTUBE_CLIENT_SECRET",
-              "YOUTUBE_REFRESH_TOKEN",
+              "YOUTUBE_REFRESH_TOKEN"
           ]
 
           for key in required:
@@ -60,27 +56,31 @@ jobs:
                       f"GitHub Secrets が未設定です: {key}"
                   )
 
-          # OAuth認証
+          jst = timezone(timedelta(hours=9))
+          today = datetime.now(jst).date()
+          end_date = today - timedelta(days=1)
+          start_date = end_date - timedelta(days=6)
+
+          output = Path("analytics_output")
+          output.mkdir(parents=True, exist_ok=True)
+
           credentials = Credentials(
               token=None,
               refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
               token_uri="https://oauth2.googleapis.com/token",
               client_id=os.environ["YOUTUBE_CLIENT_ID"],
-              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
+              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"]
           )
 
-          service = build(
+          # 日別のチャンネル全体データ
+          analytics = build(
               "youtubeAnalytics",
               "v2",
               credentials=credentials,
-              cache_discovery=False,
+              cache_discovery=False
           )
 
-          # 日別のチャンネル全体データを取得
-          print("取得期間:", start_date, "〜", end_date)
-          print("日別データを取得します")
-
-          response = service.reports().query(
+          daily = analytics.reports().query(
               ids="channel==MINE",
               startDate=str(start_date),
               endDate=str(end_date),
@@ -90,58 +90,265 @@ jobs:
                   "subscribersLost,likes,comments"
               ),
               dimensions="day",
-              sort="day",
+              sort="day"
           ).execute()
 
-          # JSON保存
-          json_path = output / "daily_report.json"
-          json_path.write_text(
+          (output / "daily_report.json").write_text(
               json.dumps(
-                  response,
+                  daily,
                   ensure_ascii=False,
                   indent=2
               ),
-              encoding="utf-8",
+              encoding="utf-8"
           )
 
-          # CSV保存
           headers = [
               item["name"]
-              for item in response.get("columnHeaders", [])
+              for item in daily.get("columnHeaders", [])
           ]
 
-          csv_path = output / "daily_report.csv"
-
-          with csv_path.open(
+          with (
+              output / "daily_report.csv"
+          ).open(
               "w",
               newline="",
-              encoding="utf-8-sig",
+              encoding="utf-8-sig"
           ) as f:
               writer = csv.writer(f)
 
               if headers:
                   writer.writerow(headers)
 
-              writer.writerows(response.get("rows", []))
-
-          # ログに結果を表示
-          rows = response.get("rows", [])
-
-          print("取得期間:", start_date, "〜", end_date)
-          print("取得できた日数:", len(rows))
-          print("CSV保存先:", csv_path)
-          print("JSON保存先:", json_path)
-
-          if rows:
-              print("日別データ:")
-              for row in rows:
-                  print(row)
-          else:
-              print(
-                  "指定期間の日別データはありませんでした。"
+              writer.writerows(
+                  daily.get("rows", [])
               )
 
-          print("日別レポートの作成が完了しました")
+          print("取得期間:", start_date, "〜", end_date)
+          print("日別データ取得成功")
+
+          # 最近の動画の累計実績を取得
+          videos = []
+          video_api_warning = None
+
+          try:
+              youtube = build(
+                  "youtube",
+                  "v3",
+                  credentials=credentials,
+                  cache_discovery=False
+              )
+
+              channel = youtube.channels().list(
+                  part="contentDetails",
+                  mine=True
+              ).execute()
+
+              channel_items = channel.get("items", [])
+
+              if channel_items:
+                  uploads_id = (
+                      channel_items[0]
+                      ["contentDetails"]
+                      ["relatedPlaylists"]
+                      ["uploads"]
+                  )
+
+                  playlist = youtube.playlistItems().list(
+                      part="snippet,contentDetails",
+                      playlistId=uploads_id,
+                      maxResults=50
+                  ).execute()
+
+                  video_ids = [
+                      item["contentDetails"]["videoId"]
+                      for item in playlist.get("items", [])
+                      if item.get("contentDetails", {}).get("videoId")
+                  ]
+
+                  for start in range(0, len(video_ids), 50):
+                      batch_ids = video_ids[start:start + 50]
+
+                      response = youtube.videos().list(
+                          part="snippet,statistics",
+                          id=",".join(batch_ids)
+                      ).execute()
+
+                      for item in response.get("items", []):
+                          snippet = item.get("snippet", {})
+                          stats = item.get("statistics", {})
+
+                          videos.append({
+                              "video_id": item.get("id", ""),
+                              "title": snippet.get("title", ""),
+                              "published_at": snippet.get("publishedAt", ""),
+                              "views": int(stats.get("viewCount", 0)),
+                              "likes": int(stats.get("likeCount", 0)),
+                              "comments": int(stats.get("commentCount", 0)),
+                              "url": (
+                                  "https://www.youtube.com/watch?v="
+                                  + item.get("id", "")
+                              )
+                          })
+
+                  videos.sort(
+                      key=lambda item: item["views"],
+                      reverse=True
+                  )
+
+          except Exception as error:
+              video_api_warning = str(error)[:500]
+              print(
+                  "動画別データの取得に失敗しました。"
+                  "日別データの処理は続行します。"
+              )
+              print(video_api_warning)
+
+          (output / "recent_videos.json").write_text(
+              json.dumps(
+                  videos,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8"
+          )
+
+          # 日別データを整理
+          rows = daily.get("rows", [])
+          daily_summary = []
+
+          for row in rows:
+              daily_summary.append({
+                  "day": row[0],
+                  "views": int(row[1] or 0),
+                  "watch_minutes": float(row[2] or 0),
+                  "average_view_seconds": float(row[3] or 0),
+                  "subscribers_gained": int(row[4] or 0),
+                  "subscribers_lost": int(row[5] or 0),
+                  "likes": int(row[6] or 0),
+                  "comments": int(row[7] or 0)
+              })
+
+          # 直近3日間と、その前の3日間を比較
+          last3 = daily_summary[-3:]
+          previous3 = daily_summary[-6:-3]
+
+          last3_views = sum(
+              item["views"] for item in last3
+          )
+
+          previous3_views = sum(
+              item["views"] for item in previous3
+          )
+
+          if len(daily_summary) < 6:
+              trend = "比較データ不足"
+          elif previous3_views == 0:
+              trend = "比較データ不足"
+          elif last3_views > previous3_views * 1.1:
+              trend = "直近3日間の再生数が増加"
+          elif last3_views < previous3_views * 0.9:
+              trend = "直近3日間の再生数が減少"
+          else:
+              trend = "直近3日間の再生数はおおむね横ばい"
+
+          # 改善用データ
+          feedback = {
+              "updated_at_jst": datetime.now(jst).isoformat(),
+              "period": {
+                  "start": str(start_date),
+                  "end": str(end_date)
+              },
+              "daily_views_last_3_days": last3_views,
+              "daily_views_previous_3_days": previous3_views,
+              "trend": trend,
+              "daily_data": daily_summary,
+              "top_videos_by_lifetime_views": videos[:10],
+              "topic_strategy": (
+                  "再生数上位の動画タイトルを参考に、"
+                  "異なる切り口のテーマを検証する。"
+                  "同じタイトルや台本を再利用しない。"
+              ),
+              "data_limitations": [
+                  "動画の再生数は累計値です。",
+                  "公開後の経過時間が異なる動画同士は単純比較できません。",
+                  "日別データはチャンネル全体の値です。",
+                  "投稿時間の効果を確定するには追加の検証が必要です。"
+              ],
+              "video_api_warning": video_api_warning
+          }
+
+          # 改善用データを保存
+          Path("data").mkdir(exist_ok=True)
+
+          feedback_path = Path(
+              "data/analytics_feedback.json"
+          )
+
+          feedback_path.write_text(
+              json.dumps(
+                  feedback,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8"
+          )
+
+          (output / "analytics_feedback.json").write_text(
+              json.dumps(
+                  feedback,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8"
+          )
+
+          print("日別データ件数:", len(rows))
+          print("直近3日間の再生数:", last3_views)
+          print("前の3日間の再生数:", previous3_views)
+          print("傾向:", trend)
+          print("動画別データ件数:", len(videos))
+
+          # 改善用データをGitHubに自動保存
+          subprocess.run(
+              ["git", "config", "user.name", "github-actions[bot]"],
+              check=True
+          )
+
+          subprocess.run(
+              [
+                  "git", "config", "user.email",
+                  "41898282+github-actions[bot]@users.noreply.github.com"
+              ],
+              check=True
+          )
+
+          subprocess.run(
+              ["git", "add", "data/analytics_feedback.json"],
+              check=True
+          )
+
+          changed = subprocess.run(
+              ["git", "diff", "--cached", "--quiet"]
+          )
+
+          if changed.returncode == 1:
+              subprocess.run(
+                  [
+                      "git", "commit", "-m",
+                      "Update YouTube analytics feedback"
+                  ],
+                  check=True
+              )
+
+              subprocess.run(
+                  ["git", "push"],
+                  check=True
+              )
+
+              print("改善用データをGitHubに保存しました")
+          else:
+              print("改善用データに変更はありません")
+
           PY
 
       - name: Save reports
