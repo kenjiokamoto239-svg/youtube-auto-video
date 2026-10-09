@@ -3,6 +3,7 @@ name: Auto AI Japanese Video
 on:
   workflow_dispatch:
   schedule:
+    # 毎日 日本時間08:00（UTC 23:00）
     - cron: "0 23 * * *"
 
 permissions:
@@ -21,7 +22,7 @@ jobs:
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
 
-      - name: Start Ollama
+      - name: Start Ollama and download model
         run: |
           nohup ollama serve >/tmp/ollama.log 2>&1 &
           for i in $(seq 1 30); do
@@ -33,10 +34,9 @@ jobs:
           ollama pull qwen2.5:1.5b
 
       - name: Prepare folders
-        run: |
-          mkdir -p input output model
+        run: mkdir -p input output model
 
-      - name: Generate topic, script and title
+      - name: Generate topic and Japanese script
         shell: python
         run: |
           import random
@@ -101,17 +101,15 @@ jobs:
               return text.strip("「」『』\"'")
 
           script_prompt = f"""
-          日本語のYouTube Shorts用ナレーション本文を作ってください。
+          日本語のYouTube Shorts用ナレーション本文を作成してください。
           テーマ：{topic}
-
           条件：
-          ・本文だけを出力
+          ・本文だけを出力。見出し、タイトル、説明、箇条書きは禁止
           ・140〜220文字程度
           ・自然な日本語で具体的に役立つ内容
-          ・理由や具体例を含める
-          ・最後は実行できる行動で締める
-          ・途中で文章を終わらせない
-          ・見出し、タイトル、説明、箇条書きは禁止
+          ・最初にテーマを提示し、理由や具体例を説明する
+          ・最後は視聴者が実行できる行動で締める
+          ・文章を途中で終わらせない
           ・URL、英語、数字、特殊記号は禁止
           ・句読点を適切に使う
           """
@@ -131,43 +129,42 @@ jobs:
                           break
                       selected += sentence
 
-                  if len(selected) >= 80 and re.search(r"[。！？]$", selected):
+                  if (
+                      len(selected) >= 80
+                      and re.search(r"[。！？]$", selected)
+                  ):
                       script = selected
                   else:
                       script = fallback_script
 
           except Exception as exc:
-              print("台本生成失敗。予備台本を使用:", exc)
+              print("台本生成に失敗。予備台本を使用:", exc)
               script = fallback_script
 
+          # タイトルは台本が完成してから、台本の内容をもとに生成
           fallback_title = "今日から人生を少し良くする習慣"
 
           title_prompt = f"""
-          次の台本に合うYouTube Shortsのタイトルを一つ作ってください。
+          次の台本に合うYouTube Shortsのタイトルを1つ作成してください。
           テーマ：{topic}
           台本：{script}
-
-          条件：
-          ・自然な日本語
-          ・15〜25文字程度
-          ・タイトルだけ出力
-          ・「毎日分の習慣」のような不自然な表現は禁止
+          条件：自然な日本語、15〜25文字程度、タイトルだけ出力。
+          「毎日分の習慣」「習慣分」のような不自然な表現は禁止。
           """
 
           try:
               title = clean_text(ask_model(title_prompt, 90))
-
               bad_phrases = [
                   "毎日分", "習慣分", "タイトル", "台本", "説明文"
               ]
 
-              if len(title) < 5 or any(x in title for x in bad_phrases):
+              if len(title) < 5 or any(p in title for p in bad_phrases):
                   title = fallback_title
 
               title = title[:40]
 
           except Exception as exc:
-              print("タイトル生成失敗。予備タイトルを使用:", exc)
+              print("タイトル生成に失敗。予備タイトルを使用:", exc)
               title = fallback_title
 
           Path("input/topic.txt").write_text(topic, encoding="utf-8")
@@ -177,6 +174,7 @@ jobs:
           print("テーマ:", topic)
           print("タイトル:", title)
           print("台本:", script)
+          print("台本文字数:", len(script))
 
       - name: Validate script
         shell: python
@@ -202,7 +200,7 @@ jobs:
           if any(x in title for x in ["毎日分", "習慣分", "台本", "説明文"]):
               raise SystemExit("タイトルに不自然な表現があります")
 
-          print("台本とタイトルの検証OK")
+          print("台本・タイトル検証OK")
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -235,7 +233,7 @@ jobs:
           test -s model/kokoro-v1.0.int8.onnx
           test -s model/jf_alpha.bin
 
-      - name: Generate Japanese audio and subtitle timings
+      - name: Generate Japanese audio and aligned subtitle segments
         shell: python
         run: |
           from pathlib import Path
@@ -245,7 +243,9 @@ jobs:
           import soundfile as sf
           from kokoro_onnx import Kokoro
 
-          script = Path("input/script.txt").read_text(encoding="utf-8").strip()
+          script = Path("input/script.txt").read_text(
+              encoding="utf-8"
+          ).strip()
 
           sentences = [
               s.strip()
@@ -255,6 +255,7 @@ jobs:
 
           chunks = []
 
+          # 字幕と音声を同じ文章単位で作る
           for sentence in sentences:
               while len(sentence) > 20:
                   cut = 16
@@ -322,30 +323,29 @@ jobs:
               encoding="utf-8"
           )
 
-          print("日本語音声生成完了:", sample_rate, "Hz")
+          print("音声生成完了:", sample_rate, "Hz")
           print("音声秒数:", len(combined) / sample_rate)
-          print("字幕数:", len(segments))
+          print("字幕セグメント数:", len(segments))
 
       - name: Validate audio
         shell: python
         run: |
           import subprocess
 
-          result = subprocess.check_output([
+          output = subprocess.check_output([
               "ffprobe", "-v", "error",
               "-show_entries", "format=duration",
               "-of", "default=noprint_wrappers=1:nokey=1",
               "input/audio.wav"
           ], text=True).strip()
 
-          duration = float(result)
-
+          duration = float(output)
           print("音声時間:", duration, "秒")
 
           if duration < 5 or duration > 70:
               raise SystemExit("音声時間が想定範囲外です")
 
-      - name: Generate background
+      - name: Generate background image
         shell: python
         run: |
           from PIL import Image, ImageDraw
@@ -363,14 +363,12 @@ jobs:
               )
               draw.line((0, y, width, y), fill=color)
 
-          circles = [
+          for cx, cy, radius in [
               (150, 300, 260),
               (900, 650, 350),
               (500, 1200, 420),
               (180, 1700, 250)
-          ]
-
-          for cx, cy, radius in circles:
+          ]:
               draw.ellipse(
                   (cx-radius, cy-radius, cx+radius, cy+radius),
                   outline=(70, 100, 150),
@@ -380,12 +378,11 @@ jobs:
           image.save("input/background.png")
           print("背景画像生成完了")
 
-      - name: Generate subtitles
+      - name: Generate large centered subtitles
         shell: python
         run: |
           from pathlib import Path
           import json
-          import textwrap
 
           segments = json.loads(
               Path("input/segments.json").read_text(encoding="utf-8")
@@ -398,10 +395,12 @@ jobs:
               secs = (total_cs % 6000) // 100
               centiseconds = total_cs % 100
 
-              return f"{hours}:{minutes:02d}:{secs:02d}.{centiseconds:02d}"
+              return (
+                  f"{hours}:{minutes:02d}:"
+                  f"{secs:02d}.{centiseconds:02d}"
+              )
 
-          header = textwrap.dedent("""\
-          [Script Info]
+          header = """[Script Info]
           ScriptType: v4.00+
           WrapStyle: 2
           PlayResX: 1080
@@ -410,23 +409,44 @@ jobs:
 
           [V4+ Styles]
           Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
-          Style: Default,Noto Sans CJK JP,68,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,5,2,2,70,70,280,1
+          Style: Default,Noto Sans CJK JP,100,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,1,0,0,0,100,100,0,0,1,7,2,5,70,70,0,1
 
           [Events]
           Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
-          """)
+          """
 
           lines = [header]
 
           for segment in segments:
-              text = str(segment["text"]).replace("{", "").replace("}", "").strip()
+              text = str(segment["text"]).strip()
+              text = text.replace("{", "").replace("}", "")
 
               if not text:
                   continue
 
+              # 長い字幕は中央で2行に分ける
+              if len(text) > 12:
+                  midpoint = len(text) // 2
+                  split_at = midpoint
+
+                  punctuation_positions = [
+                      i for i, char in enumerate(text)
+                      if char in "、。！？"
+                  ]
+
+                  if punctuation_positions:
+                      split_at = min(
+                          punctuation_positions,
+                          key=lambda i: abs(i - midpoint)
+                      ) + 1
+
+                  text = text[:split_at] + r"\N" + text[split_at:]
+
+              # 1080x1920の画面中央に配置
               lines.append(
                   f"Dialogue: 0,{stamp(segment['start'])},"
-                  f"{stamp(segment['end'])},Default,,0,0,0,,{text}\n"
+                  f"{stamp(segment['end'])},Default,,0,0,0,,"
+                  f"{{\\an5\\pos(540,960)}}{text}\n"
               )
 
           Path("input/subtitles.ass").write_text(
@@ -434,16 +454,16 @@ jobs:
               encoding="utf-8"
           )
 
-          print("字幕生成完了:", len(segments), "枚")
+          print("大きな中央字幕を生成しました:", len(segments), "枚")
 
-      - name: Generate vertical MP4
+      - name: Generate vertical MP4 with moving background
         run: |
           set -e
 
           ffmpeg -y \
             -loop 1 -framerate 30 -i input/background.png \
             -i input/audio.wav \
-            -vf "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,zoompan=z='min(max(zoom,pzoom)+0.0008,1.12)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,ass=input/subtitles.ass,scale=1080:1920:flags=lanczos" \
+            -vf "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,zoompan=z='min(max(zoom,pzoom)+0.0008,1.12)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,ass=input/subtitles.ass" \
             -c:v libx264 -preset veryfast -crf 23 \
             -r 30 -pix_fmt yuv420p \
             -c:a aac -b:a 128k \
@@ -522,7 +542,9 @@ jobs:
 
           for name in required:
               if not os.environ.get(name):
-                  raise SystemExit(f"GitHub Secrets が未設定です: {name}")
+                  raise SystemExit(
+                      f"GitHub Secrets が未設定です: {name}"
+                  )
 
           title = Path("input/title.txt").read_text(
               encoding="utf-8"
@@ -546,7 +568,10 @@ jobs:
           body = {
               "snippet": {
                   "title": title[:100],
-                  "description": script + "\n\n自動生成された日本語ショート動画です。",
+                  "description": (
+                      script
+                      + "\n\n自動生成された日本語ショート動画です。"
+                  ),
                   "categoryId": "22"
               },
               "status": {
