@@ -27,7 +27,6 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_ANALYTICS_REFRESH_TOKEN || secrets.YOUTUBE_REFRESH_TOKEN }}
-
         run: |
           python - <<'PY'
           import os
@@ -44,16 +43,19 @@ jobs:
           end_date = today - timedelta(days=1)
           start_date = end_date - timedelta(days=6)
 
+          output = Path("analytics_output")
+          output.mkdir(exist_ok=True)
+
           required = [
               "YOUTUBE_CLIENT_ID",
               "YOUTUBE_CLIENT_SECRET",
-              "YOUTUBE_REFRESH_TOKEN"
+              "YOUTUBE_REFRESH_TOKEN",
           ]
 
           for key in required:
               if not os.environ.get(key):
                   raise RuntimeError(
-                      f"必要なGitHub Secretsが未設定です: {key}"
+                      f"GitHub Secrets が未設定です: {key}"
                   )
 
           credentials = Credentials(
@@ -61,25 +63,22 @@ jobs:
               refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
               token_uri="https://oauth2.googleapis.com/token",
               client_id=os.environ["YOUTUBE_CLIENT_ID"],
-              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"]
+              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
           )
 
           service = build(
               "youtubeAnalytics",
               "v2",
               credentials=credentials,
-              cache_discovery=False
+              cache_discovery=False,
           )
-
-          output = Path("analytics_output")
-          output.mkdir(exist_ok=True)
 
           def query(metrics, dimensions=None, sort=None):
               args = {
                   "ids": "channel==MINE",
                   "startDate": str(start_date),
                   "endDate": str(end_date),
-                  "metrics": metrics
+                  "metrics": metrics,
               }
 
               if dimensions:
@@ -90,29 +89,10 @@ jobs:
 
               return service.reports().query(**args).execute()
 
-          daily = query(
-              "views,estimatedMinutesWatched,"
-              "averageViewDuration,subscribersGained,"
-              "subscribersLost,likes,comments,shares",
-              dimensions="day",
-              sort="day"
-          )
-
-          videos = query(
-              "views,estimatedMinutesWatched,"
-              "averageViewDuration,likes,comments,shares",
-              dimensions="video",
-              sort="-views"
-          )
-
           def save_report(data, name):
               (output / f"{name}.json").write_text(
-                  json.dumps(
-                      data,
-                      ensure_ascii=False,
-                      indent=2
-                  ),
-                  encoding="utf-8"
+                  json.dumps(data, ensure_ascii=False, indent=2),
+                  encoding="utf-8",
               )
 
               headers = [
@@ -123,15 +103,29 @@ jobs:
               with (output / f"{name}.csv").open(
                   "w",
                   newline="",
-                  encoding="utf-8-sig"
+                  encoding="utf-8-sig",
               ) as f:
                   writer = csv.writer(f)
-
                   if headers:
                       writer.writerow(headers)
                       writer.writerows(data.get("rows", []))
 
+          # 日別のチャンネル全体データ
+          daily = query(
+              "views,estimatedMinutesWatched,"
+              "averageViewDuration,subscribersGained,"
+              "subscribersLost,likes,comments",
+              dimensions="day",
+              sort="day",
+          )
           save_report(daily, "daily_report")
+
+          # 動画別データ。video ディメンションに対応する指標に限定
+          videos = query(
+              "views,estimatedMinutesWatched,averageViewDuration",
+              dimensions="video",
+              sort="-views",
+          )
           save_report(videos, "video_report")
 
           print("取得期間:", start_date, "〜", end_date)
@@ -142,7 +136,7 @@ jobs:
           for row in daily.get("rows", []):
               print(row)
 
-          print("\n動画別データ:")
+          print("\n動画別データ（上位20件）:")
           for row in videos.get("rows", [])[:20]:
               print(row)
 
