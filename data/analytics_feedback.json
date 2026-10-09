@@ -1,0 +1,162 @@
+{
+  "updated_at_jst": "2026-10-09T19:57:37.185246+09:00",
+  "period": {
+    "start": "2026-10-02",
+    "end": "2026-10-08"
+  },
+  "daily_views_last_3_days": 965,
+  "daily_views_previous_3_days": 6,
+  "trend": "比較データ不足",
+  "daily_data": [
+    {
+      "day": "2026-10-02",
+      "views": 1,
+      "watch_minutes": 0.0,
+      "average_view_seconds": 0.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "day": "2026-10-03",
+      "views": 5,
+      "watch_minutes": 1.0,
+      "average_view_seconds": 17.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "day": "2026-10-04",
+      "views": 4,
+      "watch_minutes": 0.0,
+      "average_view_seconds": 10.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "day": "2026-10-05",
+      "views": 189,
+      "watch_minutes": 17.0,
+      "average_view_seconds": 18.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "day": "2026-10-06",
+      "views": 772,
+      "watch_minutes": 41.0,
+      "average_view_seconds": 10.0,
+      "subscribers_gained": 2,
+      "subscribers_lost": 0,
+      "likes": 2,
+      "comments": 0
+    }
+  ],
+  "top_videos_by_lifetime_views": [
+    {
+      "video_id": "h43GdHIKSag",
+      "title": "40代から始めるランニングで最初にやってはいけないこと3選",
+      "published_at": "2026-09-27T07:35:37Z",
+      "views": 938,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=h43GdHIKSag"
+    },
+    {
+      "video_id": "GnSw820y-gU",
+      "title": "タイトル: 今日から人生を少し良くする習慣 - 30秒〜1分のYouTubeショート動画",
+      "published_at": "2026-10-06T04:12:01Z",
+      "views": 739,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=GnSw820y-gU"
+    },
+    {
+      "video_id": "vttlhaGloSM",
+      "title": "#oldies あえて『走らない』という最終調整。マラソン大会",
+      "published_at": "2026-03-21T21:52:32Z",
+      "views": 422,
+      "likes": 1,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=vttlhaGloSM"
+    },
+    {
+      "video_id": "V4okCEgR6XA",
+      "title": "タイトル: \"今日から人生を少し良くする習慣\"",
+      "published_at": "2026-10-07T01:58:22Z",
+      "views": 176,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=V4okCEgR6XA"
+    },
+    {
+      "video_id": "ej_HEiqVvoo",
+      "title": "知らないと損する「逆風の思考」",
+      "published_at": "2026-10-08T09:50:39Z",
+      "views": 164,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ej_HEiqVvoo"
+    },
+    {
+      "video_id": "VSUk-nJOjKA",
+      "title": "今日からできる節約習慣を始めよう！",
+      "published_at": "2026-10-08T02:25:53Z",
+      "views": 136,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=VSUk-nJOjKA"
+    },
+    {
+      "video_id": "iF_nhhDoca4",
+      "title": "やる気が出てから始める人が、ずっと始められない理由",
+      "published_at": "2026-09-27T13:30:55Z",
+      "views": 117,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iF_nhhDoca4"
+    },
+    {
+      "video_id": "bbcDC6mSYxk",
+      "title": "40代の読書が続かない人へ｜1冊を読み切らない方が学びが増える理由",
+      "published_at": "2026-09-28T14:07:40Z",
+      "views": 115,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=bbcDC6mSYxk"
+    },
+    {
+      "video_id": "poUxfluhBYQ",
+      "title": "40代で30分しか走れない人へ｜ランニング初心者の続け方",
+      "published_at": "2026-09-29T12:46:13Z",
+      "views": 111,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=poUxfluhBYQ"
+    },
+    {
+      "video_id": "2RGSaLIX0EA",
+      "title": "825267の日記：人間関係をやめるだけで変わる日常",
+      "published_at": "2026-10-07T22:57:15Z",
+      "views": 82,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=2RGSaLIX0EA"
+    }
+  ],
+  "topic_strategy": "再生数上位の動画タイトルを参考に、異なる切り口のテーマを検証する。同じタイトルや台本を再利用しない。",
+  "data_limitations": [
+    "動画の再生数は累計値です。",
+    "公開後の経過時間が異なる動画同士は単純比較できません。",
+    "日別データはチャンネル全体の値です。",
+    "投稿時間の効果を確定するには追加の検証が必要です。"
+  ],
+  "video_api_warning": null
+}
