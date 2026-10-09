@@ -38,14 +38,16 @@ jobs:
           from google.oauth2.credentials import Credentials
           from googleapiclient.discovery import build
 
+          # 日本時間で直近7日間を取得
           jst = timezone(timedelta(hours=9))
           today = datetime.now(jst).date()
           end_date = today - timedelta(days=1)
           start_date = end_date - timedelta(days=6)
 
           output = Path("analytics_output")
-          output.mkdir(exist_ok=True)
+          output.mkdir(parents=True, exist_ok=True)
 
+          # 必要な認証情報を確認
           required = [
               "YOUTUBE_CLIENT_ID",
               "YOUTUBE_CLIENT_SECRET",
@@ -58,6 +60,7 @@ jobs:
                       f"GitHub Secrets が未設定です: {key}"
                   )
 
+          # OAuth認証
           credentials = Credentials(
               token=None,
               refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
@@ -73,74 +76,72 @@ jobs:
               cache_discovery=False,
           )
 
-          def query(metrics, dimensions=None, sort=None):
-              args = {
-                  "ids": "channel==MINE",
-                  "startDate": str(start_date),
-                  "endDate": str(end_date),
-                  "metrics": metrics,
-              }
+          # 日別のチャンネル全体データを取得
+          print("取得期間:", start_date, "〜", end_date)
+          print("日別データを取得します")
 
-              if dimensions:
-                  args["dimensions"] = dimensions
-
-              if sort:
-                  args["sort"] = sort
-
-              return service.reports().query(**args).execute()
-
-          def save_report(data, name):
-              (output / f"{name}.json").write_text(
-                  json.dumps(data, ensure_ascii=False, indent=2),
-                  encoding="utf-8",
-              )
-
-              headers = [
-                  item["name"]
-                  for item in data.get("columnHeaders", [])
-              ]
-
-              with (output / f"{name}.csv").open(
-                  "w",
-                  newline="",
-                  encoding="utf-8-sig",
-              ) as f:
-                  writer = csv.writer(f)
-                  if headers:
-                      writer.writerow(headers)
-                      writer.writerows(data.get("rows", []))
-
-          # 日別のチャンネル全体データ
-          daily = query(
-              "views,estimatedMinutesWatched,"
-              "averageViewDuration,subscribersGained,"
-              "subscribersLost,likes,comments",
+          response = service.reports().query(
+              ids="channel==MINE",
+              startDate=str(start_date),
+              endDate=str(end_date),
+              metrics=(
+                  "views,estimatedMinutesWatched,"
+                  "averageViewDuration,subscribersGained,"
+                  "subscribersLost,likes,comments"
+              ),
               dimensions="day",
               sort="day",
-          )
-          save_report(daily, "daily_report")
+          ).execute()
 
-          # 動画別データ。video ディメンションに対応する指標に限定
-          videos = query(
-              "views,estimatedMinutesWatched,averageViewDuration",
-              dimensions="video",
-              sort="-views",
+          # JSON保存
+          json_path = output / "daily_report.json"
+          json_path.write_text(
+              json.dumps(
+                  response,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8",
           )
-          save_report(videos, "video_report")
+
+          # CSV保存
+          headers = [
+              item["name"]
+              for item in response.get("columnHeaders", [])
+          ]
+
+          csv_path = output / "daily_report.csv"
+
+          with csv_path.open(
+              "w",
+              newline="",
+              encoding="utf-8-sig",
+          ) as f:
+              writer = csv.writer(f)
+
+              if headers:
+                  writer.writerow(headers)
+
+              writer.writerows(response.get("rows", []))
+
+          # ログに結果を表示
+          rows = response.get("rows", [])
 
           print("取得期間:", start_date, "〜", end_date)
-          print("日別データ件数:", len(daily.get("rows", [])))
-          print("動画別データ件数:", len(videos.get("rows", [])))
+          print("取得できた日数:", len(rows))
+          print("CSV保存先:", csv_path)
+          print("JSON保存先:", json_path)
 
-          print("\n日別データ:")
-          for row in daily.get("rows", []):
-              print(row)
+          if rows:
+              print("日別データ:")
+              for row in rows:
+                  print(row)
+          else:
+              print(
+                  "指定期間の日別データはありませんでした。"
+              )
 
-          print("\n動画別データ（上位20件）:")
-          for row in videos.get("rows", [])[:20]:
-              print(row)
-
-          print("\nレポート作成完了")
+          print("日別レポートの作成が完了しました")
           PY
 
       - name: Save reports
