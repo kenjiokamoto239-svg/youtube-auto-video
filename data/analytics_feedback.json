@@ -1,23 +1,13 @@
 {
-  "updated_at_jst": "2026-10-09T19:57:37.185246+09:00",
+  "updated_at_jst": "2026-10-10T11:31:36.989318+09:00",
   "period": {
-    "start": "2026-10-02",
-    "end": "2026-10-08"
+    "start": "2026-10-03",
+    "end": "2026-10-09"
   },
-  "daily_views_last_3_days": 965,
-  "daily_views_previous_3_days": 6,
+  "daily_views_last_3_days": 1181,
+  "daily_views_previous_3_days": 9,
   "trend": "比較データ不足",
   "daily_data": [
-    {
-      "day": "2026-10-02",
-      "views": 1,
-      "watch_minutes": 0.0,
-      "average_view_seconds": 0.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-10-03",
       "views": 5,
@@ -57,6 +47,16 @@
       "subscribers_lost": 0,
       "likes": 2,
       "comments": 0
+    },
+    {
+      "day": "2026-10-07",
+      "views": 220,
+      "watch_minutes": 15.0,
+      "average_view_seconds": 14.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "top_videos_by_lifetime_views": [
@@ -79,13 +79,22 @@
       "url": "https://www.youtube.com/watch?v=GnSw820y-gU"
     },
     {
-      "video_id": "vttlhaGloSM",
-      "title": "#oldies あえて『走らない』という最終調整。マラソン大会",
-      "published_at": "2026-03-21T21:52:32Z",
-      "views": 422,
-      "likes": 1,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=vttlhaGloSM"
+      "video_id": "qbMdVY6YH-U",
+      "title": "毎日分の習慣",
+      "published_at": "2026-10-09T21:22:38Z",
+      "views": 311,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=qbMdVY6YH-U"
+    },
+    {
+      "video_id": "YKfzKM3Fg0o",
+      "title": "小さな今日の一歩で大きく変わる",
+      "published_at": "2026-10-09T22:18:42Z",
+      "views": 225,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=YKfzKM3Fg0o"
     },
     {
       "video_id": "V4okCEgR6XA",
@@ -100,10 +109,19 @@
       "video_id": "ej_HEiqVvoo",
       "title": "知らないと損する「逆風の思考」",
       "published_at": "2026-10-08T09:50:39Z",
-      "views": 164,
+      "views": 163,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ej_HEiqVvoo"
+    },
+    {
+      "video_id": "H79vv5StaKM",
+      "title": "小さな今日できることから始めるオーバーヘッド!",
+      "published_at": "2026-10-09T22:07:58Z",
+      "views": 147,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=H79vv5StaKM"
     },
     {
       "video_id": "VSUk-nJOjKA",
@@ -131,24 +149,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bbcDC6mSYxk"
-    },
-    {
-      "video_id": "poUxfluhBYQ",
-      "title": "40代で30分しか走れない人へ｜ランニング初心者の続け方",
-      "published_at": "2026-09-29T12:46:13Z",
-      "views": 111,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=poUxfluhBYQ"
-    },
-    {
-      "video_id": "2RGSaLIX0EA",
-      "title": "825267の日記：人間関係をやめるだけで変わる日常",
-      "published_at": "2026-10-07T22:57:15Z",
-      "views": 82,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=2RGSaLIX0EA"
     }
   ],
   "topic_strategy": "再生数上位の動画タイトルを参考に、異なる切り口のテーマを検証する。同じタイトルや台本を再利用しない。",
