@@ -2,6 +2,22 @@ name: Auto AI Japanese Video
 
 on:
   workflow_dispatch:
+  on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 7 * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "0 10 * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "0 13 * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "0 16 * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "0 19 * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "0 22 * * *"
+      timezone: "Asia/Tokyo"
   workflow_run:
     workflows:
       - "YouTube Analytics Auto Improvement"
