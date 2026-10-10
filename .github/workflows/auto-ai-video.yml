@@ -35,7 +35,7 @@ concurrency:
 
 jobs:
   build:
-        if: >-
+    if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'schedule' ||
       (github.event_name == 'workflow_run' &&
