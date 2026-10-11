@@ -348,9 +348,8 @@ jobs:
           subtitle_events = []
           cursor = 0.0
 
-          for chunk in chunks:
-              phonemes, _ = g2p(chunk)
-              if not phonemes:
+                    for chunk in chunks:
+              audio, sample_rate = kokoro.create(chunk)
                   continue
 
               audio, sample_rate = model.create(text)
