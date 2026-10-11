@@ -53,6 +53,10 @@ jobs:
             "kokoro_onnx @ git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" \
             "misaki-fork[ja]"
 
+      - name: Download Japanese dictionary
+        run: |
+          python -m unidic download
+
       - name: Install Ollama
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
