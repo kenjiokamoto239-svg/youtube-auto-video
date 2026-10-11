@@ -5,16 +5,6 @@ on:
   schedule:
     - cron: "0 7 * * *"
       timezone: "Asia/Tokyo"
-    - cron: "0 10 * * *"
-      timezone: "Asia/Tokyo"
-    - cron: "0 13 * * *"
-      timezone: "Asia/Tokyo"
-    - cron: "0 16 * * *"
-      timezone: "Asia/Tokyo"
-    - cron: "0 19 * * *"
-      timezone: "Asia/Tokyo"
-    - cron: "0 22 * * *"
-      timezone: "Asia/Tokyo"
 
 permissions:
   contents: read
@@ -33,373 +23,243 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ffmpeg \
+            fonts-noto-cjk \
+            espeak-ng \
+            libsndfile1
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
 
-      - name: Install dependencies
+      - name: Install Python packages
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg fonts-noto-cjk
           python -m pip install --upgrade pip
-          pip install numpy soundfile pillow requests feedparser
-          pip install google-api-python-client google-auth
-          pip install "kokoro_onnx@git+https://github.com/moonshine-ai/kokoro-onnx-ja.git"
+          pip install \
+            numpy \
+            soundfile \
+            pillow \
+            requests \
+            feedparser \
+            google-api-python-client \
+            google-auth \
+            google-auth-oauthlib \
+            "kokoro_onnx @ git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" \
+            "misaki-fork[ja]"
 
-      - name: Prepare folders
-        run: |
-          mkdir -p input output model data
-
-      - name: Prepare analytics
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          p = Path("data/analytics_feedback.json")
-          p.parent.mkdir(parents=True, exist_ok=True)
-
-          if not p.exists():
-              p.write_text(
-                  json.dumps(
-                      {
-                          "trend": "新しいテーマを検証し、内容と反応を改善する",
-                          "top_videos_by_lifetime_views": []
-                      },
-                      ensure_ascii=False,
-                      indent=2
-                  ),
-                  encoding="utf-8"
-              )
-
-          data = json.loads(p.read_text(encoding="utf-8"))
-          if not isinstance(data, dict):
-              raise RuntimeError("分析データの形式が不正です")
-
-          print("分析データ確認完了")
-          PY
-
-      - name: Install Ollama and model
+      - name: Install Ollama
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
-          nohup ollama serve >/tmp/ollama.log 2>&1 &
-
+          ollama serve > /tmp/ollama.log 2>&1 &
           for i in $(seq 1 30); do
-            if ollama list >/dev/null 2>&1; then
+            if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; then
               break
             fi
             sleep 2
           done
-
           ollama pull qwen2.5:3b
 
-      - name: Generate script and title
+      - name: Create work folders
+        run: |
+          mkdir -p input output model
+          rm -f input/title.txt
+          rm -f input/script.txt
+          rm -f input/source.txt
+          rm -f input/topic.txt
+          rm -f input/background.png
+          rm -f input/background_credit.txt
+          rm -f input/audio.wav
+          rm -f input/subtitles.ass
+          rm -f output/video.mp4
+
+      - name: Generate news-based Japanese script
         env:
-          TZ: Asia/Tokyo
+          OLLAMA_HOST: http://127.0.0.1:11434
         run: |
           python - <<'PY'
-          import json
+          import feedparser
           import random
           import re
           import subprocess
-          import unicodedata
-          from datetime import datetime, timedelta, timezone
+          import time
           from pathlib import Path
 
-          import feedparser
-          import requests
-
-          JST = timezone(timedelta(hours=9))
-          now = datetime.now(JST)
-
-          def clean(value):
-              value = unicodedata.normalize("NFKC", str(value or ""))
-              value = re.sub(r"<[^>]*>", " ", value)
-              value = re.sub(r"https?://\S+", "", value)
-              return re.sub(r"\s+", " ", value).strip()
-
-          def ask(prompt, timeout=240):
-              result = subprocess.run(
-                  ["ollama", "run", "qwen2.5:3b"],
-                  input=prompt,
-                  capture_output=True,
-                  text=True,
-                  timeout=timeout,
-                  check=True
-              )
-              return clean(result.stdout)
-
-          feedback_path = Path("data/analytics_feedback.json")
-          feedback = json.loads(
-              feedback_path.read_text(encoding="utf-8")
-          )
+          Path("input").mkdir(exist_ok=True)
 
           feeds = [
-              (
-                  "国内ニュース",
-                  "https://www.nhk.or.jp/rss/news/cat0.xml",
-                  []
-              ),
-              (
-                  "岡山の介護・地域ニュース",
-                  "https://news.google.com/rss/search?q="
-                  "%E5%B2%A1%E5%B1%B1+%E4%BB%8B%E8%AD%B7+OR+"
-                  "%E5%B2%A1%E5%B1%B1+%E7%A6%8F%E7%A5%89&hl=ja&gl=JP&ceid=JP:ja",
-                  ["岡山", "介護", "福祉", "高齢者"]
-              ),
-              (
-                  "ランニングニュース",
-                  "https://news.google.com/rss/search?q="
-                  "%E3%83%A9%E3%83%B3%E3%83%8B%E3%83%B3%E3%82%B0+OR+"
-                  "%E3%83%9E%E3%83%A9%E3%82%BD%E3%83%B3+OR+"
-                  "%E9%A7%85%E4%BC%9D&hl=ja&gl=JP&ceid=JP:ja",
-                  ["ランニング", "マラソン", "駅伝", "陸上"]
-              ),
-              (
-                  "介護ニュース",
-                  "https://news.google.com/rss/search?q="
-                  "%E4%BB%8B%E8%AD%B7+OR+%E4%BB%8B%E8%AD%B7%E5%A0%B1%E9%85%AC&hl=ja&gl=JP&ceid=JP:ja",
-                  ["介護", "介護報酬", "高齢者", "福祉"]
-              ),
-              (
-                  "三重県熊野市ニュース",
-                  "https://news.google.com/rss/search?q="
-                  "%E7%86%8A%E9%87%8E%E5%B8%82+OR+"
-                  "%E4%B8%89%E9%87%8D%E7%9C%8C%E7%86%8A%E9%87%8E%E5%B8%82"
-                  "&hl=ja&gl=JP&ceid=JP:ja",
-                  ["熊野市", "熊野", "三重県"]
-              )
+              ("岡山・介護", "https://news.google.com/rss/search?q=岡山+介護+福祉&hl=ja&gl=JP&ceid=JP:ja"),
+              ("介護・社会保障", "https://news.google.com/rss/search?q=介護+社会保障+人手不足&hl=ja&gl=JP&ceid=JP:ja"),
+              ("三重県熊野市", "https://news.google.com/rss/search?q=三重県+熊野市&hl=ja&gl=JP&ceid=JP:ja"),
+              ("ランニング・健康", "https://news.google.com/rss/search?q=ランニング+健康+スポーツ&hl=ja&gl=JP&ceid=JP:ja"),
+              ("国内ニュース", "https://news.google.com/rss?hl=ja&gl=JP&ceid=JP:ja"),
+              ("経済・仕事", "https://news.google.com/rss/search?q=日本+経済+働き方&hl=ja&gl=JP&ceid=JP:ja"),
           ]
 
-          articles = []
-          headers = {"User-Agent": "Mozilla/5.0"}
-
-          for category, url, keywords in feeds:
+          candidates = []
+          for category, url in feeds:
               try:
-                  response = requests.get(
-                      url,
-                      headers=headers,
-                      timeout=20
-                  )
-                  response.raise_for_status()
-                  parsed = feedparser.parse(response.content)
-
-                  for entry in parsed.entries[:15]:
-                      title = clean(entry.get("title"))
-                      link = str(entry.get("link", "")).strip()
-                      summary = clean(
-                          entry.get("summary")
-                          or entry.get("description")
+                  parsed = feedparser.parse(url)
+                  for entry in parsed.entries[:8]:
+                      title = re.sub(r"\s+", " ", entry.get("title", "")).strip()
+                      link = entry.get("link", "")
+                      summary = re.sub(
+                          r"<[^>]+>", " ",
+                          entry.get("summary", "")
                       )
+                      summary = re.sub(r"\s+", " ", summary).strip()
 
-                      if not title or not link:
-                          continue
+                      if title and len(title) >= 8:
+                          candidates.append({
+                              "category": category,
+                              "title": title,
+                              "link": link,
+                              "summary": summary
+                          })
+              except Exception as e:
+                  print("RSS error:", category, str(e))
 
-                      if keywords and not any(
-                          word in title + summary
-                          for word in keywords
-                      ):
-                          continue
-
-                      articles.append({
-                          "category": category,
-                          "title": title,
-                          "summary": summary[:1800],
-                          "url": link
-                      })
-
-              except Exception as exc:
-                  print(
-                      "RSS取得失敗:",
-                      category,
-                      str(exc)[:150]
-                  )
-
-          unique = {}
-          for article in articles:
-              unique[article["url"]] = article
-
-          articles = list(unique.values())
-
-          used_path = Path("data/used_news.json")
-          try:
-              used = json.loads(
-                  used_path.read_text(encoding="utf-8")
-              )
-          except Exception:
-              used = []
-
-          fresh = [
-              article for article in articles
-              if article["url"] not in used
-          ]
-
-          if fresh:
-              articles = fresh
-
-          random.shuffle(articles)
-
-          topics = [
-              "今日の名言を疑って考える",
-              "努力だけでは成功できない理由",
-              "やる気に頼る習慣をやめる",
-              "時間を無駄にする人の共通点",
-              "お金が貯まらない行動",
-              "ランニングを継続する考え方",
-              "仕事で疲れ切らない方法",
-              "スマホに時間を奪われる問題",
-              "失敗を成長につなげる方法",
-              "人間関係で我慢しすぎる問題",
-              "行動しない言い訳をやめる",
-              "人生を変えるための小さな習慣"
-          ]
-
-          def make_news_script(article):
-              prompt = f"""
-          あなたは社会問題を具体的な事実に基づいて論評する書き手です。
-          日本語のYouTube Shorts用ナレーション本文だけを書いてください。
-
-          記事タイトル:
-          {article['title']}
-
-          記事概要:
-          {article['summary']}
-
-          条件:
-          ・主張の強さはレベル4。無難な一般論で逃げない。
-          ・冒頭で立場を明確にする。
-          ・記事固有の出来事や制度に触れる。
-          ・誰にどんな影響があるか説明する。
-          ・主張の理由を具体的に示す。
-          ・反対意見を一つ取り上げ、反論する。
-          ・最後に改善策か問いを提示する。
-          ・記事にない数字や発言を捏造しない。
-          ・事実と意見を混同しない。
-          ・根拠のない人格攻撃はしない。
-          ・タイトル、見出し、説明文、URLを本文に入れない。
-          ・本文は180〜260文字。
-          ・同じ文章の繰り返しは禁止。
-          """
-              text = ask(prompt)
-
-              if not 150 <= len(text) <= 320:
-                  raise ValueError("台本の文字数が不適切です")
-
-              title_terms = re.findall(
-                  r"[一-龥々]{2,}|[ァ-ヴー]{3,}",
-                  article["title"]
-              )
-
-              if title_terms and not any(
-                  term in text
-                  for term in title_terms
-                  if term not in {"ニュース", "発表", "今回"}
-              ):
-                  raise ValueError("記事固有の情報が不足しています")
-
-              return text
-
-          script = ""
-          topic = ""
-          source = "通常テーマ"
-          selected = None
-
-          if articles and random.random() < 0.8:
-              for article in articles[:8]:
-                  try:
-                      script = make_news_script(article)
-                      selected = article
-                      break
-                  except Exception as exc:
-                      print(
-                          "ニュース台本を再生成:",
-                          str(exc)[:120]
-                      )
-
-          if selected:
-              topic = selected["category"]
-              source = (
-                  f"出典: {selected['url']}\n"
-                  f"カテゴリ: {selected['category']}"
-              )
-
-              used.append(selected["url"])
-              used_path.write_text(
-                  json.dumps(
-                      used[-300:],
-                      ensure_ascii=False,
-                      indent=2
-                  ),
-                  encoding="utf-8"
-              )
-
+          if candidates:
+              # タイトルの重複を除去
+              unique = {}
+              for item in candidates:
+                  unique[item["title"]] = item
+              candidates = list(unique.values())
+              random.shuffle(candidates)
+              chosen = candidates[0]
+              category = chosen["category"]
+              news_title = chosen["title"]
+              news_summary = chosen["summary"]
+              source_url = chosen["link"]
           else:
-              topic = random.choice(topics)
+              category = "今日の名言"
+              news_title = "努力を続ける人が見落としがちなこと"
+              news_summary = (
+                  "結果だけを追うと、日々の改善や継続の価値を"
+                  "見落としやすい。"
+              )
+              source_url = ""
 
-              prompt = f"""
-          日本語のYouTube Shorts用ナレーション本文を書いてください。
+          prompt = f"""
+          あなたは日本語のYouTubeショート動画の構成作家です。
 
-          テーマ: {topic}
-          チャンネル傾向: {feedback.get('trend', '')}
+          テーマ分類：{category}
+          参考ニュースの見出し：{news_title}
+          参考ニュースの概要：{news_summary}
+          参考URL：{source_url}
 
-          条件:
-          ・主張の強さはレベル4。
-          ・冒頭で明確な意見を述べる。
-          ・具体例、理由、反対意見への反論を入れる。
-          ・最後に実行可能な改善策を示す。
-          ・無難な一般論や文章の繰り返しは禁止。
-          ・根拠のない数字や研究結果を作らない。
-          ・タイトルや説明文を本文に含めない。
-          ・本文は180〜260文字。
+          このニュースやテーマについて、内容のある日本語台本を作成してください。
+
+          必ず守ること：
+          1. 見出しを読み上げるだけの台本は禁止。
+          2. 具体的に何が起きたのか、何が問題なのかを説明する。
+          3. その問題が視聴者の生活や社会にどう影響するかを説明する。
+          4. 自分の主張をはっきり述べる。
+          5. 無難な感想だけで終わらない。
+          6. 反対意見や別の立場にも触れたうえで、自分の考えを述べる。
+          7. 根拠のない数字、発言、事実を作らない。
+          8. 参考ニュースだけでは確認できない事実は断定しない。
+          9. 強い言葉を使ってよいが、個人への侮辱や差別は禁止。
+          10. 日本語として自然に読み上げられる文章にする。
+          11. 英語の略語やアルファベットを多用しない。
+          12. 意味のない英数字、文字化け、記号の羅列は禁止。
+          13. 介護の話題なら、人手不足、賃金、制度、経営などの
+              構造的な問題にも踏み込む。
+          14. ランニングや健康なら、実践できる具体策を入れる。
+          15. 名言のテーマなら、名言の紹介だけでなく、
+              現実の行動にどうつなげるかを説明する。
+          16. 最後は視聴者が考えたくなる、はっきりした結論にする。
+
+          出力形式は厳守してください。
+
+          TITLE:
+          20文字前後の日本語タイトル
+
+          SCRIPT:
+          350〜500文字程度の日本語台本
+
+          台本はそのまま音声合成と字幕に使用します。
+          タイトルや「TITLE」「SCRIPT」というラベルを
+          台本本文に混ぜないでください。
           """
-              script = ask(prompt)
 
-              if not 150 <= len(script) <= 320:
-                  raise RuntimeError("台本の文字数が不正です")
-
-          title = ask(f"""
-          次の台本の内容に合うYouTube Shorts用タイトルを1つ作成。
-          40文字以内。タイトルだけ出力してください。
-
-          台本:
-          {script}
-          """, timeout=90)
-
-          title = re.sub(
-              r"^(タイトル|Title)\s*[:：]\s*",
-              "",
-              title
-          ).strip("「」『』\"' ")
-
-          if not 5 <= len(title) <= 90:
-              title = topic
-
-          Path("input/topic.txt").write_text(
-              topic,
-              encoding="utf-8"
-          )
-          Path("input/title.txt").write_text(
-              title[:100],
-              encoding="utf-8"
-          )
-          Path("input/script.txt").write_text(
-              script,
-              encoding="utf-8"
-          )
-          Path("input/source.txt").write_text(
-              source,
-              encoding="utf-8"
+          result = subprocess.run(
+              ["ollama", "run", "qwen2.5:3b"],
+              input=prompt,
+              capture_output=True,
+              text=True,
+              encoding="utf-8",
+              timeout=240
           )
 
-          print("テーマ:", topic)
-          print("タイトル:", title)
-          print("台本文字数:", len(script))
-          print("台本:", script)
+          if result.returncode != 0:
+              print(result.stderr)
+              raise SystemExit("台本生成に失敗しました")
+
+          answer = result.stdout.strip()
+          print("Generated response:")
+          print(answer)
+
+          title_match = re.search(
+              r"TITLE\s*:\s*(.*)",
+              answer,
+              flags=re.IGNORECASE
+          )
+          script_match = re.search(
+              r"SCRIPT\s*:\s*(.*)",
+              answer,
+              flags=re.IGNORECASE | re.DOTALL
+          )
+
+          title = title_match.group(1).strip() if title_match else news_title
+          script = script_match.group(1).strip() if script_match else answer
+
+          script = re.sub(r"^\s*(TITLE|SCRIPT)\s*:\s*", "", script,
+                          flags=re.IGNORECASE)
+          script = re.sub(r"\n{3,}", "\n\n", script)
+          script = re.sub(r"[ \t]+", " ", script)
+          script = script.strip()
+
+          # 不自然な制御文字や明らかな文字化けを検出
+          suspicious = [
+              "\ufffd",
+              "R[1D[K",
+              "2026h251",
+              "25h2026l2026h25l",
+          ]
+
+          if any(x in title + script for x in suspicious):
+              raise SystemExit("生成された文章に文字化けの疑いがあります")
+
+          if len(title) < 4:
+              title = news_title[:40]
+
+          if len(script) < 180:
+              raise SystemExit(
+                  f"台本が短すぎます: {len(script)}文字"
+              )
+
+          if len(script) > 1000:
+              script = script[:1000]
+
+          Path("input/title.txt").write_text(title, encoding="utf-8")
+          Path("input/script.txt").write_text(script, encoding="utf-8")
+          Path("input/source.txt").write_text(source_url, encoding="utf-8")
+          Path("input/topic.txt").write_text(category, encoding="utf-8")
+
+          print("Category:", category)
+          print("Title:", title)
+          print("Script length:", len(script))
           PY
 
-      - name: Download Japanese voice model
+      - name: Download Japanese Kokoro model
         run: |
+          set -e
           curl -fL --retry 3 \
             "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx" \
             -o model/kokoro-v1.0.int8.onnx
@@ -411,447 +271,323 @@ jobs:
           test -s model/kokoro-v1.0.int8.onnx
           test -s model/jf_alpha.bin
 
-      - name: Generate Japanese audio and subtitle timings
+      - name: Generate Japanese speech and subtitles
         run: |
           python - <<'PY'
-          import json
           import re
+          import textwrap
           from pathlib import Path
 
           import numpy as np
           import soundfile as sf
           from kokoro_onnx import Kokoro
+          from misaki import ja
 
-          script = Path("input/script.txt").read_text(
-              encoding="utf-8"
-          ).strip()
+          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
+          script = Path("input/script.txt").read_text(encoding="utf-8").strip()
 
-          if not script:
-              raise RuntimeError("台本が空です")
+          # 読み上げやすいよう、代表的な略語・固有表記を調整
+          replacements = {
+              "YouTube": "ユーチューブ",
+              "youtube": "ユーチューブ",
+              "SNS": "エスエヌエス",
+              "AI": "エーアイ",
+              "READYFOR": "レディーフォー",
+              "Wi-Fi": "ワイファイ",
+              "DX": "デジタルトランスフォーメーション",
+              "NPO": "エヌピーオー",
+          }
 
-          phrases = []
+          for old, new in replacements.items():
+              script = script.replace(old, new)
 
-          for sentence in re.split(r"(?<=[。！？])", script):
-              sentence = sentence.strip()
+          # URLや不要な制御文字を除去
+          script = re.sub(r"https?://\S+", "", script)
+          script = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", script)
+          script = re.sub(r"\s+", " ", script).strip()
 
-              while len(sentence) > 18:
-                  cut = 15
+          if len(script) < 100:
+              raise SystemExit("音声化する台本が短すぎます")
 
-                  for mark in ["、", "。", "！", "？"]:
-                      pos = sentence.rfind(mark, 0, 17)
-                      if pos >= 7:
-                          cut = pos + 1
-                          break
+          # 句点・疑問符・感嘆符で文章を区切る
+          sentences = re.split(r"(?<=[。！？!?])", script)
+          sentences = [s.strip() for s in sentences if s.strip()]
 
-                  phrases.append(sentence[:cut])
-                  sentence = sentence[cut:]
+          # 長文は読み上げやすい長さに分割
+          chunks = []
+          for sentence in sentences:
+              if len(sentence) <= 70:
+                  chunks.append(sentence)
+              else:
+                  parts = re.split(r"(?<=[、，,])", sentence)
+                  current = ""
+                  for part in parts:
+                      if len(current) + len(part) > 55 and current:
+                          chunks.append(current)
+                          current = part
+                      else:
+                          current += part
+                  if current:
+                      chunks.append(current)
 
-              if sentence:
-                  phrases.append(sentence)
+          if not chunks:
+              chunks = [script]
 
+          # 日本語用のG2Pで読みを音素に変換
+          g2p = ja.JAG2P()
           kokoro = Kokoro(
               model_path="model/kokoro-v1.0.int8.onnx",
               voice_path="model/jf_alpha.bin"
           )
 
           audio_parts = []
-          segments = []
-          rate = None
+          subtitle_events = []
           cursor = 0.0
 
-          for index, phrase in enumerate(phrases):
-              audio, sr = kokoro.create(phrase)
-              audio = np.asarray(
-                  audio,
-                  dtype=np.float32
-              ).reshape(-1)
+          for chunk in chunks:
+              phonemes, _ = g2p(chunk)
+              if not phonemes:
+                  continue
 
-              if rate is None:
-                  rate = int(sr)
+              audio, sample_rate = kokoro.create(
+                  phonemes,
+                  voice="jf_alpha",
+                  speed=1.0,
+                  is_phonemes=True
+              )
 
-              if int(sr) != rate:
-                  raise RuntimeError(
-                      "音声サンプルレートが一致しません"
-                  )
+              audio = np.asarray(audio, dtype=np.float32)
 
-              start = cursor
+              if audio.size == 0:
+                  continue
+
               audio_parts.append(audio)
-              cursor += len(audio) / rate
 
-              segments.append({
-                  "text": phrase,
-                  "start": start,
-                  "end": cursor
-              })
+              duration = len(audio) / sample_rate
+              subtitle_events.append((cursor, cursor + duration, chunk))
+              cursor += duration
 
-              if index < len(phrases) - 1:
-                  silence = np.zeros(
-                      int(rate * 0.08),
-                      dtype=np.float32
-                  )
-                  audio_parts.append(silence)
-                  cursor += len(silence) / rate
+              # 文の間に短い無音を入れる
+              pause = int(sample_rate * 0.18)
+              audio_parts.append(np.zeros(pause, dtype=np.float32))
+              cursor += 0.18
 
-          sf.write(
-              "input/audio.wav",
-              np.concatenate(audio_parts),
-              rate
+          if not audio_parts:
+              raise SystemExit("日本語音声を生成できませんでした")
+
+          combined = np.concatenate(audio_parts)
+          sf.write("input/audio.wav", combined, sample_rate)
+
+          def ass_time(seconds):
+              h = int(seconds // 3600)
+              m = int((seconds % 3600) // 60)
+              s = int(seconds % 60)
+              cs = int((seconds - int(seconds)) * 100)
+              return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
+
+          def ass_escape(text):
+              text = text.replace("\\", "＼")
+              text = text.replace("{", "｛").replace("}", "｝")
+              return text
+
+          def split_subtitle(text, width=18):
+              text = text.strip()
+              if len(text) <= width:
+                  return text
+              # 日本語字幕はおおむね18文字で2行に分ける
+              lines = textwrap.wrap(
+                  text,
+                  width=width,
+                  break_long_words=True,
+                  break_on_hyphens=False
+              )
+              return r"\N".join(lines[:2])
+
+          ass = [
+              "[Script Info]",
+              "ScriptType: v4.00+",
+              "PlayResX: 1080",
+              "PlayResY: 1920",
+              "WrapStyle: 2",
+              "",
+              "[V4+ Styles]",
+              "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
+              "Style: Default,Noto Sans CJK JP,58,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,4,1,2,70,70,230,1",
+              "",
+              "[Events]",
+              "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
+          ]
+
+          for start, end, text in subtitle_events:
+              if end <= start:
+                  continue
+              caption = split_subtitle(ass_escape(text))
+              ass.append(
+                  f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{caption}"
+              )
+
+          Path("input/subtitles.ass").write_text(
+              "\n".join(ass) + "\n",
+              encoding="utf-8-sig"
           )
 
-          Path("input/segments.json").write_text(
-              json.dumps(
-                  segments,
-                  ensure_ascii=False,
-                  indent=2
-              ),
-              encoding="utf-8"
-          )
-
-          print("音声時間:", round(cursor, 2), "秒")
-          print("字幕数:", len(segments))
+          print("Audio duration:", len(combined) / sample_rate)
+          print("Subtitle events:", len(subtitle_events))
           PY
 
-      - name: Create topic-matched background image
+      - name: Create relevant background image
         run: |
           python - <<'PY'
-          import json
+          import io
           import random
           import re
           from pathlib import Path
 
           import requests
-          from PIL import Image, ImageDraw, ImageFilter
+          from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
+
+          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
+          topic = Path("input/topic.txt").read_text(encoding="utf-8").strip()
+          script = Path("input/script.txt").read_text(encoding="utf-8").strip()
+
+          queries = {
+              "岡山・介護": "elderly care nursing home",
+              "介護・社会保障": "elderly care nursing home",
+              "三重県熊野市": "Kumano Mie Japan coast",
+              "ランニング・健康": "running athlete road",
+              "経済・仕事": "office work business",
+              "国内ニュース": "Japan city street",
+              "今日の名言": "sunrise mountain landscape",
+          }
+
+          query = queries.get(topic, "Japan landscape")
+          image = None
+          credit = "Generated background"
+
+          try:
+              api = "https://commons.wikimedia.org/w/api.php"
+              response = requests.get(
+                  api,
+                  params={
+                      "action": "query",
+                      "generator": "search",
+                      "gsrsearch": query,
+                      "gsrnamespace": 6,
+                      "gsrlimit": 8,
+                      "prop": "imageinfo",
+                      "iiprop": "url|extmetadata",
+                      "format": "json",
+                  },
+                  headers={"User-Agent": "AutoJapaneseShorts/1.0"},
+                  timeout=20
+              )
+              response.raise_for_status()
+              pages = response.json().get("query", {}).get("pages", {})
+              candidates = list(pages.values())
+              random.shuffle(candidates)
+
+              for page in candidates:
+                  info = page.get("imageinfo", [{}])[0]
+                  url = info.get("url", "")
+                  if not url.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+                      continue
+                  try:
+                      r = requests.get(
+                          url,
+                          headers={"User-Agent": "AutoJapaneseShorts/1.0"},
+                          timeout=20
+                      )
+                      r.raise_for_status()
+                      image = Image.open(io.BytesIO(r.content)).convert("RGB")
+                      meta = info.get("extmetadata", {})
+                      artist = meta.get("Artist", {}).get("value", "")
+                      license_name = meta.get("LicenseShortName", {}).get("value", "")
+                      credit = f"{page.get('title','')}; {artist}; {license_name}; {url}"
+                      break
+                  except Exception:
+                      continue
+          except Exception as e:
+              print("Commons search failed:", str(e))
 
           W, H = 1080, 1920
 
-          topic = Path("input/topic.txt").read_text(
-              encoding="utf-8"
-          ).strip()
-          title = Path("input/title.txt").read_text(
-              encoding="utf-8"
-          ).strip()
-          script = Path("input/script.txt").read_text(
-              encoding="utf-8"
-          ).strip()
-
-          text = topic + " " + title + " " + script[:200]
-
-          categories = [
-              (["ランニング", "マラソン", "駅伝", "陸上"],
-               ["running athlete", "marathon runners"]),
-              (["介護", "福祉", "高齢者", "介護報酬"],
-               ["elderly care", "caregiver elderly"]),
-              (["熊野", "三重県"],
-               ["Kumano Mie Japan", "Mie Japan coast"]),
-              (["岡山"],
-               ["Okayama Japan city", "Okayama Korakuen"]),
-              (["お金", "投資", "貯金", "経済"],
-               ["personal finance", "business finance"]),
-              (["スマホ", "時間", "習慣", "努力", "仕事", "人生"],
-               ["person working desk", "person thinking"])
-          ]
-
-          queries = None
-
-          for keywords, candidates in categories:
-              if any(k in text for k in keywords):
-                  queries = candidates
-                  break
-
-          if queries is None:
-              words = re.findall(
-                  r"[一-龥々]{2,}|[ァ-ヴー]{3,}|[A-Za-z]{4,}",
-                  title
+          if image is not None:
+              iw, ih = image.size
+              scale = max(W / iw, H / ih)
+              image = image.resize(
+                  (int(iw * scale), int(ih * scale)),
+                  Image.Resampling.LANCZOS
               )
-              queries = words[:2] + ["Japan news"]
-
-          session = requests.Session()
-          session.headers.update({
-              "User-Agent": "JapaneseShortsVideo/1.0"
-          })
-
-          selected = None
-          credit = {}
-
-          for query in queries:
-              try:
-                  response = session.get(
-                      "https://commons.wikimedia.org/w/api.php",
-                      params={
-                          "action": "query",
-                          "format": "json",
-                          "generator": "search",
-                          "gsrsearch": query,
-                          "gsrnamespace": 6,
-                          "gsrlimit": 10,
-                          "prop": "imageinfo",
-                          "iiprop": "url|extmetadata",
-                          "iiurlwidth": 1080
-                      },
-                      timeout=20
-                  )
-                  response.raise_for_status()
-
-                  pages = list(
-                      response.json()
-                      .get("query", {})
-                      .get("pages", {})
-                      .values()
-                  )
-                  random.shuffle(pages)
-
-                  for page in pages:
-                      info = (page.get("imageinfo") or [{}])[0]
-                      url = info.get("thumburl") or info.get("url")
-
-                      if not url:
-                          continue
-
-                      image_response = session.get(
-                          url,
-                          timeout=25
-                      )
-                      image_response.raise_for_status()
-
-                      temp = Path("input/background_source")
-                      temp.write_bytes(image_response.content)
-
-                      try:
-                          candidate = Image.open(temp).convert("RGB")
-                      except Exception:
-                          continue
-
-                      if candidate.width < 500 or candidate.height < 500:
-                          continue
-
-                      selected = candidate
-                      meta = info.get("extmetadata", {})
-
-                      credit = {
-                          "source": "Wikimedia Commons",
-                          "file_title": page.get("title", ""),
-                          "page_url": (
-                              "https://commons.wikimedia.org/wiki/"
-                              + page.get("title", "").replace(" ", "_")
-                          ),
-                          "license": meta.get(
-                              "LicenseShortName", {}
-                          ).get("value", ""),
-                          "license_url": meta.get(
-                              "LicenseUrl", {}
-                          ).get("value", ""),
-                          "search_query": query
-                      }
-                      break
-
-                  if selected:
-                      break
-
-              except Exception as exc:
-                  print(
-                      "画像取得失敗:",
-                      str(exc)[:150]
-                  )
-
-          if selected:
-              scale = max(
-                  W / selected.width,
-                  H / selected.height
-              )
-
-              selected = selected.resize((
-                  int(selected.width * scale),
-                  int(selected.height * scale)
-              ))
-
-              left = (selected.width - W) // 2
-              top = (selected.height - H) // 2
-
-              image = selected.crop((
-                  left, top, left + W, top + H
-              ))
-
-              image = image.filter(
-                  ImageFilter.GaussianBlur(0.5)
-              )
-
-              overlay = Image.new("RGB", (W, H), (0, 0, 0))
-              image = Image.blend(image, overlay, 0.30)
-
-              print(
-                  "背景画像取得成功:",
-                  credit.get("page_url")
-              )
-
+              left = (image.width - W) // 2
+              top = (image.height - H) // 2
+              image = image.crop((left, top, left + W, top + H))
+              image = ImageEnhance.Color(image).enhance(0.85)
+              image = ImageEnhance.Brightness(image).enhance(0.58)
+              image = image.filter(ImageFilter.GaussianBlur(0.3))
           else:
-              image = Image.new("RGB", (W, H))
+              # ネット検索に失敗した場合も黒画面にしない
+              image = Image.new("RGB", (W, H), (20, 45, 65))
               draw = ImageDraw.Draw(image)
-
               for y in range(H):
-                  t = y / H
-                  draw.line(
-                      (0, y, W, y),
-                      fill=(
-                          int(10 + 15 * t),
-                          int(22 + 20 * t),
-                          int(45 + 30 * t)
-                      )
+                  ratio = y / H
+                  c = (
+                      int(20 + ratio * 25),
+                      int(45 + ratio * 15),
+                      int(65 + ratio * 30)
                   )
+                  draw.line((0, y, W, y), fill=c)
 
-              for x, y, radius in [
-                  (220, 420, 180),
-                  (900, 850, 260),
-                  (450, 1450, 340)
-              ]:
-                  draw.ellipse(
-                      (
-                          x - radius, y - radius,
-                          x + radius, y + radius
-                      ),
-                      outline=(60, 85, 125),
-                      width=5
-                  )
+          # 下部の字幕を読みやすくするための暗いグラデーション
+          overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+          draw = ImageDraw.Draw(overlay)
+          for y in range(700, H):
+              alpha = int(100 * (y - 700) / (H - 700))
+              draw.line((0, y, W, y), fill=(0, 0, 0, alpha))
+          image = Image.alpha_composite(image.convert("RGBA"), overlay).convert("RGB")
 
-              credit = {
-                  "source": "generated fallback",
-                  "topic": topic,
-                  "reason": "画像を取得できませんでした"
-              }
+          Path("input/background.png").parent.mkdir(exist_ok=True)
+          image.save("input/background.png", quality=92)
+          Path("input/background_credit.txt").write_text(credit, encoding="utf-8")
 
-              print("代替背景を生成しました")
-
-          image.save("input/background.png")
-
-          Path("input/background_credit.json").write_text(
-              json.dumps(
-                  credit,
-                  ensure_ascii=False,
-                  indent=2
-              ),
-              encoding="utf-8"
-          )
-          PY
-
-      - name: Create UTF-8 two-line subtitles
-        run: |
-          python - <<'PY'
-          import json
-          import textwrap
-          from pathlib import Path
-
-          segments = json.loads(
-              Path("input/segments.json").read_text(
-                  encoding="utf-8"
-              )
-          )
-
-          def timestamp(seconds):
-              value = max(
-                  0,
-                  int(round(float(seconds) * 100))
-              )
-              hours = value // 360000
-              minutes = (value % 360000) // 6000
-              secs = (value % 6000) // 100
-              centiseconds = value % 100
-
-              return (
-                  f"{hours}:{minutes:02d}:"
-                  f"{secs:02d}.{centiseconds:02d}"
-              )
-
-          def make_two_lines(value, limit=13):
-              value = str(value).replace("{", "").replace("}", "")
-              value = value.replace("\n", " ").strip()
-
-              if len(value) <= limit:
-                  return value
-
-              cut = limit
-
-              for mark in ["、", "。", "！", "？", "："]:
-                  position = value.rfind(mark, 0, limit + 1)
-
-                  if 5 <= position < len(value) - 1:
-                      cut = position + 1
-                      break
-
-              first = value[:cut].strip()
-              second = value[cut:].strip()
-
-              return first + r"\N" + second
-
-          header = textwrap.dedent("""\
-          [Script Info]
-          ScriptType: v4.00+
-          PlayResX: 1080
-          PlayResY: 1920
-          WrapStyle: 2
-
-          [V4+ Styles]
-          Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
-          Style: Default,Noto Sans CJK JP,68,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,1,0,0,0,100,100,0,0,1,5,2,5,60,60,0,1
-
-          [Events]
-          Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
-          """)
-
-          lines = [header]
-
-          for segment in segments:
-              subtitle = make_two_lines(segment["text"])
-
-              lines.append(
-                  f"Dialogue: 0,"
-                  f"{timestamp(segment['start'])},"
-                  f"{timestamp(segment['end'])},"
-                  f"Default,,0,0,0,,"
-                  f"{{\\an5\\pos(540,960)}}"
-                  f"{subtitle}\n"
-              )
-
-          output = Path("input/subtitles.ass")
-          output.write_text(
-              "".join(lines),
-              encoding="utf-8",
-              newline="\n"
-          )
-
-          data = output.read_bytes()
-
-          if not data.startswith(b"[Script Info]"):
-              raise RuntimeError("字幕ヘッダーが不正です")
-
-          if data.startswith(bytes([239, 187, 191])):
-              raise RuntimeError("字幕ファイルにBOMがあります")
-
-          print("字幕生成成功:", len(segments), "件")
-
-          if segments:
-              print(
-                  "字幕例:",
-                  make_two_lines(segments[0]["text"])
-              )
+          print("Background created for:", topic)
+          print("Credit:", credit)
           PY
 
       - name: Render vertical video
         run: |
-          test -s input/background.png
-          test -s input/audio.wav
-          test -s input/subtitles.ass
+          set -e
+
+          DURATION=$(ffprobe -v error \
+            -show_entries format=duration \
+            -of default=noprint_wrappers=1:nokey=1 \
+            input/audio.wav)
+
+          echo "Audio duration: $DURATION seconds"
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
+          title = re.sub(r"[\r\n]+", " ", title)
+          title = re.sub(r"\s+", " ", title).strip()
+          Path("input/title.txt").write_text(title, encoding="utf-8")
+          PY
 
           ffmpeg -y \
-            -loop 1 -framerate 30 \
+            -loop 1 \
+            -framerate 30 \
             -i input/background.png \
             -i input/audio.wav \
-            -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,ass=input/subtitles.ass" \
+            -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,ass=input/subtitles.ass" \
             -c:v libx264 \
             -preset veryfast \
             -crf 23 \
-            -r 30 \
             -pix_fmt yuv420p \
+            -r 30 \
             -c:a aac \
-            -b:a 128k \
+            -b:a 160k \
+            -ar 44100 \
             -shortest \
             -movflags +faststart \
             output/video.mp4
@@ -860,57 +596,39 @@ jobs:
 
       - name: Validate video
         run: |
+          set -e
+
+          ffprobe -v error \
+            -show_entries stream=codec_type,codec_name,width,height \
+            -show_entries format=duration \
+            -of json \
+            output/video.mp4 | tee output/diagnostics.json
+
           python - <<'PY'
+          import json
           import subprocess
 
-          def probe(args):
-              return subprocess.check_output(
-                  args,
-                  text=True
-              ).strip()
+          data = json.load(open("output/diagnostics.json", encoding="utf-8"))
+          streams = data.get("streams", [])
+          video = next((s for s in streams if s.get("codec_type") == "video"), None)
+          audio = next((s for s in streams if s.get("codec_type") == "audio"), None)
+          duration = float(data.get("format", {}).get("duration", 0))
 
-          duration = float(probe([
-              "ffprobe", "-v", "error",
-              "-show_entries", "format=duration",
-              "-of", "default=noprint_wrappers=1:nokey=1",
-              "output/video.mp4"
-          ]))
+          if not video:
+              raise SystemExit("動画ストリームがありません")
+          if not audio:
+              raise SystemExit("音声ストリームがありません")
+          if video.get("codec_name") != "h264":
+              raise SystemExit("動画形式がH.264ではありません")
+          if video.get("width") != 1080 or video.get("height") != 1920:
+              raise SystemExit("動画サイズが1080×1920ではありません")
+          if duration < 5 or duration > 180:
+              raise SystemExit(f"動画の長さが範囲外です: {duration}秒")
 
-          video = probe([
-              "ffprobe", "-v", "error",
-              "-select_streams", "v:0",
-              "-show_entries", "stream=codec_name,width,height",
-              "-of", "csv=p=0",
-              "output/video.mp4"
-          ]).split(",")
-
-          audio = probe([
-              "ffprobe", "-v", "error",
-              "-select_streams", "a:0",
-              "-show_entries", "stream=codec_name",
-              "-of", "csv=p=0",
-              "output/video.mp4"
-          ])
-
-          if not 5 <= duration <= 60:
-              raise SystemExit(
-                  f"動画時間が不正です: {duration:.2f}秒"
-              )
-
-          if video != ["h264", "1080", "1920"]:
-              raise SystemExit(
-                  f"映像形式が不正です: {video}"
-              )
-
-          if audio != "aac":
-              raise SystemExit(
-                  f"音声形式が不正です: {audio}"
-              )
-
-          print(f"動画検証成功: {duration:.2f}秒")
+          print("Video validation passed:", duration, "seconds")
           PY
 
-      - name: Upload private then publish
+      - name: Upload to YouTube
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
@@ -924,26 +642,22 @@ jobs:
           from googleapiclient.discovery import build
           from googleapiclient.http import MediaFileUpload
 
-          required = [
-              "YOUTUBE_CLIENT_ID",
-              "YOUTUBE_CLIENT_SECRET",
-              "YOUTUBE_REFRESH_TOKEN"
-          ]
+          client_id = os.environ.get("YOUTUBE_CLIENT_ID", "")
+          client_secret = os.environ.get("YOUTUBE_CLIENT_SECRET", "")
+          refresh_token = os.environ.get("YOUTUBE_REFRESH_TOKEN", "")
 
-          if not all(os.environ.get(k) for k in required):
-              raise RuntimeError(
-                  "YouTube OAuth Secretsが未設定です"
+          if not all([client_id, client_secret, refresh_token]):
+              raise SystemExit(
+                  "YouTube認証情報がありません。GitHub Secretsを確認してください。"
               )
 
           credentials = Credentials(
               token=None,
-              refresh_token=os.environ["YOUTUBE_REFRESH_TOKEN"],
+              refresh_token=refresh_token,
               token_uri="https://oauth2.googleapis.com/token",
-              client_id=os.environ["YOUTUBE_CLIENT_ID"],
-              client_secret=os.environ["YOUTUBE_CLIENT_SECRET"],
-              scopes=[
-                  "https://www.googleapis.com/auth/youtube"
-              ]
+              client_id=client_id,
+              client_secret=client_secret,
+              scopes=["https://www.googleapis.com/auth/youtube.upload"]
           )
 
           youtube = build(
@@ -953,52 +667,57 @@ jobs:
               cache_discovery=False
           )
 
-          title = Path("input/title.txt").read_text(
-              encoding="utf-8"
-          ).strip()[:100]
+          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
+          script = Path("input/script.txt").read_text(encoding="utf-8").strip()
+          source = Path("input/source.txt").read_text(encoding="utf-8").strip()
+          topic = Path("input/topic.txt").read_text(encoding="utf-8").strip()
 
-          script = Path("input/script.txt").read_text(
-              encoding="utf-8"
-          ).strip()
-
-          source = Path("input/source.txt").read_text(
-              encoding="utf-8"
-          ).strip()
-
-          topic = Path("input/topic.txt").read_text(
-              encoding="utf-8"
-          ).strip()
-
+          title = title[:95]
           description = (
-              script + "\n\n"
-              + source + "\n\n"
-              + "ジャンル: " + topic
-              + "\n\n#Shorts"
+              f"{script}\n\n"
+              f"テーマ：{topic}\n"
+              f"参考情報：{source if source else '参考URLなし'}\n\n"
+              "#Shorts #ニュース #考える"
           )
 
-          result = youtube.videos().insert(
-              part="snippet,status",
-              body={
-                  "snippet": {
-                      "title": title,
-                      "description": description[:5000],
-                      "categoryId": "22"
-                  },
-                  "status": {
-                      "privacyStatus": "private",
-                      "selfDeclaredMadeForKids": False
-                  }
+          body = {
+              "snippet": {
+                  "title": title,
+                  "description": description[:4900],
+                  "tags": ["Shorts", "日本語", topic, "ニュース"],
+                  "categoryId": "25"
               },
-              media_body=MediaFileUpload(
-                  "output/video.mp4",
-                  mimetype="video/mp4",
-                  resumable=True
-              )
-          ).execute()
+              "status": {
+                  "privacyStatus": "private",
+                  "selfDeclaredMadeForKids": False
+              }
+          }
 
-          video_id = result["id"]
-          print("非公開アップロード成功:", video_id)
+          media = MediaFileUpload(
+              "output/video.mp4",
+              mimetype="video/mp4",
+              resumable=True
+          )
 
+          request = youtube.videos().insert(
+              part="snippet,status",
+              body=body,
+              media_body=media
+          )
+
+          response = None
+          while response is None:
+              status, response = request.next_chunk()
+              if status:
+                  print(f"Upload progress: {int(status.progress() * 100)}%")
+
+          video_id = response["id"]
+          video_url = f"https://www.youtube.com/shorts/{video_id}"
+
+          Path("output/youtube_url.txt").write_text(video_url, encoding="utf-8")
+          print("Uploaded as private:", video_url)
+
+          # アップロード直後に公開設定へ変更
           youtube.videos().update(
               part="status",
               body={
@@ -1010,28 +729,25 @@ jobs:
               }
           ).execute()
 
-          print(
-              "公開URL: https://www.youtube.com/shorts/"
-              + video_id
-          )
+          print("Video visibility set to public:", video_url)
           PY
 
-      - name: Save video and diagnostics
+      - name: Save generated files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: generated-video-and-diagnostics
+          name: auto-ai-japanese-video-${{ github.run_number }}
           path: |
             output/video.mp4
-            data/analytics_feedback.json
-            data/used_news.json
-            input/topic.txt
+            output/diagnostics.json
+            output/youtube_url.txt
             input/title.txt
             input/script.txt
             input/source.txt
+            input/topic.txt
             input/audio.wav
-            input/background.png
-            input/background_credit.json
             input/subtitles.ass
-            input/segments.json
-          if-no-files-found: error
-          retention-days: 30
+            input/background.png
+            input/background_credit.txt
+          if-no-files-found: warn
+          retention-days: 7
