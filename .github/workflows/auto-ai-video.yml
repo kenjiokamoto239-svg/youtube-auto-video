@@ -276,7 +276,10 @@ jobs:
           test -s model/jf_alpha.bin
 
       - name: Generate Japanese speech and subtitles
+        shell: bash
         run: |
+          set -e
+
           python - <<'PY'
           import re
           import textwrap
@@ -285,18 +288,23 @@ jobs:
           import numpy as np
           import soundfile as sf
           from kokoro_onnx import Kokoro
-          from misaki import ja
 
-          title = Path("input/title.txt").read_text(encoding="utf-8").strip()
-          script = Path("input/script.txt").read_text(encoding="utf-8").strip()
+          input_dir = Path("input")
+          input_dir.mkdir(exist_ok=True)
 
-          # 読み上げやすいよう、代表的な略語・固有表記を調整
+          script = (input_dir / "script.txt").read_text(
+              encoding="utf-8"
+          ).strip()
+
+          if len(script) < 100:
+              raise SystemExit("音声化する台本が短すぎます")
+
+          # 音声で読み上げるときの表記を調整
           replacements = {
               "YouTube": "ユーチューブ",
               "youtube": "ユーチューブ",
               "SNS": "エスエヌエス",
               "AI": "エーアイ",
-              "READYFOR": "レディーフォー",
               "Wi-Fi": "ワイファイ",
               "DX": "デジタルトランスフォーメーション",
               "NPO": "エヌピーオー",
@@ -305,100 +313,129 @@ jobs:
           for old, new in replacements.items():
               script = script.replace(old, new)
 
-          # URLや不要な制御文字を除去
           script = re.sub(r"https?://\S+", "", script)
-          script = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", script)
+          script = re.sub(
+              r"[\x00-\x08\x0b\x0c\x0e-\x1f]",
+              "",
+              script
+          )
           script = re.sub(r"\s+", " ", script).strip()
 
-          if len(script) < 100:
-              raise SystemExit("音声化する台本が短すぎます")
-
-          # 句点・疑問符・感嘆符で文章を区切る
+          # 文ごとに分割する
           sentences = re.split(r"(?<=[。！？!?])", script)
           sentences = [s.strip() for s in sentences if s.strip()]
 
-          # 長文は読み上げやすい長さに分割
+          # 長い文は読みやすい長さに分ける
           chunks = []
+
           for sentence in sentences:
-              if len(sentence) <= 70:
+              if len(sentence) <= 65:
                   chunks.append(sentence)
-              else:
-                  parts = re.split(r"(?<=[、，,])", sentence)
-                  current = ""
-                  for part in parts:
-                      if len(current) + len(part) > 55 and current:
-                          chunks.append(current)
-                          current = part
-                      else:
-                          current += part
-                  if current:
+                  continue
+
+              parts = re.split(r"(?<=[、，,])", sentence)
+              current = ""
+
+              for part in parts:
+                  if len(current) + len(part) > 50 and current:
                       chunks.append(current)
+                      current = part
+                  else:
+                      current += part
+
+              if current:
+                  chunks.append(current)
 
           if not chunks:
               chunks = [script]
 
-          # 日本語用のG2Pで読みを音素に変換
-          g2p = ja.JAG2P()
+          # 以前の成功時と同じ方式で日本語音声を生成
           kokoro = Kokoro(
               model_path="model/kokoro-v1.0.int8.onnx",
-              voice_path="model/jf_alpha.bin"
+              voice_path="model/jf_alpha.bin",
           )
 
           audio_parts = []
           subtitle_events = []
           cursor = 0.0
+          sample_rate = None
 
-                    for chunk in chunks:
-              audio, sample_rate = kokoro.create(chunk)
-                  continue
+          for chunk in chunks:
+              print("Generating speech:", chunk)
 
-              audio, sample_rate = model.create(text)
+              # voice= や is_phonemes= は渡さず、
+              # 文章をそのまま音声生成に渡す
+              audio, current_rate = kokoro.create(chunk)
 
               audio = np.asarray(audio, dtype=np.float32)
 
               if audio.size == 0:
+                  print("Skipped empty audio:", chunk)
                   continue
+
+              if sample_rate is None:
+                  sample_rate = current_rate
+              elif sample_rate != current_rate:
+                  raise SystemExit(
+                      "音声のサンプルレートが一致しません"
+                  )
 
               audio_parts.append(audio)
 
               duration = len(audio) / sample_rate
-              subtitle_events.append((cursor, cursor + duration, chunk))
+              subtitle_events.append(
+                  (cursor, cursor + duration, chunk)
+              )
               cursor += duration
 
-              # 文の間に短い無音を入れる
-              pause = int(sample_rate * 0.18)
-              audio_parts.append(np.zeros(pause, dtype=np.float32))
-              cursor += 0.18
+              # 文と文の間に短い無音を入れる
+              pause_duration = 0.18
+              pause_samples = int(sample_rate * pause_duration)
 
-          if not audio_parts:
+              audio_parts.append(
+                  np.zeros(pause_samples, dtype=np.float32)
+              )
+              cursor += pause_duration
+
+          if not audio_parts or sample_rate is None:
               raise SystemExit("日本語音声を生成できませんでした")
 
           combined = np.concatenate(audio_parts)
-          sf.write("input/audio.wav", combined, sample_rate)
+
+          sf.write(
+              str(input_dir / "audio.wav"),
+              combined,
+              sample_rate,
+          )
 
           def ass_time(seconds):
-              h = int(seconds // 3600)
-              m = int((seconds % 3600) // 60)
-              s = int(seconds % 60)
-              cs = int((seconds - int(seconds)) * 100)
+              total_cs = round(seconds * 100)
+              h = total_cs // 360000
+              m = (total_cs // 6000) % 60
+              s = (total_cs // 100) % 60
+              cs = total_cs % 100
               return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
 
           def ass_escape(text):
-              text = text.replace("\\", "＼")
-              text = text.replace("{", "｛").replace("}", "｝")
-              return text
+              return (
+                  text.replace("\\", "＼")
+                      .replace("{", "｛")
+                      .replace("}", "｝")
+              )
 
           def split_subtitle(text, width=18):
               text = text.strip()
+
               if len(text) <= width:
                   return text
-              # 日本語字幕はおおむね18文字で2行に分ける
+
               lines = textwrap.wrap(
                   text,
                   width=width,
                   break_long_words=True,
-                  break_on_hyphens=False
+                  break_on_hyphens=False,
               )
+
               return r"\N".join(lines[:2])
 
           ass = [
@@ -416,21 +453,42 @@ jobs:
               "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
           ]
 
-          for start, end, text in subtitle_events:
+          for start, end, caption_text in subtitle_events:
               if end <= start:
                   continue
-              caption = split_subtitle(ass_escape(text))
+
+              caption = split_subtitle(
+                  ass_escape(caption_text)
+              )
+
               ass.append(
                   f"Dialogue: 0,{ass_time(start)},{ass_time(end)},Default,,0,0,0,,{caption}"
               )
 
-          Path("input/subtitles.ass").write_text(
+          (input_dir / "subtitles.ass").write_text(
               "\n".join(ass) + "\n",
-              encoding="utf-8-sig"
+              encoding="utf-8-sig",
           )
 
-          print("Audio duration:", len(combined) / sample_rate)
+          duration = len(combined) / sample_rate
+
+          print("Audio duration:", round(duration, 2), "seconds")
           print("Subtitle events:", len(subtitle_events))
+          print("Audio file:", input_dir / "audio.wav")
+          print("Subtitle file:", input_dir / "subtitles.ass")
+
+          if duration < 5:
+              raise SystemExit("生成された音声が短すぎます")
+
+          if duration > 180:
+              raise SystemExit(
+                  f"音声が長すぎます: {duration:.1f}秒"
+              )
+
+          if not subtitle_events:
+              raise SystemExit("字幕が1件も生成されませんでした")
+
+          print("Speech and subtitle generation succeeded")
           PY
 
       - name: Create relevant background image
