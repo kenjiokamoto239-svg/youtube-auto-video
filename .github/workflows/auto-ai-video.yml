@@ -353,12 +353,7 @@ jobs:
               if not phonemes:
                   continue
 
-              audio, sample_rate = kokoro.create(
-                  phonemes,
-                  voice="jf_alpha",
-                  speed=1.0,
-                  is_phonemes=True
-              )
+              audio, sample_rate = model.create(text)
 
               audio = np.asarray(audio, dtype=np.float32)
 
