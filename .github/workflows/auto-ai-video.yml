@@ -49,6 +49,7 @@ jobs:
             google-api-python-client \
             google-auth \
             google-auth-oauthlib \
+            unidic-lite \
             "kokoro_onnx @ git+https://github.com/moonshine-ai/kokoro-onnx-ja.git" \
             "misaki-fork[ja]"
 
