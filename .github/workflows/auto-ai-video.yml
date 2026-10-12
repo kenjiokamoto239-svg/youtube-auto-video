@@ -641,93 +641,250 @@ jobs:
                       )
                       cursor = chunk_end
 
-          # 8. 背景画像を取得
-          # Wikimedia Commonsの検索APIを利用。
-          # 取得できない場合はグラデーション背景を生成。
-          bg_ok = False
+                    # ==========================================
+          # 背景画像取得：ニュース内容に合わせる
+          # ==========================================
 
-          try:
-              commons_url = "https://commons.wikimedia.org/w/api.php"
-              params = {
-                  "action": "query",
-                  "generator": "search",
-                                    "gsrsearch": (
-                      article["title"] + " " + category + " Japan"
-                  ),
-                  "gsrnamespace": 6,
-                  "gsrlimit": 10,
-                  "prop": "imageinfo",
-                  "iiprop": "url",
-                  "iiurlwidth": 1080,
-                  "format": "json"
-              }
+          import requests
+          import random
+          import re
+          from PIL import Image, ImageOps, ImageEnhance
+          from io import BytesIO
 
-              data = requests.get(
-                  commons_url,
-                  params=params,
-                  headers={"User-Agent": "AutoJapaneseVideo/1.0"},
-                  timeout=25
+          IMAGE_DIR = WORK / "backgrounds"
+          IMAGE_DIR.mkdir(parents=True, exist_ok=True)
+
+          BACKGROUND_FILE = WORK / "background.jpg"
+
+          # 分野別の検索キーワード
+          CATEGORY_KEYWORDS = {
+              "岡山・介護": [
+                  "介護施設 介護職員",
+                  "高齢者介護 日本",
+                  "介護福祉 施設"
+              ],
+              "介護・社会保障": [
+                  "高齢者福祉 日本",
+                  "介護施設 日本",
+                  "社会保障 医療福祉"
+              ],
+              "三重県熊野市": [
+                  "三重県 熊野市 風景",
+                  "熊野古道 三重県",
+                  "熊野市 観光"
+              ],
+              "ランニング・健康": [
+                  "ランニング 日本",
+                  "マラソン ランナー",
+                  "ランニング トレーニング"
+              ],
+              "経済・仕事": [
+                  "日本 ビジネス オフィス",
+                  "日本 経済 ビジネスマン",
+                  "仕事 職場 日本"
+              ],
+              "国内ニュース": [
+                  "日本 ニュース 社会",
+                  "日本 街並み",
+                  "日本 社会"
+              ],
+          }
+
+          # ニュースタイトルから検索語を作成
+          title = article.get("title", "").strip()
+          category = category.strip()
+
+          keywords = []
+
+          # まずニュースタイトルそのものを検索
+          if title:
+              keywords.append(title)
+
+          # 分野に応じた検索語を追加
+          keywords.extend(
+              CATEGORY_KEYWORDS.get(
+                  category,
+                  ["日本 ニュース 社会"]
               )
-              data.raise_for_status()
+          )
 
-              pages = data.json().get(
-                  "query", {}
-              ).get("pages", {})
+          # 同じ検索語の重複を削除
+          keywords = list(dict.fromkeys(keywords))
 
-              candidates = []
-              for page in pages.values():
-                  info = page.get("imageinfo", [{}])[0]
-                  url = info.get("thumburl") or info.get("url", "")
-                  if url.lower().endswith(
-                      (".jpg", ".jpeg", ".png", ".webp")
-                  ):
-                      candidates.append(url)
+          image_url = None
+          image_errors = []
 
-              random.shuffle(candidates)
+          headers = {
+              "User-Agent": (
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 Chrome/130.0 Safari/537.36"
+              )
+          }
 
-              for url in candidates[:5]:
-                  try:
-                      img_resp = requests.get(
-                          url, timeout=25
+          # Wikimedia Commonsの画像検索を利用
+          for keyword in keywords:
+              try:
+                  print("BACKGROUND SEARCH:", keyword)
+
+                  search_response = requests.get(
+                      "https://commons.wikimedia.org/w/api.php",
+                      params={
+                          "action": "query",
+                          "generator": "search",
+                          "gsrsearch": keyword,
+                          "gsrnamespace": 6,
+                          "gsrlimit": 10,
+                          "prop": "imageinfo",
+                          "iiprop": "url|extmetadata",
+                          "iiurlwidth": 1080,
+                          "format": "json"
+                      },
+                      headers=headers,
+                      timeout=25
+                  )
+
+                  search_response.raise_for_status()
+                  data = search_response.json()
+
+                  pages = (
+                      data.get("query", {})
+                      .get("pages", {})
+                  )
+
+                  candidates = []
+
+                  for page in pages.values():
+                      info = page.get(
+                          "imageinfo", [{}]
+                      )[0]
+
+                      url = info.get("thumburl") or info.get("url")
+
+                      if not url:
+                          continue
+
+                      # 写真として扱える画像形式に限定
+                      if not re.search(
+                          r"\.(jpg|jpeg|png|webp)(?:$|\?)",
+                          url,
+                          re.IGNORECASE
+                      ):
+                          continue
+
+                      metadata = info.get(
+                          "extmetadata", {}
                       )
-                      img_resp.raise_for_status()
 
-                      temp = WORK / "downloaded_background"
-                      temp.write_bytes(img_resp.content)
-
-                      image = Image.open(temp).convert("RGB")
-                      image = image.resize(
-                          (1080, 1920),
-                          Image.Resampling.LANCZOS
+                      license_name = (
+                          metadata.get("LicenseShortName", {})
+                          .get("value", "")
                       )
-                      image.save(BG_FILE, quality=90)
-                      bg_ok = True
+
+                      artist = (
+                          metadata.get("Artist", {})
+                          .get("value", "")
+                      )
+
+                      candidates.append({
+                          "url": url,
+                          "title": page.get("title", ""),
+                          "license": license_name,
+                          "artist": artist
+                      })
+
+                  if not candidates:
+                      print("NO IMAGE:", keyword)
+                      continue
+
+                  random.shuffle(candidates)
+
+                  for candidate in candidates:
+                      try:
+                          image_response = requests.get(
+                              candidate["url"],
+                              headers=headers,
+                              timeout=30
+                          )
+
+                          image_response.raise_for_status()
+
+                          image = Image.open(
+                              BytesIO(image_response.content)
+                          ).convert("RGB")
+
+                          width, height = image.size
+
+                          # 小さすぎる画像は使わない
+                          if width < 500 or height < 500:
+                              continue
+
+                          # 縦型動画に合わせて中央を切り出す
+                          image = ImageOps.fit(
+                              image,
+                              (1080, 1920),
+                              method=Image.Resampling.LANCZOS,
+                              centering=(0.5, 0.5)
+                          )
+
+                          # 文字を読みやすくするため少し暗くする
+                          image = ImageEnhance.Brightness(
+                              image
+                          ).enhance(0.72)
+
+                          image.save(
+                              BACKGROUND_FILE,
+                              "JPEG",
+                              quality=90
+                          )
+
+                          image_url = candidate["url"]
+
+                          print(
+                              "BACKGROUND SUCCESS:",
+                              candidate["title"]
+                          )
+
+                          print(
+                              "BACKGROUND LICENSE:",
+                              candidate["license"]
+                          )
+
+                          print(
+                              "BACKGROUND ARTIST:",
+                              candidate["artist"]
+                          )
+
+                          break
+
+                      except Exception as e:
+                          image_errors.append(str(e)[:200])
+                          continue
+
+                  if image_url:
                       break
-                  except Exception as e:
-                      print("Background candidate failed:", e)
 
-          except Exception as e:
-              print("Background download failed:", e)
+              except Exception as e:
+                  image_errors.append(str(e)[:200])
 
-          if not bg_ok:
-              # 背景画像取得に失敗しても黒画面にしない
-              image = Image.new("RGB", (1080, 1920))
-              pixels = image.load()
+                  print(
+                      "BACKGROUND SEARCH ERROR:",
+                      keyword,
+                      str(e)[:200]
+                  )
 
-              for y in range(1920):
-                  ratio = y / 1919
-                  r = int(18 + 22 * ratio)
-                  g = int(28 + 25 * ratio)
-                  b = int(60 + 50 * ratio)
+          # 適切な画像を取得できない場合は処理を止める
+          # 無関係なグラデーション画像には置き換えない
+          if not image_url or not BACKGROUND_FILE.exists():
+              raise RuntimeError(
+                  "ニュースに使用する背景画像を取得できませんでした。"
+                  "画像検索結果とネットワーク接続を確認してください。"
+                  + " / ".join(image_errors[-3:])
+              )
 
-                  for x in range(1080):
-                      pixels[x, y] = (
-                          min(255, r),
-                          min(255, g),
-                          min(255, b)
-                      )
-
-              image.save(BG_FILE, quality=90)
+          print(
+              "BACKGROUND FILE:",
+              str(BACKGROUND_FILE)
+          )
 
           # 9. 背景にタイトルを描画
           # タイトルは画面上部に表示し、読み上げない。
