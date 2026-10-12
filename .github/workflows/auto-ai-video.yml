@@ -770,80 +770,84 @@ jobs:
                       )
                       cursor = chunk_end
 
-                    # ==========================================
-          # 背景画像取得：ニュース内容に合わせる
+                              # ==========================================
+          # 背景画像取得：ジャンルと内容に合わせる
+          # 画像が見つからない場合は検索語を変えて再試行
           # ==========================================
 
           import requests
           import random
           import re
-          from PIL import Image, ImageOps, ImageEnhance
           from io import BytesIO
+          from PIL import (
+              Image,
+              ImageOps,
+              ImageEnhance,
+              ImageDraw,
+              ImageFont
+          )
 
           IMAGE_DIR = WORK / "backgrounds"
           IMAGE_DIR.mkdir(parents=True, exist_ok=True)
 
           BACKGROUND_FILE = WORK / "background.jpg"
 
-                    # 分野別の検索キーワード
-          # ニュース以外のジャンルにも対応
-
-          CATEGORY_KEYWORDS = {
-              "ニュース・時事問題": [
-                  "日本 ニュース 社会",
-                  "日本 国内 時事問題",
-                  "日本 経済 社会"
-              ],
-              "お金・投資": [
-                  "投資 株式 市場",
-                  "資産形成 お金 貯蓄",
-                  "金融 経済 ビジネス"
-              ],
-              "自己改善・習慣": [
-                  "勉強 集中力 ノート",
-                  "目標達成 習慣 仕事",
-                  "読書 自己成長"
-              ],
-              "健康・ランニング": [
-                  "ランニング 日本 ランナー",
-                  "マラソン トレーニング",
-                  "ランニングシューズ 運動"
-              ],
-              "名言・人生論": [
-                  "夕日 山 人生 風景",
-                  "本 読書 デスク",
-                  "道 一本道 風景"
-              ],
-              "仕事・社会": [
-                  "日本 オフィス 仕事",
-                  "ビジネス 職場 会議",
-                  "都市 ビル 社会"
-              ]
-          }
-
-          # 動画タイトルは保存済みのタイトルを使う
           title = TITLE_FILE.read_text(
               encoding="utf-8"
           ).strip()
 
           category = category.strip()
 
+          # ジャンル別の検索語
+          CATEGORY_KEYWORDS = {
+              "ニュース・時事問題": [
+                  "Japan news society",
+                  "Japan economy city",
+                  "Japanese parliament government"
+              ],
+              "お金・投資": [
+                  "stock market finance",
+                  "investment financial market",
+                  "money savings business"
+              ],
+              "自己改善・習慣": [
+                  "study desk notebook",
+                  "reading books workspace",
+                  "person working planning goals"
+              ],
+              "健康・ランニング": [
+                  "running athlete outdoors",
+                  "marathon running training",
+                  "running shoes sports"
+              ],
+              "名言・人生論": [
+                  "sunrise mountain landscape",
+                  "open book reading",
+                  "road mountain journey"
+              ],
+              "仕事・社会": [
+                  "modern office workplace",
+                  "business meeting office",
+                  "city skyscrapers"
+              ]
+          }
+
+          # タイトルからも検索語を作る
+          # 日本語タイトルだけで検索が失敗する場合に備え、
+          # 英語のジャンル別キーワードも併用する
           keywords = []
 
-          # ニュースの場合だけ、記事タイトルを検索に使う
           if category == "ニュース・時事問題" and article:
               article_title = clean_text(
                   article.get("title", "")
               )
-
               if article_title:
                   keywords.append(article_title)
 
-          # 選択されたジャンルに合った画像を検索する
           keywords.extend(
               CATEGORY_KEYWORDS.get(
                   category,
-                  [topic, "日本 風景 写真"]
+                  ["nature landscape photography"]
               )
           )
 
@@ -853,40 +857,43 @@ jobs:
           print("BACKGROUND GENRE:", category)
           print("BACKGROUND KEYWORDS:", keywords)
 
-          image_url = None
-          image_errors = []
-
           headers = {
               "User-Agent": (
-                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                  "AppleWebKit/537.36 Chrome/130.0 Safari/537.36"
+                  "Mozilla/5.0 "
+                  "(compatible; AutoJapaneseVideo/1.0)"
               )
           }
 
-          # Wikimedia Commonsの画像検索を利用
+          image_url = None
+          image_errors = []
+
+          # Wikimedia Commonsから画像を検索
           for keyword in keywords:
+              if image_url:
+                  break
+
               try:
                   print("BACKGROUND SEARCH:", keyword)
 
-                  search_response = requests.get(
+                  response = requests.get(
                       "https://commons.wikimedia.org/w/api.php",
                       params={
                           "action": "query",
                           "generator": "search",
                           "gsrsearch": keyword,
                           "gsrnamespace": 6,
-                          "gsrlimit": 10,
+                          "gsrlimit": 15,
                           "prop": "imageinfo",
                           "iiprop": "url|extmetadata",
                           "iiurlwidth": 1080,
                           "format": "json"
                       },
                       headers=headers,
-                      timeout=25
+                      timeout=30
                   )
 
-                  search_response.raise_for_status()
-                  data = search_response.json()
+                  response.raise_for_status()
+                  data = response.json()
 
                   pages = (
                       data.get("query", {})
@@ -896,26 +903,26 @@ jobs:
                   candidates = []
 
                   for page in pages.values():
-                      info = page.get(
-                          "imageinfo", [{}]
-                      )[0]
+                      infos = page.get("imageinfo", [])
 
+                      if not infos:
+                          continue
+
+                      info = infos[0]
                       url = info.get("thumburl") or info.get("url")
 
                       if not url:
                           continue
 
-                      # 写真として扱える画像形式に限定
+                      # 対応する画像形式に限定
                       if not re.search(
-                          r"\.(jpg|jpeg|png|webp)(?:$|\?)",
+                          r"\.(jpg|jpeg|png|webp)(?:$|[?#])",
                           url,
                           re.IGNORECASE
                       ):
                           continue
 
-                      metadata = info.get(
-                          "extmetadata", {}
-                      )
+                      metadata = info.get("extmetadata", {})
 
                       license_name = (
                           metadata.get("LicenseShortName", {})
@@ -934,33 +941,29 @@ jobs:
                           "artist": artist
                       })
 
-                  if not candidates:
-                      print("NO IMAGE:", keyword)
-                      continue
-
                   random.shuffle(candidates)
 
                   for candidate in candidates:
                       try:
-                          image_response = requests.get(
+                          img_response = requests.get(
                               candidate["url"],
                               headers=headers,
                               timeout=30
                           )
 
-                          image_response.raise_for_status()
+                          img_response.raise_for_status()
 
                           image = Image.open(
-                              BytesIO(image_response.content)
+                              BytesIO(img_response.content)
                           ).convert("RGB")
 
                           width, height = image.size
 
-                          # 小さすぎる画像は使わない
+                          # 小さい画像や極端な画像は避ける
                           if width < 500 or height < 500:
                               continue
 
-                          # 縦型動画に合わせて中央を切り出す
+                          # Shorts用の縦型サイズに調整
                           image = ImageOps.fit(
                               image,
                               (1080, 1920),
@@ -968,7 +971,7 @@ jobs:
                               centering=(0.5, 0.5)
                           )
 
-                          # 文字を読みやすくするため少し暗くする
+                          # 字幕を読みやすくするため少し暗くする
                           image = ImageEnhance.Brightness(
                               image
                           ).enhance(0.72)
@@ -985,12 +988,10 @@ jobs:
                               "BACKGROUND SUCCESS:",
                               candidate["title"]
                           )
-
                           print(
                               "BACKGROUND LICENSE:",
                               candidate["license"]
                           )
-
                           print(
                               "BACKGROUND ARTIST:",
                               candidate["artist"]
@@ -1000,27 +1001,109 @@ jobs:
 
                       except Exception as e:
                           image_errors.append(str(e)[:200])
-                          continue
-
-                  if image_url:
-                      break
 
               except Exception as e:
                   image_errors.append(str(e)[:200])
-
                   print(
                       "BACKGROUND SEARCH ERROR:",
                       keyword,
                       str(e)[:200]
                   )
 
-          # 適切な画像を取得できない場合は処理を止める
-          # 無関係なグラデーション画像には置き換えない
+          # 写真を取得できなかった場合は、
+          # 真っ黒な画面ではなくジャンル別の背景を生成する
           if not image_url or not BACKGROUND_FILE.exists():
+
+              print(
+                  "BACKGROUND FALLBACK: "
+                  "Creating a genre-themed visual background"
+              )
+
+              image = Image.new(
+                  "RGB",
+                  (1080, 1920),
+                  (24, 32, 48)
+              )
+
+              draw = ImageDraw.Draw(image)
+
+              # 柔らかな光の円を重ねて奥行きを作る
+              draw.ellipse(
+                  (-250, 180, 700, 1130),
+                  fill=(35, 65, 92)
+              )
+
+              draw.ellipse(
+                  (430, 780, 1350, 1700),
+                  fill=(40, 48, 75)
+              )
+
+              draw.ellipse(
+                  (100, 1400, 900, 2200),
+                  fill=(28, 72, 78)
+              )
+
+              visual_labels = {
+                  "ニュース・時事問題": "NEWS",
+                  "お金・投資": "MONEY",
+                  "自己改善・習慣": "GROWTH",
+                  "健康・ランニング": "RUNNING",
+                  "名言・人生論": "LIFE",
+                  "仕事・社会": "SOCIETY"
+              }
+
+              label = visual_labels.get(
+                  category,
+                  "IDEAS"
+              )
+
+              try:
+                  font = ImageFont.truetype(
+                      "/usr/share/fonts/opentype/noto/"
+                      "NotoSansCJK-Bold.ttc",
+                      100
+                  )
+              except Exception:
+                  font = ImageFont.load_default()
+
+              # 大きなジャンル文字を背景の一部として配置
+              draw.text(
+                  (70, 300),
+                  label,
+                  font=font,
+                  fill=(190, 205, 220)
+              )
+
+              # 細い線を配置して単調な背景を避ける
+              for y in range(500, 1800, 180):
+                  draw.line(
+                      (70, y, 1010, y),
+                      fill=(65, 82, 105),
+                      width=2
+                  )
+
+              image = ImageEnhance.Contrast(
+                  image
+              ).enhance(1.1)
+
+              image.save(
+                  BACKGROUND_FILE,
+                  "JPEG",
+                  quality=92
+              )
+
+              print(
+                  "BACKGROUND FALLBACK CREATED:",
+                  category
+              )
+
+          # 背景ファイルの最終確認
+          if (
+              not BACKGROUND_FILE.exists()
+              or BACKGROUND_FILE.stat().st_size < 1000
+          ):
               raise RuntimeError(
-                  "ニュースに使用する背景画像を取得できませんでした。"
-                  "画像検索結果とネットワーク接続を確認してください。"
-                  + " / ".join(image_errors[-3:])
+                  "背景画像ファイルを作成できませんでした"
               )
 
           print(
