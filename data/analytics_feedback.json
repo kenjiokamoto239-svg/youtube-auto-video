@@ -1,23 +1,13 @@
 {
-  "updated_at_jst": "2026-10-11T11:02:22.079610+09:00",
+  "updated_at_jst": "2026-10-12T11:33:19.805124+09:00",
   "period": {
-    "start": "2026-10-04",
-    "end": "2026-10-10"
+    "start": "2026-10-05",
+    "end": "2026-10-11"
   },
-  "daily_views_last_3_days": 1359,
-  "daily_views_previous_3_days": 193,
+  "daily_views_last_3_days": 1397,
+  "daily_views_previous_3_days": 961,
   "trend": "比較データ不足",
   "daily_data": [
-    {
-      "day": "2026-10-04",
-      "views": 4,
-      "watch_minutes": 0.0,
-      "average_view_seconds": 10.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-10-05",
       "views": 189,
@@ -57,6 +47,16 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-10-09",
+      "views": 810,
+      "watch_minutes": 33.0,
+      "average_view_seconds": 14.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "top_videos_by_lifetime_views": [
@@ -79,10 +79,19 @@
       "url": "https://www.youtube.com/watch?v=GnSw820y-gU"
     },
     {
+      "video_id": "KBDAqp4U-JA",
+      "title": "出雲駅伝大作戦:原晋監督の改革ビジョン",
+      "published_at": "2026-10-11T10:13:46Z",
+      "views": 351,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=KBDAqp4U-JA"
+    },
+    {
       "video_id": "qbMdVY6YH-U",
       "title": "毎日分の習慣",
       "published_at": "2026-10-09T21:22:38Z",
-      "views": 311,
+      "views": 287,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=qbMdVY6YH-U"
@@ -91,7 +100,7 @@
       "video_id": "fC6dATOUqrM",
       "title": "【豊洲ランニングまつり】女子の宮原がハーフ&10キロの2冠達成(スポニチア",
       "published_at": "2026-10-10T17:37:29Z",
-      "views": 243,
+      "views": 252,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=fC6dATOUqrM"
@@ -100,10 +109,19 @@
       "video_id": "YKfzKM3Fg0o",
       "title": "小さな今日の一歩で大きく変わる",
       "published_at": "2026-10-09T22:18:42Z",
-      "views": 225,
+      "views": 215,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YKfzKM3Fg0o"
+    },
+    {
+      "video_id": "hTcbOx13tuw",
+      "title": "大学駅伝シーズン開幕!いよいよ出雲駅伝~ TrackTownJPN - 文",
+      "published_at": "2026-10-10T11:35:54Z",
+      "views": 185,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=hTcbOx13tuw"
     },
     {
       "video_id": "V4okCEgR6XA",
@@ -115,6 +133,15 @@
       "url": "https://www.youtube.com/watch?v=V4okCEgR6XA"
     },
     {
+      "video_id": "_HDnzG4P-IQ",
+      "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
+      "published_at": "2026-10-11T06:15:08Z",
+      "views": 163,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
+    },
+    {
       "video_id": "ej_HEiqVvoo",
       "title": "知らないと損する「逆風の思考」",
       "published_at": "2026-10-08T09:50:39Z",
@@ -122,33 +149,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ej_HEiqVvoo"
-    },
-    {
-      "video_id": "H79vv5StaKM",
-      "title": "小さな今日できることから始めるオーバーヘッド!",
-      "published_at": "2026-10-09T22:07:58Z",
-      "views": 147,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=H79vv5StaKM"
-    },
-    {
-      "video_id": "G7wzxKFQFQc",
-      "title": "笑顔と知識で介護1位目指す 大垣桜高校の3人、全国高校コンテスト出場 -",
-      "published_at": "2026-10-10T11:24:34Z",
-      "views": 143,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=G7wzxKFQFQc"
-    },
-    {
-      "video_id": "VSUk-nJOjKA",
-      "title": "今日からできる節約習慣を始めよう！",
-      "published_at": "2026-10-08T02:25:53Z",
-      "views": 136,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=VSUk-nJOjKA"
     }
   ],
   "topic_strategy": "再生数上位の動画タイトルを参考に、異なる切り口のテーマを検証する。同じタイトルや台本を再利用しない。",
