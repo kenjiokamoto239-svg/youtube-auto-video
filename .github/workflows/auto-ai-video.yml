@@ -608,7 +608,7 @@ jobs:
                                         # 台本の品質検査・自動修正
           # 検査に合格するまで繰り返す
 
-                    def inspect_script(text):
+          def inspect_script(text):
               issues = []
               text = clean_text(text)
 
@@ -819,8 +819,6 @@ jobs:
                       "視聴者が次に取るべき行動を示してください。"
                       "『大切です』『重要です』だけで締めないでください。"
                   )
-
-              return issues
 
               return issues
 
