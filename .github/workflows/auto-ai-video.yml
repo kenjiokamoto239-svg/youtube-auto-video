@@ -923,59 +923,88 @@ jobs:
 
           image.save(BG_FILE, quality=92)
 
-                    # 9.5 動画内容に合わせてBGMを自動取得
-          # Wikimedia CommonsからCC0・パブリックドメインの音源を探す
-          # 適切な音源が見つからない場合はBGMなしで動画を生成する
+                              # 9.5 動画内容に合わせてBGMを自動取得
+          # 検索語を増やし、分野別検索に失敗したら
+          # 一般的なBGMも検索する
 
-          from urllib.parse import urlparse
           import html
+          from urllib.parse import urlparse
 
           BGM_FILE = WORK / "background_music.ogg"
           BGM_INFO_FILE = WORK / "background_music_license.txt"
 
-          bgm_keywords = {
-              "岡山・介護": [
-                  "calm piano instrumental music",
-                  "gentle relaxing instrumental music",
-              ],
-              "介護・社会保障": [
-                  "documentary calm instrumental music",
-                  "soft piano instrumental music",
-              ],
-              "三重県熊野市": [
-                  "peaceful nature instrumental music",
-                  "ambient relaxing instrumental music",
-              ],
-              "ランニング・健康": [
-                  "upbeat energetic instrumental music",
-                  "motivational instrumental music",
-              ],
-              "経済・仕事": [
-                  "corporate technology instrumental music",
-                  "modern documentary instrumental music",
-              ],
-              "国内ニュース": [
-                  "cinematic documentary instrumental music",
-                  "dramatic instrumental background music",
-              ],
-          }
-
           BGM_FILE.unlink(missing_ok=True)
           BGM_INFO_FILE.unlink(missing_ok=True)
 
-          keywords = bgm_keywords.get(
-              category,
-              [
-                  "documentary instrumental music",
-                  "ambient background instrumental music",
+          # 分野別検索語
+          bgm_keywords = {
+              "岡山・介護": [
+                  "calm piano music",
+                  "relaxing instrumental",
+                  "gentle music",
+                  "soft background music",
               ],
+              "介護・社会保障": [
+                  "documentary music",
+                  "calm instrumental",
+                  "piano background music",
+                  "ambient music",
+              ],
+              "三重県熊野市": [
+                  "nature ambient music",
+                  "peaceful instrumental",
+                  "relaxing music",
+                  "ambient background music",
+              ],
+              "ランニング・健康": [
+                  "upbeat instrumental music",
+                  "motivational music",
+                  "energetic background music",
+                  "electronic instrumental",
+              ],
+              "経済・仕事": [
+                  "corporate background music",
+                  "technology instrumental",
+                  "modern background music",
+                  "documentary instrumental",
+              ],
+              "国内ニュース": [
+                  "cinematic instrumental",
+                  "documentary background music",
+                  "dramatic instrumental music",
+                  "ambient instrumental",
+              ],
+          }
+
+          # 分野別検索で見つからない場合に使う共通候補
+          fallback_keywords = [
+              "background music",
+              "instrumental music",
+              "music loop",
+              "ambient music",
+              "piano music",
+              "soundtrack music",
+              "music",
+          ]
+
+          category_keywords = bgm_keywords.get(
+              category,
+              ["instrumental music", "background music"],
           )
 
-          bgm_found = False
+          # 検索語の重複を除去
+          search_keywords = list(dict.fromkeys(
+              category_keywords + fallback_keywords
+          ))
 
           commons_api = "https://commons.wikimedia.org/w/api.php"
+          bgm_found = False
+          checked_titles = set()
 
-          for keyword in keywords:
+          for keyword in search_keywords:
+              if bgm_found:
+                  break
+
               try:
                   print("BGM SEARCH:", keyword)
 
@@ -984,7 +1013,7 @@ jobs:
                       "generator": "search",
                       "gsrsearch": keyword,
                       "gsrnamespace": 6,
-                      "gsrlimit": 20,
+                      "gsrlimit": 50,
                       "prop": "imageinfo",
                       "iiprop": "url|extmetadata",
                       "format": "json",
@@ -994,7 +1023,8 @@ jobs:
                       commons_api,
                       params=params,
                       headers={
-                          "User-Agent": "AutoJapaneseVideo/1.0"
+                          "User-Agent":
+                              "AutoJapaneseVideo/1.0 (BGM search)"
                       },
                       timeout=30,
                   )
@@ -1009,10 +1039,24 @@ jobs:
                   candidates = list(pages.values())
                   random.shuffle(candidates)
 
-                  for page in candidates:
-                      page_title = page.get("title", "")
-                      info_list = page.get("imageinfo", [])
+                  print(
+                      "BGM SEARCH RESULTS:",
+                      keyword,
+                      len(candidates),
+                  )
 
+                  for page in candidates:
+                      if bgm_found:
+                          break
+
+                      page_title = page.get("title", "")
+
+                      if page_title in checked_titles:
+                          continue
+
+                      checked_titles.add(page_title)
+
+                      info_list = page.get("imageinfo", [])
                       if not info_list:
                           continue
 
@@ -1020,10 +1064,14 @@ jobs:
                       audio_url = info.get("url", "")
                       metadata = info.get("extmetadata", {})
 
+                      if not audio_url:
+                          continue
+
                       extension = Path(
                           urlparse(audio_url).path
                       ).suffix.lower()
 
+                      # 音声ファイルだけを対象にする
                       if extension not in (
                           ".ogg",
                           ".oga",
@@ -1033,26 +1081,37 @@ jobs:
                       ):
                           continue
 
-                      # 自由利用できるCC0または
-                      # パブリックドメインの音源に限定
                       license_name = html.unescape(
                           metadata.get(
                               "LicenseShortName", {}
                           ).get("value", "")
-                      )
+                      ).strip()
 
                       license_lower = license_name.lower()
 
-                      if not (
+                      # ライセンスが確認できる音源に限定
+                      allowed_license = (
                           "cc0" in license_lower
                           or "public domain" in license_lower
-                      ):
+                          or "public-domain" in license_lower
+                      )
+
+                      if not allowed_license:
+                          print(
+                              "BGM LICENSE SKIP:",
+                              page_title,
+                              license_name or "unknown",
+                          )
                           continue
 
                       print(
-                          "BGM CANDIDATE:",
+                          "BGM AUDIO CANDIDATE:",
                           page_title,
                           license_name,
+                      )
+
+                      temp_bgm = WORK / (
+                          "background_music" + extension
                       )
 
                       try:
@@ -1066,18 +1125,15 @@ jobs:
                           )
                           audio_response.raise_for_status()
 
-                          temp_bgm = WORK / (
-                              "background_music" + extension
-                          )
+                          if len(audio_response.content) < 10000:
+                              print("BGM SKIP: file too small")
+                              continue
+
                           temp_bgm.write_bytes(
                               audio_response.content
                           )
 
-                          if temp_bgm.stat().st_size < 10000:
-                              temp_bgm.unlink(missing_ok=True)
-                              continue
-
-                          # FFmpegで音声ファイルとして認識できるか確認
+                          # 音声ファイルとして正常か確認
                           probe = subprocess.run(
                               [
                                   "ffprobe",
@@ -1094,66 +1150,78 @@ jobs:
                           )
 
                           if probe.returncode != 0:
+                              print("BGM SKIP: invalid audio")
                               temp_bgm.unlink(missing_ok=True)
                               continue
 
-                          bgm_duration = float(
-                              probe.stdout.strip()
-                          )
+                          try:
+                              bgm_duration = float(
+                                  probe.stdout.strip()
+                              )
+                          except (ValueError, TypeError):
+                              temp_bgm.unlink(missing_ok=True)
+                              continue
 
                           if bgm_duration < 10:
+                              print(
+                                  "BGM SKIP: too short",
+                                  bgm_duration,
+                              )
                               temp_bgm.unlink(missing_ok=True)
                               continue
 
-                          BGM_FILE = temp_bgm
-
-                          artist = html.unescape(
-                              metadata.get(
-                                  "Artist", {}
-                              ).get("value", "不明")
-                          )
-
+                          # 採用した音源の情報を保存
                           BGM_INFO_FILE.write_text(
                               "音源名: " + page_title + "\n"
                               + "ライセンス: " + license_name + "\n"
-                              + "作者: " + artist + "\n"
+                              + "作者: " + html.unescape(
+                                  metadata.get(
+                                      "Artist", {}
+                                  ).get("value", "不明")
+                              ) + "\n"
                               + "音源URL: " + audio_url + "\n",
                               encoding="utf-8",
                           )
 
+                          # 実際に取得した拡張子を保持
+                          BGM_FILE = temp_bgm
+                          bgm_found = True
+
                           print(
                               "BGM SELECTED:",
                               page_title,
+                          )
+                          print(
+                              "BGM LICENSE:",
                               license_name,
-                              "DURATION:",
+                          )
+                          print(
+                              "BGM DURATION:",
                               bgm_duration,
                           )
-
-                          bgm_found = True
-                          break
 
                       except Exception as e:
                           print(
                               "BGM DOWNLOAD ERROR:",
                               str(e)[:300],
                           )
-
-                  if bgm_found:
-                      break
+                          temp_bgm.unlink(missing_ok=True)
 
               except Exception as e:
                   print(
                       "BGM SEARCH ERROR:",
+                      keyword,
                       str(e)[:300],
                   )
 
-          if not bgm_found:
-              print(
-                  "BGM NOT FOUND: "
-                  "今回はナレーションのみで動画を生成します。"
-              )
-          else:
+          if bgm_found:
+              print("BGM STATUS: READY")
               print("BGM FILE:", BGM_FILE)
+          else:
+              print(
+                  "BGM STATUS: NOT FOUND "
+                  "- no suitable licensed audio was found"
+              )
 
           # 10. 縦型動画を生成
           ass_path = str(ASS_FILE.resolve())
