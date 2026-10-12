@@ -115,8 +115,9 @@ jobs:
               s = s.replace("[K", "").replace("\r", "\n")
               s = re.sub(r"[ \t]+", " ", s)
               s = re.sub(r"\n{3,}", "\n\n", s)
-              return s.strip()
-                        def strip_prompt_leakage(s):
+                            return s.strip()
+
+          def strip_prompt_leakage(s):
               s = clean_text(s)
               bad_patterns = [
                   r"(?i)^\s*(?:あなたは|以下の条件に従って|読み上げ用の本文だけを出力|視聴者の常識を揺さぶる|具体例を入れてください|結論を明確にしてください|ここに台本を書く|台本の構成|最重要ルール|動画ジャンル).*$",
