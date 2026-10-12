@@ -410,20 +410,30 @@ jobs:
           print("TITLE:", title)
           print("SCRIPT LENGTH:", len(script))
 
-          # 6. 日本語音声を生成
-          # edge-ttsは外部接続が必要。APIキーは不要。
-          # 文ごとに音声を作り、字幕タイミングを記録する。
+                    # 6. 日本語音声を生成
+          # Edge TTSの403エラーを避け、gTTSを使用する
+
+          from gtts import gTTS
+
           sentences = re.split(
               r"(?<=[。！？!?])\s*",
               script
           )
-          sentences = [s.strip() for s in sentences if s.strip()]
+          sentences = [
+              s.strip()
+              for s in sentences
+              if s.strip()
+          ]
 
           if not sentences:
-              raise RuntimeError("音声用の文章がありません")
+              raise RuntimeError(
+                  "音声用の文章がありません"
+              )
 
           audio_dir = WORK / "audio_parts"
-          audio_dir.mkdir(exist_ok=True)
+          audio_dir.mkdir(
+              exist_ok=True
+          )
 
           concat_file = WORK / "audio_list.txt"
           timings = []
@@ -431,26 +441,46 @@ jobs:
           audio_files = []
 
           for i, sentence in enumerate(sentences):
-              part = audio_dir / f"part_{i:03d}.mp3"
+              part = (
+                  audio_dir
+                  / f"part_{i:03d}.mp3"
+              )
 
-              run([
-                  sys.executable, "-m", "edge_tts",
-                  "--voice", "ja-JP-NanamiNeural",
-                  "--rate", "+0%",
-                  "--text", sentence,
-                  "--write-media", str(part)
-              ], timeout=120)
+              print(
+                  f"TTS: {i + 1}/{len(sentences)}"
+              )
 
-              if not part.exists() or part.stat().st_size < 1000:
+              try:
+                  tts = gTTS(
+                      text=sentence,
+                      lang="ja",
+                      slow=False
+                  )
+
+                  tts.save(str(part))
+
+              except Exception as e:
                   raise RuntimeError(
-                      f"音声生成に失敗しました: {i}"
+                      "日本語音声の生成に失敗しました。"
+                      f"文番号={i + 1}, エラー={e}"
+                  ) from e
+
+              if (
+                  not part.exists()
+                  or part.stat().st_size < 500
+              ):
+                  raise RuntimeError(
+                      f"音声ファイルが不正です: {i}"
                   )
 
               probe = subprocess.run(
                   [
-                      "ffprobe", "-v", "error",
-                      "-show_entries", "format=duration",
-                      "-of", "default=noprint_wrappers=1:nokey=1",
+                      "ffprobe",
+                      "-v", "error",
+                      "-show_entries",
+                      "format=duration",
+                      "-of",
+                      "default=noprint_wrappers=1:nokey=1",
                       str(part)
                   ],
                   check=True,
@@ -458,38 +488,64 @@ jobs:
                   text=True
               )
 
-              duration = float(probe.stdout.strip())
-              timings.append(
-                  (current_time, current_time + duration, sentence)
+              duration = float(
+                  probe.stdout.strip()
               )
+
+              timings.append(
+                  (
+                      current_time,
+                      current_time + duration,
+                      sentence
+                  )
+              )
+
               current_time += duration
               audio_files.append(part)
 
-          with concat_file.open("w", encoding="utf-8") as f:
+          with concat_file.open(
+              "w",
+              encoding="utf-8"
+          ) as f:
               for part in audio_files:
-                  safe = str(part.resolve()).replace("'", "'\\''")
-                  f.write(f"file '{safe}'\n")
+                  safe = (
+                      str(part.resolve())
+                      .replace("'", "'\\''")
+                  )
+
+                  f.write(
+                      f"file '{safe}'\n"
+                  )
 
           run([
               "ffmpeg", "-y",
-              "-f", "concat", "-safe", "0",
+              "-f", "concat",
+              "-safe", "0",
               "-i", str(concat_file),
               "-c:a", "libmp3lame",
               "-q:a", "3",
               str(AUDIO_FILE)
           ])
 
-          if not AUDIO_FILE.exists() or AUDIO_FILE.stat().st_size < 1000:
-              raise RuntimeError("音声ファイルが生成されませんでした")
+          if (
+              not AUDIO_FILE.exists()
+              or AUDIO_FILE.stat().st_size < 1000
+          ):
+              raise RuntimeError(
+                  "音声ファイルが生成されませんでした"
+              )
 
           duration = current_time
+
           if duration < 5 or duration > 180:
               raise RuntimeError(
                   f"動画の長さが範囲外です: {duration:.1f}秒"
               )
 
-          print("AUDIO DURATION:", duration)
-
+          print(
+              "AUDIO DURATION:",
+              duration
+          )
           # 7. 字幕ファイルを生成
           def ass_time(seconds):
               h = int(seconds // 3600)
