@@ -1223,7 +1223,7 @@ jobs:
                   "- no suitable licensed audio was found"
               )
 
-          # 10. 縦型動画を生成
+                    # 10. 縦型動画を生成
           ass_path = str(ASS_FILE.resolve())
           ass_path = ass_path.replace("\\", "\\\\")
           ass_path = ass_path.replace(":", "\\:")
@@ -1235,24 +1235,67 @@ jobs:
               f"ass='{ass_path}'"
           )
 
-          run([
-              "ffmpeg", "-y",
-              "-loop", "1",
-              "-framerate", "30",
-              "-i", str(BG_FILE),
-              "-i", str(AUDIO_FILE),
-              "-vf", video_filter,
-              "-c:v", "libx264",
-              "-preset", "veryfast",
-              "-tune", "stillimage",
-              "-pix_fmt", "yuv420p",
-              "-r", "30",
-              "-c:a", "aac",
-              "-b:a", "192k",
-              "-shortest",
-              "-movflags", "+faststart",
-              str(VIDEO_FILE)
-          ], timeout=900)
+          # BGMが取得できている場合は、ナレーションと合成する
+          if bgm_found and BGM_FILE.exists():
+              print("BGM MIX: START")
+              print("BGM FILE:", BGM_FILE)
+              print("BGM VOLUME: 8%")
+
+              audio_filter = (
+                  "[2:a]volume=0.08[bgm];"
+                  "[1:a][bgm]"
+                  "amix=inputs=2:duration=first:"
+                  "dropout_transition=2[aout]"
+              )
+
+              run([
+                  "ffmpeg", "-y",
+                  "-loop", "1",
+                  "-framerate", "30",
+                  "-i", str(BG_FILE),
+                  "-i", str(AUDIO_FILE),
+                  "-stream_loop", "-1",
+                  "-i", str(BGM_FILE),
+                  "-filter_complex", audio_filter,
+                  "-map", "0:v:0",
+                  "-map", "[aout]",
+                  "-vf", video_filter,
+                  "-c:v", "libx264",
+                  "-preset", "veryfast",
+                  "-tune", "stillimage",
+                  "-pix_fmt", "yuv420p",
+                  "-r", "30",
+                  "-c:a", "aac",
+                  "-b:a", "192k",
+                  "-shortest",
+                  "-movflags", "+faststart",
+                  str(VIDEO_FILE)
+              ], timeout=900)
+
+              print("BGM MIX: SUCCESS")
+
+          # BGMが取得できなかった場合は、ナレーションだけで生成
+          else:
+              print("BGM MIX: SKIPPED - BGM NOT FOUND")
+
+              run([
+                  "ffmpeg", "-y",
+                  "-loop", "1",
+                  "-framerate", "30",
+                  "-i", str(BG_FILE),
+                  "-i", str(AUDIO_FILE),
+                  "-vf", video_filter,
+                  "-c:v", "libx264",
+                  "-preset", "veryfast",
+                  "-tune", "stillimage",
+                  "-pix_fmt", "yuv420p",
+                  "-r", "30",
+                  "-c:a", "aac",
+                  "-b:a", "192k",
+                  "-shortest",
+                  "-movflags", "+faststart",
+                  str(VIDEO_FILE)
+              ], timeout=900)
 
           # 11. 生成結果を検証
           probe = subprocess.run(
