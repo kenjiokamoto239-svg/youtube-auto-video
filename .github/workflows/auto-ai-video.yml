@@ -116,6 +116,19 @@ jobs:
               s = re.sub(r"[ \t]+", " ", s)
               s = re.sub(r"\n{3,}", "\n\n", s)
               return s.strip()
+                        def strip_prompt_leakage(s):
+              s = clean_text(s)
+              bad_patterns = [
+                  r"(?i)^\s*(?:あなたは|以下の条件に従って|読み上げ用の本文だけを出力|視聴者の常識を揺さぶる|具体例を入れてください|結論を明確にしてください|ここに台本を書く|台本の構成|最重要ルール|動画ジャンル).*$",
+                  r"(?i)^\s*(?:system|assistant|user)\s*[:：].*$",
+                  r"^\s*【(?:動画ジャンル|台本の構成|最重要ルール|指示|出力形式)[^】]*】\s*$",
+              ]
+              lines = []
+              for line in s.splitlines():
+                  if any(re.search(p, line) for p in bad_patterns):
+                      continue
+                  lines.append(line)
+              return clean_text("\n".join(lines))
 
                     # 4. 投稿時間に応じてジャンルを選択
           # 1日6本の投稿スケジュールは変更しない
@@ -549,7 +562,7 @@ jobs:
 
           response.raise_for_status()
 
-          raw = clean_text(
+          raw = strip_prompt_leakage(
               response.json().get("response", "")
           )
 
@@ -798,7 +811,7 @@ jobs:
 
               repair_response.raise_for_status()
 
-              repaired_raw = clean_text(
+              repaired_raw = strip_prompt_leakage(
                   repair_response.json().get(
                       "response", ""
                   )
