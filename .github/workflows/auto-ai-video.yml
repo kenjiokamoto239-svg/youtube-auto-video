@@ -53,12 +53,7 @@ jobs:
             google-auth \
             google-auth-oauthlib
           python -m edge_tts --help
-            requests \
-            feedparser \
-            pillow \
-            google-api-python-client \
-            google-auth \
-            google-auth-oauthlib
+            
 
       # 3. 台本・音声・字幕・動画を生成
       - name: Generate video
