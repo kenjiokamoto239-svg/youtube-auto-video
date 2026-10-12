@@ -454,34 +454,99 @@ jobs:
           if len(script) > 1000:
               script = script[:1000]
 
-          # 読み上げ本文と動画タイトルを分離して保存
+                   # 台本とタイトルを分離して保存
+          # タイトルは台本の冒頭を流用せず、別途生成する
 
           SCRIPT_FILE.write_text(
               script,
               encoding="utf-8"
           )
 
-          first_sentence = re.split(
-              r"(?<=[。！？!?])",
-              script
-          )[0].strip()
+          title_prompt = f"""
+          あなたは日本のYouTube Shorts専門のタイトル編集者です。
 
-          if not first_sentence:
-              first_sentence = topic
+          ジャンル：{category}
 
-          title = (
-              category
-              + "｜"
-              + first_sentence[:45]
+          台本：
+          {script}
+
+          この台本に合う、クリックしたくなる日本語タイトルを
+          1つだけ作ってください。
+
+          【タイトルの条件】
+          ・具体的な主張や疑問を含める
+          ・視聴者の常識に疑問を投げかける
+          ・強く、はっきりした表現を使う
+          ・台本の内容と一致させる
+          ・およそ15～35文字にする
+          ・必要なら疑問形を使う
+          ・抽象的な説明ではなく、内容そのものを表現する
+          ・タイトルの前にジャンル名を付けない
+          ・「視聴者の常識が揺らぐ問いかけです」
+            「今回は〇〇について解説します」
+            のような定型文は禁止
+          ・「タイトル：」などのラベルは禁止
+          ・候補を複数出さず、タイトルだけを出力する
+          """
+
+          title_response = requests.post(
+              "http://127.0.0.1:11434/api/generate",
+              json={
+                  "model": model,
+                  "prompt": title_prompt,
+                  "stream": False,
+                  "options": {
+                      "temperature": 0.75
+                  }
+              },
+              timeout=300
           )
 
+          title_response.raise_for_status()
+
+          title = clean_text(
+              title_response.json().get("response", "")
+          )
+
+          # タイトルに混入するラベルや装飾を除去
+          title = re.sub(
+              r"(?im)^\s*(タイトル|動画タイトル|TITLE)\s*[:：]\s*",
+              "",
+              title
+          )
+
+          title = title.strip().strip("「」『』\"'` ")
+          title = re.sub(r"\s+", " ", title)
+          title = title[:100].strip()
+
+          # 不正なタイトルの場合は台本から代替タイトルを作成
+          bad_phrases = [
+              "視聴者の常識が揺らぐ問いかけです",
+              "今回は",
+              "タイトル：",
+              "動画タイトル："
+          ]
+
+          if (
+              len(title) < 8
+              or any(p in title for p in bad_phrases)
+          ):
+              first_sentence = re.split(
+                  r"(?<=[。！？!?])",
+                  script
+              )[0].strip()
+
+              title = (
+                  category + "｜" + first_sentence
+              )[:100]
+
           TITLE_FILE.write_text(
-              title[:90],
+              title,
               encoding="utf-8"
           )
 
           print("VIDEO GENRE:", category)
-          print("VIDEO TITLE:", title[:90])
+          print("VIDEO TITLE:", title)
           print("SCRIPT LENGTH:", len(script))
 
                     # 6. 日本語音声を生成
@@ -1495,12 +1560,105 @@ jobs:
               cache_discovery=False
           )
 
-          description = (
-              script[:4000]
-              + "\n\nニュース出典："
-              + "記事URLはワークフローのログで確認してください。"
-              + "\n\n#ニュース #日本 #Shorts"
+                    # 台本の内容に合わせて説明文を作成
+          # タイトル生成用の指示文や、架空のニュース出典は掲載しない
+
+                    # 動画の内容に合わせてハッシュタグを自動選択
+          hashtag_rules = {
+              "ニュース・時事問題": [
+                  "#日本ニュース",
+                  "#時事問題",
+                  "#社会問題",
+                  "#ニュース解説"
+              ],
+              "お金・投資": [
+                  "#お金",
+                  "#資産形成",
+                  "#貯金",
+                  "#投資初心者",
+                  "#お金の勉強"
+              ],
+              "自己改善・習慣": [
+                  "#習慣化",
+                  "#自己成長",
+                  "#考え方",
+                  "#人生を変える"
+              ],
+              "健康・ランニング": [
+                  "#ランニング",
+                  "#マラソン",
+                  "#健康習慣",
+                  "#ランニング初心者"
+              ],
+              "名言・人生論": [
+                  "#人生論",
+                  "#名言",
+                  "#生き方",
+                  "#人生の教訓"
+              ],
+              "仕事・社会": [
+                  "#働き方",
+                  "#仕事論",
+                  "#社会問題",
+                  "#賃金"
+              ]
+          }
+
+          # ジャンルに応じた基本タグを取得
+          hashtags = hashtag_rules.get(
+              category,
+              ["#日本", "#解説"]
           )
+
+          # 動画タイトル・台本から内容に合うタグを追加
+          content = (title + " " + script).lower()
+
+          keyword_rules = {
+              "貯金": "#貯金",
+              "節約": "#節約",
+              "資産形成": "#資産形成",
+              "株式": "#株式投資",
+              "投資信託": "#投資信託",
+              "新NISA": "#新NISA",
+              "nisa": "#新NISA",
+              "老後": "#老後資金",
+              "給料": "#給料",
+              "賃金": "#賃金",
+              "物価": "#物価高",
+              "転職": "#転職",
+              "仕事": "#仕事",
+              "会社": "#会社員",
+              "習慣": "#習慣化",
+              "努力": "#努力",
+              "集中力": "#集中力",
+              "睡眠": "#睡眠",
+              "健康": "#健康",
+              "ランニング": "#ランニング",
+              "マラソン": "#マラソン",
+              "介護": "#介護",
+              "高齢者": "#高齢者介護",
+              "岡山": "#岡山",
+              "熊野市": "#熊野市",
+              "人生": "#人生論",
+              "名言": "#名言"
+          }
+
+          for keyword, tag in keyword_rules.items():
+              if keyword.lower() in content:
+                  hashtags.append(tag)
+
+          # 重複を削除し、最大8個に制限
+          hashtags = list(dict.fromkeys(hashtags))[:8]
+
+          # YouTube説明文を作成
+          description = (
+              script[:4000].strip()
+              + "\n\n"
+              + " ".join(hashtags)
+              + " #Shorts"
+          )
+
+          print("VIDEO HASHTAGS:", " ".join(hashtags))
 
           body = {
               "snippet": {
