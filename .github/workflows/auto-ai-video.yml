@@ -720,60 +720,73 @@ jobs:
 
           BACKGROUND_FILE = WORK / "background.jpg"
 
-          # 分野別の検索キーワード
+                    # 分野別の検索キーワード
+          # ニュース以外のジャンルにも対応
+
           CATEGORY_KEYWORDS = {
-              "岡山・介護": [
-                  "介護施設 介護職員",
-                  "高齢者介護 日本",
-                  "介護福祉 施設"
-              ],
-              "介護・社会保障": [
-                  "高齢者福祉 日本",
-                  "介護施設 日本",
-                  "社会保障 医療福祉"
-              ],
-              "三重県熊野市": [
-                  "三重県 熊野市 風景",
-                  "熊野古道 三重県",
-                  "熊野市 観光"
-              ],
-              "ランニング・健康": [
-                  "ランニング 日本",
-                  "マラソン ランナー",
-                  "ランニング トレーニング"
-              ],
-              "経済・仕事": [
-                  "日本 ビジネス オフィス",
-                  "日本 経済 ビジネスマン",
-                  "仕事 職場 日本"
-              ],
-              "国内ニュース": [
+              "ニュース・時事問題": [
                   "日本 ニュース 社会",
-                  "日本 街並み",
-                  "日本 社会"
+                  "日本 国内 時事問題",
+                  "日本 経済 社会"
               ],
+              "お金・投資": [
+                  "投資 株式 市場",
+                  "資産形成 お金 貯蓄",
+                  "金融 経済 ビジネス"
+              ],
+              "自己改善・習慣": [
+                  "勉強 集中力 ノート",
+                  "目標達成 習慣 仕事",
+                  "読書 自己成長"
+              ],
+              "健康・ランニング": [
+                  "ランニング 日本 ランナー",
+                  "マラソン トレーニング",
+                  "ランニングシューズ 運動"
+              ],
+              "名言・人生論": [
+                  "夕日 山 人生 風景",
+                  "本 読書 デスク",
+                  "道 一本道 風景"
+              ],
+              "仕事・社会": [
+                  "日本 オフィス 仕事",
+                  "ビジネス 職場 会議",
+                  "都市 ビル 社会"
+              ]
           }
 
-          # ニュースタイトルから検索語を作成
-          title = article.get("title", "").strip()
+          # 動画タイトルは保存済みのタイトルを使う
+          title = TITLE_FILE.read_text(
+              encoding="utf-8"
+          ).strip()
+
           category = category.strip()
 
           keywords = []
 
-          # まずニュースタイトルそのものを検索
-          if title:
-              keywords.append(title)
+          # ニュースの場合だけ、記事タイトルを検索に使う
+          if category == "ニュース・時事問題" and article:
+              article_title = clean_text(
+                  article.get("title", "")
+              )
 
-          # 分野に応じた検索語を追加
+              if article_title:
+                  keywords.append(article_title)
+
+          # 選択されたジャンルに合った画像を検索する
           keywords.extend(
               CATEGORY_KEYWORDS.get(
                   category,
-                  ["日本 ニュース 社会"]
+                  [topic, "日本 風景 写真"]
               )
           )
 
-          # 同じ検索語の重複を削除
+          # 検索語の重複を削除
           keywords = list(dict.fromkeys(keywords))
+
+          print("BACKGROUND GENRE:", category)
+          print("BACKGROUND KEYWORDS:", keywords)
 
           image_url = None
           image_errors = []
