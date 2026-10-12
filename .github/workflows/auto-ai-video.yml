@@ -536,7 +536,41 @@ jobs:
               "-q:a", "3",
               str(AUDIO_FILE)
           ])
+          # 音声を15%速くする
+          # 字幕のタイミングも速度に合わせて調整
+          SPEED = 1.15
 
+          sped_audio = WORK / "voice_fast.mp3"
+
+          run([
+              "ffmpeg", "-y",
+              "-i", str(AUDIO_FILE),
+              "-filter:a", f"atempo={SPEED}",
+              "-c:a", "libmp3lame",
+              "-q:a", "3",
+              str(sped_audio)
+          ])
+
+          if (
+              not sped_audio.exists()
+              or sped_audio.stat().st_size < 1000
+          ):
+              raise RuntimeError(
+                  "高速化した音声を生成できませんでした"
+              )
+
+          sped_audio.replace(AUDIO_FILE)
+
+          timings = [
+              (start / SPEED, end / SPEED, sentence)
+              for start, end, sentence in timings
+          ]
+
+          current_time = current_time / SPEED
+          duration = current_time
+
+          print("VOICE SPEED:", SPEED)
+          print("SPEED ADJUSTED DURATION:", duration)
           if (
               not AUDIO_FILE.exists()
               or AUDIO_FILE.stat().st_size < 1000
