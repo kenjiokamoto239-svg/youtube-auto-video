@@ -354,7 +354,7 @@ jobs:
               model
           ], timeout=1200)
 
-                    if article:
+          if article:
               source_context = f"""
               参考記事の見出し：
               {article['title']}
@@ -368,13 +368,6 @@ jobs:
               この記事を丸写しせず、
               確認できる事実と自分の論評を分けてください。
               記事に書かれていない事実を作らないでください。
-              """
-
-          else:
-              source_context = """
-              今回は参考記事を取得できませんでした。
-              確認できない統計、研究結果、人物の発言を作らず、
-              確実に説明できる一般知識と論理的な考察に限定してください。
               """
           else:
               source_context = """
