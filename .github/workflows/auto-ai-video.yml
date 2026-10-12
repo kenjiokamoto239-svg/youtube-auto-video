@@ -107,53 +107,182 @@ jobs:
               return s.strip()
 
           # 4. ニュースを取得
+          # 1分野で取得できなくても、別の分野を順番に試す
+
           feeds = [
               ("岡山・介護", "岡山 介護 福祉 ニュース"),
               ("介護・社会保障", "介護 社会保障 制度 ニュース"),
               ("三重県熊野市", "三重県 熊野市 ニュース"),
               ("ランニング・健康", "ランニング 健康 スポーツ ニュース"),
               ("経済・仕事", "日本 経済 仕事 賃金 ニュース"),
-              ("国内ニュース", "日本 国内 ニュース")
+              ("国内ニュース", "日本 国内 ニュース"),
           ]
 
-          category, query = random.choice(feeds)
-          rss_url = (
-              "https://news.google.com/rss/search?q="
-              + quote(query)
-              + "&hl=ja&gl=JP&ceid=JP:ja"
-          )
+          random.shuffle(feeds)
 
-          feed = feedparser.parse(rss_url)
           articles = []
+          selected_category = None
+          headers = {
+              "User-Agent": (
+                  "Mozilla/5.0 "
+                  "(compatible; AutoJapaneseVideo/1.0)"
+              ),
+              "Accept": (
+                  "application/rss+xml, "
+                  "application/xml, text/xml, */*"
+              ),
+          }
 
-          for item in feed.entries[:20]:
-              title = clean_text(item.get("title", ""))
-              link = item.get("link", "")
-              summary = clean_text(
-                  item.get("summary", "")
+          for category_name, query in feeds:
+              rss_url = (
+                  "https://news.google.com/rss/search?q="
+                  + quote(query, safe="")
+                  + "&hl=ja&gl=JP&ceid=JP:ja"
               )
-              summary = re.sub(r"<[^>]+>", " ", summary)
-              summary = clean_text(summary)
 
-              if title and link:
-                  articles.append({
-                      "title": title,
-                      "link": link,
-                      "summary": summary[:700]
-                  })
+              try:
+                  print("RSS TRY:", category_name)
+
+                  response = requests.get(
+                      rss_url,
+                      headers=headers,
+                      timeout=30
+                  )
+
+                  print(
+                      "RSS HTTP STATUS:",
+                      response.status_code
+                  )
+
+                  response.raise_for_status()
+
+                  feed = feedparser.parse(response.content)
+
+                  if not feed.entries:
+                      print(
+                          "RSS EMPTY:",
+                          category_name,
+                          getattr(feed, "bozo_exception", "")
+                      )
+                      continue
+
+                  category_articles = []
+
+                  for item in feed.entries[:20]:
+                      title = clean_text(
+                          item.get("title", "")
+                      )
+
+                      link = item.get("link", "")
+
+                      summary = clean_text(
+                          item.get("summary", "")
+                      )
+
+                      summary = re.sub(
+                          r"<[^>]+>", " ", summary
+                      )
+
+                      summary = clean_text(summary)
+
+                      if title and link:
+                          category_articles.append({
+                              "title": title,
+                              "link": link,
+                              "summary": summary[:700]
+                          })
+
+                  if category_articles:
+                      articles = category_articles
+                      selected_category = category_name
+
+                      print(
+                          "RSS SUCCESS:",
+                          category_name,
+                          "ARTICLES:",
+                          len(articles)
+                      )
+
+                      break
+
+              except Exception as e:
+                  print(
+                      "RSS ERROR:",
+                      category_name,
+                      str(e)[:500]
+                  )
+
+          if not articles:
+              # 検索RSSが全て失敗した場合、
+              # GoogleニュースのトップニュースRSSも試す
+              try:
+                  print("RSS FALLBACK: top news")
+
+                  fallback_url = (
+                      "https://news.google.com/rss"
+                      "?hl=ja&gl=JP&ceid=JP:ja"
+                  )
+
+                  response = requests.get(
+                      fallback_url,
+                      headers=headers,
+                      timeout=30
+                  )
+
+                  print(
+                      "FALLBACK HTTP STATUS:",
+                      response.status_code
+                  )
+
+                  response.raise_for_status()
+
+                  feed = feedparser.parse(response.content)
+
+                  for item in feed.entries[:30]:
+                      title = clean_text(
+                          item.get("title", "")
+                      )
+
+                      link = item.get("link", "")
+
+                      summary = clean_text(
+                          item.get("summary", "")
+                      )
+
+                      summary = re.sub(
+                          r"<[^>]+>", " ", summary
+                      )
+
+                      summary = clean_text(summary)
+
+                      if title and link:
+                          articles.append({
+                              "title": title,
+                              "link": link,
+                              "summary": summary[:700]
+                          })
+
+                  if articles:
+                      selected_category = "国内ニュース"
+
+              except Exception as e:
+                  print(
+                      "RSS FALLBACK ERROR:",
+                      str(e)[:500]
+                  )
 
           if not articles:
               raise RuntimeError(
                   "ニュースを取得できませんでした。"
-                  "RSS接続を確認してください。"
+                  "ログのRSS HTTP STATUSとRSS ERRORを確認してください。"
               )
 
+          category = selected_category
           article = random.choice(articles)
 
           print("CATEGORY:", category)
           print("NEWS:", article["title"])
           print("SOURCE:", article["link"])
-
           # 5. Ollamaを起動して台本を作成
           # 外部の生成AI APIキーは使用しない
           model = os.environ.get(
