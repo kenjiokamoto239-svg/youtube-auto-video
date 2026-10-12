@@ -161,6 +161,11 @@ jobs:
 
           category = selected["name"]
           topic = selected["topic"]
+                    # ジャンル情報を保存
+          (WORK / "category.txt").write_text(
+              category,
+              encoding="utf-8"
+          )
 
           print("VIDEO GENRE:", category)
           print("TOPIC:", topic)
@@ -1683,6 +1688,24 @@ jobs:
           script = script_path.read_text(
               encoding="utf-8"
           ).strip()
+                    # 動画のジャンルを読み込む
+          category_path = work / "category.txt"
+
+          if not category_path.exists():
+              raise RuntimeError(
+                  "動画ジャンル情報がありません"
+              )
+
+          category = category_path.read_text(
+              encoding="utf-8"
+          ).strip()
+
+          if not category:
+              raise RuntimeError(
+                  "動画ジャンル情報が空です"
+              )
+
+          print("UPLOAD VIDEO GENRE:", category)
 
           client_id = os.environ.get("YOUTUBE_CLIENT_ID")
           client_secret = os.environ.get("YOUTUBE_CLIENT_SECRET")
