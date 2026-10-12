@@ -608,22 +608,24 @@ jobs:
                                         # 台本の品質検査・自動修正
           # 検査に合格するまで繰り返す
 
-          def inspect_script(text):
+                    def inspect_script(text):
               issues = []
               text = clean_text(text)
 
-              # 文字数
+              # 文字数の検査
               if len(text) < 250:
                   issues.append(
-                      "台本が短すぎます。理由、具体例、結論を補ってください。"
+                      "台本が短すぎます。主張、理由、具体例、"
+                      "実践方法、結論を補ってください。"
                   )
 
               if len(text) > 1000:
                   issues.append(
-                      "台本が長すぎます。重要な内容を残して簡潔にしてください。"
+                      "台本が長すぎます。重要な内容を残して"
+                      "1000文字以内にしてください。"
                   )
 
-              # 文章数
+              # 文章数の検査
               sentences = [
                   s.strip()
                   for s in re.split(r"(?<=[。！？!?])", text)
@@ -632,30 +634,32 @@ jobs:
 
               if len(sentences) < 5:
                   issues.append(
-                      "文章数が少なすぎます。主張、理由、具体例、結論を説明してください。"
+                      "文章数が不足しています。主張、理由、"
+                      "具体例、実践方法、結論を説明してください。"
                   )
 
-              # 重複した文章
+              # 同じ文章の繰り返しを検査
               normalized = [
                   re.sub(r"\s+", "", s)
                   for s in sentences
               ]
 
               if normalized and (
-                  len(set(normalized))
-                  < len(normalized) * 0.8
+                  len(set(normalized)) < len(normalized) * 0.8
               ):
                   issues.append(
                       "同じ文章の繰り返しが多すぎます。"
+                      "重複を削り、新しい情報を加えてください。"
                   )
 
-              # 同じ言葉の異常な連続
+              # 同じ言葉や文章の異常な連続を検査
               if re.search(r"(.{4,18})\1{2,}", text):
                   issues.append(
                       "同じ言葉や文章が不自然に連続しています。"
+                      "自然な日本語に書き直してください。"
                   )
 
-              # AIへの指示文の混入
+              # AIへの指示文が混入していないか検査
               forbidden_phrases = [
                   "視聴者の常識を揺さぶる一文から始めましょう",
                   "読み上げ用の本文だけを出力する",
@@ -667,69 +671,86 @@ jobs:
                   "以下の条件に従って",
                   "具体例を入れてください",
                   "結論を明確にしてください",
+                  "【必須条件】",
+                  "【修正前の台本】",
               ]
 
               if any(p in text for p in forbidden_phrases):
                   issues.append(
                       "AIへの指示文が台本に混入しています。"
+                      "指示文を削除し、読み上げる本文だけにしてください。"
                   )
 
-              # 理由・仕組みの説明
+              # 理由や仕組みが説明されているか検査
               explanation_words = [
-                  "なぜ", "理由", "原因", "仕組み",
-                  "つまり", "たとえば", "例えば",
-                  "実際", "違い", "結果", "なぜなら"
+                  "なぜ",
+                  "理由",
+                  "原因",
+                  "仕組み",
+                  "つまり",
+                  "たとえば",
+                  "例えば",
+                  "実際",
+                  "違い",
+                  "結果",
+                  "なぜなら",
               ]
 
               if not any(w in text for w in explanation_words):
                   issues.append(
                       "理由や仕組みの説明が不足しています。"
+                      "主張の根拠を具体的に説明してください。"
                   )
 
-                        # 視聴者が実際に行動できるか検査
-          action_patterns = [
-              r"具体的には",
-              r"まず",
-              r"今日",
-              r"明日",
-              r"毎日",
-              r"週に[0-9一二三四五六七八九]+回",
-              r"[0-9０-９]+分",
-              r"書き出す",
-              r"記録する",
-              r"確認する",
-              r"設定する",
-              r"比較する",
-              r"見直す",
-              r"減らす",
-              r"増やす",
-              r"置き換える",
-              r"決める",
-              r"実行する",
-              r"試してみる",
-              r"始める",
-              r"やめる",
-              r"取り組む",
-              r"選ぶ",
-              r"測る",
-              r"計算する",
-              r"予約する",
-              r"相談する",
-          ]
+              # 具体的な行動が含まれているか検査
+              action_patterns = [
+                  r"具体的には",
+                  r"まず",
+                  r"今日",
+                  r"明日",
+                  r"毎日",
+                  r"週に[0-9０-９一二三四五六七八九]+回",
+                  r"[0-9０-９]+分",
+                  r"書き出す",
+                  r"記録する",
+                  r"確認する",
+                  r"設定する",
+                  r"比較する",
+                  r"見直す",
+                  r"減らす",
+                  r"増やす",
+                  r"置き換える",
+                  r"決める",
+                  r"実行する",
+                  r"試す",
+                  r"始める",
+                  r"やめる",
+                  r"取り組む",
+                  r"選ぶ",
+                  r"測る",
+                  r"計算する",
+                  r"予約する",
+                  r"相談する",
+                  r"申し込む",
+                  r"準備する",
+                  r"調べる",
+                  r"使う",
+                  r"作る",
+              ]
 
-          has_action = any(
-              re.search(pattern, text)
-              for pattern in action_patterns
-          )
-
-          if not has_action:
-              issues.append(
-                  "実践できる方法が不足しています。"
-                  "視聴者が今日から実行できる行動を"
-                  "具体的な手順とともに説明してください。"
+              has_action = any(
+                  re.search(pattern, text)
+                  for pattern in action_patterns
               )
 
-              # 一般論・精神論への偏り
+              if not has_action:
+                  issues.append(
+                      "実践できる方法が不足しています。"
+                      "視聴者が今日から実行できる行動を最低1つ示し、"
+                      "何を、いつ、どのように行うか説明してください。"
+                  )
+
+              # 抽象的な精神論への偏りを検査
               vague_phrases = [
                   "努力することが大切です",
                   "諦めないことが重要です",
@@ -746,54 +767,60 @@ jobs:
               if vague_count >= 2:
                   issues.append(
                       "一般論や精神論が多すぎます。"
-                      "具体的な理由や実例を加えてください。"
+                      "根拠、具体例、実行できる方法を加えてください。"
                   )
 
-                        # 結論の明確さを検査
-          ending = text[-180:].strip()
+              # 結論の明確さを検査
+              ending = text[-180:].strip()
 
-          weak_endings = [
-              "大切です",
-              "重要です",
-              "必要です",
-              "意識しましょう",
-              "頑張りましょう",
-          ]
+              strong_endings = [
+                  "してください",
+                  "するべきです",
+                  "すべきです",
+                  "必要があります",
+                  "ということです",
+                  "ではありません",
+                  "から始めてください",
+                  "を見直してください",
+                  "を試してください",
+                  "をやめてください",
+                  "を選んでください",
+                  "を実行してください",
+                  "を決めてください",
+                  "を確認してください",
+                  "を変えてください",
+                  "を始めてください",
+                  "と考えます",
+                  "だと考えます",
+              ]
 
-          strong_endings = [
-              "してください",
-              "するべきです",
-              "すべきです",
-              "必要があります",
-              "ということです",
-              "ではありません",
-              "に変えてください",
-              "から始めてください",
-              "を見直してください",
-              "を試してください",
-              "をやめてください",
-              "を選んでください",
-              "どう思いますか",
-          ]
+              weak_endings = [
+                  "大切です",
+                  "重要です",
+                  "必要です",
+                  "意識しましょう",
+                  "頑張りましょう",
+              ]
 
-          has_strong_ending = any(
-              phrase in ending
-              for phrase in strong_endings
-          )
-
-          has_weak_ending = any(
-              phrase in ending
-              for phrase in weak_endings
-          )
-
-          if not has_strong_ending or has_weak_ending:
-              issues.append(
-                  "結論が弱い、または曖昧です。"
-                  "最後に主張を明確に言い切り、"
-                  "視聴者が次に何をすべきか示してください。"
+              has_strong_ending = any(
+                  phrase in ending
+                  for phrase in strong_endings
               )
 
-          return issues
+              has_weak_ending = any(
+                  ending.endswith(phrase)
+                  for phrase in weak_endings
+              )
+
+              if not has_strong_ending or has_weak_ending:
+                  issues.append(
+                      "結論が弱い、または曖昧です。"
+                      "最後に主張を明確に言い切り、"
+                      "視聴者が次に取るべき行動を示してください。"
+                      "『大切です』『重要です』だけで締めないでください。"
+                  )
+
+              return issues
 
               return issues
 
