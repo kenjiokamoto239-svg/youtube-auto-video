@@ -686,18 +686,48 @@ jobs:
                       "理由や仕組みの説明が不足しています。"
                   )
 
-              # 視聴者が行動に移せる内容
-              action_words = [
-                  "方法", "試す", "実践", "始める",
-                  "見直す", "変える", "選ぶ",
-                  "確認する", "避ける", "取り組む",
-                  "具体的には", "一つ目", "まず"
-              ]
+                        # 視聴者が実際に行動できるか検査
+          action_patterns = [
+              r"具体的には",
+              r"まず",
+              r"今日",
+              r"明日",
+              r"毎日",
+              r"週に[0-9一二三四五六七八九]+回",
+              r"[0-9０-９]+分",
+              r"書き出す",
+              r"記録する",
+              r"確認する",
+              r"設定する",
+              r"比較する",
+              r"見直す",
+              r"減らす",
+              r"増やす",
+              r"置き換える",
+              r"決める",
+              r"実行する",
+              r"試してみる",
+              r"始める",
+              r"やめる",
+              r"取り組む",
+              r"選ぶ",
+              r"測る",
+              r"計算する",
+              r"予約する",
+              r"相談する",
+          ]
 
-              if not any(w in text for w in action_words):
-                  issues.append(
-                      "実践できる方法や判断基準が不足しています。"
-                  )
+          has_action = any(
+              re.search(pattern, text)
+              for pattern in action_patterns
+          )
+
+          if not has_action:
+              issues.append(
+                  "実践できる方法が不足しています。"
+                  "視聴者が今日から実行できる行動を"
+                  "具体的な手順とともに説明してください。"
+              )
 
               # 一般論・精神論への偏り
               vague_phrases = [
@@ -719,20 +749,51 @@ jobs:
                       "具体的な理由や実例を加えてください。"
                   )
 
-              # 結論があるか
-              ending_words = [
-                  "だから", "つまり", "結論",
-                  "重要なのは", "必要なのは",
-                  "おすすめです", "してください",
-                  "考えてみてください", "どう思いますか",
-                  "ということです", "べきです"
-              ]
+                        # 結論の明確さを検査
+          ending = text[-180:].strip()
 
-              if not any(w in text[-180:] for w in ending_words):
-                  issues.append(
-                      "最後の結論が弱い可能性があります。"
-                      "視聴者が持ち帰れる教訓で締めてください。"
-                  )
+          weak_endings = [
+              "大切です",
+              "重要です",
+              "必要です",
+              "意識しましょう",
+              "頑張りましょう",
+          ]
+
+          strong_endings = [
+              "してください",
+              "するべきです",
+              "すべきです",
+              "必要があります",
+              "ということです",
+              "ではありません",
+              "に変えてください",
+              "から始めてください",
+              "を見直してください",
+              "を試してください",
+              "をやめてください",
+              "を選んでください",
+              "どう思いますか",
+          ]
+
+          has_strong_ending = any(
+              phrase in ending
+              for phrase in strong_endings
+          )
+
+          has_weak_ending = any(
+              phrase in ending
+              for phrase in weak_endings
+          )
+
+          if not has_strong_ending or has_weak_ending:
+              issues.append(
+                  "結論が弱い、または曖昧です。"
+                  "最後に主張を明確に言い切り、"
+                  "視聴者が次に何をすべきか示してください。"
+              )
+
+          return issues
 
               return issues
 
