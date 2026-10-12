@@ -335,6 +335,83 @@ jobs:
               確認できない統計や実在人物の発言は作らないでください。
               """
 
+                        # ==========================================
+          # 過去の分析データを次の台本に反映
+          # ==========================================
+
+          analytics_file = ROOT / "data" / "analytics_feedback.json"
+
+          analytics_guidance = (
+              "過去の分析データはまだ利用できません。"
+              "今回のテーマに合った独自の台本を作成してください。"
+          )
+
+          try:
+              if analytics_file.exists():
+                  analytics_data = json.loads(
+                      analytics_file.read_text(
+                          encoding="utf-8"
+                      )
+                  )
+
+                  top_videos = analytics_data.get(
+                      "top_videos_by_lifetime_views",
+                      []
+                  )
+
+                  top_videos = sorted(
+                      top_videos,
+                      key=lambda item: int(
+                          item.get("views", 0)
+                      ),
+                      reverse=True
+                  )[:5]
+
+                  if top_videos:
+                      examples = []
+
+                      for video in top_videos:
+                          video_title = clean_text(
+                              video.get("title", "")
+                          )
+                          views = int(
+                              video.get("views", 0)
+                          )
+
+                          if video_title:
+                              examples.append(
+                                  f"- {video_title} "
+                                  f"（累計再生数：{views}回）"
+                              )
+
+                      analytics_guidance = (
+                          "以下は過去の再生数上位動画です。\n"
+                          + "\n".join(examples)
+                          + "\n\n"
+                          "これらを参考に、具体性、意外性、"
+                          "視聴者の関心を引く切り口を研究してください。"
+                          "ただし、タイトルや台本をコピーしてはいけません。"
+                          "今回のジャンルとテーマに合う、"
+                          "新しい主張と具体例を作ってください。"
+                      )
+
+                  print(
+                      "ANALYTICS FEEDBACK LOADED:",
+                      len(top_videos),
+                      "top videos"
+                  )
+
+              else:
+                  print(
+                      "ANALYTICS FEEDBACK NOT FOUND"
+                  )
+
+          except Exception as e:
+              print(
+                  "ANALYTICS FEEDBACK ERROR:",
+                  str(e)[:300]
+              )
+
           prompt = f"""
           あなたは、日本のYouTube Shorts向けに
           強い意見と論理的な解説を作る構成作家です。
@@ -344,7 +421,8 @@ jobs:
 
           今回のテーマ：
           {topic}
-
+          【過去の分析データから得た改善ヒント】
+          {analytics_guidance}
           {source_context}
 
           【動画の目的】
