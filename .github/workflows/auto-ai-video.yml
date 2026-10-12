@@ -617,7 +617,9 @@ jobs:
               params = {
                   "action": "query",
                   "generator": "search",
-                  "gsrsearch": category + " Japan",
+                                    "gsrsearch": (
+                      article["title"] + " " + category + " Japan"
+                  ),
                   "gsrnamespace": 6,
                   "gsrlimit": 10,
                   "prop": "imageinfo",
