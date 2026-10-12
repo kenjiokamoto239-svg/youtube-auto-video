@@ -2,7 +2,7 @@ name: Auto AI Japanese Video
 
 on:
   workflow_dispatch:
-    schedule:
+  schedule:
     - cron: "0 8 * * *"
       timezone: "Asia/Tokyo"
     - cron: "0 12 * * *"
