@@ -45,10 +45,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade edge-tts
-          python -m pip install \
+                    python -m pip install \
             requests \
             feedparser \
             pillow \
+            gTTS \
             google-api-python-client \
             google-auth \
             google-auth-oauthlib
