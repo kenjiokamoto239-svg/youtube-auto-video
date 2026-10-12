@@ -117,191 +117,176 @@ jobs:
               s = re.sub(r"\n{3,}", "\n\n", s)
               return s.strip()
 
-          # 4. ニュースを取得
-          # 1分野で取得できなくても、別の分野を順番に試す
+                    # 4. 投稿時間に応じてジャンルを選択
+          # 1日6本の投稿スケジュールは変更しない
 
-          feeds = [
-              ("岡山・介護", "岡山 介護 福祉 ニュース"),
-              ("介護・社会保障", "介護 社会保障 制度 ニュース"),
-              ("三重県熊野市", "三重県 熊野市 ニュース"),
-              ("ランニング・健康", "ランニング 健康 スポーツ ニュース"),
-              ("経済・仕事", "日本 経済 仕事 賃金 ニュース"),
-              ("国内ニュース", "日本 国内 ニュース"),
-          ]
+          now = datetime.now()
+          hour = now.hour
 
-          random.shuffle(feeds)
-
-          articles = []
-          selected_category = None
-          headers = {
-              "User-Agent": (
-                  "Mozilla/5.0 "
-                  "(compatible; AutoJapaneseVideo/1.0)"
-              ),
-              "Accept": (
-                  "application/rss+xml, "
-                  "application/xml, text/xml, */*"
-              ),
+          genre_schedule = {
+              8: {
+                  "name": "ニュース・時事問題",
+                  "topic": "最新ニュースを独自の視点で解説する"
+              },
+              12: {
+                  "name": "お金・投資",
+                  "topic": "お金、投資、貯蓄、消費行動の盲点を考える"
+              },
+              15: {
+                  "name": "自己改善・習慣",
+                  "topic": "努力、習慣、集中力、成功の考え方を考える"
+              },
+              18: {
+                  "name": "健康・ランニング",
+                  "topic": "運動、ランニング、健康習慣の常識を考える"
+              },
+              20: {
+                  "name": "名言・人生論",
+                  "topic": "名言や人生の教訓を現代的な視点から考える"
+              },
+              22: {
+                  "name": "仕事・社会",
+                  "topic": "働き方、賃金、会社、社会の仕組みを批判的に考える"
+              }
           }
 
-          for category_name, query in feeds:
-              rss_url = (
-                  "https://news.google.com/rss/search?q="
-                  + quote(query, safe="")
-                  + "&hl=ja&gl=JP&ceid=JP:ja"
+          if hour in genre_schedule:
+              selected = genre_schedule[hour]
+          else:
+              # 手動実行など、通常の投稿時刻以外は
+              # ニュース以外も含めてランダムに選ぶ
+              selected = random.choice(
+                  list(genre_schedule.values())
               )
 
-              try:
-                  print("RSS TRY:", category_name)
+          category = selected["name"]
+          topic = selected["topic"]
 
-                  response = requests.get(
-                      rss_url,
-                      headers=headers,
-                      timeout=30
+          print("VIDEO GENRE:", category)
+          print("TOPIC:", topic)
+          print("JAPAN TIME:", now.isoformat())
+
+          # 5. ニュースジャンルの場合だけニュースを取得
+          # それ以外のジャンルではニュースに依存しない
+
+          article = None
+
+          if category == "ニュース・時事問題":
+
+              feeds = [
+                  ("国内ニュース", "日本 国内 ニュース"),
+                  ("経済ニュース", "日本 経済 賃金 物価 ニュース"),
+                  ("介護・社会保障", "介護 社会保障 制度 ニュース"),
+                  ("岡山・介護", "岡山 介護 福祉 ニュース"),
+                  ("三重県熊野市", "三重県 熊野市 ニュース")
+              ]
+
+              random.shuffle(feeds)
+
+              headers = {
+                  "User-Agent": (
+                      "Mozilla/5.0 "
+                      "(compatible; AutoJapaneseVideo/1.0)"
+                  )
+              }
+
+              articles = []
+
+              for feed_name, query in feeds:
+                  rss_url = (
+                      "https://news.google.com/rss/search?q="
+                      + quote(query, safe="")
+                      + "&hl=ja&gl=JP&ceid=JP:ja"
                   )
 
-                  print(
-                      "RSS HTTP STATUS:",
-                      response.status_code
-                  )
+                  try:
+                      print("RSS TRY:", feed_name)
 
-                  response.raise_for_status()
+                      response = requests.get(
+                          rss_url,
+                          headers=headers,
+                          timeout=30
+                      )
 
-                  feed = feedparser.parse(response.content)
+                      response.raise_for_status()
 
-                  if not feed.entries:
+                      feed = feedparser.parse(
+                          response.content
+                      )
+
+                      for item in feed.entries[:15]:
+                          title_text = clean_text(
+                              item.get("title", "")
+                          )
+
+                          summary_text = clean_text(
+                              item.get("summary", "")
+                          )
+
+                          summary_text = re.sub(
+                              r"<[^>]+>",
+                              " ",
+                              summary_text
+                          )
+
+                          summary_text = clean_text(
+                              summary_text
+                          )
+
+                          link_text = item.get(
+                              "link", ""
+                          )
+
+                          if title_text and link_text:
+                              articles.append({
+                                  "title": title_text,
+                                  "summary": summary_text[:700],
+                                  "link": link_text
+                              })
+
+                      if articles:
+                          print(
+                              "RSS SUCCESS:",
+                              feed_name,
+                              "COUNT:",
+                              len(articles)
+                          )
+                          break
+
+                  except Exception as e:
                       print(
-                          "RSS EMPTY:",
-                          category_name,
-                          getattr(feed, "bozo_exception", "")
-                      )
-                      continue
-
-                  category_articles = []
-
-                  for item in feed.entries[:20]:
-                      title = clean_text(
-                          item.get("title", "")
+                          "RSS ERROR:",
+                          feed_name,
+                          str(e)[:300]
                       )
 
-                      link = item.get("link", "")
-
-                      summary = clean_text(
-                          item.get("summary", "")
-                      )
-
-                      summary = re.sub(
-                          r"<[^>]+>", " ", summary
-                      )
-
-                      summary = clean_text(summary)
-
-                      if title and link:
-                          category_articles.append({
-                              "title": title,
-                              "link": link,
-                              "summary": summary[:700]
-                          })
-
-                  if category_articles:
-                      articles = category_articles
-                      selected_category = category_name
-
-                      print(
-                          "RSS SUCCESS:",
-                          category_name,
-                          "ARTICLES:",
-                          len(articles)
-                      )
-
-                      break
-
-              except Exception as e:
-                  print(
-                      "RSS ERROR:",
-                      category_name,
-                      str(e)[:500]
+              if not articles:
+                  raise RuntimeError(
+                      "ニュースを取得できませんでした。"
+                      "誤った内容で動画を作らず、処理を停止します。"
                   )
 
-          if not articles:
-              # 検索RSSが全て失敗した場合、
-              # GoogleニュースのトップニュースRSSも試す
-              try:
-                  print("RSS FALLBACK: top news")
+              article = random.choice(articles)
 
-                  fallback_url = (
-                      "https://news.google.com/rss"
-                      "?hl=ja&gl=JP&ceid=JP:ja"
-                  )
+              print("NEWS TITLE:", article["title"])
+              print("NEWS SOURCE:", article["link"])
 
-                  response = requests.get(
-                      fallback_url,
-                      headers=headers,
-                      timeout=30
-                  )
-
-                  print(
-                      "FALLBACK HTTP STATUS:",
-                      response.status_code
-                  )
-
-                  response.raise_for_status()
-
-                  feed = feedparser.parse(response.content)
-
-                  for item in feed.entries[:30]:
-                      title = clean_text(
-                          item.get("title", "")
-                      )
-
-                      link = item.get("link", "")
-
-                      summary = clean_text(
-                          item.get("summary", "")
-                      )
-
-                      summary = re.sub(
-                          r"<[^>]+>", " ", summary
-                      )
-
-                      summary = clean_text(summary)
-
-                      if title and link:
-                          articles.append({
-                              "title": title,
-                              "link": link,
-                              "summary": summary[:700]
-                          })
-
-                  if articles:
-                      selected_category = "国内ニュース"
-
-              except Exception as e:
-                  print(
-                      "RSS FALLBACK ERROR:",
-                      str(e)[:500]
-                  )
-
-          if not articles:
-              raise RuntimeError(
-                  "ニュースを取得できませんでした。"
-                  "ログのRSS HTTP STATUSとRSS ERRORを確認してください。"
+          else:
+              print(
+                  "NEWS SEARCH: SKIPPED - NON-NEWS GENRE"
               )
 
-          category = selected_category
-          article = random.choice(articles)
+          # 6. Ollamaでジャンル別の台本を作成
+          # 外部の有料生成AI APIは使用しない
 
-          print("CATEGORY:", category)
-          print("NEWS:", article["title"])
-          print("SOURCE:", article["link"])
-          # 5. Ollamaを起動して台本を作成
-          # 外部の生成AI APIキーは使用しない
           model = os.environ.get(
-              "OLLAMA_MODEL", "qwen2.5:3b"
+              "OLLAMA_MODEL",
+              "qwen2.5:3b"
           )
 
           run([
-              "bash", "-lc",
+              "bash",
+              "-lc",
               "curl -fsSL https://ollama.com/install.sh | sh"
           ], timeout=300)
 
@@ -321,36 +306,96 @@ jobs:
               except Exception:
                   time.sleep(2)
           else:
-              raise RuntimeError("Ollamaを起動できませんでした")
+              raise RuntimeError(
+                  "Ollamaを起動できませんでした"
+              )
 
           run([
-              "ollama", "pull", model
+              "ollama",
+              "pull",
+              model
           ], timeout=1200)
 
+          if article:
+              source_context = f"""
+              ニュース見出し：
+              {article['title']}
+
+              配信元の説明：
+              {article['summary']}
+
+              記事URL：
+              {article['link']}
+              """
+          else:
+              source_context = """
+              特定のニュース記事は使用しないでください。
+              指定されたジャンルに沿って、
+              一般的な知識と論理的な考察を使ってください。
+              確認できない統計や実在人物の発言は作らないでください。
+              """
+
           prompt = f"""
-          あなたは日本語のニュース解説者です。
-          次のニュースを題材に、YouTube Shorts用の
-          日本語ナレーション台本を作成してください。
+          あなたは、日本のYouTube Shorts向けに
+          強い意見と論理的な解説を作る構成作家です。
 
-          分野：{category}
-          ニュース見出し：{article['title']}
-          配信元の説明：{article['summary']}
-          記事URL：{article['link']}
+          今回の動画ジャンル：
+          {category}
 
-          厳守事項：
-          ・ニュース見出しの読み上げだけで終わらせない
-          ・事実、推測、意見を混同しない
-          ・確認できない数字や発言を捏造しない
-          ・反対意見が出るような明確な主張を入れる
-          ・強い表現は使ってよいが、個人攻撃はしない
-          ・ニュースの問題点、社会への影響、反論を説明する
-          ・タイトルや説明文は台本に入れない
-          ・読み上げる本文だけを書く
-          ・日本語で約350～500文字
-          ・冒頭で視聴者の注意を引く
-          ・最後は問いかけで締める
-          ・日付や数字を意味なく繰り返さない
-          ・英語の記号列や管理用コードを出力しない
+          今回のテーマ：
+          {topic}
+
+          {source_context}
+
+          【動画の目的】
+          視聴者が思わず立ち止まり、
+          賛成・反対の意見を持ちたくなる内容にする。
+
+          【必ず守ること】
+          ・日本語で350～500文字程度の台本を書く
+          ・タイトルや説明文は台本に含めない
+          ・読み上げる本文だけを出力する
+          ・冒頭の一文で視聴者の常識を揺さぶる
+          ・ありきたりな精神論だけで終わらせない
+          ・具体例と理由を使って主張を説明する
+          ・反対意見が成立する理由も考慮する
+          ・無難な結論に逃げず、立場を明確にする
+          ・強い表現を使ってよいが、個人攻撃はしない
+          ・最後は視聴者への問いかけで締める
+          ・同じ言葉や文章を繰り返さない
+          ・日付や数字の意味のない羅列をしない
+          ・管理用コードや英語の記号列を出力しない
+          ・動画ジャンルと無関係な話題に脱線しない
+
+          【ジャンル別の指示】
+          ニュースの場合：
+          記事の事実と自分の考察を区別し、
+          社会への影響と問題点を説明する。
+
+          お金・投資の場合：
+          お金の使い方や投資行動について、
+          ありがちな誤解や不都合な現実を論じる。
+          利益を保証する表現や架空の実績は使わない。
+
+          自己改善の場合：
+          努力や習慣について、
+          多くの人が見落とす問題点を具体的に論じる。
+
+          健康・ランニングの場合：
+          運動や健康習慣について、
+          常識を疑う視点と実践的な考え方を示す。
+          医学的な効果を根拠なく断定しない。
+
+          名言・人生論の場合：
+          名言や人生の教訓を出発点に、
+          その言葉が正しいとは限らない理由も考える。
+          実在人物の言葉を捏造しない。
+
+          仕事・社会の場合：
+          働き方や社会の仕組みの問題を取り上げ、
+          誰にどのような負担が生じるかを論じる。
+
+          出力は読み上げ用の本文だけにしてください。
           """
 
           response = requests.post(
@@ -360,18 +405,18 @@ jobs:
                   "prompt": prompt,
                   "stream": False,
                   "options": {
-                      "temperature": 0.75
+                      "temperature": 0.85
                   }
               },
               timeout=900
           )
+
           response.raise_for_status()
 
           raw = clean_text(
               response.json().get("response", "")
           )
 
-          # 台本から不要なラベルを除去
           raw = re.sub(
               r"(?im)^\s*(台本|本文|SCRIPT|TITLE)\s*[:：]\s*",
               "",
@@ -385,39 +430,58 @@ jobs:
           )
 
           lines = []
+
           for line in raw.splitlines():
               line = line.strip()
+
               if not line:
                   continue
+
               if re.fullmatch(r"[\W_]+", line):
                   continue
+
               lines.append(line)
 
-          script = clean_text("\n".join(lines))
+          script = clean_text(
+              "\n".join(lines)
+          )
 
           if len(script) < 100:
               raise RuntimeError(
-                  "台本が短すぎます。生成結果を確認してください。"
+                  "台本が短すぎます。動画を公開せず停止します。"
               )
 
           if len(script) > 1000:
               script = script[:1000]
 
-          # 読み上げ用本文を保存
+          # 読み上げ本文と動画タイトルを分離して保存
+
           SCRIPT_FILE.write_text(
-              script, encoding="utf-8"
+              script,
+              encoding="utf-8"
           )
 
-          # 動画タイトルは読み上げ本文と分離
-          title = clean_text(article["title"])
-          title = re.sub(r"\s*-\s*[^-]+$", "", title)
-          title = title[:90]
+          first_sentence = re.split(
+              r"(?<=[。！？!?])",
+              script
+          )[0].strip()
+
+          if not first_sentence:
+              first_sentence = topic
+
+          title = (
+              category
+              + "｜"
+              + first_sentence[:45]
+          )
 
           TITLE_FILE.write_text(
-              title, encoding="utf-8"
+              title[:90],
+              encoding="utf-8"
           )
 
-          print("TITLE:", title)
+          print("VIDEO GENRE:", category)
+          print("VIDEO TITLE:", title[:90])
           print("SCRIPT LENGTH:", len(script))
 
                     # 6. 日本語音声を生成
