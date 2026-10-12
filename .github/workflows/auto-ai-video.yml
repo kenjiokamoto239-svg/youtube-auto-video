@@ -596,13 +596,12 @@ jobs:
               "\n".join(lines)
           )
 
-          if len(script) < 100:
-              raise RuntimeError(
-                  "台本が短すぎます。動画を公開せず停止します。"
-              )
-
+                    # 短い台本も、後続の品質検査と
+          # 自動修正処理に進める
           if len(script) > 1000:
               script = script[:1000]
+
+          print("INITIAL SCRIPT LENGTH:", len(script))
 
                    # 台本とタイトルを分離して保存
           # タイトルは台本の冒頭を流用せず、別途生成する
