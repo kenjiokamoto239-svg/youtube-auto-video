@@ -666,7 +666,7 @@ jobs:
               client_id=client_id,
               client_secret=client_secret,
               scopes=[
-                  "https://www.googleapis.com/auth/youtube.upload"
+                  "https://www.googleapis.com/auth/youtube"
               ]
           )
 
