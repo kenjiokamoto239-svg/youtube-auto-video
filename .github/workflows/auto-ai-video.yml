@@ -171,114 +171,147 @@ jobs:
           print("TOPIC:", topic)
           print("JAPAN TIME:", now.isoformat())
 
-          # 5. ニュースジャンルの場合だけニュースを取得
-          # それ以外のジャンルではニュースに依存しない
+                    # 5. 全ジャンルで公開情報を検索する
+          # 無料の公開RSSを利用。外部の有料APIは使わない
 
           article = None
 
-          if category == "ニュース・時事問題":
-
-              feeds = [
-                  ("国内ニュース", "日本 国内 ニュース"),
-                  ("経済ニュース", "日本 経済 賃金 物価 ニュース"),
-                  ("介護・社会保障", "介護 社会保障 制度 ニュース"),
-                  ("岡山・介護", "岡山 介護 福祉 ニュース"),
-                  ("三重県熊野市", "三重県 熊野市 ニュース")
+          research_queries = {
+              "ニュース・時事問題": [
+                  "日本 国内 社会 ニュース",
+                  "日本 経済 賃金 物価 ニュース",
+                  "岡山 介護 福祉 ニュース",
+                  "三重県 熊野市 ニュース"
+              ],
+              "お金・投資": [
+                  "日本 経済 家計 物価 ニュース",
+                  "投資 資産形成 制度 日本",
+                  "金融庁 NISA 投資"
+              ],
+              "自己改善・習慣": [
+                  "習慣形成 心理学 研究",
+                  "集中力 睡眠 行動科学 研究",
+                  "仕事術 習慣 研究"
+              ],
+              "健康・ランニング": [
+                  "ランニング 初心者 トレーニング 研究",
+                  "運動 健康 ガイドライン 公的機関",
+                  "ランニング 怪我 予防 研究"
+              ],
+              "名言・人生論": [
+                  "哲学 人生 考え方 解説",
+                  "心理学 意思決定 研究",
+                  "歴史 人物 名言 出典"
+              ],
+              "仕事・社会": [
+                  "日本 働き方 賃金 労働 ニュース",
+                  "介護 人手不足 処遇 ニュース",
+                  "社会保障 制度 日本 ニュース"
               ]
+          }
 
-              random.shuffle(feeds)
+          queries = research_queries.get(
+              category,
+              ["日本 社会 ニュース"]
+          )
 
-              headers = {
-                  "User-Agent": (
-                      "Mozilla/5.0 "
-                      "(compatible; AutoJapaneseVideo/1.0)"
+          random.shuffle(queries)
+
+          headers = {
+              "User-Agent": (
+                  "Mozilla/5.0 "
+                  "(compatible; AutoJapaneseVideo/1.0)"
+              )
+          }
+
+          articles = []
+
+          # 検索語を順番に試し、参考情報を取得する
+          for query in queries:
+              rss_url = (
+                  "https://news.google.com/rss/search?q="
+                  + quote(query, safe="")
+                  + "&hl=ja&gl=JP&ceid=JP:ja"
+              )
+
+              try:
+                  print("RESEARCH SEARCH:", query)
+
+                  response = requests.get(
+                      rss_url,
+                      headers=headers,
+                      timeout=25
                   )
-              }
 
-              articles = []
+                  response.raise_for_status()
 
-              for feed_name, query in feeds:
-                  rss_url = (
-                      "https://news.google.com/rss/search?q="
-                      + quote(query, safe="")
-                      + "&hl=ja&gl=JP&ceid=JP:ja"
+                  feed = feedparser.parse(
+                      response.content
                   )
 
-                  try:
-                      print("RSS TRY:", feed_name)
-
-                      response = requests.get(
-                          rss_url,
-                          headers=headers,
-                          timeout=30
+                  for item in feed.entries[:10]:
+                      title_text = clean_text(
+                          item.get("title", "")
                       )
 
-                      response.raise_for_status()
-
-                      feed = feedparser.parse(
-                          response.content
-                      )
-
-                      for item in feed.entries[:15]:
-                          title_text = clean_text(
-                              item.get("title", "")
-                          )
-
-                          summary_text = clean_text(
-                              item.get("summary", "")
-                          )
-
-                          summary_text = re.sub(
+                      summary_text = clean_text(
+                          re.sub(
                               r"<[^>]+>",
                               " ",
-                              summary_text
+                              item.get("summary", "")
                           )
+                      )
 
-                          summary_text = clean_text(
-                              summary_text
-                          )
+                      link_text = item.get("link", "")
 
-                          link_text = item.get(
-                              "link", ""
-                          )
-
-                          if title_text and link_text:
+                      if title_text and link_text:
+                          # 同じ記事の重複を避ける
+                          if not any(
+                              a["link"] == link_text
+                              for a in articles
+                          ):
                               articles.append({
                                   "title": title_text,
-                                  "summary": summary_text[:700],
+                                  "summary": summary_text[:900],
                                   "link": link_text
                               })
 
-                      if articles:
-                          print(
-                              "RSS SUCCESS:",
-                              feed_name,
-                              "COUNT:",
-                              len(articles)
-                          )
-                          break
+                  # 記事が見つかったら検索を終了
+                  if articles:
+                      break
 
-                  except Exception as e:
-                      print(
-                          "RSS ERROR:",
-                          feed_name,
-                          str(e)[:300]
-                      )
-
-              if not articles:
-                  raise RuntimeError(
-                      "ニュースを取得できませんでした。"
-                      "誤った内容で動画を作らず、処理を停止します。"
+              except Exception as e:
+                  print(
+                      "RESEARCH RSS ERROR:",
+                      str(e)[:200]
                   )
 
+          if articles:
               article = random.choice(articles)
 
-              print("NEWS TITLE:", article["title"])
-              print("NEWS SOURCE:", article["link"])
+              print(
+                  "RESEARCH ARTICLE:",
+                  article["title"]
+              )
+
+              print(
+                  "RESEARCH SOURCE:",
+                  article["link"]
+              )
+
+          elif category == "ニュース・時事問題":
+              raise RuntimeError(
+                  "ニュースを取得できませんでした。"
+                  "誤った内容で動画を作らず、"
+                  "処理を停止します。"
+              )
 
           else:
               print(
-                  "NEWS SEARCH: SKIPPED - NON-NEWS GENRE"
+                  "RESEARCH FALLBACK: "
+                  "参考情報を取得できません。"
+                  "確認できない事実や統計を作らず、"
+                  "一般知識に限定します。"
               )
 
           # 6. Ollamaでジャンル別の台本を作成
@@ -321,16 +354,27 @@ jobs:
               model
           ], timeout=1200)
 
-          if article:
+                    if article:
               source_context = f"""
-              ニュース見出し：
+              参考記事の見出し：
               {article['title']}
 
-              配信元の説明：
+              公開情報の説明：
               {article['summary']}
 
-              記事URL：
+              参考元URL：
               {article['link']}
+
+              この記事を丸写しせず、
+              確認できる事実と自分の論評を分けてください。
+              記事に書かれていない事実を作らないでください。
+              """
+
+          else:
+              source_context = """
+              今回は参考記事を取得できませんでした。
+              確認できない統計、研究結果、人物の発言を作らず、
+              確実に説明できる一般知識と論理的な考察に限定してください。
               """
           else:
               source_context = """
