@@ -939,38 +939,7 @@ jobs:
           """
 
           title_response = requests.post(
-              "http://127.0.0.1:11434/api/generate",
-              json={
-                  "model": model,
-                  "prompt": title_prompt,
-                  "stream": False,
-                  "options": {
-                      "temperature": 0.75
-                  }
-              },
-              timeout=300
-          )
-
-          title_response.raise_for_status()
-
-          title = clean_text(
-              title_response.json().get("response", "")
-          )
-
-          # タイトルに混入するラベルや装飾を除去
-          title = re.sub(
-              r"(?im)^\s*(タイトル|動画タイトル|TITLE)\s*[:：]\s*",
-              "",
-              title
-          )
-
-          title = title.strip().strip("「」『』\"'` ")
-          title = re.sub(r"\s+", " ", title)
-          title = title[:100].strip()
-
-                    # タイトルの品質検査
-          # ジャンル名やAIへの指示文をタイトルにしない
-
+                        # タイトルの品質検査と再生成
           bad_phrases = [
               "視聴者の常識が揺らぐ問いかけです",
               "視聴者の常識を揺さぶる",
@@ -981,6 +950,10 @@ jobs:
               "この動画では",
               "クリックしたくなる",
               "台本に合う",
+              "価値ある名言を新解釈",
+              "新解釈してみましょう",
+              "について考えてみましょう",
+              "大切さを考えましょう",
               "健康・ランニング｜",
               "自己改善・習慣｜",
               "ニュース・時事問題｜",
@@ -989,68 +962,170 @@ jobs:
               "仕事・社会｜",
           ]
 
-          # 余分な装飾やラベルを除去
-          title = re.sub(
-              r"(?im)^\s*(タイトル|動画タイトル|TITLE)\s*[:：]\s*",
-              "",
-              title
-          )
-
-          title = title.strip().strip("「」『』\"'` ")
-          title = re.sub(r"\s+", " ", title)
-
-          # 文字数と禁止表現を検査
-          title_is_bad = (
-              len(title) < 8
-              or len(title) > 60
-              or any(
-                  phrase in title
-                  for phrase in bad_phrases
+          def normalize_title(raw_title):
+              value = clean_text(raw_title)
+              value = re.sub(
+                  r"(?im)^\s*(タイトル|動画タイトル|TITLE)\s*[:：]\s*",
+                  "",
+                  value
               )
-              or "\n" in title
-          )
+              value = value.strip().strip("「」『』\"'` ")
+              value = re.sub(r"\s+", " ", value)
+              return value[:100].strip()
 
-          # 不適切な場合は、台本の冒頭から代替タイトルを作る
-          if title_is_bad:
+          def title_quality_issues(value):
+              issues = []
+
+              if len(value) < 8:
+                  issues.append("短すぎる")
+
+              if len(value) > 60:
+                  issues.append("長すぎる")
+
+              if any(phrase in value for phrase in bad_phrases):
+                  issues.append("禁止表現が含まれる")
+
+              if re.search(
+                  r"(しましょう|してみましょう|してください|解説します|紹介します)$",
+                  value
+              ):
+                  issues.append("説明文のようなタイトル")
+
+              if value.startswith(("今日から", "今回は", "皆さんは")):
+                  issues.append("抽象的な書き出し")
+
+              if not re.search(
+                  r"[、！？!?]|ほど|なぜ|本当|だけ|危険|損|無駄|必要|間違|やめ|変わ|知ら|違|理由|方法|円|分|時間|仕事|お金|投資|走|習慣|介護|賃金|会社|社会|人生|名言",
+                  value
+              ):
+                  issues.append("具体的な論点が見えない")
+
+              return issues
+
+          title = ""
+          title_issues = ["未生成"]
+
+          # 最大4回までタイトルを作り直す
+          for title_attempt in range(1, 5):
+
+              retry_note = ""
+
+              if title_attempt > 1:
+                  retry_note = (
+                      "\n前回の問題："
+                      + "、".join(title_issues)
+                      + "。前回とは異なる、具体的なタイトルを作ってください。"
+                  )
+
+              title_prompt_retry = f"""
+              あなたは日本のYouTube Shorts専門のタイトル編集者です。
+
+              ジャンル：
+              {category}
+
+              台本：
+              {script}
+
+              台本の内容と一致し、視聴者が続きを見たくなる
+              日本語タイトルを1つだけ作成してください。
+
+              条件：
+              ・15～35文字を目安にする
+              ・最大60文字
+              ・具体的な主張や意外な盲点を示す
+              ・抽象的な精神論を避ける
+              ・台本にない事実を追加しない
+              ・「タイトル：」などのラベルを付けない
+              ・説明文や候補一覧を出さない
+              ・タイトルだけを1行で出力する
+              ・「今日から、価値ある名言を新解釈してみましょう」
+                のような内容の薄いタイトルは禁止
+              {retry_note}
+              """
+
+              try:
+                  title_response = requests.post(
+                      "http://127.0.0.1:11434/api/generate",
+                      json={
+                          "model": model,
+                          "prompt": title_prompt_retry,
+                          "stream": False,
+                          "options": {
+                              "temperature": min(
+                                  0.9,
+                                  0.65 + title_attempt * 0.05
+                              )
+                          }
+                      },
+                      timeout=300
+                  )
+
+                  title_response.raise_for_status()
+
+                  candidate_title = normalize_title(
+                      title_response.json().get("response", "")
+                  )
+
+                  candidate_issues = title_quality_issues(
+                      candidate_title
+                  )
+
+                  print(
+                      "TITLE QUALITY ATTEMPT:",
+                      title_attempt,
+                      "TITLE:",
+                      candidate_title,
+                      "ISSUES:",
+                      candidate_issues
+                  )
+
+                  if not candidate_issues:
+                      title = candidate_title
+                      title_issues = []
+                      break
+
+                  title_issues = candidate_issues
+
+              except Exception as e:
+                  title_issues = ["タイトル生成エラー"]
+
+                  print(
+                      "TITLE GENERATION ERROR:",
+                      title_attempt,
+                      str(e)[:250]
+                  )
+
+          # 4回失敗した場合は、台本の具体的な一文を代替候補にする
+          if not title:
               sentences = re.split(
                   r"(?<=[。！？!?])",
                   script
               )
 
-              first_sentence = next(
-                  (
-                      sentence.strip()
-                      for sentence in sentences
-                      if len(sentence.strip()) >= 8
-                  ),
-                  ""
+              candidates = [
+                  sentence.strip().rstrip("。！？!? ")
+                  for sentence in sentences
+                  if len(sentence.strip()) >= 8
+              ]
+
+              for sentence in candidates:
+                  fallback_title = sentence[:45].rstrip("、。 ")
+
+                  if not title_quality_issues(fallback_title):
+                      title = fallback_title
+                      print("TITLE FALLBACK: VALIDATED")
+                      break
+
+          # 品質基準を満たすタイトルがなければ公開処理に進ませない
+          if not title:
+              raise RuntimeError(
+                  "タイトル品質検査に失敗しました。"
+                  "不適切なタイトルで公開しないため処理を停止します。"
               )
 
-              if not first_sentence:
-                  raise RuntimeError(
-                      "適切な動画タイトルを作成できませんでした"
-                  )
-
-              title = first_sentence
-
-              # 末尾の句読点を整理
-              title = title.rstrip("。！？!? ")
-
-              # 長すぎる場合は切り詰める
-              if len(title) > 45:
-                  title = title[:45].rstrip("、。 ")
-
-              # 代替タイトルも再検査
-              if (
-                  len(title) < 8
-                  or any(
-                      phrase in title
-                      for phrase in bad_phrases
-                  )
-              ):
-                  raise RuntimeError(
-                      "タイトルの品質検査に失敗しました"
-                  )
+          print("TITLE QUALITY CHECK: PASSED")
+          print("TITLE QUALITY ATTEMPTS:", title_attempt)
+          print("VIDEO TITLE:", title)
 
           TITLE_FILE.write_text(
               title,
