@@ -1,23 +1,13 @@
 {
-  "updated_at_jst": "2026-10-12T11:33:19.805124+09:00",
+  "updated_at_jst": "2026-10-13T12:43:06.053260+09:00",
   "period": {
-    "start": "2026-10-05",
-    "end": "2026-10-11"
+    "start": "2026-10-06",
+    "end": "2026-10-12"
   },
-  "daily_views_last_3_days": 1397,
-  "daily_views_previous_3_days": 961,
+  "daily_views_last_3_days": 1821,
+  "daily_views_previous_3_days": 992,
   "trend": "比較データ不足",
   "daily_data": [
-    {
-      "day": "2026-10-05",
-      "views": 189,
-      "watch_minutes": 17.0,
-      "average_view_seconds": 18.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-10-06",
       "views": 772,
@@ -57,18 +47,19 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-10-10",
+      "views": 644,
+      "watch_minutes": 34.0,
+      "average_view_seconds": 21.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "top_videos_by_lifetime_views": [
-    {
-      "video_id": "h43GdHIKSag",
-      "title": "40代から始めるランニングで最初にやってはいけないこと3選",
-      "published_at": "2026-09-27T07:35:37Z",
-      "views": 938,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=h43GdHIKSag"
-    },
     {
       "video_id": "GnSw820y-gU",
       "title": "タイトル: 今日から人生を少し良くする習慣 - 30秒〜1分のYouTubeショート動画",
@@ -82,10 +73,28 @@
       "video_id": "KBDAqp4U-JA",
       "title": "出雲駅伝大作戦:原晋監督の改革ビジョン",
       "published_at": "2026-10-11T10:13:46Z",
-      "views": 351,
+      "views": 368,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KBDAqp4U-JA"
+    },
+    {
+      "video_id": "cSDFRzvXNBw",
+      "title": "健康・ランニング｜視聴者の常識を揺さぶる一文から始めましょう。",
+      "published_at": "2026-10-12T08:03:01Z",
+      "views": 309,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=cSDFRzvXNBw"
+    },
+    {
+      "video_id": "hTcbOx13tuw",
+      "title": "大学駅伝シーズン開幕!いよいよ出雲駅伝~ TrackTownJPN - 文",
+      "published_at": "2026-10-10T11:35:54Z",
+      "views": 288,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=hTcbOx13tuw"
     },
     {
       "video_id": "qbMdVY6YH-U",
@@ -100,10 +109,19 @@
       "video_id": "fC6dATOUqrM",
       "title": "【豊洲ランニングまつり】女子の宮原がハーフ&10キロの2冠達成(スポニチア",
       "published_at": "2026-10-10T17:37:29Z",
-      "views": 252,
+      "views": 246,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=fC6dATOUqrM"
+    },
+    {
+      "video_id": "7hFhCWuzZgI",
+      "title": "消費と投資、常識が覆る真実",
+      "published_at": "2026-10-12T12:54:59Z",
+      "views": 223,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=7hFhCWuzZgI"
     },
     {
       "video_id": "YKfzKM3Fg0o",
@@ -115,13 +133,13 @@
       "url": "https://www.youtube.com/watch?v=YKfzKM3Fg0o"
     },
     {
-      "video_id": "hTcbOx13tuw",
-      "title": "大学駅伝シーズン開幕!いよいよ出雲駅伝~ TrackTownJPN - 文",
-      "published_at": "2026-10-10T11:35:54Z",
-      "views": 185,
+      "video_id": "_HDnzG4P-IQ",
+      "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
+      "published_at": "2026-10-11T06:15:08Z",
+      "views": 183,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hTcbOx13tuw"
+      "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
     },
     {
       "video_id": "V4okCEgR6XA",
@@ -131,24 +149,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=V4okCEgR6XA"
-    },
-    {
-      "video_id": "_HDnzG4P-IQ",
-      "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
-      "published_at": "2026-10-11T06:15:08Z",
-      "views": 163,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
-    },
-    {
-      "video_id": "ej_HEiqVvoo",
-      "title": "知らないと損する「逆風の思考」",
-      "published_at": "2026-10-08T09:50:39Z",
-      "views": 163,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ej_HEiqVvoo"
     }
   ],
   "topic_strategy": "再生数上位の動画タイトルを参考に、異なる切り口のテーマを検証する。同じタイトルや台本を再利用しない。",
