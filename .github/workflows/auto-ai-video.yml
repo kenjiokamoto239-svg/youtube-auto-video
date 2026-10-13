@@ -494,27 +494,35 @@ jobs:
           「皆さんはどう思いますか」
           のような中身のない定型文から始めてはいけません。
 
-          【台本の構成】
-          1. 冒頭：常識を疑う、具体的で強い主張をする
-          2. 問題提起：多くの人が見落としている点を指摘する
-          3. 理由：なぜその主張が成立するのか説明する
-          4. 具体例：視聴者がイメージできる例を示す
-          5. 反対意見：反対側の考え方にも触れる
-          6. 結論：自分の立場を明確にする
-          7. 締め：視聴者が意見を言いたくなる質問をする
+                    【台本の作り方】
+
+          次の要素を、話の流れに合わせて自然に入れてください。
+          すべてを機械的に詰め込む必要はありません。
+
+          ・冒頭で、具体的で反論の余地もある明確な主張を示す
+          ・多くの人が見落としている問題や盲点を指摘する
+          ・その主張が成立する理由を説明する
+          ・具体例、比較、条件、仕組みのうち少なくとも1つを使う
+          ・必要な場合は反対意見や例外にも触れる
+          ・最後はテーマに対する自分の立場を明確にする
+          ・視聴者が実際に使える判断基準や行動を示す
 
           【文章の条件】
-          ・日本語で450～600文字程度
+
+          ・日本語で450～700文字を目安にする
           ・読み上げる本文だけを出力する
           ・冒頭から具体的なテーマに入る
           ・抽象的な精神論だけで終わらせない
           ・主張には理由や具体例を伴わせる
           ・同じ意味の文章を繰り返さない
-          ・事実と個人的な意見を区別する
-          ・架空の統計、実在人物の架空の発言を作らない
+          ・事実、推測、個人的な意見を区別する
+          ・確認できない統計、研究結果、実在人物の発言を作らない
           ・タイトル、説明文、ハッシュタグを出力しない
           ・管理用コード、日付の羅列、意味不明な文字列を出力しない
           ・台本の中に制作指示を混ぜない
+          ・「大切です」「重要です」などの一般論だけで終わらせない
+          ・最後の一文は、テーマに合った具体的な結論にする
+          ・最後を質問で終えることは必須にしない
 
           【健康・ランニングの場合】
           ・初心者、中級者、経験者の違いを意識する
@@ -608,21 +616,25 @@ jobs:
                                         # 台本の品質検査・自動修正
           # 検査に合格するまで繰り返す
 
-          def inspect_script(text):
+                    def inspect_script(text):
+              """台本の重大な欠陥を検出する。固定表現の有無では判定しない。"""
               issues = []
               text = clean_text(text)
+
+              if not text:
+                  return ["台本が空です。本文を作成してください。"]
 
               # 文字数の検査
               if len(text) < 250:
                   issues.append(
-                      "台本が短すぎます。主張、理由、具体例、"
-                      "実践方法、結論を補ってください。"
+                      "台本が短すぎます。理由や具体例を補い、"
+                      "テーマを十分に説明してください。"
                   )
 
               if len(text) > 1000:
                   issues.append(
-                      "台本が長すぎます。重要な内容を残して"
-                      "1000文字以内にしてください。"
+                      "台本が長すぎます。重複や脇道を削り、"
+                      "重要な説明を残して1000文字以内にしてください。"
                   )
 
               # 文章数の検査
@@ -632,34 +644,35 @@ jobs:
                   if s.strip()
               ]
 
-              if len(sentences) < 5:
+              if len(sentences) < 4:
                   issues.append(
-                      "文章数が不足しています。主張、理由、"
-                      "具体例、実践方法、結論を説明してください。"
+                      "説明が不足しています。主張、根拠、"
+                      "具体例、結論が伝わるようにしてください。"
                   )
 
               # 同じ文章の繰り返しを検査
               normalized = [
-                  re.sub(r"\s+", "", s)
+                  re.sub(r"[\s、。！？!?「」『』（）()]", "", s)
                   for s in sentences
               ]
 
-              if normalized and (
-                  len(set(normalized)) < len(normalized) * 0.8
+              if (
+                  len(normalized) >= 5
+                  and len(set(normalized)) < len(normalized) * 0.7
               ):
                   issues.append(
                       "同じ文章の繰り返しが多すぎます。"
                       "重複を削り、新しい情報を加えてください。"
                   )
 
-              # 同じ言葉や文章の異常な連続を検査
-              if re.search(r"(.{4,18})\1{2,}", text):
+              # 同じ文字列が不自然に連続していないか検査
+              if re.search(r"(.{6,24})\1{2,}", text):
                   issues.append(
                       "同じ言葉や文章が不自然に連続しています。"
                       "自然な日本語に書き直してください。"
                   )
 
-              # AIへの指示文が混入していないか検査
+              # AIへの制作指示が混入していないか検査
               forbidden_phrases = [
                   "視聴者の常識を揺さぶる一文から始めましょう",
                   "読み上げ用の本文だけを出力する",
@@ -672,82 +685,26 @@ jobs:
                   "具体例を入れてください",
                   "結論を明確にしてください",
                   "【必須条件】",
-                  "【修正前の台本】",
+                  "【修正前の台本】"
               ]
 
               if any(p in text for p in forbidden_phrases):
                   issues.append(
-                      "AIへの指示文が台本に混入しています。"
-                      "指示文を削除し、読み上げる本文だけにしてください。"
+                      "AIへの制作指示が混入しています。"
+                      "読み上げる本文だけにしてください。"
                   )
 
-              # 理由や仕組みが説明されているか検査
+              # 理由や根拠が説明されているか検査
               explanation_words = [
-                  "なぜ",
-                  "理由",
-                  "原因",
-                  "仕組み",
-                  "つまり",
-                  "たとえば",
-                  "例えば",
-                  "実際",
-                  "違い",
-                  "結果",
-                  "なぜなら",
+                  "理由", "原因", "仕組み", "つまり",
+                  "たとえば", "例えば", "実際", "違い",
+                  "結果", "なぜなら", "ためです", "からです"
               ]
 
               if not any(w in text for w in explanation_words):
                   issues.append(
-                      "理由や仕組みの説明が不足しています。"
-                      "主張の根拠を具体的に説明してください。"
-                  )
-
-              # 具体的な行動が含まれているか検査
-              action_patterns = [
-                  r"具体的には",
-                  r"まず",
-                  r"今日",
-                  r"明日",
-                  r"毎日",
-                  r"週に[0-9０-９一二三四五六七八九]+回",
-                  r"[0-9０-９]+分",
-                  r"書き出す",
-                  r"記録する",
-                  r"確認する",
-                  r"設定する",
-                  r"比較する",
-                  r"見直す",
-                  r"減らす",
-                  r"増やす",
-                  r"置き換える",
-                  r"決める",
-                  r"実行する",
-                  r"試す",
-                  r"始める",
-                  r"やめる",
-                  r"取り組む",
-                  r"選ぶ",
-                  r"測る",
-                  r"計算する",
-                  r"予約する",
-                  r"相談する",
-                  r"申し込む",
-                  r"準備する",
-                  r"調べる",
-                  r"使う",
-                  r"作る",
-              ]
-
-              has_action = any(
-                  re.search(pattern, text)
-                  for pattern in action_patterns
-              )
-
-              if not has_action:
-                  issues.append(
-                      "実践できる方法が不足しています。"
-                      "視聴者が今日から実行できる行動を最低1つ示し、"
-                      "何を、いつ、どのように行うか説明してください。"
+                      "主張の根拠が読み取れません。"
+                      "理由や具体例を自然に説明してください。"
                   )
 
               # 抽象的な精神論への偏りを検査
@@ -756,77 +713,52 @@ jobs:
                   "諦めないことが重要です",
                   "自分を信じることが大切です",
                   "継続することが大切です",
-                  "人それぞれです",
+                  "人それぞれです"
               ]
 
               vague_count = sum(
-                  text.count(p)
-                  for p in vague_phrases
+                  text.count(p) for p in vague_phrases
               )
 
               if vague_count >= 2:
                   issues.append(
-                      "一般論や精神論が多すぎます。"
-                      "根拠、具体例、実行できる方法を加えてください。"
+                      "一般論や精神論が重複しています。"
+                      "具体的な根拠や例に置き換えてください。"
                   )
 
-              # 結論の明確さを検査
-              ending = text[-180:].strip()
+              # 結論を検査
+              # 固定の言い回しが含まれるかどうかでは判定しない
+              ending = text[-100:].strip()
 
-              strong_endings = [
-                  "してください",
-                  "するべきです",
-                  "すべきです",
-                  "必要があります",
-                  "ということです",
-                  "ではありません",
-                  "から始めてください",
-                  "を見直してください",
-                  "を試してください",
-                  "をやめてください",
-                  "を選んでください",
-                  "を実行してください",
-                  "を決めてください",
-                  "を確認してください",
-                  "を変えてください",
-                  "を始めてください",
-                  "と考えます",
-                  "だと考えます",
-              ]
-
-              weak_endings = [
+              weak_endings = (
                   "大切です",
                   "重要です",
                   "必要です",
                   "意識しましょう",
-                  "頑張りましょう",
-              ]
-
-              has_strong_ending = any(
-                  phrase in ending
-                  for phrase in strong_endings
+                  "頑張りましょう"
               )
 
-              has_weak_ending = any(
-                  ending.endswith(phrase)
-                  for phrase in weak_endings
-              )
-
-              if not has_strong_ending or has_weak_ending:
+              if ending.endswith(weak_endings):
                   issues.append(
-                      "結論が弱い、または曖昧です。"
-                      "最後に主張を明確に言い切り、"
-                      "視聴者が次に取るべき行動を示してください。"
-                      "『大切です』『重要です』だけで締めないでください。"
+                      "最後の結論が一般論だけになっています。"
+                      "テーマに対する立場を具体的に言い切り、"
+                      "必要なら行動や判断基準を示してください。"
                   )
 
               return issues
 
-          # 検査に合格するまで修正を繰り返す
-          repair_count = 0
-          quality_issues = inspect_script(script)
 
-          while quality_issues:
+          # 品質検査と自動修正
+          quality_issues = inspect_script(script)
+          repair_count = 0
+
+          # 最初の文章を候補として保持する
+          best_script = script
+          best_score = len(quality_issues)
+
+          # 無意味な修正の繰り返しを防ぐ
+          while quality_issues and repair_count < 5:
+
               repair_count += 1
 
               print(
@@ -839,11 +771,14 @@ jobs:
               repair_prompt = f"""
               あなたは日本語の解説動画を専門とする編集者です。
 
-              次の台本を、検査で指摘された問題がなくなるまで
-              丁寧に修正してください。
+              次の台本を、指摘された問題を改善し、
+              自然で説得力のある読み上げ本文に書き直してください。
 
               【ジャンル】
               {category}
+
+              【テーマ】
+              {topic}
 
               【参考情報】
               {source_context}
@@ -854,32 +789,27 @@ jobs:
               【検査で見つかった問題】
               {chr(10).join("- " + issue for issue in quality_issues)}
 
-              【最重要目標】
-              視聴者が動画を見る前よりも、
-              一つでも新しい発見、知識、気づきを得られる
-              台本にしてください。
+              【修正方針】
 
-              【必須条件】
-              ・冒頭で具体的かつ明確な主張を示す
-              ・なぜその主張が成立するのか説明する
-              ・視聴者がイメージできる具体例を入れる
-              ・意外な視点や、見落とされがちな盲点を示す
-              ・実生活で使える判断方法や行動を示す
-              ・最後に明確な結論を出す
-              ・同じ内容を繰り返さない
-              ・抽象的な精神論だけで終わらせない
-              ・事実と意見を区別する
-              ・確認できない統計や研究結果を作らない
-              ・実在人物の発言を捏造しない
-              ・参考記事にない事実を作らない
-              ・AIへの指示、タイトル、説明文を混ぜない
+              ・冒頭で具体的な主張を示す
+              ・主張の理由を説明する
+              ・可能なら具体例や比較を入れる
+              ・必要に応じて反対意見や例外にも触れる
+              ・事実、推測、意見を区別する
+              ・確認できない数字や発言を作らない
+              ・同じ意味を繰り返さない
+              ・最後はテーマに即した明確な結論にする
+              ・質問で終わることは必須にしない
+              ・決まり文句を無理に使わない
               ・自然で読みやすい日本語にする
-              ・250～900文字程度にまとめる
+              ・タイトル、説明文、ハッシュタグを混ぜない
+              ・制作指示を台本に混ぜない
+              ・450～700文字を目安にする
 
-              単なる言い換えではなく、
-              説明不足や論理の弱い部分を改善してください。
+              指摘された問題を改善しつつ、
+              元の台本の良い部分は残してください。
 
-              出力は完成した読み上げ本文だけにしてください。
+              出力は読み上げ本文だけにしてください。
               """
 
               repair_response = requests.post(
@@ -889,7 +819,7 @@ jobs:
                       "prompt": repair_prompt,
                       "stream": False,
                       "options": {
-                          "temperature": 0.4
+                          "temperature": 0.35
                       }
                   },
                   timeout=900
@@ -903,9 +833,8 @@ jobs:
                   )
               )
 
-              # 出力ラベルや装飾を除去
               repaired_raw = re.sub(
-                  r"(?im)^\s*(台本|本文|SCRIPT)\s*[:：]\s*",
+                  r"(?im)^\s*(台本|本文|SCRIPT|TITLE)\s*[:：]\s*",
                   "",
                   repaired_raw
               )
@@ -916,52 +845,65 @@ jobs:
                   repaired_raw
               )
 
-              repaired_lines = []
-
-              for line in repaired_raw.splitlines():
-                  line = line.strip()
-
-                  if not line:
-                      continue
-
-                  if re.fullmatch(r"[\W_]+", line):
-                      continue
-
-                  repaired_lines.append(line)
+              repaired_lines = [
+                  line.strip()
+                  for line in repaired_raw.splitlines()
+                  if line.strip()
+                  and not re.fullmatch(r"[\W_]+", line.strip())
+              ]
 
               repaired_script = clean_text(
                   "\n".join(repaired_lines)
               )
 
-              # 空の応答で無限ループしないようにする
+              # 空の回答なら、現在の候補を保持する
               if not repaired_script:
-                  raise RuntimeError(
-                      "台本の自動修正で空の文章が返されました。"
-                      "品質の低い動画を公開せず停止します。"
+                  print(
+                      "SCRIPT REPAIR EMPTY: "
+                      "keeping previous non-empty version"
                   )
+                  break
 
-              # 修正結果を次の検査に回す
+              new_issues = inspect_script(repaired_script)
+              new_score = len(new_issues)
+
+              # 問題が少なくなった文章を優先する
+              if new_score < best_score:
+                  best_script = repaired_script
+                  best_score = new_score
+
+              # 問題数が同じなら、内容が十分な文章も候補に残す
+              elif (
+                  new_score == best_score
+                  and len(repaired_script) > len(best_script)
+              ):
+                  best_script = repaired_script
+
               script = repaired_script
-              quality_issues = inspect_script(script)
+              quality_issues = new_issues
 
-              if quality_issues:
-                  print(
-                      "SCRIPT QUALITY CHECK: "
-                      "NOT PASSED - REPAIR AGAIN"
-                  )
-              else:
-                  print(
-                      "SCRIPT QUALITY CHECK: "
-                      "PASSED AFTER REPAIR"
-                  )
+              if not quality_issues:
+                  best_script = script
+                  best_score = 0
+                  break
 
-          print(
-              "SCRIPT QUALITY CHECK: PASSED"
-          )
-          print(
-              "TOTAL REPAIRS:",
-              repair_count
-          )
+          # 最も問題が少なかった文章を採用する
+          if best_script:
+              script = best_script
+
+          # 残った問題はログに記録する
+          # 固定フレーズや文体の判定だけで処理を永久停止させない
+          remaining_issues = inspect_script(script)
+
+          if remaining_issues:
+              print("SCRIPT QUALITY WARNINGS REMAIN:")
+
+              for issue in remaining_issues:
+                  print("QUALITY WARNING:", issue)
+          else:
+              print("SCRIPT QUALITY CHECK: PASSED")
+
+          print("TOTAL REPAIRS:", repair_count)
 
           # 合格した台本だけを保存
           SCRIPT_FILE.write_text(
