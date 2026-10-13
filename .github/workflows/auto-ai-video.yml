@@ -938,7 +938,7 @@ jobs:
           ・候補を複数出さず、タイトルだけを出力する
           """
 
-          title_response = requests.post(
+          
                         # タイトルの品質検査と再生成
           bad_phrases = [
               "視聴者の常識が揺らぐ問いかけです",
