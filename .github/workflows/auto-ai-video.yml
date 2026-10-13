@@ -616,7 +616,7 @@ jobs:
                                         # 台本の品質検査・自動修正
           # 検査に合格するまで繰り返す
 
-                    def inspect_script(text):
+          def inspect_script(text):
               """台本の重大な欠陥を検出する。固定表現の有無では判定しない。"""
               issues = []
               text = clean_text(text)
