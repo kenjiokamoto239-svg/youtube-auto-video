@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-13T12:43:06.053260+09:00",
+  "updated_at_jst": "2026-10-14T11:03:14.645633+09:00",
   "period": {
-    "start": "2026-10-06",
-    "end": "2026-10-12"
+    "start": "2026-10-07",
+    "end": "2026-10-13"
   },
-  "daily_views_last_3_days": 1821,
-  "daily_views_previous_3_days": 992,
+  "daily_views_last_3_days": 2244,
+  "daily_views_previous_3_days": 583,
   "trend": "比較データ不足",
   "daily_data": [
     {
-      "day": "2026-10-06",
-      "views": 772,
-      "watch_minutes": 41.0,
-      "average_view_seconds": 10.0,
-      "subscribers_gained": 2,
-      "subscribers_lost": 0,
-      "likes": 2,
-      "comments": 0
-    },
-    {
       "day": "2026-10-07",
-      "views": 220,
+      "views": 216,
       "watch_minutes": 15.0,
       "average_view_seconds": 14.0,
       "subscribers_gained": 0,
@@ -57,6 +47,16 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-10-11",
+      "views": 790,
+      "watch_minutes": 48.0,
+      "average_view_seconds": 18.0,
+      "subscribers_gained": 1,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "top_videos_by_lifetime_views": [
@@ -73,7 +73,7 @@
       "video_id": "KBDAqp4U-JA",
       "title": "出雲駅伝大作戦:原晋監督の改革ビジョン",
       "published_at": "2026-10-11T10:13:46Z",
-      "views": 368,
+      "views": 370,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KBDAqp4U-JA"
@@ -82,7 +82,7 @@
       "video_id": "cSDFRzvXNBw",
       "title": "健康・ランニング｜視聴者の常識を揺さぶる一文から始めましょう。",
       "published_at": "2026-10-12T08:03:01Z",
-      "views": 309,
+      "views": 311,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=cSDFRzvXNBw"
@@ -127,7 +127,7 @@
       "video_id": "YKfzKM3Fg0o",
       "title": "小さな今日の一歩で大きく変わる",
       "published_at": "2026-10-09T22:18:42Z",
-      "views": 215,
+      "views": 214,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YKfzKM3Fg0o"
@@ -136,7 +136,7 @@
       "video_id": "_HDnzG4P-IQ",
       "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
       "published_at": "2026-10-11T06:15:08Z",
-      "views": 183,
+      "views": 196,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
