@@ -1294,7 +1294,7 @@ jobs:
           ])
           # 音声を15%速くする
           # 字幕のタイミングも速度に合わせて調整
-          SPEED = 1.30
+          SPEED = 1.50
 
           sped_audio = WORK / "voice_fast.mp3"
 
@@ -2232,7 +2232,7 @@ jobs:
           script = script_path.read_text(
               encoding="utf-8"
           ).strip()
-                    # 動画のジャンルを読み込む
+          # 動画のジャンルを読み込む
           category_path = work / "category.txt"
 
           if not category_path.exists():
@@ -2288,11 +2288,11 @@ jobs:
               cache_discovery=False
           )
 
-                    # 台本の内容に合わせて説明文を作成
+          # 台本の内容に合わせて説明文を作成
           # タイトル生成用の指示文や、架空のニュース出典は掲載しない
 
-                    # 動画の内容に合わせてハッシュタグを自動選択
-                    hashtag_rules = {
+              # 動画の内容に合わせてハッシュタグを自動選択
+              hashtag_rules = {
               "人間関係・心理": [
                   "#人間関係",
                   "#心理学",
