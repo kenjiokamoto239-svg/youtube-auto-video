@@ -196,7 +196,7 @@ jobs:
 
           article = None
 
-                    research_queries = {
+          research_queries = {
               "人間関係・心理": [
                   "人間関係 心理学 研究 信頼",
                   "コミュニケーション 心理学 研究",
