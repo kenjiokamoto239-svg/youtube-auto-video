@@ -2091,7 +2091,7 @@ jobs:
           if bgm_found and BGM_FILE.exists():
               print("BGM MIX: START")
               print("BGM FILE:", BGM_FILE)
-              print("BGM VOLUME: 8%")
+              print("BGM VOLUME: 30%")
 
               audio_filter = (
                   "[2:a]volume=0.08[bgm];"
