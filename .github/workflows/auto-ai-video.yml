@@ -71,7 +71,8 @@ jobs:
         env:
           OLLAMA_MODEL: qwen2.5:3b
         run: |
-          cat > generate_video.py <<'PYTHON'
+          cat >python trend_strategy.py <<'PYTHON'
+          cat >python generate_video.py <<'PYTHON'
           import os
           import re
           import sys
@@ -131,65 +132,48 @@ jobs:
                   lines.append(line)
               return clean_text("\n".join(lines))
 
-                    # 4. 投稿時間に応じてジャンルを選択
-          # 1日6本の投稿スケジュールは変更しない
+                             # 4. トレンドとチャンネル実績から選ばれたテーマを使用
 
-          now = datetime.now()
-          hour = now.hour
+          plan_file = WORK / "trend_plan.json"
 
-                    # 1日6本の投稿ジャンル
-          # 投稿時間と既存のスケジュールは維持する
-
-          now = datetime.now()
-          hour = now.hour
-
-          genre_schedule = {
-              8: {
-                  "name": "人間関係・心理",
-                  "topic": "人間関係、信頼、人間の本性、心理の盲点を具体例で解説する"
-              },
-              12: {
-                  "name": "お金・仕事の現実",
-                  "topic": "家計、貯蓄、消費、賃金、会社、働き方の不都合な現実を考える"
-              },
-              15: {
-                  "name": "習慣・自己啓発",
-                  "topic": "行動習慣、継続、時間の使い方、成長の盲点と実践策を解説する"
-              },
-              18: {
-                  "name": "健康・ランニング",
-                  "topic": "40代の健康、運動、ランニング、初心者の失敗と具体的な改善策を解説する"
-              },
-              20: {
-                  "name": "意外な事実・雑学",
-                  "topic": "日常の思い込みを覆す事実や仕組みを、確認可能な根拠とともに解説する"
-              },
-              22: {
-                  "name": "ニュース・社会問題",
-                  "topic": "最新ニュースや社会問題を事実と意見に分け、生活への影響まで解説する"
-              }
-          }
-
-          if hour in genre_schedule:
-              selected = genre_schedule[hour]
-          else:
-              # 手動実行など、通常の投稿時刻以外は
-              # 6ジャンルからランダムに選択
-              selected = random.choice(
-                  list(genre_schedule.values())
+          if not plan_file.exists():
+              raise RuntimeError(
+                  "トレンド選定データがありません。"
+                  "trend_strategy.py の実行を確認してください。"
               )
 
-          category = selected["name"]
-          topic = selected["topic"]
+          plan = json.loads(
+              plan_file.read_text(encoding="utf-8")
+          )
+
+          category = clean_text(
+              plan.get("genre", "")
+          )
+
+          topic = clean_text(
+              plan.get("topic", "")
+          )
+
+          if not category or not topic:
+              raise RuntimeError(
+                  "選定されたジャンルまたはテーマが空です。"
+              )
 
           (WORK / "category.txt").write_text(
               category,
               encoding="utf-8"
           )
 
+          (WORK / "topic.txt").write_text(
+              topic,
+              encoding="utf-8"
+          )
+
           print("VIDEO GENRE:", category)
-          print("TOPIC:", topic)
-          print("JAPAN TIME:", now.isoformat())
+          print("VIDEO TOPIC:", topic)
+          print("TREND SOURCE:", plan.get("trend_source", "unknown"))
+          print("TREND SCORE:", plan.get("selection_score", 0))
+          print("TREND CANDIDATES:", plan.get("candidate_count", 0))
 
                     # 5. 全ジャンルで公開情報を検索する
           # 無料の公開RSSを利用。外部の有料APIは使わない
@@ -234,6 +218,16 @@ jobs:
               category,
               ["日本 社会 ニュース"]
           )
+
+          # 選定されたテーマに関連する情報を優先する
+          if topic:
+              queries = [
+                  topic,
+                  *queries
+              ]
+
+          # 重複する検索語を除去
+          queries = list(dict.fromkeys(queries))
 
           random.shuffle(queries)
 
