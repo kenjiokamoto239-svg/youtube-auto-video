@@ -64,15 +64,177 @@ jobs:
             google-auth \
             google-auth-oauthlib
           python -m edge_tts --help
+
             
+          # トレンドから動画テーマを選定
+      - name: Select video topic
+        run: |
+          mkdir -p work
+          python - <<'PYTHON'
+          import json
+          import random
+          import re
+          from pathlib import Path
+          from urllib.parse import quote
+
+          import requests
+          import feedparser
+
+          categories = {
+              "人間関係・心理": [
+                  "人間関係 心理学",
+                  "コミュニケーション 研究"
+              ],
+              "お金・仕事の現実": [
+                  "日本 家計 物価 賃金",
+                  "貯金 節約 お金"
+              ],
+              "習慣・自己啓発": [
+                  "習慣化 行動科学",
+                  "集中力 睡眠"
+              ],
+              "健康・ランニング": [
+                  "ランニング トレーニング",
+                  "運動 健康"
+              ],
+              "意外な事実・雑学": [
+                  "科学 研究 身近な疑問",
+                  "歴史 意外な事実"
+              ],
+              "ニュース・社会問題": [
+                  "日本 社会 ニュース",
+                  "岡山 介護 福祉 ニュース"
+              ]
+          }
+
+          history_file = Path("work/recent_genres.json")
+
+          try:
+              history = json.loads(
+                  history_file.read_text(encoding="utf-8")
+              )
+          except Exception:
+              history = []
+
+          available = [
+              genre for genre in categories
+              if genre not in history[-2:]
+          ]
+
+          genre = random.choice(
+              available or list(categories)
+          )
+
+          candidates = []
+
+          headers = {
+              "User-Agent": "Mozilla/5.0"
+          }
+
+          for query in random.sample(
+              categories[genre],
+              len(categories[genre])
+          ):
+              url = (
+                  "https://news.google.com/rss/search?q="
+                  + quote(query, safe="")
+                  + "&hl=ja&gl=JP&ceid=JP:ja"
+              )
+
+              try:
+                  response = requests.get(
+                      url,
+                      headers=headers,
+                      timeout=20
+                  )
+                  response.raise_for_status()
+
+                  feed = feedparser.parse(
+                      response.content
+                  )
+
+                  for entry in feed.entries[:8]:
+                      title = re.sub(
+                          r"\s+",
+                          " ",
+                          str(entry.get("title", ""))
+                      ).strip()
+
+                      if title:
+                          candidates.append(title)
+
+                  if candidates:
+                      break
+
+              except Exception as exc:
+                  print(
+                      "RSS取得エラー:",
+                      str(exc)[:200]
+                  )
+
+          fallback = {
+              "人間関係・心理":
+                  "人間関係で信頼を失う行動",
+              "お金・仕事の現実":
+                  "節約より先に見直すべき固定費",
+              "習慣・自己啓発":
+                  "やる気に頼らず習慣を続ける方法",
+              "健康・ランニング":
+                  "ランニングで休養が必要な理由",
+              "意外な事実・雑学":
+                  "日常の当たり前を疑う科学",
+              "ニュース・社会問題":
+                  "日本の社会問題と私たちの生活"
+          }
+
+          topic = (
+              random.choice(candidates)
+              if candidates
+              else fallback[genre]
+          )
+
+          plan = {
+              "genre": genre,
+              "topic": topic,
+              "trend_source": (
+                  "Google News RSS"
+                  if candidates
+                  else "fallback topic"
+              ),
+              "selection_score": 1 if candidates else 0,
+              "candidate_count": len(candidates)
+          }
+
+          Path("work/trend_plan.json").write_text(
+              json.dumps(
+                  plan,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8"
+          )
+
+          history = (history + [genre])[-6:]
+
+          history_file.write_text(
+              json.dumps(
+                  history,
+                  ensure_ascii=False
+              ),
+              encoding="utf-8"
+          )
+
+          print("選定ジャンル:", genre)
+          print("選定テーマ:", topic)
+          PYTHON
+
 
       # 3. 台本・音声・字幕・動画を生成
       - name: Generate video
         env:
           OLLAMA_MODEL: qwen2.5:3b
         run: |
-          cat >python trend_strategy.py <<'PYTHON'
-          cat >python generate_video.py <<'PYTHON'
+          cat > generate_video.py <<'PYTHON'
           import os
           import re
           import sys
