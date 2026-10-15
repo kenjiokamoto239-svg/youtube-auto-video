@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-14T11:03:14.645633+09:00",
+  "updated_at_jst": "2026-10-15T10:38:10.156042+09:00",
   "period": {
-    "start": "2026-10-07",
-    "end": "2026-10-13"
+    "start": "2026-10-08",
+    "end": "2026-10-14"
   },
-  "daily_views_last_3_days": 2244,
-  "daily_views_previous_3_days": 583,
+  "daily_views_last_3_days": 2355,
+  "daily_views_previous_3_days": 1164,
   "trend": "比較データ不足",
   "daily_data": [
     {
-      "day": "2026-10-07",
-      "views": 216,
-      "watch_minutes": 15.0,
-      "average_view_seconds": 14.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
-    {
       "day": "2026-10-08",
-      "views": 367,
+      "views": 354,
       "watch_minutes": 11.0,
       "average_view_seconds": 10.0,
       "subscribers_gained": 0,
@@ -57,23 +47,24 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-10-12",
+      "views": 921,
+      "watch_minutes": 51.0,
+      "average_view_seconds": 23.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "top_videos_by_lifetime_views": [
     {
-      "video_id": "GnSw820y-gU",
-      "title": "タイトル: 今日から人生を少し良くする習慣 - 30秒〜1分のYouTubeショート動画",
-      "published_at": "2026-10-06T04:12:01Z",
-      "views": 739,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=GnSw820y-gU"
-    },
-    {
       "video_id": "KBDAqp4U-JA",
       "title": "出雲駅伝大作戦:原晋監督の改革ビジョン",
       "published_at": "2026-10-11T10:13:46Z",
-      "views": 370,
+      "views": 371,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KBDAqp4U-JA"
@@ -136,7 +127,7 @@
       "video_id": "_HDnzG4P-IQ",
       "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
       "published_at": "2026-10-11T06:15:08Z",
-      "views": 196,
+      "views": 201,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
@@ -149,6 +140,15 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=V4okCEgR6XA"
+    },
+    {
+      "video_id": "jcg7NS_cqzk",
+      "title": "２０２５年日本の主なニュース",
+      "published_at": "2026-10-12T06:55:27Z",
+      "views": 173,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=jcg7NS_cqzk"
     }
   ],
   "topic_strategy": "再生数上位の動画タイトルを参考に、異なる切り口のテーマを検証する。同じタイトルや台本を再利用しない。",
