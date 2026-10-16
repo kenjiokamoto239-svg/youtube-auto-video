@@ -1652,7 +1652,7 @@ jobs:
 
           sped_audio.replace(AUDIO_FILE)
 
-                    timings = [
+          timings = [
               (start / SPEED, end / SPEED, sentence)
               for start, end, sentence in timings
           ]
