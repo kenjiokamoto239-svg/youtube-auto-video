@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-15T10:38:10.156042+09:00",
+  "updated_at_jst": "2026-10-16T10:33:29.960475+09:00",
   "period": {
-    "start": "2026-10-08",
-    "end": "2026-10-14"
+    "start": "2026-10-09",
+    "end": "2026-10-15"
   },
-  "daily_views_last_3_days": 2355,
-  "daily_views_previous_3_days": 1164,
+  "daily_views_last_3_days": 1823,
+  "daily_views_previous_3_days": 1443,
   "trend": "比較データ不足",
   "daily_data": [
     {
-      "day": "2026-10-08",
-      "views": 354,
-      "watch_minutes": 11.0,
-      "average_view_seconds": 10.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 1,
-      "comments": 0
-    },
-    {
       "day": "2026-10-09",
-      "views": 810,
+      "views": 809,
       "watch_minutes": 33.0,
       "average_view_seconds": 14.0,
       "subscribers_gained": 0,
@@ -30,8 +20,8 @@
     },
     {
       "day": "2026-10-10",
-      "views": 644,
-      "watch_minutes": 34.0,
+      "views": 634,
+      "watch_minutes": 33.0,
       "average_view_seconds": 21.0,
       "subscribers_gained": 0,
       "subscribers_lost": 0,
@@ -53,6 +43,16 @@
       "views": 921,
       "watch_minutes": 51.0,
       "average_view_seconds": 23.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "day": "2026-10-13",
+      "views": 112,
+      "watch_minutes": 60.0,
+      "average_view_seconds": 113.0,
       "subscribers_gained": 0,
       "subscribers_lost": 0,
       "likes": 0,
@@ -100,7 +100,7 @@
       "video_id": "fC6dATOUqrM",
       "title": "【豊洲ランニングまつり】女子の宮原がハーフ&10キロの2冠達成(スポニチア",
       "published_at": "2026-10-10T17:37:29Z",
-      "views": 246,
+      "views": 247,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=fC6dATOUqrM"
@@ -127,19 +127,10 @@
       "video_id": "_HDnzG4P-IQ",
       "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
       "published_at": "2026-10-11T06:15:08Z",
-      "views": 201,
+      "views": 203,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
-    },
-    {
-      "video_id": "V4okCEgR6XA",
-      "title": "タイトル: \"今日から人生を少し良くする習慣\"",
-      "published_at": "2026-10-07T01:58:22Z",
-      "views": 176,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=V4okCEgR6XA"
     },
     {
       "video_id": "jcg7NS_cqzk",
@@ -149,6 +140,15 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=jcg7NS_cqzk"
+    },
+    {
+      "video_id": "G7wzxKFQFQc",
+      "title": "笑顔と知識で介護1位目指す 大垣桜高校の3人、全国高校コンテスト出場 -",
+      "published_at": "2026-10-10T11:24:34Z",
+      "views": 145,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=G7wzxKFQFQc"
     }
   ],
   "topic_strategy": "再生数上位の動画タイトルを参考に、異なる切り口のテーマを検証する。同じタイトルや台本を再利用しない。",
