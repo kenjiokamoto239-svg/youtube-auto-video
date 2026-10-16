@@ -1652,7 +1652,7 @@ jobs:
 
           sped_audio.replace(AUDIO_FILE)
 
-          timings = [
+                    timings = [
               (start / SPEED, end / SPEED, sentence)
               for start, end, sentence in timings
           ]
@@ -1662,6 +1662,7 @@ jobs:
 
           print("VOICE SPEED:", SPEED)
           print("SPEED ADJUSTED DURATION:", duration)
+
           if (
               not AUDIO_FILE.exists()
               or AUDIO_FILE.stat().st_size < 1000
@@ -1669,8 +1670,6 @@ jobs:
               raise RuntimeError(
                   "音声ファイルが生成されませんでした"
               )
-
-                    duration = current_time
 
           # Shorts用の音声時間を検証する
           MAX_AUDIO_DURATION = 57.0
@@ -1683,12 +1682,12 @@ jobs:
           if duration > MAX_AUDIO_DURATION:
               raise RuntimeError(
                   f"音声が長すぎます: {duration:.1f}秒。"
-                  "59秒以内に収めるため、"
-                  "台本を短くして再生成してください。"
+                  "台本を短くする必要があります。"
               )
 
           print(
-              f"AUDIO LENGTH CHECK: PASS ({duration:.2f} seconds)"
+              f"AUDIO LENGTH CHECK: PASS "
+              f"({duration:.2f} seconds)"
           )
 
           print(
