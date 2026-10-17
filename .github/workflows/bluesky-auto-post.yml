@@ -203,9 +203,28 @@ jobs:
               json={
                   "repo": session["did"],
                   "collection": "app.bsky.feed.post",
-                  "record": {
+                                    "record": {
                       "$type": "app.bsky.feed.post",
                       "text": post_text,
+                      "facets": [
+                          {
+                              "index": {
+                                  "byteStart": (
+                                      len(post_text.encode("utf-8"))
+                                      - len(video_url.encode("utf-8"))
+                                  ),
+                                  "byteEnd": len(
+                                      post_text.encode("utf-8")
+                                  ),
+                              },
+                              "features": [
+                                  {
+                                      "$type": "app.bsky.richtext.facet#link",
+                                      "uri": video_url,
+                                  }
+                              ],
+                          }
+                      ],
                       "createdAt": datetime.now(
                           timezone.utc
                       ).isoformat().replace("+00:00", "Z"),
