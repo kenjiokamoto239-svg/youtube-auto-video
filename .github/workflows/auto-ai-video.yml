@@ -2427,12 +2427,12 @@ jobs:
 
       # 背景画像をゆっくり拡大・移動させる
       # 音声・BGM・字幕・投稿処理は維持する
-      ass_path = str(ASS_FILE.resolve())
+            ass_path = str(ASS_FILE.resolve())
       ass_path = ass_path.replace("\\", "\\\\")
       ass_path = ass_path.replace(":", "\\:")
       ass_path = ass_path.replace("'", "\\'")
-      # 背景にゆっくりした動きを付ける
-      # 30fpsで、最大約8%まで徐々に拡大する
+
+      # 背景画像をゆっくり拡大して動きを付ける
       video_filter = (
           "scale=2160:3840:force_original_aspect_ratio=increase,"
           "crop=2160:3840,"
@@ -2446,17 +2446,20 @@ jobs:
           "setsar=1,"
           f"ass='{ass_path}'"
       )
+
       # BGMが取得できている場合
       if bgm_found and BGM_FILE.exists():
           print("BGM MIX: START")
           print("BGM FILE:", BGM_FILE)
           print("BACKGROUND MOTION: ZOOMPAN")
+
           audio_filter = (
               "[2:a]volume=0.08[bgm];"
               "[1:a][bgm]"
               "amix=inputs=2:duration=first:"
               "dropout_transition=2[aout]"
           )
+
           run([
               "ffmpeg", "-y",
               "-loop", "1",
@@ -2479,12 +2482,15 @@ jobs:
               "-movflags", "+faststart",
               str(VIDEO_FILE)
           ], timeout=900)
+
           print("BGM MIX: SUCCESS")
           print("BACKGROUND MOTION: SUCCESS")
+
       # BGMが取得できなかった場合
       else:
           print("BGM MIX: SKIPPED - BGM NOT FOUND")
           print("BACKGROUND MOTION: ZOOMPAN")
+
           run([
               "ffmpeg", "-y",
               "-loop", "1",
