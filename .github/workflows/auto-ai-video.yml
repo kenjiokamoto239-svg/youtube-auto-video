@@ -2432,7 +2432,7 @@ jobs:
           ass_path = ass_path.replace(":", "\\:")
           ass_path = ass_path.replace("'", "\\'")
 
-                    video_filter = (
+          video_filter = (
               "scale=2160:3840:force_original_aspect_ratio=increase,"
               "crop=2160:3840,"
               "zoompan="
