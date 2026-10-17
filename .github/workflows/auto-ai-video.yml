@@ -2423,91 +2423,90 @@ jobs:
                   "- no suitable licensed audio was found"
               )
 
-                    10. 動きのある縦型動画を生成
+                              # 10. 動きのある縦型動画を生成
+          # 背景画像にゆっくりズームする動きを付ける
+          # 音声・BGM・字幕の設定は維持する
 
-      # 背景画像をゆっくり拡大・移動させる
-      # 音声・BGM・字幕・投稿処理は維持する
-            ass_path = str(ASS_FILE.resolve())
-      ass_path = ass_path.replace("\\", "\\\\")
-      ass_path = ass_path.replace(":", "\\:")
-      ass_path = ass_path.replace("'", "\\'")
+          ass_path = str(ASS_FILE.resolve())
+          ass_path = ass_path.replace("\\", "\\\\")
+          ass_path = ass_path.replace(":", "\\:")
+          ass_path = ass_path.replace("'", "\\'")
 
-      # 背景画像をゆっくり拡大して動きを付ける
-      video_filter = (
-          "scale=2160:3840:force_original_aspect_ratio=increase,"
-          "crop=2160:3840,"
-          "zoompan="
-          "z='min(zoom+0.00035,1.08)':"
-          "x='iw/2-(iw/zoom/2)':"
-          "y='ih/2-(ih/zoom/2)':"
-          "d=1:"
-          "s=1080x1920:"
-          "fps=30,"
-          "setsar=1,"
-          f"ass='{ass_path}'"
-      )
-
-      # BGMが取得できている場合
-      if bgm_found and BGM_FILE.exists():
-          print("BGM MIX: START")
-          print("BGM FILE:", BGM_FILE)
-          print("BACKGROUND MOTION: ZOOMPAN")
-
-          audio_filter = (
-              "[2:a]volume=0.08[bgm];"
-              "[1:a][bgm]"
-              "amix=inputs=2:duration=first:"
-              "dropout_transition=2[aout]"
+          video_filter = (
+              "scale=2160:3840:force_original_aspect_ratio=increase,"
+              "crop=2160:3840,"
+              "zoompan="
+              "z='min(zoom+0.00035,1.08)':"
+              "x='iw/2-(iw/zoom/2)':"
+              "y='ih/2-(ih/zoom/2)':"
+              "d=1:"
+              "s=1080x1920:"
+              "fps=30,"
+              "setsar=1,"
+              f"ass='{ass_path}'"
           )
 
-          run([
-              "ffmpeg", "-y",
-              "-loop", "1",
-              "-framerate", "30",
-              "-i", str(BG_FILE),
-              "-i", str(AUDIO_FILE),
-              "-stream_loop", "-1",
-              "-i", str(BGM_FILE),
-              "-filter_complex", audio_filter,
-              "-map", "0:v:0",
-              "-map", "[aout]",
-              "-vf", video_filter,
-              "-c:v", "libx264",
-              "-preset", "veryfast",
-              "-pix_fmt", "yuv420p",
-              "-r", "30",
-              "-c:a", "aac",
-              "-b:a", "192k",
-              "-shortest",
-              "-movflags", "+faststart",
-              str(VIDEO_FILE)
-          ], timeout=900)
+          # BGMが取得できている場合
+          if bgm_found and BGM_FILE.exists():
+              print("BGM MIX: START")
+              print("BGM FILE:", BGM_FILE)
+              print("BACKGROUND MOTION: ZOOMPAN")
 
-          print("BGM MIX: SUCCESS")
-          print("BACKGROUND MOTION: SUCCESS")
+              audio_filter = (
+                  "[2:a]volume=0.08[bgm];"
+                  "[1:a][bgm]"
+                  "amix=inputs=2:duration=first:"
+                  "dropout_transition=2[aout]"
+              )
 
-      # BGMが取得できなかった場合
-      else:
-          print("BGM MIX: SKIPPED - BGM NOT FOUND")
-          print("BACKGROUND MOTION: ZOOMPAN")
+              run([
+                  "ffmpeg", "-y",
+                  "-loop", "1",
+                  "-framerate", "30",
+                  "-i", str(BG_FILE),
+                  "-i", str(AUDIO_FILE),
+                  "-stream_loop", "-1",
+                  "-i", str(BGM_FILE),
+                  "-filter_complex", audio_filter,
+                  "-map", "0:v:0",
+                  "-map", "[aout]",
+                  "-vf", video_filter,
+                  "-c:v", "libx264",
+                  "-preset", "veryfast",
+                  "-pix_fmt", "yuv420p",
+                  "-r", "30",
+                  "-c:a", "aac",
+                  "-b:a", "192k",
+                  "-shortest",
+                  "-movflags", "+faststart",
+                  str(VIDEO_FILE)
+              ], timeout=900)
 
-          run([
-              "ffmpeg", "-y",
-              "-loop", "1",
-              "-framerate", "30",
-              "-i", str(BG_FILE),
-              "-i", str(AUDIO_FILE),
-              "-vf", video_filter,
-              "-c:v", "libx264",
-              "-preset", "veryfast",
-              "-pix_fmt", "yuv420p",
-              "-r", "30",
-              "-c:a", "aac",
-              "-b:a", "192k",
-              "-shortest",
-              "-movflags", "+faststart",
-              str(VIDEO_FILE)
-          ], timeout=900)
+              print("BGM MIX: SUCCESS")
+              print("BACKGROUND MOTION: SUCCESS")
+
+          # BGMが取得できなかった場合
+          else:
+              print("BGM MIX: SKIPPED - BGM NOT FOUND")
+              print("BACKGROUND MOTION: ZOOMPAN")
+
+              run([
+                  "ffmpeg", "-y",
+                  "-loop", "1",
+                  "-framerate", "30",
+                  "-i", str(BG_FILE),
+                  "-i", str(AUDIO_FILE),
+                  "-vf", video_filter,
+                  "-c:v", "libx264",
+                  "-preset", "veryfast",
+                  "-pix_fmt", "yuv420p",
+                  "-r", "30",
+                  "-c:a", "aac",
+                  "-b:a", "192k",
+                  "-shortest",
+                  "-movflags", "+faststart",
+                  str(VIDEO_FILE)
+              ], timeout=900)
 
           # 11. 生成結果を検証
           probe = subprocess.run(
