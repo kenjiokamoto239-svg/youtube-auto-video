@@ -2432,13 +2432,13 @@ jobs:
           ass_path = ass_path.replace(":", "\\:")
           ass_path = ass_path.replace("'", "\\'")
 
-          video_filter = (
+                    video_filter = (
               "scale=2160:3840:force_original_aspect_ratio=increase,"
               "crop=2160:3840,"
               "zoompan="
-              "z='min(zoom+0.00035,1.08)':"
-              "x='iw/2-(iw/zoom/2)':"
-              "y='ih/2-(ih/zoom/2)':"
+              "z='1.08+0.04*sin(on/180)':"
+              "x='iw/2-(iw/zoom/2)+20*sin(on/100)':"
+              "y='ih/2-(ih/zoom/2)+20*sin(on/130)':"
               "d=1:"
               "s=1080x1920:"
               "fps=30,"
