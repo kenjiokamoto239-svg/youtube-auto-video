@@ -1282,7 +1282,7 @@ jobs:
               encoding="utf-8"
           )
 
-                    title_prompt = f"""
+          title_prompt = f"""
           あなたは、日本のYouTube Shortsで視聴者の興味を引く
           タイトルとフックを専門に作る、厳しい編集者です。
 
