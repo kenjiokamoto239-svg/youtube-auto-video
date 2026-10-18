@@ -2423,22 +2423,235 @@ jobs:
                   "- no suitable licensed audio was found"
               )
 
-                              # 10. 動きのある縦型動画を生成
-          # 背景画像にゆっくりズームする動きを付ける
-          # 音声・BGM・字幕の設定は維持する
+                                        # 10. 動画素材と動く背景を使って縦型動画を生成
 
+          import os
+          import re
+          import requests
+          from pathlib import Path
+
+          BACKGROUND_VIDEO_FILE = WORK / "background_source.webm"
+          background_video_found = False
+
+          # Wikimedia Commonsから無料で利用できる動画を検索
+          # 動画が見つからない場合は静止画に切り替える
+          video_headers = {
+              "User-Agent": (
+                  "Mozilla/5.0 "
+                  "(compatible; AutoJapaneseVideo/1.0)"
+              )
+          }
+
+          video_extensions = (".webm", ".ogv", ".mp4")
+
+          # 内容に合う動画を探す
+          for keyword in keywords[:5]:
+              if background_video_found:
+                  break
+
+              try:
+                  print("BACKGROUND VIDEO SEARCH:", keyword)
+
+                  response = requests.get(
+                      "https://commons.wikimedia.org/w/api.php",
+                      params={
+                          "action": "query",
+                          "generator": "search",
+                          "gsrsearch": keyword,
+                          "gsrnamespace": 6,
+                          "gsrlimit": 15,
+                          "prop": "imageinfo",
+                          "iiprop": "url|extmetadata",
+                          "format": "json"
+                      },
+                      headers=video_headers,
+                      timeout=30
+                  )
+                  response.raise_for_status()
+
+                  pages = (
+                      response.json()
+                      .get("query", {})
+                      .get("pages", {})
+                  )
+
+                  for page in pages.values():
+                      if background_video_found:
+                          break
+
+                      page_title = page.get("title", "")
+                      title_lower = page_title.lower()
+
+                      if not title_lower.endswith(
+                          video_extensions
+                      ):
+                          continue
+
+                      infos = page.get("imageinfo", [])
+                      if not infos:
+                          continue
+
+                      info = infos[0]
+                      video_url = info.get("url")
+
+                      if not video_url:
+                          continue
+
+                      # 拡張子に合った保存先を使用する
+                      extension = Path(
+                          page_title
+                      ).suffix.lower()
+
+                      if extension not in video_extensions:
+                          continue
+
+                      temp_video = WORK / (
+                          "background_source" + extension
+                      )
+
+                      print(
+                          "BACKGROUND VIDEO CANDIDATE:",
+                          page_title
+                      )
+
+                      download_response = requests.get(
+                          video_url,
+                          headers=video_headers,
+                          stream=True,
+                          timeout=60
+                      )
+                      download_response.raise_for_status()
+
+                      content_length = int(
+                          download_response.headers.get(
+                              "content-length", "0"
+                          )
+                      )
+
+                      # 大容量動画による失敗を防ぐ
+                      if content_length > 40 * 1024 * 1024:
+                          download_response.close()
+                          print(
+                              "BACKGROUND VIDEO SKIPPED: "
+                              "FILE TOO LARGE"
+                          )
+                          continue
+
+                      downloaded = 0
+                      max_bytes = 40 * 1024 * 1024
+
+                      try:
+                          with open(temp_video, "wb") as f:
+                              for chunk in (
+                                  download_response.iter_content(
+                                      chunk_size=1024 * 256
+                                  )
+                              ):
+                                  if not chunk:
+                                      continue
+
+                                  downloaded += len(chunk)
+
+                                  if downloaded > max_bytes:
+                                      raise ValueError(
+                                          "Video exceeds 40 MB"
+                                      )
+
+                                  f.write(chunk)
+
+                      except Exception:
+                          temp_video.unlink(missing_ok=True)
+                          raise
+
+                      finally:
+                          download_response.close()
+
+                      # ffprobeで動画として読み取れるか確認
+                      check = subprocess.run(
+                          [
+                              "ffprobe",
+                              "-v", "error",
+                              "-select_streams", "v:0",
+                              "-show_entries",
+                              "stream=codec_type,width,height",
+                              "-of", "json",
+                              str(temp_video)
+                          ],
+                          capture_output=True,
+                          text=True,
+                          timeout=30
+                      )
+
+                      if (
+                          check.returncode == 0
+                          and '"codec_type": "video"'
+                          in check.stdout
+                      ):
+                          BACKGROUND_VIDEO_FILE = temp_video
+                          background_video_found = True
+
+                          metadata = info.get(
+                              "extmetadata", {}
+                          )
+
+                          license_name = (
+                              metadata.get(
+                                  "LicenseShortName", {}
+                              ).get("value", "")
+                          )
+
+                          artist = (
+                              metadata.get(
+                                  "Artist", {}
+                              ).get("value", "")
+                          )
+
+                          print(
+                              "BACKGROUND VIDEO SUCCESS:",
+                              page_title
+                          )
+                          print(
+                              "BACKGROUND VIDEO LICENSE:",
+                              license_name
+                          )
+                          print(
+                              "BACKGROUND VIDEO ARTIST:",
+                              artist
+                          )
+                      else:
+                          temp_video.unlink(missing_ok=True)
+
+              except Exception as e:
+                  print(
+                      "BACKGROUND VIDEO SEARCH ERROR:",
+                      str(e)[:200]
+                  )
+
+          if background_video_found:
+              print(
+                  "BACKGROUND MODE: REAL VIDEO + MOTION"
+              )
+          else:
+              print(
+                  "BACKGROUND MODE: IMAGE + MOTION FALLBACK"
+              )
+
+          # 字幕ファイルのパスをFFmpeg用に調整
           ass_path = str(ASS_FILE.resolve())
           ass_path = ass_path.replace("\\", "\\\\")
           ass_path = ass_path.replace(":", "\\:")
           ass_path = ass_path.replace("'", "\\'")
 
+          # 実際の動画にも静止画にも動きを加える
+          # 動きは強めつつ、急な揺れは避ける
           video_filter = (
-              "scale=2160:3840:force_original_aspect_ratio=increase,"
+              "scale=2160:3840:"
+              "force_original_aspect_ratio=increase,"
               "crop=2160:3840,"
               "zoompan="
-              "z='1.08+0.04*sin(on/180)':"
-              "x='iw/2-(iw/zoom/2)+20*sin(on/100)':"
-              "y='ih/2-(ih/zoom/2)+20*sin(on/130)':"
+              "z='1.06+0.06*sin(on/240)':"
+              "x='iw/2-(iw/zoom/2)+55*sin(on/150)':"
+              "y='ih/2-(ih/zoom/2)+35*sin(on/190)':"
               "d=1:"
               "s=1080x1920:"
               "fps=30,"
@@ -2446,11 +2659,29 @@ jobs:
               f"ass='{ass_path}'"
           )
 
-          # BGMが取得できている場合
+          # 背景入力を選択する
+          if background_video_found:
+              background_input = [
+                  "-stream_loop", "-1",
+                  "-i", str(BACKGROUND_VIDEO_FILE)
+              ]
+          else:
+              background_input = [
+                  "-loop", "1",
+                  "-framerate", "30",
+                  "-i", str(BG_FILE)
+              ]
+
+          # FFmpegの基本設定
+          ffmpeg_args = [
+              "ffmpeg", "-y",
+              *background_input,
+              "-i", str(AUDIO_FILE)
+          ]
+
+          # BGMが取得できている場合は音声をミックス
           if bgm_found and BGM_FILE.exists():
               print("BGM MIX: START")
-              print("BGM FILE:", BGM_FILE)
-              print("BACKGROUND MOTION: ZOOMPAN")
 
               audio_filter = (
                   "[2:a]volume=0.08[bgm];"
@@ -2459,54 +2690,45 @@ jobs:
                   "dropout_transition=2[aout]"
               )
 
-              run([
-                  "ffmpeg", "-y",
-                  "-loop", "1",
-                  "-framerate", "30",
-                  "-i", str(BG_FILE),
-                  "-i", str(AUDIO_FILE),
+              ffmpeg_args.extend([
                   "-stream_loop", "-1",
                   "-i", str(BGM_FILE),
                   "-filter_complex", audio_filter,
                   "-map", "0:v:0",
-                  "-map", "[aout]",
-                  "-vf", video_filter,
-                  "-c:v", "libx264",
-                  "-preset", "veryfast",
-                  "-pix_fmt", "yuv420p",
-                  "-r", "30",
-                  "-c:a", "aac",
-                  "-b:a", "192k",
-                  "-shortest",
-                  "-movflags", "+faststart",
-                  str(VIDEO_FILE)
-              ], timeout=900)
+                  "-map", "[aout]"
+              ])
 
-              print("BGM MIX: SUCCESS")
-              print("BACKGROUND MOTION: SUCCESS")
-
-          # BGMが取得できなかった場合
           else:
               print("BGM MIX: SKIPPED - BGM NOT FOUND")
-              print("BACKGROUND MOTION: ZOOMPAN")
 
-              run([
-                  "ffmpeg", "-y",
-                  "-loop", "1",
-                  "-framerate", "30",
-                  "-i", str(BG_FILE),
-                  "-i", str(AUDIO_FILE),
-                  "-vf", video_filter,
-                  "-c:v", "libx264",
-                  "-preset", "veryfast",
-                  "-pix_fmt", "yuv420p",
-                  "-r", "30",
-                  "-c:a", "aac",
-                  "-b:a", "192k",
-                  "-shortest",
-                  "-movflags", "+faststart",
-                  str(VIDEO_FILE)
-              ], timeout=900)
+              ffmpeg_args.extend([
+                  "-map", "0:v:0",
+                  "-map", "1:a:0"
+              ])
+
+          print(
+              "BACKGROUND MOTION:",
+              "REAL VIDEO" if background_video_found
+              else "ZOOMPAN IMAGE"
+          )
+
+          ffmpeg_args.extend([
+              "-vf", video_filter,
+              "-c:v", "libx264",
+              "-preset", "veryfast",
+              "-pix_fmt", "yuv420p",
+              "-r", "30",
+              "-c:a", "aac",
+              "-b:a", "192k",
+              "-shortest",
+              "-movflags", "+faststart",
+              str(VIDEO_FILE)
+          ])
+
+          run(ffmpeg_args, timeout=900)
+
+          print("BACKGROUND MOTION: SUCCESS")
+          print("VIDEO GENERATION: SUCCESS")
 
           # 11. 生成結果を検証
           probe = subprocess.run(
