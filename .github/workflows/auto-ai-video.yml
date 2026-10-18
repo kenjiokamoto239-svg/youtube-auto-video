@@ -2086,8 +2086,13 @@ jobs:
               str(BACKGROUND_FILE)
           )
 
-          # 9. 背景にタイトルを描画
-          # タイトルは画面上部に表示し、読み上げない。
+                    # 9. Shorts冒頭の見出しを目立たせる
+          # 黒い帯・白文字・重要語の赤文字を使用
+          # 音声や字幕の設定には変更を加えない
+
+          from PIL import Image, ImageDraw, ImageFont
+          import textwrap
+
           image = Image.open(BG_FILE).convert("RGB")
           draw = ImageDraw.Draw(image)
 
@@ -2097,31 +2102,229 @@ jobs:
           )
 
           try:
-              font = ImageFont.truetype(font_path, 54)
-          except Exception:
-              font = ImageFont.load_default()
-
-          title_lines = textwrap.wrap(
-              title, width=16, break_long_words=True
-          )[:3]
-
-          y = 100
-          for line in title_lines:
-              bbox = draw.textbbox((0, 0), line, font=font, stroke_width=2)
-              w = bbox[2] - bbox[0]
-              x = max(35, (1080 - w) // 2)
-
-              draw.text(
-                  (x, y),
-                  line,
-                  font=font,
-                  fill="white",
-                  stroke_width=3,
-                  stroke_fill="#101010"
+              headline_font = ImageFont.truetype(
+                  font_path,
+                  68
               )
-              y += 75
+          except Exception:
+              headline_font = ImageFont.load_default()
 
-          image.save(BG_FILE, quality=92)
+          try:
+              small_font = ImageFont.truetype(
+                  font_path,
+                  30
+              )
+          except Exception:
+              small_font = ImageFont.load_default()
+
+          # タイトルを短い見出しとして表示
+          headline = re.sub(
+              r"\s+",
+              " ",
+              title
+          ).strip()
+
+          # 長すぎるタイトルは最大2行にする
+          headline_lines = textwrap.wrap(
+              headline,
+              width=13,
+              break_long_words=True
+          )[:2]
+
+          if not headline_lines:
+              headline_lines = ["今日の注目ポイント"]
+
+          # 重要語を赤く表示する
+          emphasis_words = [
+              "危険",
+              "理由",
+              "本当",
+              "なぜ",
+              "失敗",
+              "損",
+              "問題",
+              "成功",
+              "変わる",
+              "限界",
+              "必要",
+              "注意",
+              "衝撃"
+          ]
+
+          # 上部に黒い見出し帯を配置
+          band_height = 430
+
+          draw.rectangle(
+              (0, 0, 1080, band_height),
+              fill=(10, 10, 10)
+          )
+
+          # 上部に小さなカテゴリ表示
+          category_labels = {
+              "ニュース・時事問題": "NEWS",
+              "お金・投資": "MONEY",
+              "自己改善・習慣": "SELF IMPROVEMENT",
+              "健康・ランニング": "RUNNING",
+              "名言・人生論": "LIFE",
+              "仕事・社会": "SOCIETY"
+          }
+
+          category_label = category_labels.get(
+              category,
+              "TODAY'S TOPIC"
+          )
+
+          draw.text(
+              (55, 35),
+              category_label,
+              font=small_font,
+              fill=(255, 190, 40)
+          )
+
+          # 見出しを中央に大きく表示
+          line_height = 100
+          total_height = len(headline_lines) * line_height
+
+          start_y = max(
+              100,
+              (band_height - total_height) // 2 + 35
+          )
+
+          for line_index, line in enumerate(headline_lines):
+              bbox = draw.textbbox(
+                  (0, 0),
+                  line,
+                  font=headline_font,
+                  stroke_width=1
+              )
+
+              text_width = bbox[2] - bbox[0]
+
+              # 文字が横幅を超える場合は縮小
+              font = headline_font
+
+              while text_width > 970:
+                  current_size = getattr(
+                      font,
+                      "size",
+                      68
+                  )
+
+                  if current_size <= 42:
+                      break
+
+                  font = ImageFont.truetype(
+                      font_path,
+                      current_size - 4
+                  )
+
+                  bbox = draw.textbbox(
+                      (0, 0),
+                      line,
+                      font=font,
+                      stroke_width=1
+                  )
+
+                  text_width = bbox[2] - bbox[0]
+
+              x = max(
+                  35,
+                  (1080 - text_width) // 2
+              )
+
+              y = start_y + line_index * line_height
+
+              # 重要語が含まれていれば赤色で強調
+              emphasis = next(
+                  (
+                      word
+                      for word in emphasis_words
+                      if word in line
+                  ),
+                  None
+              )
+
+              if emphasis:
+                  before, after = line.split(
+                      emphasis,
+                      1
+                  )
+
+                  before_width = draw.textlength(
+                      before,
+                      font=font
+                  )
+
+                  emphasis_width = draw.textlength(
+                      emphasis,
+                      font=font
+                  )
+
+                  total_width = draw.textlength(
+                      line,
+                      font=font
+                  )
+
+                  x = max(
+                      35,
+                      (1080 - total_width) // 2
+                  )
+
+                  draw.text(
+                      (x, y),
+                      before,
+                      font=font,
+                      fill=(255, 255, 255),
+                      stroke_width=2,
+                      stroke_fill=(0, 0, 0)
+                  )
+
+                  draw.text(
+                      (x + before_width, y),
+                      emphasis,
+                      font=font,
+                      fill=(255, 65, 65),
+                      stroke_width=2,
+                      stroke_fill=(0, 0, 0)
+                  )
+
+                  draw.text(
+                      (
+                          x + before_width + emphasis_width,
+                          y
+                      ),
+                      after,
+                      font=font,
+                      fill=(255, 255, 255),
+                      stroke_width=2,
+                      stroke_fill=(0, 0, 0)
+                  )
+
+              else:
+                  draw.text(
+                      (x, y),
+                      line,
+                      font=font,
+                      fill=(255, 255, 255),
+                      stroke_width=2,
+                      stroke_fill=(0, 0, 0)
+                  )
+
+          # 見出し帯の下にアクセントライン
+          draw.rectangle(
+              (0, band_height - 8, 1080, band_height),
+              fill=(255, 65, 65)
+          )
+
+          # 変更後の背景を保存
+          image.save(
+              BG_FILE,
+              "JPEG",
+              quality=92
+          )
+
+          print("OPENING HEADLINE: SUCCESS")
+          print("HEADLINE TEXT:", headline)
 
                               # 9.5 動画内容に合わせてBGMを自動取得
           # 検索語を増やし、分野別検索に失敗したら
