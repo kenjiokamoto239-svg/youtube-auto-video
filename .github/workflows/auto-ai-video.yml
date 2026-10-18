@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: "0 8 * * *"
       timezone: "Asia/Tokyo"
+    - cron: "0 10 * * *"
+      timezone: "Asia/Tokyo"
     - cron: "0 12 * * *"
       timezone: "Asia/Tokyo"
     - cron: "0 15 * * *"
@@ -74,6 +76,7 @@ jobs:
           import json
           import random
           import re
+          from datetime import datetime
           from pathlib import Path
           from urllib.parse import quote
 
@@ -104,7 +107,8 @@ jobs:
               "ニュース・社会問題": [
                   "日本 社会 ニュース",
                   "岡山 介護 福祉 ニュース"
-              ]
+              ],
+              "ダジャレ": []
           }
 
           history_file = Path("work/recent_genres.json")
@@ -116,14 +120,24 @@ jobs:
           except Exception:
               history = []
 
-          available = [
-              genre for genre in categories
-              if genre not in history[-2:]
-          ]
+          if datetime.now().hour == 10:
+              # 日本時間の10時枠はダジャレ動画に固定
+              genre = "ダジャレ"
+          else:
+              # 通常動画ではダジャレを選ばない
+              available = [
+                  genre for genre in categories
+                  if genre not in history[-2:]
+                  and genre != "ダジャレ"
+              ]
 
-          genre = random.choice(
-              available or list(categories)
-          )
+              genre = random.choice(
+                  available
+                  or [
+                      g for g in categories
+                      if g != "ダジャレ"
+                  ]
+              )
 
           candidates = []
 
@@ -187,11 +201,19 @@ jobs:
                   "日本の社会問題と私たちの生活"
           }
 
-          topic = (
-              random.choice(candidates)
-              if candidates
-              else fallback[genre]
-          )
+          if genre == "ダジャレ":
+              topic = random.choice([
+                  "短くてわかりやすい日本語ダジャレを3つ紹介する",
+                  "食べ物をテーマにしたくだらなくて笑えるダジャレ",
+                  "日常会話で使える意外なダジャレを3つ",
+                  "思わず誰かに言いたくなる親父ギャグとダジャレ"
+              ])
+          else:
+              topic = (
+                  random.choice(candidates)
+                  if candidates
+                  else fallback[genre]
+              )
 
           plan = {
               "genre": genre,
@@ -637,7 +659,18 @@ jobs:
                               # ==========================================
           # 第1段階：テーマを分析して台本の設計図を作る
           # ==========================================
+          genre_instructions = ""
 
+          if category == "ダジャレ":
+              genre_instructions = (
+                  "【ダジャレ動画の特別指示】\n"
+                  "ダジャレを中心にした短い動画にしてください。\n"
+                  "ダジャレを3つ程度、テンポよく紹介してください。\n"
+                  "それぞれ短く、音のかけ方が伝わる自然な日本語にしてください。\n"
+                  "長い前置きや説教は不要です。\n"
+                  "最後は一番くだらないオチで締めてください。\n"
+                  "読み上げる本文だけを出力してください。\n"
+              )
           analysis_prompt = f"""
           あなたは、情報の整理と論点の見極めを行う編集者です。
 
@@ -652,7 +685,7 @@ jobs:
 
           【参考情報】
           {source_context}
-
+          {genre_instructions}
           【過去の動画分析】
           {analytics_guidance}
 
@@ -990,7 +1023,26 @@ jobs:
               """台本の重大な欠陥を検出する。固定表現の有無では判定しない。"""
               issues = []
               text = clean_text(text)
+              if category == "ダジャレ":
+                  if not text:
+                      return ["ダジャレ台本が空です。"]
 
+                  if len(text) < 70:
+                      issues.append(
+                          "ダジャレを複数入れ、内容を少し増やしてください。"
+                      )
+
+                  if len(text) > 330:
+                      issues.append(
+                          "ダジャレ台本を330文字以内に短縮してください。"
+                      )
+
+                  if len(re.findall(r"[。！？!?]", text)) < 3:
+                      issues.append(
+                          "ダジャレを3つ程度、テンポよく紹介してください。"
+                      )
+
+                  return issues
               if not text:
                   return ["台本が空です。本文を作成してください。"]
 
