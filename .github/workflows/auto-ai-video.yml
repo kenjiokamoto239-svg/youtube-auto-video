@@ -2988,7 +2988,7 @@ jobs:
               print("BGM MIX: START")
 
               audio_filter = (
-                  "[2:a]volume=0.08[bgm];"
+                  "[2:a]volume=0.22[bgm];"
                   "[1:a][bgm]"
                   "amix=inputs=2:duration=first:"
                   "dropout_transition=2[aout]"
