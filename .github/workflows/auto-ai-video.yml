@@ -1818,52 +1818,46 @@ jobs:
           """.replace("\n          ", "\n"))
 
               for start, end, sentence in timings:
-                  # 大きな字幕で最大2行ずつ表示
+                  # 字幕を1行6文字以内に分割
                   chunks = textwrap.wrap(
                       sentence,
-                      width=9,
+                      width=6,
                       break_long_words=True,
                       break_on_hyphens=False
                   )
-
                   if not chunks:
                       continue
-
+                  # 文字を安全に処理する
+                  safe_chunks = [
+                      chunk.replace("{", "").replace("}", "").replace("\\", "＼")
+                      for chunk in chunks
+                  ]
                   # 2行ずつまとめる
                   groups = [
-                      "\\N".join(chunks[i:i + 2])
-                      for i in range(0, len(chunks), 2)
+                      "\\N".join(safe_chunks[i:i + 2])
+                      for i in range(0, len(safe_chunks), 2)
                   ]
-
-                  # 各字幕グループの文字数に応じて表示時間を配分
+                  # 文字数に応じて表示時間を配分する
                   group_lengths = [
                       sum(len(line) for line in group.split("\\N"))
                       for group in groups
                   ]
-
                   total_chars = sum(group_lengths)
                   cursor = start
-
                   for group, group_chars in zip(groups, group_lengths):
                       share = (
                           (end - start)
                           * group_chars
                           / max(1, total_chars)
                       )
-
                       chunk_end = min(end, cursor + share)
-
-                      text = group.replace("{", "").replace("}", "")
-                      text = text.replace("\\", "＼")
-
                       f.write(
                           "Dialogue: 0,"
                           + ass_time(cursor) + ","
                           + ass_time(max(cursor + 0.25, chunk_end))
                           + ",Default,,0,0,0,,"
-                          + text + "\n"
+                          + group + "\n"
                       )
-
                       cursor = chunk_end
 
                               # ==========================================
