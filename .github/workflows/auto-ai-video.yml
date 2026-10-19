@@ -1811,7 +1811,7 @@ jobs:
 
           [V4+ Styles]
           Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-          Style: Default,Noto Sans CJK JP,72,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,1,5,70,70,0,1
+          Style: Default,Noto Sans CJK JP,150,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,1,5,70,70,0,1
 
           [Events]
           Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -1819,32 +1819,42 @@ jobs:
 
               for start, end, sentence in timings:
                   # 字幕を短い行に分割
-                  chunks = textwrap.wrap(
-                      sentence,
-                      width=12,
-                      break_long_words=True,
-                      break_on_hyphens=False
+              chunks = textwrap.wrap(
+                  sentence,
+                  width=9,
+                  break_long_words=True,
+                  break_on_hyphens=False
+              )
+              if not chunks:
+                  continue
+
+              # 2行ずつまとめる
+              groups = [
+                  "\\N".join(chunks[i:i + 2])
+                  for i in range(0, len(chunks), 2)
+              ]
+
+              # 各字幕グループの文字数に応じて表示時間を配分
+              group_lengths = [
+                  sum(len(line) for line in group.split("\\N"))
+                  for group in groups
+              ]
+              total_chars = sum(group_lengths)
+              cursor = start
+
+              for group, group_chars in zip(groups, group_lengths):
+                  share = (end - start) * group_chars / max(1, total_chars)
+                  chunk_end = min(end, cursor + share)
+                  text = group.replace("{", "").replace("}", "")
+                  text = text.replace("\\", "＼")
+                  f.write(
+                      "Dialogue: 0,"
+                      + ass_time(cursor) + ","
+                      + ass_time(max(cursor + 0.25, chunk_end))
+                      + ",Default,,0,0,0,,"
+                      + text + "\n"
                   )
-                  if not chunks:
-                      continue
-
-                  # 長文は表示時間内で分割
-                  total_chars = sum(len(c) for c in chunks)
-                  cursor = start
-
-                  for chunk in chunks:
-                      share = (end - start) * len(chunk) / max(1, total_chars)
-                      chunk_end = min(end, cursor + share)
-                      text = chunk.replace("{", "").replace("}", "")
-                      text = text.replace("\\", "＼")
-                      f.write(
-                          "Dialogue: 0,"
-                          + ass_time(cursor) + ","
-                          + ass_time(max(cursor + 0.15, chunk_end))
-                          + ",Default,,0,0,0,,"
-                          + text + "\n"
-                      )
-                      cursor = chunk_end
+                  cursor = chunk_end
 
                               # ==========================================
           # 背景画像取得：ジャンルと内容に合わせる
