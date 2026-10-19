@@ -1811,7 +1811,7 @@ jobs:
 
           [V4+ Styles]
           Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-          Style: Default,Noto Sans CJK JP,58,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,1,5,70,70,0,1
+          Style: Default,Noto Sans CJK JP,72,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,1,0,0,0,100,100,0,0,1,4,1,5,70,70,0,1
 
           [Events]
           Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -1821,7 +1821,7 @@ jobs:
                   # 字幕を短い行に分割
                   chunks = textwrap.wrap(
                       sentence,
-                      width=18,
+                      width=12,
                       break_long_words=True,
                       break_on_hyphens=False
                   )
