@@ -1,36 +1,16 @@
 {
-  "updated_at_jst": "2026-10-17T15:42:28.099341+09:00",
+  "updated_at_jst": "2026-10-19T10:29:00.465705+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-10",
-    "end": "2026-10-16",
+    "start": "2026-10-12",
+    "end": "2026-10-18",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-10",
-      "views": 634,
-      "watch_minutes": 33.0,
-      "average_view_seconds": 21.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
-    {
-      "day": "2026-10-11",
-      "views": 790,
-      "watch_minutes": 48.0,
-      "average_view_seconds": 18.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 0,
-      "likes": 1,
-      "comments": 0
-    },
     {
       "day": "2026-10-12",
       "views": 921,
@@ -60,19 +40,39 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-10-15",
+      "views": 96,
+      "watch_minutes": 32.0,
+      "average_view_seconds": 53.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    {
+      "day": "2026-10-16",
+      "views": 195,
+      "watch_minutes": 12.0,
+      "average_view_seconds": 18.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-11",
-      "2026-10-12",
-      "2026-10-13"
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15"
     ],
     "recent_3_days": [
-      "2026-10-14",
-      "2026-10-15",
-      "2026-10-16"
+      "2026-10-16",
+      "2026-10-17",
+      "2026-10-18"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -80,17 +80,6 @@
   },
   "top_videos_by_lifetime_views": [
     {
-      "video_id": "KBDAqp4U-JA",
-      "title": "出雲駅伝大作戦:原晋監督の改革ビジョン",
-      "published_at": "2026-10-11T10:13:46Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 371,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=KBDAqp4U-JA"
-    },
-    {
       "video_id": "cSDFRzvXNBw",
       "title": "健康・ランニング｜視聴者の常識を揺さぶる一文から始めましょう。",
       "published_at": "2026-10-12T08:03:01Z",
@@ -102,37 +91,15 @@
       "url": "https://www.youtube.com/watch?v=cSDFRzvXNBw"
     },
     {
-      "video_id": "hTcbOx13tuw",
-      "title": "大学駅伝シーズン開幕!いよいよ出雲駅伝~ TrackTownJPN - 文",
-      "published_at": "2026-10-10T11:35:54Z",
-      "duration_iso": "PT20S",
-      "duration_seconds": 20,
-      "views": 288,
+      "video_id": "6HTFixZCfNk",
+      "title": "A型の幾帳面さ、人間関係でも微妙な影響",
+      "published_at": "2026-10-18T14:31:26Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 265,
       "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hTcbOx13tuw"
-    },
-    {
-      "video_id": "qbMdVY6YH-U",
-      "title": "毎日分の習慣",
-      "published_at": "2026-10-09T21:22:38Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 287,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qbMdVY6YH-U"
-    },
-    {
-      "video_id": "fC6dATOUqrM",
-      "title": "【豊洲ランニングまつり】女子の宮原がハーフ&10キロの2冠達成(スポニチア",
-      "published_at": "2026-10-10T17:37:29Z",
-      "duration_iso": "PT18S",
-      "duration_seconds": 18,
-      "views": 248,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=fC6dATOUqrM"
+      "comments": 2,
+      "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
       "video_id": "7hFhCWuzZgI",
@@ -146,28 +113,6 @@
       "url": "https://www.youtube.com/watch?v=7hFhCWuzZgI"
     },
     {
-      "video_id": "YKfzKM3Fg0o",
-      "title": "小さな今日の一歩で大きく変わる",
-      "published_at": "2026-10-09T22:18:42Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 214,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=YKfzKM3Fg0o"
-    },
-    {
-      "video_id": "_HDnzG4P-IQ",
-      "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
-      "published_at": "2026-10-11T06:15:08Z",
-      "duration_iso": "PT45S",
-      "duration_seconds": 45,
-      "views": 205,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
-    },
-    {
       "video_id": "jcg7NS_cqzk",
       "title": "２０２５年日本の主なニュース",
       "published_at": "2026-10-12T06:55:27Z",
@@ -179,30 +124,74 @@
       "url": "https://www.youtube.com/watch?v=jcg7NS_cqzk"
     },
     {
-      "video_id": "G7wzxKFQFQc",
-      "title": "笑顔と知識で介護1位目指す 大垣桜高校の3人、全国高校コンテスト出場 -",
-      "published_at": "2026-10-10T11:24:34Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 145,
+      "video_id": "TUVAyo1yxSE",
+      "title": "電車内寝静けび、健康と安全チェック",
+      "published_at": "2026-10-17T06:52:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 159,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=G7wzxKFQFQc"
+      "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
+    },
+    {
+      "video_id": "t7USTsTL6w8",
+      "title": "問いのラボ」、つくばの科学の街で子どもたちの科学夢を育てる",
+      "published_at": "2026-10-18T03:17:55Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 138,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
+    },
+    {
+      "video_id": "ErBV7rS3ZnM",
+      "title": "朝の空気嗅ぐだけで、朝起きてる人は多い",
+      "published_at": "2026-10-18T01:54:48Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 111,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
+    },
+    {
+      "video_id": "-OONbNpl3vs",
+      "title": "男衆ら「暴れみこし」威勢よく 熊野・木本神社例大祭 三重（伊勢新聞）",
+      "published_at": "2026-10-12T06:41:39Z",
+      "duration_iso": "PT1M51S",
+      "duration_seconds": 111,
+      "views": 109,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=-OONbNpl3vs"
+    },
+    {
+      "video_id": "yBQMDMpl4Eg",
+      "title": "柳沢正史の名言：睡眠不足は心の問題だった",
+      "published_at": "2026-10-18T09:43:13Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 100,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
+    },
+    {
+      "video_id": "6AhfcV9gXE4",
+      "title": "40代からのランニング、いよいよ始められるか？",
+      "published_at": "2026-10-14T09:47:27Z",
+      "duration_iso": "PT1M46S",
+      "duration_seconds": 106,
+      "views": 91,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=6AhfcV9gXE4"
     }
   ],
   "all_videos": [
     {
-      "video_id": "KBDAqp4U-JA",
-      "title": "出雲駅伝大作戦:原晋監督の改革ビジョン",
-      "published_at": "2026-10-11T10:13:46Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 371,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=KBDAqp4U-JA"
-    },
-    {
       "video_id": "cSDFRzvXNBw",
       "title": "健康・ランニング｜視聴者の常識を揺さぶる一文から始めましょう。",
       "published_at": "2026-10-12T08:03:01Z",
@@ -214,37 +203,15 @@
       "url": "https://www.youtube.com/watch?v=cSDFRzvXNBw"
     },
     {
-      "video_id": "hTcbOx13tuw",
-      "title": "大学駅伝シーズン開幕!いよいよ出雲駅伝~ TrackTownJPN - 文",
-      "published_at": "2026-10-10T11:35:54Z",
-      "duration_iso": "PT20S",
-      "duration_seconds": 20,
-      "views": 288,
+      "video_id": "6HTFixZCfNk",
+      "title": "A型の幾帳面さ、人間関係でも微妙な影響",
+      "published_at": "2026-10-18T14:31:26Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 265,
       "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hTcbOx13tuw"
-    },
-    {
-      "video_id": "qbMdVY6YH-U",
-      "title": "毎日分の習慣",
-      "published_at": "2026-10-09T21:22:38Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 287,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qbMdVY6YH-U"
-    },
-    {
-      "video_id": "fC6dATOUqrM",
-      "title": "【豊洲ランニングまつり】女子の宮原がハーフ&10キロの2冠達成(スポニチア",
-      "published_at": "2026-10-10T17:37:29Z",
-      "duration_iso": "PT18S",
-      "duration_seconds": 18,
-      "views": 248,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=fC6dATOUqrM"
+      "comments": 2,
+      "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
       "video_id": "7hFhCWuzZgI",
@@ -258,28 +225,6 @@
       "url": "https://www.youtube.com/watch?v=7hFhCWuzZgI"
     },
     {
-      "video_id": "YKfzKM3Fg0o",
-      "title": "小さな今日の一歩で大きく変わる",
-      "published_at": "2026-10-09T22:18:42Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 214,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=YKfzKM3Fg0o"
-    },
-    {
-      "video_id": "_HDnzG4P-IQ",
-      "title": "NMB48坂下真心マラソン優勝25年ぶり 未来のエンパワーメント",
-      "published_at": "2026-10-11T06:15:08Z",
-      "duration_iso": "PT45S",
-      "duration_seconds": 45,
-      "views": 205,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=_HDnzG4P-IQ"
-    },
-    {
       "video_id": "jcg7NS_cqzk",
       "title": "２０２５年日本の主なニュース",
       "published_at": "2026-10-12T06:55:27Z",
@@ -291,37 +236,59 @@
       "url": "https://www.youtube.com/watch?v=jcg7NS_cqzk"
     },
     {
-      "video_id": "G7wzxKFQFQc",
-      "title": "笑顔と知識で介護1位目指す 大垣桜高校の3人、全国高校コンテスト出場 -",
-      "published_at": "2026-10-10T11:24:34Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 145,
+      "video_id": "TUVAyo1yxSE",
+      "title": "電車内寝静けび、健康と安全チェック",
+      "published_at": "2026-10-17T06:52:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 159,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=G7wzxKFQFQc"
+      "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
     },
     {
-      "video_id": "H79vv5StaKM",
-      "title": "小さな今日できることから始めるオーバーヘッド!",
-      "published_at": "2026-10-09T22:07:58Z",
+      "video_id": "t7USTsTL6w8",
+      "title": "問いのラボ」、つくばの科学の街で子どもたちの科学夢を育てる",
+      "published_at": "2026-10-18T03:17:55Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 137,
+      "views": 138,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=H79vv5StaKM"
+      "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
     },
     {
-      "video_id": "SAC612CCUt0",
-      "title": "地域医療基金、R[1D[K READYFORで支援しませんか?",
-      "published_at": "2026-10-11T10:28:01Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 126,
+      "video_id": "ErBV7rS3ZnM",
+      "title": "朝の空気嗅ぐだけで、朝起きてる人は多い",
+      "published_at": "2026-10-18T01:54:48Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 111,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=SAC612CCUt0"
+      "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
+    },
+    {
+      "video_id": "-OONbNpl3vs",
+      "title": "男衆ら「暴れみこし」威勢よく 熊野・木本神社例大祭 三重（伊勢新聞）",
+      "published_at": "2026-10-12T06:41:39Z",
+      "duration_iso": "PT1M51S",
+      "duration_seconds": 111,
+      "views": 109,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=-OONbNpl3vs"
+    },
+    {
+      "video_id": "yBQMDMpl4Eg",
+      "title": "柳沢正史の名言：睡眠不足は心の問題だった",
+      "published_at": "2026-10-18T09:43:13Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 100,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
     },
     {
       "video_id": "6AhfcV9gXE4",
@@ -335,28 +302,6 @@
       "url": "https://www.youtube.com/watch?v=6AhfcV9gXE4"
     },
     {
-      "video_id": "-OONbNpl3vs",
-      "title": "男衆ら「暴れみこし」威勢よく 熊野・木本神社例大祭 三重（伊勢新聞）",
-      "published_at": "2026-10-12T06:41:39Z",
-      "duration_iso": "PT1M51S",
-      "duration_seconds": 111,
-      "views": 91,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-OONbNpl3vs"
-    },
-    {
-      "video_id": "IomOdCbrv2w",
-      "title": "令和8年度介護業務における介護テクノロジー導入支援事業の実施 - 兵庫県ホームページ",
-      "published_at": "2026-10-11T00:32:17Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 87,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IomOdCbrv2w"
-    },
-    {
       "video_id": "HVKVwyV09Vk",
       "title": "ありがとう」の言葉、どうして重要なのか？東工大研究の意外な証明",
       "published_at": "2026-10-15T01:24:06Z",
@@ -366,6 +311,28 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=HVKVwyV09Vk"
+    },
+    {
+      "video_id": "3xpmcpOKl_I",
+      "title": "こども健康会議が運動と食事の改善にどう働くか、驚きの結果を示す！",
+      "published_at": "2026-10-18T13:03:42Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 76,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=3xpmcpOKl_I"
+    },
+    {
+      "video_id": "CZ4ys1HRgXw",
+      "title": "市民アンケートに答えると、浜松市の健康改善に直結するチャンス！",
+      "published_at": "2026-10-17T16:10:54Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 69,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=CZ4ys1HRgXw"
     },
     {
       "video_id": "cqCNJAoCt_U",
@@ -395,7 +362,7 @@
       "published_at": "2026-10-16T12:33:49Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 61,
+      "views": 62,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=0U1zMs9gkFg"
@@ -406,7 +373,7 @@
       "published_at": "2026-10-16T13:59:08Z",
       "duration_iso": "PT47S",
       "duration_seconds": 47,
-      "views": 60,
+      "views": 59,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=7N5Dv7YU3XA"
@@ -417,7 +384,7 @@
       "published_at": "2026-10-15T12:11:08Z",
       "duration_iso": "PT2M4S",
       "duration_seconds": 124,
-      "views": 46,
+      "views": 51,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=cMdCIKJfkcU"
@@ -432,6 +399,28 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=qp4nrICcOKs"
+    },
+    {
+      "video_id": "IM0il7mfUC0",
+      "title": "すれ違う心を理解し、円滑な関係を築こう",
+      "published_at": "2026-10-18T16:19:39Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 35,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
+    },
+    {
+      "video_id": "Bxw4TzC1qr8",
+      "title": "妊娠前運動、産後回復の加速に",
+      "published_at": "2026-10-16T07:55:32Z",
+      "duration_iso": "PT1M22S",
+      "duration_seconds": 82,
+      "views": 28,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Bxw4TzC1qr8"
     },
     {
       "video_id": "w03KUOYfFwQ",
@@ -467,28 +456,6 @@
       "url": "https://www.youtube.com/watch?v=_8W34zuBHag"
     },
     {
-      "video_id": "Bxw4TzC1qr8",
-      "title": "妊娠前運動、産後回復の加速に",
-      "published_at": "2026-10-16T07:55:32Z",
-      "duration_iso": "PT1M22S",
-      "duration_seconds": 82,
-      "views": 18,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Bxw4TzC1qr8"
-    },
-    {
-      "video_id": "kfsRURbo0J4",
-      "title": "今日の小さな行動:五分だけ歩く",
-      "published_at": "2026-10-10T10:26:19Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 18,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=kfsRURbo0J4"
-    },
-    {
       "video_id": "hrpkxdcaWd0",
       "title": "今日のアズキ、古代の秘められた栄養と驚きをご紹介",
       "published_at": "2026-10-14T17:47:56Z",
@@ -511,17 +478,6 @@
       "url": "https://www.youtube.com/watch?v=P7wdU2YAtdA"
     },
     {
-      "video_id": "HXr-CJ3AUjo",
-      "title": "補助金基準緩和求め:優れたスタートアップも支援すべき",
-      "published_at": "2026-10-11T02:11:17Z",
-      "duration_iso": "PT47S",
-      "duration_seconds": 47,
-      "views": 6,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HXr-CJ3AUjo"
-    },
-    {
       "video_id": "YqWZfApSHBg",
       "title": "実質賃金プラス、物価抑制と賃上げのバランスで決まる",
       "published_at": "2026-10-14T01:48:49Z",
@@ -542,6 +498,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=4X8mvwK4_ns"
+    },
+    {
+      "video_id": "POzxklq6ynA",
+      "title": "最新福祉機器導入、介護質向上のカギを握る岡山市福祉展",
+      "published_at": "2026-10-17T12:46:23Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 4,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=POzxklq6ynA"
     },
     {
       "video_id": "9Rkx1mbMtFg",
@@ -577,6 +544,17 @@
       "url": "https://www.youtube.com/watch?v=yC15NMUmn8k"
     },
     {
+      "video_id": "kwHYx2iuB7U",
+      "title": "教諭の過度な批判、なぜ保育士を差別化するのか？",
+      "published_at": "2026-10-17T13:30:23Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=kwHYx2iuB7U"
+    },
+    {
       "video_id": "PpmjcjpFSy0",
       "title": "X-Runでマラソン突破、適切な運動量の秘密",
       "published_at": "2026-10-16T11:40:10Z",
@@ -586,6 +564,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PpmjcjpFSy0"
+    },
+    {
+      "video_id": "NeUO6pgNQrQ",
+      "title": "日本エネルギー政策の変革、経済成長と環境保護のバランス",
+      "published_at": "2026-10-14T08:20:57Z",
+      "duration_iso": "PT1M38S",
+      "duration_seconds": 98,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=NeUO6pgNQrQ"
     },
     {
       "video_id": "F0R_i8yF6gc",
@@ -599,26 +588,81 @@
       "url": "https://www.youtube.com/watch?v=F0R_i8yF6gc"
     },
     {
-      "video_id": "NeUO6pgNQrQ",
-      "title": "日本エネルギー政策の変革、経済成長と環境保護のバランス",
-      "published_at": "2026-10-14T08:20:57Z",
-      "duration_iso": "PT1M38S",
-      "duration_seconds": 98,
+      "video_id": "UT8ultwdATU",
+      "title": "1カ月SNS使用制限で睡眠・集中力改善、SNS過度利用の危険性認識",
+      "published_at": "2026-10-16T15:27:49Z",
+      "duration_iso": "PT53S",
+      "duration_seconds": 53,
       "views": 1,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=NeUO6pgNQrQ"
+      "url": "https://www.youtube.com/watch?v=UT8ultwdATU"
     },
     {
-      "video_id": "xzse4HLCCEg",
-      "title": "小さな行動から始める、継続する秘訣",
-      "published_at": "2026-10-10T11:06:05Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
+      "video_id": "5I6jpSHy2Tc",
+      "title": "Habee」で「オートファジー」を加速し、若返りを実感하세요",
+      "published_at": "2026-10-16T10:40:52Z",
+      "duration_iso": "PT1M49S",
+      "duration_seconds": 109,
       "views": 1,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=xzse4HLCCEg"
+      "url": "https://www.youtube.com/watch?v=5I6jpSHy2Tc"
+    },
+    {
+      "video_id": "gI8Hn_iRx6I",
+      "title": "新NISA導入の影響：収入と税金、その変化を理解する",
+      "published_at": "2026-10-15T17:38:42Z",
+      "duration_iso": "PT2M13S",
+      "duration_seconds": 133,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=gI8Hn_iRx6I"
+    },
+    {
+      "video_id": "4_9_TGFCDuE",
+      "title": "副業で収入UP！健康投資の重要性",
+      "published_at": "2026-10-19T00:51:38Z",
+      "duration_iso": "PT51S",
+      "duration_seconds": 51,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4_9_TGFCDuE"
+    },
+    {
+      "video_id": "d4u8EDZJGRw",
+      "title": "派遣の意義と透明性、日本の防衛政策の影響を深く理解する",
+      "published_at": "2026-10-18T12:47:37Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=d4u8EDZJGRw"
+    },
+    {
+      "video_id": "ylnx32qwv7E",
+      "title": "インフレの真実：節約だけでは足りない",
+      "published_at": "2026-10-17T10:08:38Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ylnx32qwv7E"
+    },
+    {
+      "video_id": "lw3P-Knumv0",
+      "title": "給料日に封筒に分けてみる、青木さやかの投資挑戦",
+      "published_at": "2026-10-17T07:29:57Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=lw3P-Knumv0"
     },
     {
       "video_id": "rlF2RPuSzo8",
@@ -632,28 +676,6 @@
       "url": "https://www.youtube.com/watch?v=rlF2RPuSzo8"
     },
     {
-      "video_id": "UT8ultwdATU",
-      "title": "1カ月SNS使用制限で睡眠・集中力改善、SNS過度利用の危険性認識",
-      "published_at": "2026-10-16T15:27:49Z",
-      "duration_iso": "PT53S",
-      "duration_seconds": 53,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=UT8ultwdATU"
-    },
-    {
-      "video_id": "5I6jpSHy2Tc",
-      "title": "Habee」で「オートファジー」を加速し、若返りを実感하세요",
-      "published_at": "2026-10-16T10:40:52Z",
-      "duration_iso": "PT1M49S",
-      "duration_seconds": 109,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=5I6jpSHy2Tc"
-    },
-    {
       "video_id": "HId4rcgFHcs",
       "title": "78歳の新入生、教育と高齢化社会の新たな挑戦",
       "published_at": "2026-10-16T01:14:15Z",
@@ -663,17 +685,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=HId4rcgFHcs"
-    },
-    {
-      "video_id": "gI8Hn_iRx6I",
-      "title": "新NISA導入の影響：収入と税金、その変化を理解する",
-      "published_at": "2026-10-15T17:38:42Z",
-      "duration_iso": "PT2M13S",
-      "duration_seconds": 133,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=gI8Hn_iRx6I"
     },
     {
       "video_id": "eN35yS966-g",
@@ -729,17 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=mYm9rnTIWvk"
-    },
-    {
-      "video_id": "C19HnFI99Uw",
-      "title": "小さな行動から始める",
-      "published_at": "2026-10-10T02:01:21Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=C19HnFI99Uw"
     }
   ],
   "video_data_scope": {
