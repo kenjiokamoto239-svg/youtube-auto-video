@@ -1818,39 +1818,47 @@ jobs:
           """.replace("\n          ", "\n"))
 
               for start, end, sentence in timings:
-                  # 字幕を1行6文字以内に分割
+                  # 字幕を1行6文字以内に分割する
                   chunks = textwrap.wrap(
                       sentence,
                       width=6,
                       break_long_words=True,
                       break_on_hyphens=False
                   )
+
                   if not chunks:
                       continue
-                  # 文字を安全に処理する
+
+                  # ASS字幕の制御文字を誤って解釈させない
                   safe_chunks = [
                       chunk.replace("{", "").replace("}", "").replace("\\", "＼")
                       for chunk in chunks
                   ]
-                  # 2行ずつまとめる
+
+                  # 最大2行ずつまとめる
                   groups = [
                       "\\N".join(safe_chunks[i:i + 2])
                       for i in range(0, len(safe_chunks), 2)
                   ]
+
                   # 文字数に応じて表示時間を配分する
                   group_lengths = [
                       sum(len(line) for line in group.split("\\N"))
                       for group in groups
                   ]
+
                   total_chars = sum(group_lengths)
                   cursor = start
+
                   for group, group_chars in zip(groups, group_lengths):
                       share = (
                           (end - start)
                           * group_chars
                           / max(1, total_chars)
                       )
+
                       chunk_end = min(end, cursor + share)
+
                       f.write(
                           "Dialogue: 0,"
                           + ass_time(cursor) + ","
@@ -1858,6 +1866,7 @@ jobs:
                           + ",Default,,0,0,0,,"
                           + group + "\n"
                       )
+
                       cursor = chunk_end
 
                               # ==========================================
