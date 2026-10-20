@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-19T10:29:00.465705+09:00",
+  "updated_at_jst": "2026-10-20T10:58:45.082325+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-12",
-    "end": "2026-10-18",
+    "start": "2026-10-13",
+    "end": "2026-10-19",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-12",
-      "views": 921,
-      "watch_minutes": 51.0,
-      "average_view_seconds": 23.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-10-13",
       "views": 112,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-14",
-      "views": 222,
+      "views": 221,
       "watch_minutes": 26.0,
       "average_view_seconds": 32.0,
       "subscribers_gained": 0,
@@ -43,7 +33,7 @@
     },
     {
       "day": "2026-10-15",
-      "views": 96,
+      "views": 93,
       "watch_minutes": 32.0,
       "average_view_seconds": 53.0,
       "subscribers_gained": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-10-17",
+      "views": 455,
+      "watch_minutes": 26.0,
+      "average_view_seconds": 13.0,
+      "subscribers_gained": 1,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-13",
       "2026-10-14",
-      "2026-10-15"
+      "2026-10-15",
+      "2026-10-16"
     ],
     "recent_3_days": [
-      "2026-10-16",
       "2026-10-17",
-      "2026-10-18"
+      "2026-10-18",
+      "2026-10-19"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -80,25 +80,14 @@
   },
   "top_videos_by_lifetime_views": [
     {
-      "video_id": "cSDFRzvXNBw",
-      "title": "健康・ランニング｜視聴者の常識を揺さぶる一文から始めましょう。",
-      "published_at": "2026-10-12T08:03:01Z",
-      "duration_iso": "PT22S",
-      "duration_seconds": 22,
-      "views": 311,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=cSDFRzvXNBw"
-    },
-    {
       "video_id": "6HTFixZCfNk",
       "title": "A型の幾帳面さ、人間関係でも微妙な影響",
       "published_at": "2026-10-18T14:31:26Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 265,
-      "likes": 0,
-      "comments": 2,
+      "views": 684,
+      "likes": 3,
+      "comments": 4,
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
@@ -113,15 +102,15 @@
       "url": "https://www.youtube.com/watch?v=7hFhCWuzZgI"
     },
     {
-      "video_id": "jcg7NS_cqzk",
-      "title": "２０２５年日本の主なニュース",
-      "published_at": "2026-10-12T06:55:27Z",
-      "duration_iso": "PT1M34S",
-      "duration_seconds": 94,
-      "views": 173,
+      "video_id": "VnzH5Tt5e7M",
+      "title": "なぜありがとうを言うと、相手の心にどんな影響があるのか",
+      "published_at": "2026-10-19T17:30:04Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 210,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=jcg7NS_cqzk"
+      "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
       "video_id": "TUVAyo1yxSE",
@@ -129,7 +118,7 @@
       "published_at": "2026-10-17T06:52:34Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 159,
+      "views": 161,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
@@ -146,6 +135,17 @@
       "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
     },
     {
+      "video_id": "IM0il7mfUC0",
+      "title": "すれ違う心を理解し、円滑な関係を築こう",
+      "published_at": "2026-10-18T16:19:39Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 123,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
+    },
+    {
       "video_id": "ErBV7rS3ZnM",
       "title": "朝の空気嗅ぐだけで、朝起きてる人は多い",
       "published_at": "2026-10-18T01:54:48Z",
@@ -157,23 +157,12 @@
       "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
     },
     {
-      "video_id": "-OONbNpl3vs",
-      "title": "男衆ら「暴れみこし」威勢よく 熊野・木本神社例大祭 三重（伊勢新聞）",
-      "published_at": "2026-10-12T06:41:39Z",
-      "duration_iso": "PT1M51S",
-      "duration_seconds": 111,
-      "views": 109,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-OONbNpl3vs"
-    },
-    {
       "video_id": "yBQMDMpl4Eg",
       "title": "柳沢正史の名言：睡眠不足は心の問題だった",
       "published_at": "2026-10-18T09:43:13Z",
       "duration_iso": "PT46S",
       "duration_seconds": 46,
-      "views": 100,
+      "views": 102,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
@@ -188,29 +177,29 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=6AhfcV9gXE4"
+    },
+    {
+      "video_id": "HVKVwyV09Vk",
+      "title": "ありがとう」の言葉、どうして重要なのか？東工大研究の意外な証明",
+      "published_at": "2026-10-15T01:24:06Z",
+      "duration_iso": "PT48S",
+      "duration_seconds": 48,
+      "views": 85,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=HVKVwyV09Vk"
     }
   ],
   "all_videos": [
-    {
-      "video_id": "cSDFRzvXNBw",
-      "title": "健康・ランニング｜視聴者の常識を揺さぶる一文から始めましょう。",
-      "published_at": "2026-10-12T08:03:01Z",
-      "duration_iso": "PT22S",
-      "duration_seconds": 22,
-      "views": 311,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=cSDFRzvXNBw"
-    },
     {
       "video_id": "6HTFixZCfNk",
       "title": "A型の幾帳面さ、人間関係でも微妙な影響",
       "published_at": "2026-10-18T14:31:26Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 265,
-      "likes": 0,
-      "comments": 2,
+      "views": 684,
+      "likes": 3,
+      "comments": 4,
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
@@ -225,15 +214,15 @@
       "url": "https://www.youtube.com/watch?v=7hFhCWuzZgI"
     },
     {
-      "video_id": "jcg7NS_cqzk",
-      "title": "２０２５年日本の主なニュース",
-      "published_at": "2026-10-12T06:55:27Z",
-      "duration_iso": "PT1M34S",
-      "duration_seconds": 94,
-      "views": 173,
+      "video_id": "VnzH5Tt5e7M",
+      "title": "なぜありがとうを言うと、相手の心にどんな影響があるのか",
+      "published_at": "2026-10-19T17:30:04Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 210,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=jcg7NS_cqzk"
+      "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
       "video_id": "TUVAyo1yxSE",
@@ -241,7 +230,7 @@
       "published_at": "2026-10-17T06:52:34Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 159,
+      "views": 161,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
@@ -258,6 +247,17 @@
       "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
     },
     {
+      "video_id": "IM0il7mfUC0",
+      "title": "すれ違う心を理解し、円滑な関係を築こう",
+      "published_at": "2026-10-18T16:19:39Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 123,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
+    },
+    {
       "video_id": "ErBV7rS3ZnM",
       "title": "朝の空気嗅ぐだけで、朝起きてる人は多い",
       "published_at": "2026-10-18T01:54:48Z",
@@ -269,23 +269,12 @@
       "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
     },
     {
-      "video_id": "-OONbNpl3vs",
-      "title": "男衆ら「暴れみこし」威勢よく 熊野・木本神社例大祭 三重（伊勢新聞）",
-      "published_at": "2026-10-12T06:41:39Z",
-      "duration_iso": "PT1M51S",
-      "duration_seconds": 111,
-      "views": 109,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-OONbNpl3vs"
-    },
-    {
       "video_id": "yBQMDMpl4Eg",
       "title": "柳沢正史の名言：睡眠不足は心の問題だった",
       "published_at": "2026-10-18T09:43:13Z",
       "duration_iso": "PT46S",
       "duration_seconds": 46,
-      "views": 100,
+      "views": 102,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
@@ -318,7 +307,7 @@
       "published_at": "2026-10-18T13:03:42Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 76,
+      "views": 78,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=3xpmcpOKl_I"
@@ -351,10 +340,21 @@
       "published_at": "2026-10-14T01:02:03Z",
       "duration_iso": "PT1M32S",
       "duration_seconds": 92,
-      "views": 67,
+      "views": 68,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=EqpY5LAAv4w"
+    },
+    {
+      "video_id": "lKryj3997JQ",
+      "title": "秋田県議論：運動と食事、健康の秘訣",
+      "published_at": "2026-10-19T11:06:48Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 65,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=lKryj3997JQ"
     },
     {
       "video_id": "0U1zMs9gkFg",
@@ -390,6 +390,17 @@
       "url": "https://www.youtube.com/watch?v=cMdCIKJfkcU"
     },
     {
+      "video_id": "FtB81u_8Fuc",
+      "title": "ジャーナリングで続ける力up！脳科学の正体",
+      "published_at": "2026-10-19T12:01:43Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 48,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=FtB81u_8Fuc"
+    },
+    {
       "video_id": "qp4nrICcOKs",
       "title": "40代からランニングを始めるのは最悪の選択？",
       "published_at": "2026-10-12T08:29:32Z",
@@ -399,17 +410,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=qp4nrICcOKs"
-    },
-    {
-      "video_id": "IM0il7mfUC0",
-      "title": "すれ違う心を理解し、円滑な関係を築こう",
-      "published_at": "2026-10-18T16:19:39Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 35,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
     },
     {
       "video_id": "Bxw4TzC1qr8",
@@ -423,39 +423,6 @@
       "url": "https://www.youtube.com/watch?v=Bxw4TzC1qr8"
     },
     {
-      "video_id": "w03KUOYfFwQ",
-      "title": "「速歩き」のメリットとは。ランニングと同じくらいのカロリー消費にも",
-      "published_at": "2026-10-12T06:18:45Z",
-      "duration_iso": "PT2M7S",
-      "duration_seconds": 127,
-      "views": 25,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=w03KUOYfFwQ"
-    },
-    {
-      "video_id": "fTokW6QrO2w",
-      "title": "日本経済は本当に「失われた」のか 〜人口減少時代に個人を豊かにするために〜（曽和利光） - エキスパート",
-      "published_at": "2026-10-12T05:58:26Z",
-      "duration_iso": "PT2M14S",
-      "duration_seconds": 134,
-      "views": 25,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=fTokW6QrO2w"
-    },
-    {
-      "video_id": "_8W34zuBHag",
-      "title": "「新姫」の収穫始まる 熊野特産の香酸かんきつ 三重（伊勢新聞）",
-      "published_at": "2026-10-12T06:32:39Z",
-      "duration_iso": "PT2M36S",
-      "duration_seconds": 156,
-      "views": 23,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=_8W34zuBHag"
-    },
-    {
       "video_id": "hrpkxdcaWd0",
       "title": "今日のアズキ、古代の秘められた栄養と驚きをご紹介",
       "published_at": "2026-10-14T17:47:56Z",
@@ -467,15 +434,15 @@
       "url": "https://www.youtube.com/watch?v=hrpkxdcaWd0"
     },
     {
-      "video_id": "P7wdU2YAtdA",
-      "title": "Ado、日本国内のK-POPイベントで“大トリ”騒動を韓国メディアが報じる事態に…批判の矛先は「本人か運営か」でファンの対立激化（SmartFLASH）",
-      "published_at": "2026-10-12T05:36:30Z",
-      "duration_iso": "PT2M19S",
-      "duration_seconds": 139,
-      "views": 7,
+      "video_id": "POzxklq6ynA",
+      "title": "最新福祉機器導入、介護質向上のカギを握る岡山市福祉展",
+      "published_at": "2026-10-17T12:46:23Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 5,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=P7wdU2YAtdA"
+      "url": "https://www.youtube.com/watch?v=POzxklq6ynA"
     },
     {
       "video_id": "YqWZfApSHBg",
@@ -489,28 +456,6 @@
       "url": "https://www.youtube.com/watch?v=YqWZfApSHBg"
     },
     {
-      "video_id": "4X8mvwK4_ns",
-      "title": "お金・投資｜視聴者の常識が揺らぐ問いかけです。",
-      "published_at": "2026-10-12T07:19:06Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 5,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4X8mvwK4_ns"
-    },
-    {
-      "video_id": "POzxklq6ynA",
-      "title": "最新福祉機器導入、介護質向上のカギを握る岡山市福祉展",
-      "published_at": "2026-10-17T12:46:23Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 4,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=POzxklq6ynA"
-    },
-    {
       "video_id": "9Rkx1mbMtFg",
       "title": "人間関係の盲点、なぜあなたは信じているのか？",
       "published_at": "2026-10-14T15:51:50Z",
@@ -520,6 +465,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=9Rkx1mbMtFg"
+    },
+    {
+      "video_id": "TTRfqXq8wy4",
+      "title": "2026年日本の実際の賃金：公表データよりも高い実態",
+      "published_at": "2026-10-19T08:35:16Z",
+      "duration_iso": "PT50S",
+      "duration_seconds": 50,
+      "views": 3,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=TTRfqXq8wy4"
     },
     {
       "video_id": "acenfPw_OAg",
@@ -542,6 +498,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yC15NMUmn8k"
+    },
+    {
+      "video_id": "AYNvNDLLUCU",
+      "title": "日本郵便のドローン配達、新たな防災手段のカギを握る",
+      "published_at": "2026-10-19T12:26:34Z",
+      "duration_iso": "PT54S",
+      "duration_seconds": 54,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=AYNvNDLLUCU"
     },
     {
       "video_id": "kwHYx2iuB7U",
@@ -619,6 +586,39 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=gI8Hn_iRx6I"
+    },
+    {
+      "video_id": "4dh-antmr_8",
+      "title": "うなぎを食うなんて、うなるしかない Isn't it?",
+      "published_at": "2026-10-20T01:36:32Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
+    },
+    {
+      "video_id": "6r66JNFzJng",
+      "title": "日々の節約は投資よりも早道",
+      "published_at": "2026-10-19T16:14:47Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
+    },
+    {
+      "video_id": "9dYB1a4lmmI",
+      "title": "岡山展覧会で浮かび上がった介護の真実",
+      "published_at": "2026-10-19T12:35:42Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=9dYB1a4lmmI"
     },
     {
       "video_id": "4_9_TGFCDuE",
