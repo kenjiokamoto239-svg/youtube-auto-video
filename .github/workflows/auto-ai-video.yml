@@ -1150,76 +1150,74 @@ jobs:
                   )
 
               # 結論を検査
-          # 最後にテーマに対する明確な判断を求める
-          ending = text[-100:].strip()
+              ending = text[-100:].strip()
 
-          weak_endings = (
-              "大切です",
-              "重要です",
-              "必要です",
-              "意識しましょう",
-              "頑張りましょう",
-              "考えてみましょう",
-              "かもしれません"
-          )
-
-          if ending.endswith(weak_endings):
-              issues.append(
-                  "結論が弱すぎます。テーマに対する立場を明確にし、"
-                  "何が正しいのか、何を優先すべきかを具体的に言い切ってください。"
+              weak_endings = (
+                  "大切です",
+                  "重要です",
+                  "必要です",
+                  "意識しましょう",
+                  "頑張りましょう",
+                  "考えてみましょう",
+                  "かもしれません"
               )
 
-          # 実践できる方法があるか検査
-          # 抽象的な精神論だけで終わる台本を防ぐ
-          action_words = [
-              "まず", "今日", "明日", "今すぐ",
-              "毎日", "週に", "分間", "回",
-              "記録", "比較", "確認", "書き出す",
-              "減らす", "やめる", "始める", "試す",
-              "設定", "決める", "具体的に"
-          ]
+              if ending.endswith(weak_endings):
+                  issues.append(
+                      "結論が弱すぎます。テーマに対する立場を明確にし、"
+                      "何が正しいのか、何を優先すべきかを具体的に言い切ってください。"
+                  )
 
-          has_action = any(
-              word in text for word in action_words
-          )
+              # 実践できる方法があるか検査
+              action_words = [
+                  "まず", "今日", "明日", "今すぐ",
+                  "毎日", "週に", "分間", "回",
+                  "記録", "比較", "確認", "書き出す",
+                  "減らす", "やめる", "始める", "試す",
+                  "設定", "決める", "具体的に"
+              ]
 
-          if not has_action:
-              issues.append(
-                  "実践できる方法がありません。今日からできる行動を最低1つ示し、"
-                  "何をどうするか具体的に説明してください。"
+              has_action = any(
+                  word in text for word in action_words
               )
 
-          # 行動のタイミングや判断基準があるか検査
-          timing_words = [
-              "今日", "明日", "今すぐ", "毎日",
-              "週に", "朝", "夜", "始める前",
-              "終わったら", "まずは"
-          ]
+              if not has_action:
+                  issues.append(
+                      "実践できる方法がありません。今日からできる行動を最低1つ示し、"
+                      "何をどうするか具体的に説明してください。"
+                  )
 
-          criteria_words = [
-              "回", "分", "円", "件", "日間",
-              "記録", "比較", "確認", "基準",
-              "できたか", "結果"
-          ]
+              # 行動のタイミングや判断基準があるか検査
+              timing_words = [
+                  "今日", "明日", "今すぐ", "毎日",
+                  "週に", "朝", "夜", "始める前",
+                  "終わったら", "まずは"
+              ]
 
-          if has_action and not any(
-              word in text for word in timing_words
-          ):
-              issues.append(
-                  "行動するタイミングが不明確です。"
-                  "いつ実行するのかを具体的に示してください。"
-              )
+              criteria_words = [
+                  "回", "分", "円", "件", "日間",
+                  "記録", "比較", "確認", "基準",
+                  "できたか", "結果"
+              ]
 
-          if has_action and not any(
-              word in text for word in criteria_words
-          ):
-              issues.append(
-                  "実践後の判断基準が不足しています。"
-                  "回数、時間、記録、比較など、"
-                  "効果を確認する方法を説明してください。"
-              )
+              if has_action and not any(
+                  word in text for word in timing_words
+              ):
+                  issues.append(
+                      "行動するタイミングが不明確です。"
+                      "いつ実行するのかを具体的に示してください。"
+                  )
 
-          return issues
+              if has_action and not any(
+                  word in text for word in criteria_words
+              ):
+                  issues.append(
+                      "実践後の判断基準が不足しています。"
+                      "回数、時間、記録、比較など、"
+                      "効果を確認する方法を説明してください。"
+                  )
+
+              return issues
 
 
           # 品質検査と自動修正
