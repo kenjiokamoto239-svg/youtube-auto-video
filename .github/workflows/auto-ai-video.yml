@@ -84,64 +84,111 @@ jobs:
           import feedparser
 
           categories = {
-              "雑学": [
-                  "生き物の不思議",
-                  "宇宙の不思議",
-                  "人体の不思議",
-                  "身近な科学の疑問",
-                  "恐竜と古代生物",
-                  "食べ物の意外な事実",
-                  "身近な道具の仕組み",
-                  "自然現象の不思議",
-                  "世界の珍しい生き物",
-                  "歴史上の意外な事実",
-                  "動物の驚くべき能力",
-                  "子どもが疑問に思う科学"
-              ]
-          }
-
-          history_file = Path("work/recent_genres.json")
-
-          try:
-              history = json.loads(
-                  history_file.read_text(encoding="utf-8")
-              )
-          except Exception:
-              history = []
+          # RSSから雑学テーマを取得
+          import urllib.parse
+          import xml.etree.ElementTree as ET
+          import random
 
           genre = "雑学"
 
-          topic_pool = [
-              "タコの体にはどんな不思議がある？",
-              "宇宙空間では音が聞こえる？",
-              "どうして水に入ると指がシワシワになる？",
-              "飛行機はどうして空を飛べる？",
-              "恐竜より大きな生き物はいた？",
-              "キリンの首はどうして長い？",
-              "月が地球に落ちてこないのはなぜ？",
-              "氷が水に浮くのはなぜ？",
-              "鳥はどうして電線に止まっても感電しない？",
-              "人間はどうして夢を見る？",
-              "ネコはどうして高い場所が好き？",
-              "雷はどうして光ってから音が聞こえる？",
-              "どうして玉ねぎを切ると涙が出る？",
-              "深海にはどんな生き物がいる？",
-              "人間の体はどうやって傷を治す？",
-              "動物はどうやって仲間と会話する？",
-              "宇宙服を着ないで宇宙に出るとどうなる？",
-              "氷と水ではどちらが重い？",
-              "蚊はどうやって人間を見つける？",
-              "どうしてシャボン玉は丸くなる？"
+          rss_queries = [
+              "科学 不思議 仕組み",
+              "動物 生態 驚き",
+              "宇宙 惑星 発見",
+              "人体 不思議 仕組み",
+              "自然現象 科学",
+              "身近な科学 なぜ",
+              "生き物 驚くべき能力",
+              "恐竜 古代生物",
+              "食べ物 科学",
+              "海 深海 生物",
           ]
 
-          topic = random.choice(topic_pool)
+          articles = []
+          seen_titles = set()
+
+          random.shuffle(rss_queries)
+
+          for query in rss_queries:
+              rss_url = (
+                  "https://news.google.com/rss/search?q="
+                  + urllib.parse.quote(query)
+                  + "&hl=ja&gl=JP&ceid=JP:ja"
+              )
+
+              try:
+                  print("RSS取得:", query)
+
+                  response = requests.get(
+                      rss_url,
+                      timeout=20,
+                      headers={
+                          "User-Agent": "Mozilla/5.0"
+                      }
+                  )
+                  response.raise_for_status()
+
+                  root = ET.fromstring(response.content)
+
+                  for item in root.findall(".//item"):
+                      title_element = item.find("title")
+                      link_element = item.find("link")
+                      date_element = item.find("pubDate")
+
+                      if title_element is None:
+                          continue
+
+                      title = clean_text(
+                          title_element.text or ""
+                      )
+
+                      link = (
+                          link_element.text or ""
+                          if link_element is not None
+                          else ""
+                      )
+
+                      if not title or not link:
+                          continue
+
+                      title_key = title.lower()
+
+                      if title_key in seen_titles:
+                          continue
+
+                      seen_titles.add(title_key)
+
+                      articles.append({
+                          "title": title,
+                          "link": link,
+                          "published": (
+                              date_element.text or ""
+                              if date_element is not None
+                              else ""
+                          )
+                      })
+
+              except Exception as e:
+                  print(
+                      "RSS取得エラー:",
+                      query,
+                      str(e)[:150]
+                  )
+
+          if not articles:
+              raise RuntimeError(
+                  "RSSからテーマを取得できませんでした。"
+              )
+
+          article = random.choice(articles)
+          topic = article["title"]
 
           plan = {
               "genre": genre,
               "topic": topic,
-              "trend_source": "子ども向け雑学テーマ",
+              "trend_source": article["link"],
               "selection_score": 1,
-              "candidate_count": len(topic_pool)
+              "candidate_count": len(articles)
           }
 
           Path("work/trend_plan.json").write_text(
@@ -153,18 +200,10 @@ jobs:
               encoding="utf-8"
           )
 
-          history = (history + [genre])[-6:]
-
-          history_file.write_text(
-              json.dumps(
-                  history,
-                  ensure_ascii=False
-              ),
-              encoding="utf-8"
-          )
-
           print("選定ジャンル:", genre)
           print("選定テーマ:", topic)
+          print("RSS記事URL:", article["link"])
+          print("RSS候補数:", len(articles))
 
 
       # 3. 台本・音声・字幕・動画を生成
