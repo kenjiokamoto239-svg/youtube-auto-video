@@ -83,7 +83,6 @@ jobs:
           import requests
           import feedparser
 
-          categories = {
           # RSSから雑学テーマを取得
           import urllib.parse
           import xml.etree.ElementTree as ET
@@ -138,9 +137,7 @@ jobs:
                       if title_element is None:
                           continue
 
-                      title = clean_text(
-                          title_element.text or ""
-                      )
+                      title = (title_element.text or "").strip()
 
                       link = (
                           link_element.text or ""
@@ -204,7 +201,7 @@ jobs:
           print("選定テーマ:", topic)
           print("RSS記事URL:", article["link"])
           print("RSS候補数:", len(articles))
-
+          PYTHON
 
       # 3. 台本・音声・字幕・動画を生成
       - name: Generate video
