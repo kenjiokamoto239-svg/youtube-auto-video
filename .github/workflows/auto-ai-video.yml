@@ -614,6 +614,20 @@ jobs:
 
           分析結果だけを出力してください。
           """
+          analysis_response = requests.post(
+              "http://127.0.0.1:11434/api/generate",
+              json={
+                  "model": model,
+                  "prompt": analysis_prompt,
+                  "stream": False,
+                  "options": {
+                      "temperature": 0.25
+                  }
+              },
+              timeout=900
+          )
+
+          analysis_response.raise_for_status()
 
           reasoning_plan = clean_text(
               analysis_response.json().get("response", "")
