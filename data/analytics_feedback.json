@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-21T10:48:50.537173+09:00",
+  "updated_at_jst": "2026-10-22T10:40:37.688619+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-14",
-    "end": "2026-10-20",
+    "start": "2026-10-15",
+    "end": "2026-10-21",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-14",
-      "views": 221,
-      "watch_minutes": 26.0,
-      "average_view_seconds": 32.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-10-15",
       "views": 93,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-16",
-      "views": 195,
+      "views": 193,
       "watch_minutes": 12.0,
       "average_view_seconds": 18.0,
       "subscribers_gained": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 2,
       "comments": 1
+    },
+    {
+      "day": "2026-10-19",
+      "views": 1340,
+      "watch_minutes": 151.0,
+      "average_view_seconds": 24.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 4,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-15",
       "2026-10-16",
-      "2026-10-17"
+      "2026-10-17",
+      "2026-10-18"
     ],
     "recent_3_days": [
-      "2026-10-18",
       "2026-10-19",
-      "2026-10-20"
+      "2026-10-20",
+      "2026-10-21"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -113,6 +113,17 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
+      "video_id": "h0bgaZeiTR8",
+      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
+      "published_at": "2026-10-20T17:46:21Z",
+      "duration_iso": "PT48S",
+      "duration_seconds": 48,
+      "views": 226,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+    },
+    {
       "video_id": "IM0il7mfUC0",
       "title": "すれ違う心を理解し、円滑な関係を築こう",
       "published_at": "2026-10-18T16:19:39Z",
@@ -135,12 +146,23 @@
       "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
     },
     {
+      "video_id": "qqFCNOLvpS0",
+      "title": "ミニギターの真の原点が「ミニ」だった！",
+      "published_at": "2026-10-21T05:58:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 152,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
+    },
+    {
       "video_id": "t7USTsTL6w8",
       "title": "問いのラボ」、つくばの科学の街で子どもたちの科学夢を育てる",
       "published_at": "2026-10-18T03:17:55Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 138,
+      "views": 137,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
@@ -151,7 +173,7 @@
       "published_at": "2026-10-18T01:54:48Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 111,
+      "views": 110,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
@@ -166,28 +188,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
-    },
-    {
-      "video_id": "ecwFrz2y96I",
-      "title": "今日の通勤途中を健康ウォーキングの15分で変える！",
-      "published_at": "2026-10-20T11:47:23Z",
-      "duration_iso": "PT52S",
-      "duration_seconds": 52,
-      "views": 95,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ecwFrz2y96I"
-    },
-    {
-      "video_id": "HVKVwyV09Vk",
-      "title": "ありがとう」の言葉、どうして重要なのか？東工大研究の意外な証明",
-      "published_at": "2026-10-15T01:24:06Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 85,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HVKVwyV09Vk"
     }
   ],
   "all_videos": [
@@ -225,6 +225,17 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
+      "video_id": "h0bgaZeiTR8",
+      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
+      "published_at": "2026-10-20T17:46:21Z",
+      "duration_iso": "PT48S",
+      "duration_seconds": 48,
+      "views": 226,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+    },
+    {
       "video_id": "IM0il7mfUC0",
       "title": "すれ違う心を理解し、円滑な関係を築こう",
       "published_at": "2026-10-18T16:19:39Z",
@@ -247,12 +258,23 @@
       "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
     },
     {
+      "video_id": "qqFCNOLvpS0",
+      "title": "ミニギターの真の原点が「ミニ」だった！",
+      "published_at": "2026-10-21T05:58:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 152,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
+    },
+    {
       "video_id": "t7USTsTL6w8",
       "title": "問いのラボ」、つくばの科学の街で子どもたちの科学夢を育てる",
       "published_at": "2026-10-18T03:17:55Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 138,
+      "views": 137,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
@@ -263,7 +285,7 @@
       "published_at": "2026-10-18T01:54:48Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 111,
+      "views": 110,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
@@ -291,17 +313,6 @@
       "url": "https://www.youtube.com/watch?v=ecwFrz2y96I"
     },
     {
-      "video_id": "HVKVwyV09Vk",
-      "title": "ありがとう」の言葉、どうして重要なのか？東工大研究の意外な証明",
-      "published_at": "2026-10-15T01:24:06Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 85,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HVKVwyV09Vk"
-    },
-    {
       "video_id": "3iqttpBjzJY",
       "title": "脳をめぐるダイエットの秘密：小さな習慣が変える体質",
       "published_at": "2026-10-20T11:09:06Z",
@@ -324,15 +335,15 @@
       "url": "https://www.youtube.com/watch?v=3xpmcpOKl_I"
     },
     {
-      "video_id": "h0bgaZeiTR8",
-      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
-      "published_at": "2026-10-20T17:46:21Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 70,
-      "likes": 0,
+      "video_id": "zSCLFvaYcCU",
+      "title": "オコジョ、実はイタチだ！",
+      "published_at": "2026-10-21T13:09:27Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 74,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+      "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
     },
     {
       "video_id": "CZ4ys1HRgXw",
@@ -340,21 +351,10 @@
       "published_at": "2026-10-17T16:10:54Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 69,
+      "views": 68,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=CZ4ys1HRgXw"
-    },
-    {
-      "video_id": "cqCNJAoCt_U",
-      "title": "ニラの洗い方、あなたの日常を見直すべきか？",
-      "published_at": "2026-10-14T11:07:17Z",
-      "duration_iso": "PT1M42S",
-      "duration_seconds": 102,
-      "views": 69,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=cqCNJAoCt_U"
     },
     {
       "video_id": "lKryj3997JQ",
@@ -362,7 +362,7 @@
       "published_at": "2026-10-19T11:06:48Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 65,
+      "views": 66,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=lKryj3997JQ"
@@ -390,15 +390,15 @@
       "url": "https://www.youtube.com/watch?v=7N5Dv7YU3XA"
     },
     {
-      "video_id": "cMdCIKJfkcU",
-      "title": "ちいかわアニメの成功、アジア圏若者にも広がる秘密",
-      "published_at": "2026-10-15T12:11:08Z",
-      "duration_iso": "PT2M4S",
-      "duration_seconds": 124,
-      "views": 50,
-      "likes": 0,
+      "video_id": "s8z1A7J7S4Q",
+      "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
+      "published_at": "2026-10-21T14:23:34Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 49,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=cMdCIKJfkcU"
+      "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
     },
     {
       "video_id": "FtB81u_8Fuc",
@@ -417,10 +417,21 @@
       "published_at": "2026-10-20T08:18:54Z",
       "duration_iso": "PT47S",
       "duration_seconds": 47,
-      "views": 37,
+      "views": 44,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=DZc_7WqySJo"
+    },
+    {
+      "video_id": "vZx8Og0Vmq8",
+      "title": "鳥」は「うるさい」にならない理由考える",
+      "published_at": "2026-10-21T01:22:16Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 38,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
     },
     {
       "video_id": "Bxw4TzC1qr8",
@@ -434,15 +445,15 @@
       "url": "https://www.youtube.com/watch?v=Bxw4TzC1qr8"
     },
     {
-      "video_id": "hrpkxdcaWd0",
-      "title": "今日のアズキ、古代の秘められた栄養と驚きをご紹介",
-      "published_at": "2026-10-14T17:47:56Z",
-      "duration_iso": "PT1M57S",
-      "duration_seconds": 117,
-      "views": 9,
+      "video_id": "bvemglHBM8I",
+      "title": "ハキリアリの居場所を守ろう！野菜畑の未来を変える昆虫秘密",
+      "published_at": "2026-10-21T11:55:51Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 24,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hrpkxdcaWd0"
+      "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
     },
     {
       "video_id": "POzxklq6ynA",
@@ -467,15 +478,15 @@
       "url": "https://www.youtube.com/watch?v=TTRfqXq8wy4"
     },
     {
-      "video_id": "9Rkx1mbMtFg",
-      "title": "人間関係の盲点、なぜあなたは信じているのか？",
-      "published_at": "2026-10-14T15:51:50Z",
-      "duration_iso": "PT2M22S",
-      "duration_seconds": 142,
-      "views": 4,
+      "video_id": "kwHYx2iuB7U",
+      "title": "教諭の過度な批判、なぜ保育士を差別化するのか？",
+      "published_at": "2026-10-17T13:30:23Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 3,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9Rkx1mbMtFg"
+      "url": "https://www.youtube.com/watch?v=kwHYx2iuB7U"
     },
     {
       "video_id": "acenfPw_OAg",
@@ -489,6 +500,17 @@
       "url": "https://www.youtube.com/watch?v=acenfPw_OAg"
     },
     {
+      "video_id": "KcjPkmkqilE",
+      "title": "ジェームズ・ウェッブ、新たな惑星発見！",
+      "published_at": "2026-10-21T12:44:58Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=KcjPkmkqilE"
+    },
+    {
       "video_id": "AYNvNDLLUCU",
       "title": "日本郵便のドローン配達、新たな防災手段のカギを握る",
       "published_at": "2026-10-19T12:26:34Z",
@@ -500,17 +522,6 @@
       "url": "https://www.youtube.com/watch?v=AYNvNDLLUCU"
     },
     {
-      "video_id": "kwHYx2iuB7U",
-      "title": "教諭の過度な批判、なぜ保育士を差別化するのか？",
-      "published_at": "2026-10-17T13:30:23Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=kwHYx2iuB7U"
-    },
-    {
       "video_id": "PpmjcjpFSy0",
       "title": "X-Runでマラソン突破、適切な運動量の秘密",
       "published_at": "2026-10-16T11:40:10Z",
@@ -520,6 +531,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PpmjcjpFSy0"
+    },
+    {
+      "video_id": "m2HLkndrZpQ",
+      "title": "節約アプリで実践！低所得層の貯蓄戦略",
+      "published_at": "2026-10-21T08:23:35Z",
+      "duration_iso": "PT52S",
+      "duration_seconds": 52,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=m2HLkndrZpQ"
     },
     {
       "video_id": "ToBThOAC6hg",
@@ -542,6 +564,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=OTHDfNMOmNA"
+    },
+    {
+      "video_id": "6r66JNFzJng",
+      "title": "日々の節約は投資よりも早道",
+      "published_at": "2026-10-19T16:14:47Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
     },
     {
       "video_id": "UT8ultwdATU",
@@ -577,15 +610,26 @@
       "url": "https://www.youtube.com/watch?v=gI8Hn_iRx6I"
     },
     {
-      "video_id": "vZx8Og0Vmq8",
-      "title": "鳥」は「うるさい」にならない理由考える",
-      "published_at": "2026-10-21T01:22:16Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
+      "video_id": "7jMGQPk5c9k",
+      "title": "ステラーブレイドの強化術、見たことない！",
+      "published_at": "2026-10-22T01:14:25Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
+      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
+    },
+    {
+      "video_id": "C_6NCOwGYbg",
+      "title": "絵画展で発見！想像力の威力",
+      "published_at": "2026-10-21T12:28:15Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
     },
     {
       "video_id": "8-NYQqGl4t8",
@@ -597,17 +641,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8-NYQqGl4t8"
-    },
-    {
-      "video_id": "6r66JNFzJng",
-      "title": "日々の節約は投資よりも早道",
-      "published_at": "2026-10-19T16:14:47Z",
-      "duration_iso": "PT46S",
-      "duration_seconds": 46,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
     },
     {
       "video_id": "9dYB1a4lmmI",
@@ -707,39 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PIerMlPeHnA"
-    },
-    {
-      "video_id": "oaxxwWG3AOs",
-      "title": "FCV導入日本、中国の成功を学ぶべき",
-      "published_at": "2026-10-15T10:56:56Z",
-      "duration_iso": "PT1M53S",
-      "duration_seconds": 113,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=oaxxwWG3AOs"
-    },
-    {
-      "video_id": "cHO97McFu1Q",
-      "title": "アズキは、日本の歴史を遡ることで知られる有名な食べ物です",
-      "published_at": "2026-10-15T08:05:17Z",
-      "duration_iso": "PT1M52S",
-      "duration_seconds": 112,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=cHO97McFu1Q"
-    },
-    {
-      "video_id": "mYm9rnTIWvk",
-      "title": "AIの全肯定的な意見、本当の価値を見透かす",
-      "published_at": "2026-10-14T14:29:57Z",
-      "duration_iso": "PT1M2S",
-      "duration_seconds": 62,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=mYm9rnTIWvk"
     }
   ],
   "video_data_scope": {
