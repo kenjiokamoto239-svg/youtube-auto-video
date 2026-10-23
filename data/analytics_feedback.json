@@ -1,29 +1,19 @@
 {
-  "updated_at_jst": "2026-10-22T10:40:37.688619+09:00",
+  "updated_at_jst": "2026-10-23T10:43:50.498157+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-15",
-    "end": "2026-10-21",
+    "start": "2026-10-16",
+    "end": "2026-10-22",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
     {
-      "day": "2026-10-15",
-      "views": 93,
-      "watch_minutes": 32.0,
-      "average_view_seconds": 53.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
-    {
       "day": "2026-10-16",
-      "views": 193,
+      "views": 195,
       "watch_minutes": 12.0,
       "average_view_seconds": 18.0,
       "subscribers_gained": 0,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-17",
-      "views": 455,
+      "views": 452,
       "watch_minutes": 26.0,
       "average_view_seconds": 13.0,
       "subscribers_gained": 1,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 4,
       "comments": 0
+    },
+    {
+      "day": "2026-10-20",
+      "views": 1072,
+      "watch_minutes": 151.0,
+      "average_view_seconds": 36.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-16",
       "2026-10-17",
-      "2026-10-18"
+      "2026-10-18",
+      "2026-10-19"
     ],
     "recent_3_days": [
-      "2026-10-19",
       "2026-10-20",
-      "2026-10-21"
+      "2026-10-21",
+      "2026-10-22"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -102,6 +102,17 @@
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
+      "video_id": "yS25nmOH1AA",
+      "title": "ナマコの切り離し生存、驚きの科学的真実",
+      "published_at": "2026-10-22T08:22:54Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 492,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
       "video_id": "VnzH5Tt5e7M",
       "title": "なぜありがとうを言うと、相手の心にどんな影響があるのか",
       "published_at": "2026-10-19T17:30:04Z",
@@ -118,10 +129,32 @@
       "published_at": "2026-10-20T17:46:21Z",
       "duration_iso": "PT48S",
       "duration_seconds": 48,
-      "views": 226,
+      "views": 313,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+    },
+    {
+      "video_id": "29OOEJzhWJU",
+      "title": "アフリカの川、カバの驚異的泳ぎを解き明かす",
+      "published_at": "2026-10-22T11:21:17Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 310,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
+    },
+    {
+      "video_id": "s8z1A7J7S4Q",
+      "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
+      "published_at": "2026-10-21T14:23:34Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 226,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
     },
     {
       "video_id": "IM0il7mfUC0",
@@ -129,10 +162,21 @@
       "published_at": "2026-10-18T16:19:39Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 186,
+      "views": 185,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
+    },
+    {
+      "video_id": "qqFCNOLvpS0",
+      "title": "ミニギターの真の原点が「ミニ」だった！",
+      "published_at": "2026-10-21T05:58:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 184,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
     },
     {
       "video_id": "TUVAyo1yxSE",
@@ -144,50 +188,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
-    },
-    {
-      "video_id": "qqFCNOLvpS0",
-      "title": "ミニギターの真の原点が「ミニ」だった！",
-      "published_at": "2026-10-21T05:58:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 152,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
-    },
-    {
-      "video_id": "t7USTsTL6w8",
-      "title": "問いのラボ」、つくばの科学の街で子どもたちの科学夢を育てる",
-      "published_at": "2026-10-18T03:17:55Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 137,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
-    },
-    {
-      "video_id": "ErBV7rS3ZnM",
-      "title": "朝の空気嗅ぐだけで、朝起きてる人は多い",
-      "published_at": "2026-10-18T01:54:48Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 110,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
-    },
-    {
-      "video_id": "yBQMDMpl4Eg",
-      "title": "柳沢正史の名言：睡眠不足は心の問題だった",
-      "published_at": "2026-10-18T09:43:13Z",
-      "duration_iso": "PT46S",
-      "duration_seconds": 46,
-      "views": 102,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
     }
   ],
   "all_videos": [
@@ -214,6 +214,17 @@
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
+      "video_id": "yS25nmOH1AA",
+      "title": "ナマコの切り離し生存、驚きの科学的真実",
+      "published_at": "2026-10-22T08:22:54Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 492,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
       "video_id": "VnzH5Tt5e7M",
       "title": "なぜありがとうを言うと、相手の心にどんな影響があるのか",
       "published_at": "2026-10-19T17:30:04Z",
@@ -230,10 +241,32 @@
       "published_at": "2026-10-20T17:46:21Z",
       "duration_iso": "PT48S",
       "duration_seconds": 48,
-      "views": 226,
+      "views": 313,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+    },
+    {
+      "video_id": "29OOEJzhWJU",
+      "title": "アフリカの川、カバの驚異的泳ぎを解き明かす",
+      "published_at": "2026-10-22T11:21:17Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 310,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
+    },
+    {
+      "video_id": "s8z1A7J7S4Q",
+      "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
+      "published_at": "2026-10-21T14:23:34Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 226,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
     },
     {
       "video_id": "IM0il7mfUC0",
@@ -241,10 +274,21 @@
       "published_at": "2026-10-18T16:19:39Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 186,
+      "views": 185,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
+    },
+    {
+      "video_id": "qqFCNOLvpS0",
+      "title": "ミニギターの真の原点が「ミニ」だった！",
+      "published_at": "2026-10-21T05:58:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 184,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
     },
     {
       "video_id": "TUVAyo1yxSE",
@@ -256,17 +300,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
-    },
-    {
-      "video_id": "qqFCNOLvpS0",
-      "title": "ミニギターの真の原点が「ミニ」だった！",
-      "published_at": "2026-10-21T05:58:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 152,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
     },
     {
       "video_id": "t7USTsTL6w8",
@@ -291,6 +324,17 @@
       "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
     },
     {
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 106,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+    },
+    {
       "video_id": "yBQMDMpl4Eg",
       "title": "柳沢正史の名言：睡眠不足は心の問題だった",
       "published_at": "2026-10-18T09:43:13Z",
@@ -300,6 +344,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
+    },
+    {
+      "video_id": "zSCLFvaYcCU",
+      "title": "オコジョ、実はイタチだ！",
+      "published_at": "2026-10-21T13:09:27Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 100,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
     },
     {
       "video_id": "ecwFrz2y96I",
@@ -335,15 +390,15 @@
       "url": "https://www.youtube.com/watch?v=3xpmcpOKl_I"
     },
     {
-      "video_id": "zSCLFvaYcCU",
-      "title": "オコジョ、実はイタチだ！",
-      "published_at": "2026-10-21T13:09:27Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 74,
+      "video_id": "vZx8Og0Vmq8",
+      "title": "鳥」は「うるさい」にならない理由考える",
+      "published_at": "2026-10-21T01:22:16Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 77,
       "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
+      "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
     },
     {
       "video_id": "CZ4ys1HRgXw",
@@ -390,17 +445,6 @@
       "url": "https://www.youtube.com/watch?v=7N5Dv7YU3XA"
     },
     {
-      "video_id": "s8z1A7J7S4Q",
-      "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
-      "published_at": "2026-10-21T14:23:34Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 49,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
-    },
-    {
       "video_id": "FtB81u_8Fuc",
       "title": "ジャーナリングで続ける力up！脳科学の正体",
       "published_at": "2026-10-19T12:01:43Z",
@@ -417,32 +461,21 @@
       "published_at": "2026-10-20T08:18:54Z",
       "duration_iso": "PT47S",
       "duration_seconds": 47,
-      "views": 44,
+      "views": 45,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=DZc_7WqySJo"
     },
     {
-      "video_id": "vZx8Og0Vmq8",
-      "title": "鳥」は「うるさい」にならない理由考える",
-      "published_at": "2026-10-21T01:22:16Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 38,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
-    },
-    {
-      "video_id": "Bxw4TzC1qr8",
-      "title": "妊娠前運動、産後回復の加速に",
-      "published_at": "2026-10-16T07:55:32Z",
-      "duration_iso": "PT1M22S",
-      "duration_seconds": 82,
-      "views": 28,
+      "video_id": "C_6NCOwGYbg",
+      "title": "絵画展で発見！想像力の威力",
+      "published_at": "2026-10-22T03:10:53Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 37,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Bxw4TzC1qr8"
+      "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
     },
     {
       "video_id": "bvemglHBM8I",
@@ -450,10 +483,21 @@
       "published_at": "2026-10-21T11:55:51Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 24,
+      "views": 34,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
+    },
+    {
+      "video_id": "I3lsKaufNf8",
+      "title": "深海の秘密、子供たちの興味をそそる15の珍奇生物",
+      "published_at": "2026-10-22T14:24:07Z",
+      "duration_iso": "PT45S",
+      "duration_seconds": 45,
+      "views": 6,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=I3lsKaufNf8"
     },
     {
       "video_id": "POzxklq6ynA",
@@ -489,15 +533,15 @@
       "url": "https://www.youtube.com/watch?v=kwHYx2iuB7U"
     },
     {
-      "video_id": "acenfPw_OAg",
-      "title": "教科書からは学べない、科学の「最良の誤り",
-      "published_at": "2026-10-15T13:00:23Z",
-      "duration_iso": "PT2M",
-      "duration_seconds": 120,
-      "views": 3,
+      "video_id": "7jMGQPk5c9k",
+      "title": "ステラーブレイドの強化術、見たことない！",
+      "published_at": "2026-10-22T01:14:25Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 2,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=acenfPw_OAg"
+      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
     },
     {
       "video_id": "KcjPkmkqilE",
@@ -509,6 +553,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KcjPkmkqilE"
+    },
+    {
+      "video_id": "m2HLkndrZpQ",
+      "title": "節約アプリで実践！低所得層の貯蓄戦略",
+      "published_at": "2026-10-21T08:23:35Z",
+      "duration_iso": "PT52S",
+      "duration_seconds": 52,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=m2HLkndrZpQ"
     },
     {
       "video_id": "AYNvNDLLUCU",
@@ -531,28 +586,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PpmjcjpFSy0"
-    },
-    {
-      "video_id": "m2HLkndrZpQ",
-      "title": "節約アプリで実践！低所得層の貯蓄戦略",
-      "published_at": "2026-10-21T08:23:35Z",
-      "duration_iso": "PT52S",
-      "duration_seconds": 52,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=m2HLkndrZpQ"
-    },
-    {
-      "video_id": "ToBThOAC6hg",
-      "title": "ビザ拡充求めデモ始める、労働者年金受け取れるか？",
-      "published_at": "2026-10-20T14:10:47Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ToBThOAC6hg"
     },
     {
       "video_id": "OTHDfNMOmNA",
@@ -588,48 +621,37 @@
       "url": "https://www.youtube.com/watch?v=UT8ultwdATU"
     },
     {
-      "video_id": "5I6jpSHy2Tc",
-      "title": "Habee」で「オートファジー」を加速し、若返りを実感하세요",
-      "published_at": "2026-10-16T10:40:52Z",
-      "duration_iso": "PT1M49S",
-      "duration_seconds": 109,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=5I6jpSHy2Tc"
-    },
-    {
-      "video_id": "gI8Hn_iRx6I",
-      "title": "新NISA導入の影響：収入と税金、その変化を理解する",
-      "published_at": "2026-10-15T17:38:42Z",
-      "duration_iso": "PT2M13S",
-      "duration_seconds": 133,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=gI8Hn_iRx6I"
-    },
-    {
-      "video_id": "7jMGQPk5c9k",
-      "title": "ステラーブレイドの強化術、見たことない！",
-      "published_at": "2026-10-22T01:14:25Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
+      "video_id": "Nj2MF0g8IRo",
+      "title": "実践してみて！なぜ風と水を理解すれば防災が可能になるのか",
+      "published_at": "2026-10-23T01:15:00Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
+      "url": "https://www.youtube.com/watch?v=Nj2MF0g8IRo"
     },
     {
-      "video_id": "C_6NCOwGYbg",
-      "title": "絵画展で発見！想像力の威力",
-      "published_at": "2026-10-21T12:28:15Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
+      "video_id": "xSkkmC5okww",
+      "title": "なぜボールライトニングの存在を信じる科学者はいないのか",
+      "published_at": "2026-10-22T15:56:17Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
+      "url": "https://www.youtube.com/watch?v=xSkkmC5okww"
+    },
+    {
+      "video_id": "GVrZpledVJA",
+      "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
+      "published_at": "2026-10-22T06:02:44Z",
+      "duration_iso": "PT49S",
+      "duration_seconds": 49,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=GVrZpledVJA"
     },
     {
       "video_id": "8-NYQqGl4t8",
@@ -641,6 +663,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8-NYQqGl4t8"
+    },
+    {
+      "video_id": "ToBThOAC6hg",
+      "title": "ビザ拡充求めデモ始める、労働者年金受け取れるか？",
+      "published_at": "2026-10-20T14:10:47Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ToBThOAC6hg"
     },
     {
       "video_id": "9dYB1a4lmmI",
@@ -707,39 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=rlF2RPuSzo8"
-    },
-    {
-      "video_id": "HId4rcgFHcs",
-      "title": "78歳の新入生、教育と高齢化社会の新たな挑戦",
-      "published_at": "2026-10-16T01:14:15Z",
-      "duration_iso": "PT1M56S",
-      "duration_seconds": 116,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HId4rcgFHcs"
-    },
-    {
-      "video_id": "eN35yS966-g",
-      "title": "今日の節約、明日の運用",
-      "published_at": "2026-10-15T15:40:01Z",
-      "duration_iso": "PT1M37S",
-      "duration_seconds": 97,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=eN35yS966-g"
-    },
-    {
-      "video_id": "PIerMlPeHnA",
-      "title": "全国の最新福祉機器とサービスが一堂に会する岡山市の展覧会、若手スタッフにとっての助力になります。",
-      "published_at": "2026-10-15T14:11:37Z",
-      "duration_iso": "PT1M51S",
-      "duration_seconds": 111,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=PIerMlPeHnA"
     }
   ],
   "video_data_scope": {
