@@ -138,7 +138,7 @@ jobs:
 
           genre = "雑学"
 
-                    rss_queries = [
+          rss_queries = [
               # ① 動物・生き物の雑学
               "動物 驚きの生態",
               "動物 意外な能力",
