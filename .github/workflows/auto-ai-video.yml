@@ -83,6 +83,54 @@ jobs:
           import requests
           import feedparser
 
+          # Wikipedia日本語版から情報を取得する関数
+          def search_wikipedia(query):
+              api_url = "https://ja.wikipedia.org/w/api.php"
+
+              try:
+                  response = requests.get(
+                      api_url,
+                      params={
+                          "action": "query",
+                          "list": "search",
+                          "srsearch": query,
+                          "format": "json",
+                          "srlimit": 5,
+                      },
+                      headers={
+                          "User-Agent": "AutoAIJapaneseVideo/1.0"
+                      },
+                      timeout=15,
+                  )
+                  response.raise_for_status()
+
+                  data = response.json()
+
+                  results = data.get(
+                      "query", {}
+                  ).get("search", [])
+
+                  return [
+                      {
+                          "title": item.get("title", ""),
+                          "snippet": item.get("snippet", ""),
+                          "source": (
+                              "https://ja.wikipedia.org/wiki/"
+                              + quote(
+                                  item.get("title", "").replace(
+                                      " ", "_"
+                                  ),
+                                  safe=""
+                              )
+                          ),
+                      }
+                      for item in results
+                  ]
+
+              except Exception as e:
+                  print("Wikipedia取得エラー:", str(e)[:150])
+                  return []
+
           # RSSから雑学テーマを取得
           import urllib.parse
           import xml.etree.ElementTree as ET
@@ -90,49 +138,75 @@ jobs:
 
           genre = "雑学"
 
-          rss_queries = [
-              # 既存の雑学
-              "科学 不思議 仕組み",
-              "宇宙 惑星 発見",
-              "人体 不思議 仕組み",
-              "自然現象 科学",
-              "身近な科学 なぜ",
-              "恐竜 古代生物",
-              "食べ物 科学",
-              "海 深海 生物",
-
-              # 動物の雑学
+                    rss_queries = [
+              # ① 動物・生き物の雑学
               "動物 驚きの生態",
               "動物 意外な能力",
+              "動物 不思議な習性",
+              "動物 驚くべき行動",
+              "生き物 意外な事実",
+              "珍しい動物 生態",
+              "深海生物 不思議な能力",
+              "鳥 意外な習性",
+              "昆虫 驚きの生態",
               "動物 なぜ 不思議",
-              "動物 面白い習性",
-              "生き物 驚くべき能力",
+              "海の生き物 意外な生態",
+              "恐竜 意外な事実",
 
-              # アニメの雑学
-              "人気アニメ キャラクター 秘密",
+              # ② 人気アニメ・マンガの雑学
+              "ポケモン 意外な設定",
+              "ポケモン 進化 不思議",
+              "ポケモン キャラクター 豆知識",
+              "ドラえもん ひみつ道具 不思議",
+              "ドラえもん 意外な設定",
+              "ドラえもん 豆知識",
+              "名探偵コナン 意外な設定",
+              "名探偵コナン トリック 仕組み",
+              "名探偵コナン キャラクター 秘密",
+              "ワンピース 意外な設定",
+              "ONE PIECE キャラクター 豆知識",
+              "ワンピース 悪魔の実 秘密",
+              "鬼滅の刃 キャラクター 秘密",
+              "鬼滅の刃 技 設定 豆知識",
+              "鬼滅の刃 意外な事実",
+              "NARUTO キャラクター 秘密",
+              "ナルト 忍術 豆知識",
+              "NARUTO 意外な設定",
+              "人気アニメ キャラクター 意外な事実",
               "アニメ 制作 裏話",
-              "アニメ 設定 豆知識",
-              "アニメ キャラクター 意外な事実",
-
-              # ゲームの雑学
-              "人気ゲーム 隠し要素",
-              "ゲーム 裏技 豆知識",
-              "ゲーム キャラクター 秘密",
-              "ゲーム 制作 裏話",
-              "任天堂 ゲーム 雑学",
-
-              # マンガの雑学
-              "人気漫画 キャラクター 秘密",
-              "漫画 意外な設定",
-              "漫画 制作 裏話",
+              "人気漫画 意外な設定",
               "漫画 キャラクター 豆知識",
 
-              # USJの雑学
-              "USJ アトラクション 秘密",
-              "ユニバーサルスタジオジャパン 豆知識",
-              "USJ エリア 仕掛け",
-              "USJ アトラクション 裏話",
-              "USJ 新アトラクション 情報",
+              # ③ 人気ゲームの雑学
+              "マインクラフト 隠し要素",
+              "マイクラ モンスター 特徴",
+              "マイクラ 意外な事実",
+              "スーパーマリオ 隠し要素",
+              "マリオ 意外な事実",
+              "マリオ キャラクター 秘密",
+              "ドラゴンクエスト モンスター 秘密",
+              "ドラクエ 意外な設定",
+              "ドラクエ ゲーム 豆知識",
+              "星のカービィ 意外な設定",
+              "カービィ コピー能力 豆知識",
+              "スプラトゥーン キャラクター 設定",
+              "スプラトゥーン ゲーム 豆知識",
+              "ゼルダの伝説 隠し要素",
+              "ゼルダの伝説 意外な設定",
+              "どうぶつの森 住民 豆知識",
+              "どうぶつの森 意外な設定",
+              "人気ゲーム 隠し要素",
+              "ゲーム キャラクター 秘密",
+              "ゲーム 制作 裏話",
+
+              # ④ テーマパークの雑学
+              "USJ アトラクション 仕掛け",
+              "USJ エリア 秘密",
+              "USJ アトラクション 豆知識",
+              "ユニバーサルスタジオジャパン 裏話",
+              "東京ディズニーランド アトラクション 秘密",
+              "ディズニー 意外な豆知識",
+              "ディズニー キャラクター 意外な設定",
           ]
 
           articles = []
@@ -536,22 +610,213 @@ jobs:
               model
           ], timeout=1200)
 
+          # Wikipediaからテーマに関連する情報を取得
+          # RSS記事の情報と組み合わせ、台本の分析と本文作成に利用する
+
+          wikipedia_context = ""
+          wikipedia_source = ""
+
+          def search_wikipedia(query):
+              api_url = "https://ja.wikipedia.org/w/api.php"
+
+              headers = {
+                  "User-Agent": "AutoAIJapaneseVideo/1.0"
+              }
+
+              try:
+                  response = requests.get(
+                      api_url,
+                      params={
+                          "action": "query",
+                          "list": "search",
+                          "srsearch": query,
+                          "format": "json",
+                          "utf8": 1,
+                          "srlimit": 3
+                      },
+                      headers=headers,
+                      timeout=20
+                  )
+
+                  response.raise_for_status()
+
+                  results = response.json().get(
+                      "query", {}
+                  ).get("search", [])
+
+                  return results
+
+              except Exception as e:
+                  print(
+                      "WIKIPEDIA SEARCH ERROR:",
+                      str(e)[:200]
+                  )
+                  return []
+
+          def get_wikipedia_extract(page_title):
+              api_url = "https://ja.wikipedia.org/w/api.php"
+
+              headers = {
+                  "User-Agent": "AutoAIJapaneseVideo/1.0"
+              }
+
+              try:
+                  response = requests.get(
+                      api_url,
+                      params={
+                          "action": "query",
+                          "prop": "extracts",
+                          "exintro": 0,
+                          "explaintext": 1,
+                          "exsectionformat": "plain",
+                          "redirects": 1,
+                          "titles": page_title,
+                          "format": "json",
+                          "utf8": 1
+                      },
+                      headers=headers,
+                      timeout=20
+                  )
+
+                  response.raise_for_status()
+
+                  pages = response.json().get(
+                      "query", {}
+                  ).get("pages", {})
+
+                  for page in pages.values():
+                      extract = clean_text(
+                          page.get("extract", "")
+                      )
+
+                      if extract:
+                          return extract[:5000]
+
+                  return ""
+
+              except Exception as e:
+                  print(
+                      "WIKIPEDIA EXTRACT ERROR:",
+                      str(e)[:200]
+                  )
+                  return ""
+
+          # 選定テーマを使ってWikipediaを検索
+          wikipedia_results = search_wikipedia(topic)
+
+          # テーマに関係する記事の本文を取得
+          for wiki_item in wikipedia_results:
+              wiki_title = clean_text(
+                  wiki_item.get("title", "")
+              )
+
+              if not wiki_title:
+                  continue
+
+              wiki_extract = get_wikipedia_extract(
+                  wiki_title
+              )
+
+              if wiki_extract:
+                  wikipedia_context = (
+                      "Wikipediaの記事名："
+                      + wiki_title
+                      + "\n\n"
+                      + "Wikipediaの記事本文：\n"
+                      + wiki_extract
+                  )
+
+                  wikipedia_source = (
+                      "https://ja.wikipedia.org/wiki/"
+                      + quote(
+                          wiki_title.replace(" ", "_"),
+                          safe=""
+                      )
+                  )
+
+                  print(
+                      "WIKIPEDIA ARTICLE:",
+                      wiki_title
+                  )
+
+                  print(
+                      "WIKIPEDIA SOURCE:",
+                      wikipedia_source
+                  )
+
+                  break
+
+          if not wikipedia_context:
+              print(
+                  "WIKIPEDIA: 関連情報を取得できませんでした。"
+              )
+
+          # RSS記事とWikipediaの情報をまとめる
           if article:
               source_context = f"""
-              参考記事の見出し：
+              【RSSの参考記事】
+
+              記事タイトル：
               {article['title']}
 
-              公開情報の説明：
+              記事の説明：
               {article['summary']}
 
               参考元URL：
               {article['link']}
 
-              この記事を丸写しせず、
-              確認できる事実と自分の論評を分けてください。
-              記事に書かれていない事実を作らないでください。
+              【Wikipediaの参考情報】
+
+              {wikipedia_context if wikipedia_context else "関連する記事を取得できませんでした。"}
+
+              Wikipediaの出典URL：
+              {wikipedia_source if wikipedia_source else "取得できませんでした。"}
+
+              【情報の扱い方】
+
+              RSS記事とWikipediaの情報を参考にしてください。
+              記事を丸写しせず、テーマの仕組みや理由を
+              分かりやすく説明してください。
+
+              参考情報に書かれていない数字、研究結果、
+              歴史的事実を作り出してはいけません。
+
+              情報が確認できない場合は、
+              無理に断定せず、確かな範囲で説明してください。
               """
+
+          elif wikipedia_context:
+              source_context = f"""
+              【Wikipediaの参考情報】
+
+              {wikipedia_context}
+
+              出典URL：
+              {wikipedia_source}
+
+              【情報の扱い方】
+
+              Wikipediaの情報を参考にして、
+              テーマの答え、理由、仕組みを説明してください。
+
+              記事を丸写しせず、
+              誰にでも分かる自然な日本語にしてください。
+
+              確認できない数字、研究結果、
+              歴史的事実を作り出してはいけません。
+              """
+
           else:
+              source_context = """
+              RSS記事とWikipediaの両方から
+              参考情報を取得できませんでした。
+
+              確認できない数字や研究結果、
+              歴史的事実を作り出してはいけません。
+
+              確かな一般知識の範囲で説明し、
+              不確かな内容は断定しないでください。
+              """
               source_context = """
               特定のニュース記事は使用しないでください。
               指定されたジャンルに沿って、
