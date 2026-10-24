@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-23T10:43:50.498157+09:00",
+  "updated_at_jst": "2026-10-24T10:46:35.504030+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-16",
-    "end": "2026-10-22",
+    "start": "2026-10-17",
+    "end": "2026-10-23",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-16",
-      "views": 195,
-      "watch_minutes": 12.0,
-      "average_view_seconds": 18.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 1,
-      "comments": 0
-    },
     {
       "day": "2026-10-17",
       "views": 452,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-18",
-      "views": 726,
+      "views": 718,
       "watch_minutes": 58.0,
       "average_view_seconds": 20.0,
       "subscribers_gained": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-10-21",
+      "views": 559,
+      "watch_minutes": 47.0,
+      "average_view_seconds": 15.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 5,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-17",
       "2026-10-18",
-      "2026-10-19"
+      "2026-10-19",
+      "2026-10-20"
     ],
     "recent_3_days": [
-      "2026-10-20",
       "2026-10-21",
-      "2026-10-22"
+      "2026-10-22",
+      "2026-10-23"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -91,6 +91,17 @@
       "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
     },
     {
+      "video_id": "yS25nmOH1AA",
+      "title": "ナマコの切り離し生存、驚きの科学的真実",
+      "published_at": "2026-10-22T08:22:54Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 947,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
       "video_id": "6HTFixZCfNk",
       "title": "A型の幾帳面さ、人間関係でも微妙な影響",
       "published_at": "2026-10-18T14:31:26Z",
@@ -102,15 +113,15 @@
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
-      "video_id": "yS25nmOH1AA",
-      "title": "ナマコの切り離し生存、驚きの科学的真実",
-      "published_at": "2026-10-22T08:22:54Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 492,
-      "likes": 2,
+      "video_id": "wractFD7ZwA",
+      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
+      "published_at": "2026-10-23T17:37:38Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 561,
+      "likes": 5,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -124,15 +135,26 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
-      "video_id": "h0bgaZeiTR8",
-      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
-      "published_at": "2026-10-20T17:46:21Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 313,
+      "video_id": "uQwdNu_O9QQ",
+      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
+      "published_at": "2026-10-23T08:20:03Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 347,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
+    },
+    {
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 344,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     },
     {
       "video_id": "29OOEJzhWJU",
@@ -146,48 +168,26 @@
       "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
     },
     {
+      "video_id": "h0bgaZeiTR8",
+      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
+      "published_at": "2026-10-20T17:46:21Z",
+      "duration_iso": "PT48S",
+      "duration_seconds": 48,
+      "views": 310,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+    },
+    {
       "video_id": "s8z1A7J7S4Q",
       "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
       "published_at": "2026-10-21T14:23:34Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 226,
+      "views": 285,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
-    },
-    {
-      "video_id": "IM0il7mfUC0",
-      "title": "すれ違う心を理解し、円滑な関係を築こう",
-      "published_at": "2026-10-18T16:19:39Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 185,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
-    },
-    {
-      "video_id": "qqFCNOLvpS0",
-      "title": "ミニギターの真の原点が「ミニ」だった！",
-      "published_at": "2026-10-21T05:58:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 184,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
-    },
-    {
-      "video_id": "TUVAyo1yxSE",
-      "title": "電車内寝静けび、健康と安全チェック",
-      "published_at": "2026-10-17T06:52:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 161,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
     }
   ],
   "all_videos": [
@@ -203,6 +203,17 @@
       "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
     },
     {
+      "video_id": "yS25nmOH1AA",
+      "title": "ナマコの切り離し生存、驚きの科学的真実",
+      "published_at": "2026-10-22T08:22:54Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 947,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
       "video_id": "6HTFixZCfNk",
       "title": "A型の幾帳面さ、人間関係でも微妙な影響",
       "published_at": "2026-10-18T14:31:26Z",
@@ -214,15 +225,15 @@
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
-      "video_id": "yS25nmOH1AA",
-      "title": "ナマコの切り離し生存、驚きの科学的真実",
-      "published_at": "2026-10-22T08:22:54Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 492,
-      "likes": 2,
+      "video_id": "wractFD7ZwA",
+      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
+      "published_at": "2026-10-23T17:37:38Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 561,
+      "likes": 5,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -236,15 +247,26 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
-      "video_id": "h0bgaZeiTR8",
-      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
-      "published_at": "2026-10-20T17:46:21Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 313,
+      "video_id": "uQwdNu_O9QQ",
+      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
+      "published_at": "2026-10-23T08:20:03Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 347,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
+    },
+    {
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 344,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     },
     {
       "video_id": "29OOEJzhWJU",
@@ -258,15 +280,37 @@
       "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
     },
     {
+      "video_id": "h0bgaZeiTR8",
+      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
+      "published_at": "2026-10-20T17:46:21Z",
+      "duration_iso": "PT48S",
+      "duration_seconds": 48,
+      "views": 310,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
+    },
+    {
       "video_id": "s8z1A7J7S4Q",
       "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
       "published_at": "2026-10-21T14:23:34Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 226,
+      "views": 285,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
+    },
+    {
+      "video_id": "qqFCNOLvpS0",
+      "title": "ミニギターの真の原点が「ミニ」だった！",
+      "published_at": "2026-10-21T05:58:34Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 186,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
     },
     {
       "video_id": "IM0il7mfUC0",
@@ -278,28 +322,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
-    },
-    {
-      "video_id": "qqFCNOLvpS0",
-      "title": "ミニギターの真の原点が「ミニ」だった！",
-      "published_at": "2026-10-21T05:58:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 184,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
-    },
-    {
-      "video_id": "TUVAyo1yxSE",
-      "title": "電車内寝静けび、健康と安全チェック",
-      "published_at": "2026-10-17T06:52:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 161,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=TUVAyo1yxSE"
     },
     {
       "video_id": "t7USTsTL6w8",
@@ -324,15 +346,15 @@
       "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
     },
     {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 106,
-      "likes": 0,
+      "video_id": "zSCLFvaYcCU",
+      "title": "オコジョ、実はイタチだ！",
+      "published_at": "2026-10-21T13:09:27Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 102,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+      "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
     },
     {
       "video_id": "yBQMDMpl4Eg",
@@ -344,17 +366,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
-    },
-    {
-      "video_id": "zSCLFvaYcCU",
-      "title": "オコジョ、実はイタチだ！",
-      "published_at": "2026-10-21T13:09:27Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 100,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
     },
     {
       "video_id": "ecwFrz2y96I",
@@ -423,26 +434,26 @@
       "url": "https://www.youtube.com/watch?v=lKryj3997JQ"
     },
     {
-      "video_id": "0U1zMs9gkFg",
-      "title": "マイトレーニングの白米秘密：疾走の燃料王",
-      "published_at": "2026-10-16T12:33:49Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 62,
+      "video_id": "KuCE-980pHM",
+      "title": "お家にある材料で驚きの実験、鈴木弁護士の危惧",
+      "published_at": "2026-10-23T11:12:44Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 55,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=0U1zMs9gkFg"
+      "url": "https://www.youtube.com/watch?v=KuCE-980pHM"
     },
     {
-      "video_id": "7N5Dv7YU3XA",
-      "title": "おののきする「におい」、誤解の危険性",
-      "published_at": "2026-10-16T13:59:08Z",
-      "duration_iso": "PT47S",
-      "duration_seconds": 47,
-      "views": 59,
-      "likes": 1,
+      "video_id": "C_6NCOwGYbg",
+      "title": "絵画展で発見！想像力の威力",
+      "published_at": "2026-10-22T03:10:53Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 50,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=7N5Dv7YU3XA"
+      "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
     },
     {
       "video_id": "FtB81u_8Fuc",
@@ -461,21 +472,10 @@
       "published_at": "2026-10-20T08:18:54Z",
       "duration_iso": "PT47S",
       "duration_seconds": 47,
-      "views": 45,
+      "views": 46,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=DZc_7WqySJo"
-    },
-    {
-      "video_id": "C_6NCOwGYbg",
-      "title": "絵画展で発見！想像力の威力",
-      "published_at": "2026-10-22T03:10:53Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 37,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
     },
     {
       "video_id": "bvemglHBM8I",
@@ -483,10 +483,21 @@
       "published_at": "2026-10-21T11:55:51Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 34,
+      "views": 35,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
+    },
+    {
+      "video_id": "Nj2MF0g8IRo",
+      "title": "実践してみて！なぜ風と水を理解すれば防災が可能になるのか",
+      "published_at": "2026-10-23T01:15:00Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 33,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Nj2MF0g8IRo"
     },
     {
       "video_id": "I3lsKaufNf8",
@@ -494,7 +505,7 @@
       "published_at": "2026-10-22T14:24:07Z",
       "duration_iso": "PT45S",
       "duration_seconds": 45,
-      "views": 6,
+      "views": 23,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=I3lsKaufNf8"
@@ -522,6 +533,17 @@
       "url": "https://www.youtube.com/watch?v=TTRfqXq8wy4"
     },
     {
+      "video_id": "7jMGQPk5c9k",
+      "title": "ステラーブレイドの強化術、見たことない！",
+      "published_at": "2026-10-22T01:14:25Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 3,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
+    },
+    {
       "video_id": "kwHYx2iuB7U",
       "title": "教諭の過度な批判、なぜ保育士を差別化するのか？",
       "published_at": "2026-10-17T13:30:23Z",
@@ -533,15 +555,15 @@
       "url": "https://www.youtube.com/watch?v=kwHYx2iuB7U"
     },
     {
-      "video_id": "7jMGQPk5c9k",
-      "title": "ステラーブレイドの強化術、見たことない！",
-      "published_at": "2026-10-22T01:14:25Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
+      "video_id": "xSkkmC5okww",
+      "title": "なぜボールライトニングの存在を信じる科学者はいないのか",
+      "published_at": "2026-10-22T15:56:17Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
       "views": 2,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
+      "url": "https://www.youtube.com/watch?v=xSkkmC5okww"
     },
     {
       "video_id": "KcjPkmkqilE",
@@ -577,15 +599,15 @@
       "url": "https://www.youtube.com/watch?v=AYNvNDLLUCU"
     },
     {
-      "video_id": "PpmjcjpFSy0",
-      "title": "X-Runでマラソン突破、適切な運動量の秘密",
-      "published_at": "2026-10-16T11:40:10Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 2,
+      "video_id": "GVrZpledVJA",
+      "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
+      "published_at": "2026-10-22T06:02:44Z",
+      "duration_iso": "PT49S",
+      "duration_seconds": 49,
+      "views": 1,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=PpmjcjpFSy0"
+      "url": "https://www.youtube.com/watch?v=GVrZpledVJA"
     },
     {
       "video_id": "OTHDfNMOmNA",
@@ -610,48 +632,37 @@
       "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
     },
     {
-      "video_id": "UT8ultwdATU",
-      "title": "1カ月SNS使用制限で睡眠・集中力改善、SNS過度利用の危険性認識",
-      "published_at": "2026-10-16T15:27:49Z",
-      "duration_iso": "PT53S",
-      "duration_seconds": 53,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=UT8ultwdATU"
-    },
-    {
-      "video_id": "Nj2MF0g8IRo",
-      "title": "実践してみて！なぜ風と水を理解すれば防災が可能になるのか",
-      "published_at": "2026-10-23T01:15:00Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
+      "video_id": "1tf4OHOmICk",
+      "title": "なにわ男子の履歴書、USJのキャラクターの秘密とは？",
+      "published_at": "2026-10-24T01:25:06Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Nj2MF0g8IRo"
+      "url": "https://www.youtube.com/watch?v=1tf4OHOmICk"
     },
     {
-      "video_id": "xSkkmC5okww",
-      "title": "なぜボールライトニングの存在を信じる科学者はいないのか",
-      "published_at": "2026-10-22T15:56:17Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
+      "video_id": "IRklQ0cax9k",
+      "title": "凍結と粉末化で、食品が永遠に保存可能？意外な科学的真実",
+      "published_at": "2026-10-23T15:45:22Z",
+      "duration_iso": "PT30S",
+      "duration_seconds": 30,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=xSkkmC5okww"
+      "url": "https://www.youtube.com/watch?v=IRklQ0cax9k"
     },
     {
-      "video_id": "GVrZpledVJA",
-      "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
-      "published_at": "2026-10-22T06:02:44Z",
-      "duration_iso": "PT49S",
-      "duration_seconds": 49,
+      "video_id": "4TvaaUiwFa4",
+      "title": "USJの『ドンキーコング・カントリー』ガイド、驚くべき秘密満載",
+      "published_at": "2026-10-23T05:57:43Z",
+      "duration_iso": "PT45S",
+      "duration_seconds": 45,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=GVrZpledVJA"
+      "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
     },
     {
       "video_id": "8-NYQqGl4t8",
@@ -729,17 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=lw3P-Knumv0"
-    },
-    {
-      "video_id": "rlF2RPuSzo8",
-      "title": "10月7はランニングシューズの危険性を告発！",
-      "published_at": "2026-10-17T01:17:33Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=rlF2RPuSzo8"
     }
   ],
   "video_data_scope": {
