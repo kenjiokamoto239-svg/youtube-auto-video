@@ -3481,14 +3481,120 @@ jobs:
 
           print("VIDEO HASHTAGS:", " ".join(hashtags))
 
+                    # タイトルと台本からカテゴリー・タグを自動判定
+          content = (title + " " + script).lower()
+
+          # YouTubeカテゴリー
+          category_rules = [
+              (["ポケモン", "マインクラフト", "minecraft",
+                "ゲーム", "game", "任天堂", "switch"],
+               "20"),
+              (["犬", "猫", "ネコ", "イヌ", "動物", "生き物",
+                "ペット", "鳥", "魚", "昆虫", "爬虫類"],
+               "15"),
+              (["勉強法", "歴史", "科学", "実験", "自由研究",
+                "算数", "数学", "英語", "学習"],
+               "27"),
+              (["アニメ", "マンガ", "漫画", "映画", "キャラクター",
+                "usj", "ユニバ", "テーマパーク"],
+               "24")
+          ]
+
+          youtube_category = "24"
+
+          for keywords, category_id in category_rules:
+              if any(keyword in content for keyword in keywords):
+                  youtube_category = category_id
+                  break
+
+          # 内容に合うタグを自動選択
+          tag_rules = {
+              "動物": [
+                  "動物", "生き物", "動物雑学", "豆知識"
+              ],
+              "アニメ": [
+                  "アニメ", "アニメ雑学", "キャラクター", "豆知識"
+              ],
+              "漫画": [
+                  "漫画", "マンガ", "漫画雑学", "豆知識"
+              ],
+              "ゲーム": [
+                  "ゲーム", "ゲーム雑学", "ゲーム好き", "豆知識"
+              ],
+              "科学": [
+                  "科学", "科学雑学", "自然", "豆知識"
+              ],
+              "歴史": [
+                  "歴史", "歴史雑学", "日本史", "豆知識"
+              ],
+              "usj": [
+                  "USJ", "ユニバーサルスタジオジャパン",
+                  "テーマパーク", "豆知識"
+              ],
+              "雑学": [
+                  "雑学", "豆知識", "意外な事実"
+              ]
+          }
+
+          video_tags = ["雑学", "豆知識"]
+
+          if any(word in content for word in [
+              "犬", "猫", "ネコ", "イヌ", "動物", "生き物",
+              "ペット", "鳥", "魚", "昆虫", "爬虫類"
+          ]):
+              video_tags = tag_rules["動物"]
+
+          elif any(word in content for word in [
+              "アニメ", "キャラクター"
+          ]):
+              video_tags = tag_rules["アニメ"]
+
+          elif any(word in content for word in [
+              "漫画", "マンガ"
+          ]):
+              video_tags = tag_rules["漫画"]
+
+          elif any(word in content for word in [
+              "ゲーム", "ポケモン", "マインクラフト",
+              "minecraft", "任天堂", "switch"
+          ]):
+              video_tags = tag_rules["ゲーム"]
+
+          elif any(word in content for word in [
+              "usj", "ユニバ", "テーマパーク"
+          ]):
+              video_tags = tag_rules["usj"]
+
+          elif any(word in content for word in [
+              "科学", "実験", "人体", "宇宙", "自然"
+          ]):
+              video_tags = tag_rules["科学"]
+
+          elif any(word in content for word in [
+              "歴史", "戦国", "江戸時代", "日本史"
+          ]):
+              video_tags = tag_rules["歴史"]
+
+          # タイトルや台本に含まれる固有名詞を追加候補にする
+          specific_keywords = [
+              "ポケモン", "マインクラフト", "Minecraft",
+              "ドラえもん", "名探偵コナン", "ワンピース",
+              "鬼滅の刃", "スーパーマリオ", "USJ"
+          ]
+
+          for keyword in specific_keywords:
+              if keyword.lower() in content:
+                  video_tags.append(keyword)
+
+          # 重複を除去し、タグ数を制限
+          video_tags = list(dict.fromkeys(video_tags))[:10]
+
           body = {
               "snippet": {
                   "title": title[:100],
                   "description": description[:5000],
-                  "categoryId": "25",
-                  "tags": [
-                      "ニュース", "日本", "解説", "Shorts"
-                  ],
+                  "categoryId": youtube_category,
+                  "tags": video_tags,
                   "defaultLanguage": "ja",
                   "defaultAudioLanguage": "ja"
               },
