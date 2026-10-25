@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-24T10:46:35.504030+09:00",
+  "updated_at_jst": "2026-10-25T10:23:40.999647+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-17",
-    "end": "2026-10-23",
+    "start": "2026-10-18",
+    "end": "2026-10-24",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-17",
-      "views": 452,
-      "watch_minutes": 26.0,
-      "average_view_seconds": 13.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-10-18",
       "views": 718,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 5,
       "comments": 0
+    },
+    {
+      "day": "2026-10-22",
+      "views": 1519,
+      "watch_minutes": 327.0,
+      "average_view_seconds": 36.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 5,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-18",
       "2026-10-19",
-      "2026-10-20"
+      "2026-10-20",
+      "2026-10-21"
     ],
     "recent_3_days": [
-      "2026-10-21",
       "2026-10-22",
-      "2026-10-23"
+      "2026-10-23",
+      "2026-10-24"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -80,26 +80,59 @@
   },
   "top_videos_by_lifetime_views": [
     {
-      "video_id": "4dh-antmr_8",
-      "title": "うなぎを食うなんて、うなるしかない Isn't it?",
-      "published_at": "2026-10-20T01:36:32Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 968,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
-    },
-    {
       "video_id": "yS25nmOH1AA",
       "title": "ナマコの切り離し生存、驚きの科学的真実",
       "published_at": "2026-10-22T08:22:54Z",
       "duration_iso": "PT43S",
       "duration_seconds": 43,
-      "views": 947,
+      "views": 997,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
+      "video_id": "4dh-antmr_8",
+      "title": "うなぎを食うなんて、うなるしかない Isn't it?",
+      "published_at": "2026-10-20T01:36:32Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 963,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
+    },
+    {
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 933,
+      "likes": 2,
+      "comments": 2,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+    },
+    {
+      "video_id": "uQwdNu_O9QQ",
+      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
+      "published_at": "2026-10-23T08:20:03Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 925,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
+    },
+    {
+      "video_id": "wractFD7ZwA",
+      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
+      "published_at": "2026-10-23T17:37:38Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 914,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
     },
     {
       "video_id": "6HTFixZCfNk",
@@ -113,15 +146,15 @@
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
-      "video_id": "wractFD7ZwA",
-      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
-      "published_at": "2026-10-23T17:37:38Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 561,
-      "likes": 5,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
+      "video_id": "ZRkcRswwliU",
+      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
+      "published_at": "2026-10-24T16:27:14Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 588,
+      "likes": 2,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -135,26 +168,15 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
-      "video_id": "uQwdNu_O9QQ",
-      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
-      "published_at": "2026-10-23T08:20:03Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 347,
+      "video_id": "sEBsynKwKoU",
+      "title": "驚きのコラボ！ロラックスおじさんと日本アメリカアニメ",
+      "published_at": "2026-10-24T13:07:31Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
+      "views": 348,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
-    },
-    {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 344,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+      "url": "https://www.youtube.com/watch?v=sEBsynKwKoU"
     },
     {
       "video_id": "29OOEJzhWJU",
@@ -166,52 +188,63 @@
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
-    },
-    {
-      "video_id": "h0bgaZeiTR8",
-      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
-      "published_at": "2026-10-20T17:46:21Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 310,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
-    },
-    {
-      "video_id": "s8z1A7J7S4Q",
-      "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
-      "published_at": "2026-10-21T14:23:34Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 285,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
     }
   ],
   "all_videos": [
-    {
-      "video_id": "4dh-antmr_8",
-      "title": "うなぎを食うなんて、うなるしかない Isn't it?",
-      "published_at": "2026-10-20T01:36:32Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 968,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
-    },
     {
       "video_id": "yS25nmOH1AA",
       "title": "ナマコの切り離し生存、驚きの科学的真実",
       "published_at": "2026-10-22T08:22:54Z",
       "duration_iso": "PT43S",
       "duration_seconds": 43,
-      "views": 947,
+      "views": 997,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
+      "video_id": "4dh-antmr_8",
+      "title": "うなぎを食うなんて、うなるしかない Isn't it?",
+      "published_at": "2026-10-20T01:36:32Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 963,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
+    },
+    {
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 933,
+      "likes": 2,
+      "comments": 2,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+    },
+    {
+      "video_id": "uQwdNu_O9QQ",
+      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
+      "published_at": "2026-10-23T08:20:03Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 925,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
+    },
+    {
+      "video_id": "wractFD7ZwA",
+      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
+      "published_at": "2026-10-23T17:37:38Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 914,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
     },
     {
       "video_id": "6HTFixZCfNk",
@@ -225,15 +258,15 @@
       "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
     },
     {
-      "video_id": "wractFD7ZwA",
-      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
-      "published_at": "2026-10-23T17:37:38Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 561,
-      "likes": 5,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
+      "video_id": "ZRkcRswwliU",
+      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
+      "published_at": "2026-10-24T16:27:14Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 588,
+      "likes": 2,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -247,26 +280,15 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
-      "video_id": "uQwdNu_O9QQ",
-      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
-      "published_at": "2026-10-23T08:20:03Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 347,
+      "video_id": "sEBsynKwKoU",
+      "title": "驚きのコラボ！ロラックスおじさんと日本アメリカアニメ",
+      "published_at": "2026-10-24T13:07:31Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
+      "views": 348,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
-    },
-    {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 344,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+      "url": "https://www.youtube.com/watch?v=sEBsynKwKoU"
     },
     {
       "video_id": "29OOEJzhWJU",
@@ -318,7 +340,7 @@
       "published_at": "2026-10-18T16:19:39Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 185,
+      "views": 184,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
@@ -335,15 +357,15 @@
       "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
     },
     {
-      "video_id": "ErBV7rS3ZnM",
-      "title": "朝の空気嗅ぐだけで、朝起きてる人は多い",
-      "published_at": "2026-10-18T01:54:48Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 110,
+      "video_id": "1tf4OHOmICk",
+      "title": "なにわ男子の履歴書、USJのキャラクターの秘密とは？",
+      "published_at": "2026-10-24T01:25:06Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 134,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ErBV7rS3ZnM"
+      "url": "https://www.youtube.com/watch?v=1tf4OHOmICk"
     },
     {
       "video_id": "zSCLFvaYcCU",
@@ -351,7 +373,7 @@
       "published_at": "2026-10-21T13:09:27Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 102,
+      "views": 104,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
@@ -395,7 +417,7 @@
       "published_at": "2026-10-18T13:03:42Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 78,
+      "views": 79,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=3xpmcpOKl_I"
@@ -410,17 +432,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
-    },
-    {
-      "video_id": "CZ4ys1HRgXw",
-      "title": "市民アンケートに答えると、浜松市の健康改善に直結するチャンス！",
-      "published_at": "2026-10-17T16:10:54Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 68,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=CZ4ys1HRgXw"
     },
     {
       "video_id": "lKryj3997JQ",
@@ -450,7 +461,7 @@
       "published_at": "2026-10-22T03:10:53Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 50,
+      "views": 54,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
@@ -478,23 +489,12 @@
       "url": "https://www.youtube.com/watch?v=DZc_7WqySJo"
     },
     {
-      "video_id": "bvemglHBM8I",
-      "title": "ハキリアリの居場所を守ろう！野菜畑の未来を変える昆虫秘密",
-      "published_at": "2026-10-21T11:55:51Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 35,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
-    },
-    {
       "video_id": "Nj2MF0g8IRo",
       "title": "実践してみて！なぜ風と水を理解すれば防災が可能になるのか",
       "published_at": "2026-10-23T01:15:00Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 33,
+      "views": 39,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nj2MF0g8IRo"
@@ -505,21 +505,21 @@
       "published_at": "2026-10-22T14:24:07Z",
       "duration_iso": "PT45S",
       "duration_seconds": 45,
-      "views": 23,
+      "views": 37,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=I3lsKaufNf8"
     },
     {
-      "video_id": "POzxklq6ynA",
-      "title": "最新福祉機器導入、介護質向上のカギを握る岡山市福祉展",
-      "published_at": "2026-10-17T12:46:23Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 5,
+      "video_id": "bvemglHBM8I",
+      "title": "ハキリアリの居場所を守ろう！野菜畑の未来を変える昆虫秘密",
+      "published_at": "2026-10-21T11:55:51Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 35,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=POzxklq6ynA"
+      "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
     },
     {
       "video_id": "TTRfqXq8wy4",
@@ -544,15 +544,37 @@
       "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
     },
     {
-      "video_id": "kwHYx2iuB7U",
-      "title": "教諭の過度な批判、なぜ保育士を差別化するのか？",
-      "published_at": "2026-10-17T13:30:23Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 3,
+      "video_id": "Nig6t2bHXt8",
+      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
+      "published_at": "2026-10-24T23:17:11Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 2,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=kwHYx2iuB7U"
+      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
+    },
+    {
+      "video_id": "IRklQ0cax9k",
+      "title": "凍結と粉末化で、食品が永遠に保存可能？意外な科学的真実",
+      "published_at": "2026-10-23T15:45:22Z",
+      "duration_iso": "PT30S",
+      "duration_seconds": 30,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IRklQ0cax9k"
+    },
+    {
+      "video_id": "4TvaaUiwFa4",
+      "title": "USJの『ドンキーコング・カントリー』ガイド、驚くべき秘密満載",
+      "published_at": "2026-10-23T05:57:43Z",
+      "duration_iso": "PT45S",
+      "duration_seconds": 45,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
     },
     {
       "video_id": "xSkkmC5okww",
@@ -599,6 +621,28 @@
       "url": "https://www.youtube.com/watch?v=AYNvNDLLUCU"
     },
     {
+      "video_id": "SsTrj8qD4uE",
+      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
+      "published_at": "2026-10-24T10:30:17Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
+    },
+    {
+      "video_id": "IhfC5uh5NNE",
+      "title": "おもちゃで宇宙観測！日常物質の驚異的な現象",
+      "published_at": "2026-10-24T05:42:27Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IhfC5uh5NNE"
+    },
+    {
       "video_id": "GVrZpledVJA",
       "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
       "published_at": "2026-10-22T06:02:44Z",
@@ -632,37 +676,15 @@
       "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
     },
     {
-      "video_id": "1tf4OHOmICk",
-      "title": "なにわ男子の履歴書、USJのキャラクターの秘密とは？",
-      "published_at": "2026-10-24T01:25:06Z",
-      "duration_iso": "PT22S",
-      "duration_seconds": 22,
+      "video_id": "9EKHLk_TYJ0",
+      "title": "なぜ日本政府がオープンな外国人政策を掲げても、一部地域や業界では実現していないのか",
+      "published_at": "2026-10-25T00:50:52Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=1tf4OHOmICk"
-    },
-    {
-      "video_id": "IRklQ0cax9k",
-      "title": "凍結と粉末化で、食品が永遠に保存可能？意外な科学的真実",
-      "published_at": "2026-10-23T15:45:22Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IRklQ0cax9k"
-    },
-    {
-      "video_id": "4TvaaUiwFa4",
-      "title": "USJの『ドンキーコング・カントリー』ガイド、驚くべき秘密満載",
-      "published_at": "2026-10-23T05:57:43Z",
-      "duration_iso": "PT45S",
-      "duration_seconds": 45,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
+      "url": "https://www.youtube.com/watch?v=9EKHLk_TYJ0"
     },
     {
       "video_id": "8-NYQqGl4t8",
@@ -718,28 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=d4u8EDZJGRw"
-    },
-    {
-      "video_id": "ylnx32qwv7E",
-      "title": "インフレの真実：節約だけでは足りない",
-      "published_at": "2026-10-17T10:08:38Z",
-      "duration_iso": "PT46S",
-      "duration_seconds": 46,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ylnx32qwv7E"
-    },
-    {
-      "video_id": "lw3P-Knumv0",
-      "title": "給料日に封筒に分けてみる、青木さやかの投資挑戦",
-      "published_at": "2026-10-17T07:29:57Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=lw3P-Knumv0"
     }
   ],
   "video_data_scope": {
