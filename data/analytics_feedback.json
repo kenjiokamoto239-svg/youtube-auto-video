@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-25T10:23:40.999647+09:00",
+  "updated_at_jst": "2026-10-26T10:27:26.269956+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-18",
-    "end": "2026-10-24",
+    "start": "2026-10-19",
+    "end": "2026-10-25",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-18",
-      "views": 718,
-      "watch_minutes": 58.0,
-      "average_view_seconds": 20.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 2,
-      "comments": 1
-    },
     {
       "day": "2026-10-19",
       "views": 1340,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-20",
-      "views": 1072,
+      "views": 1067,
       "watch_minutes": 151.0,
       "average_view_seconds": 36.0,
       "subscribers_gained": 0,
@@ -43,8 +33,8 @@
     },
     {
       "day": "2026-10-21",
-      "views": 559,
-      "watch_minutes": 47.0,
+      "views": 558,
+      "watch_minutes": 46.0,
       "average_view_seconds": 15.0,
       "subscribers_gained": 0,
       "subscribers_lost": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 5,
       "comments": 0
+    },
+    {
+      "day": "2026-10-23",
+      "views": 2840,
+      "watch_minutes": 299.0,
+      "average_view_seconds": 17.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 10,
+      "comments": 2
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-19",
       "2026-10-20",
-      "2026-10-21"
+      "2026-10-21",
+      "2026-10-22"
     ],
     "recent_3_days": [
-      "2026-10-22",
       "2026-10-23",
-      "2026-10-24"
+      "2026-10-24",
+      "2026-10-25"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -80,6 +80,17 @@
   },
   "top_videos_by_lifetime_views": [
     {
+      "video_id": "wractFD7ZwA",
+      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
+      "published_at": "2026-10-23T17:37:38Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1109,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
+    },
+    {
       "video_id": "yS25nmOH1AA",
       "title": "ナマコの切り離し生存、驚きの科学的真実",
       "published_at": "2026-10-22T08:22:54Z",
@@ -89,6 +100,28 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
+      "video_id": "Nig6t2bHXt8",
+      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
+      "published_at": "2026-10-24T23:17:11Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 989,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
+    },
+    {
+      "video_id": "uQwdNu_O9QQ",
+      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
+      "published_at": "2026-10-23T08:20:03Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 988,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
     },
     {
       "video_id": "4dh-antmr_8",
@@ -102,6 +135,17 @@
       "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
     },
     {
+      "video_id": "ZRkcRswwliU",
+      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
+      "published_at": "2026-10-24T16:27:14Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 941,
+      "likes": 4,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+    },
+    {
       "video_id": "9sIAPKTBHuw",
       "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
       "published_at": "2026-10-22T17:47:25Z",
@@ -113,48 +157,15 @@
       "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     },
     {
-      "video_id": "uQwdNu_O9QQ",
-      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
-      "published_at": "2026-10-23T08:20:03Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 925,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
-    },
-    {
-      "video_id": "wractFD7ZwA",
-      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
-      "published_at": "2026-10-23T17:37:38Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 914,
-      "likes": 7,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
-    },
-    {
-      "video_id": "6HTFixZCfNk",
-      "title": "A型の幾帳面さ、人間関係でも微妙な影響",
-      "published_at": "2026-10-18T14:31:26Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 795,
+      "video_id": "eWKGZt-_hNY",
+      "title": "22世紀の高島屋服、超能力の秘密とは？",
+      "published_at": "2026-10-25T05:56:57Z",
+      "duration_iso": "PT49S",
+      "duration_seconds": 49,
+      "views": 548,
       "likes": 3,
-      "comments": 4,
-      "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
-    },
-    {
-      "video_id": "ZRkcRswwliU",
-      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
-      "published_at": "2026-10-24T16:27:14Z",
-      "duration_iso": "PT27S",
-      "duration_seconds": 27,
-      "views": 588,
-      "likes": 2,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -168,30 +179,30 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
-      "video_id": "sEBsynKwKoU",
-      "title": "驚きのコラボ！ロラックスおじさんと日本アメリカアニメ",
-      "published_at": "2026-10-24T13:07:31Z",
-      "duration_iso": "PT24S",
-      "duration_seconds": 24,
-      "views": 348,
-      "likes": 0,
+      "video_id": "F5YW0sX28iU",
+      "title": "スーパーニンテンドーワールド」プレイ時間の秘密公開",
+      "published_at": "2026-10-25T05:09:04Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 359,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sEBsynKwKoU"
-    },
-    {
-      "video_id": "29OOEJzhWJU",
-      "title": "アフリカの川、カバの驚異的泳ぎを解き明かす",
-      "published_at": "2026-10-22T11:21:17Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 310,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
+      "url": "https://www.youtube.com/watch?v=F5YW0sX28iU"
     }
   ],
   "all_videos": [
     {
+      "video_id": "wractFD7ZwA",
+      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
+      "published_at": "2026-10-23T17:37:38Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1109,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
+    },
+    {
       "video_id": "yS25nmOH1AA",
       "title": "ナマコの切り離し生存、驚きの科学的真実",
       "published_at": "2026-10-22T08:22:54Z",
@@ -201,6 +212,28 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+    },
+    {
+      "video_id": "Nig6t2bHXt8",
+      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
+      "published_at": "2026-10-24T23:17:11Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 989,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
+    },
+    {
+      "video_id": "uQwdNu_O9QQ",
+      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
+      "published_at": "2026-10-23T08:20:03Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 988,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
     },
     {
       "video_id": "4dh-antmr_8",
@@ -214,6 +247,17 @@
       "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
     },
     {
+      "video_id": "ZRkcRswwliU",
+      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
+      "published_at": "2026-10-24T16:27:14Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 941,
+      "likes": 4,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+    },
+    {
       "video_id": "9sIAPKTBHuw",
       "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
       "published_at": "2026-10-22T17:47:25Z",
@@ -225,48 +269,15 @@
       "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     },
     {
-      "video_id": "uQwdNu_O9QQ",
-      "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
-      "published_at": "2026-10-23T08:20:03Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 925,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
-    },
-    {
-      "video_id": "wractFD7ZwA",
-      "title": "USJで「ドラえもん」体験、家族と限定グッズで思い出作り",
-      "published_at": "2026-10-23T17:37:38Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 914,
-      "likes": 7,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
-    },
-    {
-      "video_id": "6HTFixZCfNk",
-      "title": "A型の幾帳面さ、人間関係でも微妙な影響",
-      "published_at": "2026-10-18T14:31:26Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 795,
+      "video_id": "eWKGZt-_hNY",
+      "title": "22世紀の高島屋服、超能力の秘密とは？",
+      "published_at": "2026-10-25T05:56:57Z",
+      "duration_iso": "PT49S",
+      "duration_seconds": 49,
+      "views": 548,
       "likes": 3,
-      "comments": 4,
-      "url": "https://www.youtube.com/watch?v=6HTFixZCfNk"
-    },
-    {
-      "video_id": "ZRkcRswwliU",
-      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
-      "published_at": "2026-10-24T16:27:14Z",
-      "duration_iso": "PT27S",
-      "duration_seconds": 27,
-      "views": 588,
-      "likes": 2,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -280,12 +291,23 @@
       "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
     },
     {
+      "video_id": "F5YW0sX28iU",
+      "title": "スーパーニンテンドーワールド」プレイ時間の秘密公開",
+      "published_at": "2026-10-25T05:09:04Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 359,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=F5YW0sX28iU"
+    },
+    {
       "video_id": "sEBsynKwKoU",
       "title": "驚きのコラボ！ロラックスおじさんと日本アメリカアニメ",
       "published_at": "2026-10-24T13:07:31Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 348,
+      "views": 345,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sEBsynKwKoU"
@@ -335,34 +357,12 @@
       "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
     },
     {
-      "video_id": "IM0il7mfUC0",
-      "title": "すれ違う心を理解し、円滑な関係を築こう",
-      "published_at": "2026-10-18T16:19:39Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 184,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IM0il7mfUC0"
-    },
-    {
-      "video_id": "t7USTsTL6w8",
-      "title": "問いのラボ」、つくばの科学の街で子どもたちの科学夢を育てる",
-      "published_at": "2026-10-18T03:17:55Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 137,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=t7USTsTL6w8"
-    },
-    {
       "video_id": "1tf4OHOmICk",
       "title": "なにわ男子の履歴書、USJのキャラクターの秘密とは？",
       "published_at": "2026-10-24T01:25:06Z",
       "duration_iso": "PT22S",
       "duration_seconds": 22,
-      "views": 134,
+      "views": 135,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1tf4OHOmICk"
@@ -379,17 +379,6 @@
       "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
     },
     {
-      "video_id": "yBQMDMpl4Eg",
-      "title": "柳沢正史の名言：睡眠不足は心の問題だった",
-      "published_at": "2026-10-18T09:43:13Z",
-      "duration_iso": "PT46S",
-      "duration_seconds": 46,
-      "views": 102,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=yBQMDMpl4Eg"
-    },
-    {
       "video_id": "ecwFrz2y96I",
       "title": "今日の通勤途中を健康ウォーキングの15分で変える！",
       "published_at": "2026-10-20T11:47:23Z",
@@ -399,6 +388,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ecwFrz2y96I"
+    },
+    {
+      "video_id": "8WOADA-HQXQ",
+      "title": "マルチプレイ、友達と共闘の新しい時代",
+      "published_at": "2026-10-25T08:13:09Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 91,
+      "likes": 1,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=8WOADA-HQXQ"
     },
     {
       "video_id": "3iqttpBjzJY",
@@ -412,17 +412,6 @@
       "url": "https://www.youtube.com/watch?v=3iqttpBjzJY"
     },
     {
-      "video_id": "3xpmcpOKl_I",
-      "title": "こども健康会議が運動と食事の改善にどう働くか、驚きの結果を示す！",
-      "published_at": "2026-10-18T13:03:42Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 79,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=3xpmcpOKl_I"
-    },
-    {
       "video_id": "vZx8Og0Vmq8",
       "title": "鳥」は「うるさい」にならない理由考える",
       "published_at": "2026-10-21T01:22:16Z",
@@ -432,6 +421,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
+    },
+    {
+      "video_id": "ybUoQg_Bm-A",
+      "title": "未経験からの挑戦、松本拓也のプロデュース道",
+      "published_at": "2026-10-25T11:01:51Z",
+      "duration_iso": "PT52S",
+      "duration_seconds": 52,
+      "views": 74,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ybUoQg_Bm-A"
     },
     {
       "video_id": "lKryj3997JQ",
@@ -461,7 +461,7 @@
       "published_at": "2026-10-22T03:10:53Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 54,
+      "views": 53,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
@@ -522,6 +522,17 @@
       "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
     },
     {
+      "video_id": "4TvaaUiwFa4",
+      "title": "USJの『ドンキーコング・カントリー』ガイド、驚くべき秘密満載",
+      "published_at": "2026-10-23T05:57:43Z",
+      "duration_iso": "PT45S",
+      "duration_seconds": 45,
+      "views": 7,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
+    },
+    {
       "video_id": "TTRfqXq8wy4",
       "title": "2026年日本の実際の賃金：公表データよりも高い実態",
       "published_at": "2026-10-19T08:35:16Z",
@@ -531,6 +542,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=TTRfqXq8wy4"
+    },
+    {
+      "video_id": "IhfC5uh5NNE",
+      "title": "おもちゃで宇宙観測！日常物質の驚異的な現象",
+      "published_at": "2026-10-24T05:42:27Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 3,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IhfC5uh5NNE"
     },
     {
       "video_id": "7jMGQPk5c9k",
@@ -544,15 +566,26 @@
       "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
     },
     {
-      "video_id": "Nig6t2bHXt8",
-      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
-      "published_at": "2026-10-24T23:17:11Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
+      "video_id": "9EKHLk_TYJ0",
+      "title": "なぜ日本政府がオープンな外国人政策を掲げても、一部地域や業界では実現していないのか",
+      "published_at": "2026-10-25T00:50:52Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
       "views": 2,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
+      "url": "https://www.youtube.com/watch?v=9EKHLk_TYJ0"
+    },
+    {
+      "video_id": "SsTrj8qD4uE",
+      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
+      "published_at": "2026-10-24T10:30:17Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
     },
     {
       "video_id": "IRklQ0cax9k",
@@ -564,17 +597,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IRklQ0cax9k"
-    },
-    {
-      "video_id": "4TvaaUiwFa4",
-      "title": "USJの『ドンキーコング・カントリー』ガイド、驚くべき秘密満載",
-      "published_at": "2026-10-23T05:57:43Z",
-      "duration_iso": "PT45S",
-      "duration_seconds": 45,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
     },
     {
       "video_id": "xSkkmC5okww",
@@ -621,28 +643,6 @@
       "url": "https://www.youtube.com/watch?v=AYNvNDLLUCU"
     },
     {
-      "video_id": "SsTrj8qD4uE",
-      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
-      "published_at": "2026-10-24T10:30:17Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
-    },
-    {
-      "video_id": "IhfC5uh5NNE",
-      "title": "おもちゃで宇宙観測！日常物質の驚異的な現象",
-      "published_at": "2026-10-24T05:42:27Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IhfC5uh5NNE"
-    },
-    {
       "video_id": "GVrZpledVJA",
       "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
       "published_at": "2026-10-22T06:02:44Z",
@@ -676,15 +676,26 @@
       "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
     },
     {
-      "video_id": "9EKHLk_TYJ0",
-      "title": "なぜ日本政府がオープンな外国人政策を掲げても、一部地域や業界では実現していないのか",
-      "published_at": "2026-10-25T00:50:52Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
+      "video_id": "tSimwM0Swyk",
+      "title": "一ノ瀬四季の驚きの活躍で、『ナルト』の世界がさらに面白くなる",
+      "published_at": "2026-10-26T01:02:47Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9EKHLk_TYJ0"
+      "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "m9L5lyNFtdU",
+      "title": "キノコ城の難易度、子供たちもびっくり",
+      "published_at": "2026-10-25T15:04:17Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=m9L5lyNFtdU"
     },
     {
       "video_id": "8-NYQqGl4t8",
@@ -729,17 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=4_9_TGFCDuE"
-    },
-    {
-      "video_id": "d4u8EDZJGRw",
-      "title": "派遣の意義と透明性、日本の防衛政策の影響を深く理解する",
-      "published_at": "2026-10-18T12:47:37Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=d4u8EDZJGRw"
     }
   ],
   "video_data_scope": {
