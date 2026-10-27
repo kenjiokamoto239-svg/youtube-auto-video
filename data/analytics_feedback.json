@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-26T10:27:26.269956+09:00",
+  "updated_at_jst": "2026-10-27T11:15:46.932843+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-19",
-    "end": "2026-10-25",
+    "start": "2026-10-20",
+    "end": "2026-10-26",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-19",
-      "views": 1340,
-      "watch_minutes": 151.0,
-      "average_view_seconds": 24.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 4,
-      "comments": 0
-    },
     {
       "day": "2026-10-20",
       "views": 1067,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 10,
       "comments": 2
+    },
+    {
+      "day": "2026-10-24",
+      "views": 2895,
+      "watch_minutes": 357.0,
+      "average_view_seconds": 18.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 11,
+      "comments": 1
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-20",
       "2026-10-21",
-      "2026-10-22"
+      "2026-10-22",
+      "2026-10-23"
     ],
     "recent_3_days": [
-      "2026-10-23",
       "2026-10-24",
-      "2026-10-25"
+      "2026-10-25",
+      "2026-10-26"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -91,6 +91,39 @@
       "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
     },
     {
+      "video_id": "Nig6t2bHXt8",
+      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
+      "published_at": "2026-10-24T23:17:11Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1106,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
+    },
+    {
+      "video_id": "tSimwM0Swyk",
+      "title": "一ノ瀬四季の驚きの活躍で、『ナルト』の世界がさらに面白くなる",
+      "published_at": "2026-10-26T01:02:47Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 1055,
+      "likes": 5,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "ZRkcRswwliU",
+      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
+      "published_at": "2026-10-24T16:27:14Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 1030,
+      "likes": 5,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+    },
+    {
       "video_id": "yS25nmOH1AA",
       "title": "ナマコの切り離し生存、驚きの科学的真実",
       "published_at": "2026-10-22T08:22:54Z",
@@ -100,17 +133,6 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
-    },
-    {
-      "video_id": "Nig6t2bHXt8",
-      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
-      "published_at": "2026-10-24T23:17:11Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 989,
-      "likes": 7,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
     },
     {
       "video_id": "uQwdNu_O9QQ",
@@ -135,26 +157,15 @@
       "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
     },
     {
-      "video_id": "ZRkcRswwliU",
-      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
-      "published_at": "2026-10-24T16:27:14Z",
+      "video_id": "WpZkM88lWto",
+      "title": "意外な情報！博多華丸行列のない隠された人気店",
+      "published_at": "2026-10-26T08:34:10Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 941,
-      "likes": 4,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
-    },
-    {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 933,
-      "likes": 2,
-      "comments": 2,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+      "views": 960,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
     },
     {
       "video_id": "eWKGZt-_hNY",
@@ -162,32 +173,21 @@
       "published_at": "2026-10-25T05:56:57Z",
       "duration_iso": "PT49S",
       "duration_seconds": 49,
-      "views": 548,
-      "likes": 3,
+      "views": 937,
+      "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
     },
     {
-      "video_id": "VnzH5Tt5e7M",
-      "title": "なぜありがとうを言うと、相手の心にどんな影響があるのか",
-      "published_at": "2026-10-19T17:30:04Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 416,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=VnzH5Tt5e7M"
-    },
-    {
-      "video_id": "F5YW0sX28iU",
-      "title": "スーパーニンテンドーワールド」プレイ時間の秘密公開",
-      "published_at": "2026-10-25T05:09:04Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 359,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=F5YW0sX28iU"
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 932,
+      "likes": 2,
+      "comments": 2,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     }
   ],
   "all_videos": [
@@ -203,6 +203,39 @@
       "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
     },
     {
+      "video_id": "Nig6t2bHXt8",
+      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
+      "published_at": "2026-10-24T23:17:11Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1106,
+      "likes": 7,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
+    },
+    {
+      "video_id": "tSimwM0Swyk",
+      "title": "一ノ瀬四季の驚きの活躍で、『ナルト』の世界がさらに面白くなる",
+      "published_at": "2026-10-26T01:02:47Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 1055,
+      "likes": 5,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "ZRkcRswwliU",
+      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
+      "published_at": "2026-10-24T16:27:14Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 1030,
+      "likes": 5,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+    },
+    {
       "video_id": "yS25nmOH1AA",
       "title": "ナマコの切り離し生存、驚きの科学的真実",
       "published_at": "2026-10-22T08:22:54Z",
@@ -212,17 +245,6 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
-    },
-    {
-      "video_id": "Nig6t2bHXt8",
-      "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
-      "published_at": "2026-10-24T23:17:11Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 989,
-      "likes": 7,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
     },
     {
       "video_id": "uQwdNu_O9QQ",
@@ -247,26 +269,15 @@
       "url": "https://www.youtube.com/watch?v=4dh-antmr_8"
     },
     {
-      "video_id": "ZRkcRswwliU",
-      "title": "ニョロニョロの可愛さ、なぜ人々に引っ張られるか",
-      "published_at": "2026-10-24T16:27:14Z",
+      "video_id": "WpZkM88lWto",
+      "title": "意外な情報！博多華丸行列のない隠された人気店",
+      "published_at": "2026-10-26T08:34:10Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 941,
-      "likes": 4,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
-    },
-    {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 933,
-      "likes": 2,
-      "comments": 2,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+      "views": 960,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
     },
     {
       "video_id": "eWKGZt-_hNY",
@@ -274,10 +285,32 @@
       "published_at": "2026-10-25T05:56:57Z",
       "duration_iso": "PT49S",
       "duration_seconds": 49,
-      "views": 548,
-      "likes": 3,
+      "views": 937,
+      "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
+    },
+    {
+      "video_id": "9sIAPKTBHuw",
+      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
+      "published_at": "2026-10-22T17:47:25Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 932,
+      "likes": 2,
+      "comments": 2,
+      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+    },
+    {
+      "video_id": "8arznkjC3Ec",
+      "title": "逆刃刀は実在しない！剣心の驚異的特殊武器",
+      "published_at": "2026-10-26T18:59:08Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 918,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
     },
     {
       "video_id": "VnzH5Tt5e7M",
@@ -318,7 +351,7 @@
       "published_at": "2026-10-22T11:21:17Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 310,
+      "views": 312,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
@@ -368,6 +401,17 @@
       "url": "https://www.youtube.com/watch?v=1tf4OHOmICk"
     },
     {
+      "video_id": "88oKJfeX95U",
+      "title": "後発でも、深読みで魅せる『着せ恋』Season 2",
+      "published_at": "2026-10-26T17:42:13Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 105,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=88oKJfeX95U"
+    },
+    {
       "video_id": "zSCLFvaYcCU",
       "title": "オコジョ、実はイタチだ！",
       "published_at": "2026-10-21T13:09:27Z",
@@ -395,7 +439,7 @@
       "published_at": "2026-10-25T08:13:09Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 91,
+      "views": 90,
       "likes": 1,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=8WOADA-HQXQ"
@@ -410,6 +454,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=3iqttpBjzJY"
+    },
+    {
+      "video_id": "k28ysSo_X9g",
+      "title": "スクランブル2024、ゲーム開発の扉を開けろ！",
+      "published_at": "2026-10-26T06:02:31Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 79,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=k28ysSo_X9g"
     },
     {
       "video_id": "vZx8Og0Vmq8",
@@ -428,21 +483,10 @@
       "published_at": "2026-10-25T11:01:51Z",
       "duration_iso": "PT52S",
       "duration_seconds": 52,
-      "views": 74,
+      "views": 73,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ybUoQg_Bm-A"
-    },
-    {
-      "video_id": "lKryj3997JQ",
-      "title": "秋田県議論：運動と食事、健康の秘訣",
-      "published_at": "2026-10-19T11:06:48Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 66,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=lKryj3997JQ"
     },
     {
       "video_id": "KuCE-980pHM",
@@ -467,15 +511,15 @@
       "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
     },
     {
-      "video_id": "FtB81u_8Fuc",
-      "title": "ジャーナリングで続ける力up！脳科学の正体",
-      "published_at": "2026-10-19T12:01:43Z",
-      "duration_iso": "PT46S",
-      "duration_seconds": 46,
-      "views": 47,
+      "video_id": "p-ib4mo_tNI",
+      "title": "Celeste」の謎の時間「コヨーテタイム」で、あなたも「コヨーテ」の行動を模倣し始める！",
+      "published_at": "2026-10-26T12:28:59Z",
+      "duration_iso": "PT49S",
+      "duration_seconds": 49,
+      "views": 50,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=FtB81u_8Fuc"
+      "url": "https://www.youtube.com/watch?v=p-ib4mo_tNI"
     },
     {
       "video_id": "DZc_7WqySJo",
@@ -533,15 +577,15 @@
       "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
     },
     {
-      "video_id": "TTRfqXq8wy4",
-      "title": "2026年日本の実際の賃金：公表データよりも高い実態",
-      "published_at": "2026-10-19T08:35:16Z",
-      "duration_iso": "PT50S",
-      "duration_seconds": 50,
-      "views": 4,
+      "video_id": "SsTrj8qD4uE",
+      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
+      "published_at": "2026-10-24T10:30:17Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 5,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=TTRfqXq8wy4"
+      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
     },
     {
       "video_id": "IhfC5uh5NNE",
@@ -549,7 +593,7 @@
       "published_at": "2026-10-24T05:42:27Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 3,
+      "views": 4,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IhfC5uh5NNE"
@@ -560,7 +604,7 @@
       "published_at": "2026-10-22T01:14:25Z",
       "duration_iso": "PT23S",
       "duration_seconds": 23,
-      "views": 3,
+      "views": 4,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
@@ -571,21 +615,10 @@
       "published_at": "2026-10-25T00:50:52Z",
       "duration_iso": "PT25S",
       "duration_seconds": 25,
-      "views": 2,
+      "views": 3,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=9EKHLk_TYJ0"
-    },
-    {
-      "video_id": "SsTrj8qD4uE",
-      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
-      "published_at": "2026-10-24T10:30:17Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
     },
     {
       "video_id": "IRklQ0cax9k",
@@ -632,17 +665,6 @@
       "url": "https://www.youtube.com/watch?v=m2HLkndrZpQ"
     },
     {
-      "video_id": "AYNvNDLLUCU",
-      "title": "日本郵便のドローン配達、新たな防災手段のカギを握る",
-      "published_at": "2026-10-19T12:26:34Z",
-      "duration_iso": "PT54S",
-      "duration_seconds": 54,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=AYNvNDLLUCU"
-    },
-    {
       "video_id": "GVrZpledVJA",
       "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
       "published_at": "2026-10-22T06:02:44Z",
@@ -676,15 +698,15 @@
       "url": "https://www.youtube.com/watch?v=6r66JNFzJng"
     },
     {
-      "video_id": "tSimwM0Swyk",
-      "title": "一ノ瀬四季の驚きの活躍で、『ナルト』の世界がさらに面白くなる",
-      "published_at": "2026-10-26T01:02:47Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
+      "video_id": "6P3mcgVe1mQ",
+      "title": "スプラトゥーン3サウンドトラック、実際のゲーム曲が使われる驚き",
+      "published_at": "2026-10-27T01:53:08Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+      "url": "https://www.youtube.com/watch?v=6P3mcgVe1mQ"
     },
     {
       "video_id": "m9L5lyNFtdU",
@@ -718,28 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ToBThOAC6hg"
-    },
-    {
-      "video_id": "9dYB1a4lmmI",
-      "title": "岡山展覧会で浮かび上がった介護の真実",
-      "published_at": "2026-10-19T12:35:42Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9dYB1a4lmmI"
-    },
-    {
-      "video_id": "4_9_TGFCDuE",
-      "title": "副業で収入UP！健康投資の重要性",
-      "published_at": "2026-10-19T00:51:38Z",
-      "duration_iso": "PT51S",
-      "duration_seconds": 51,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4_9_TGFCDuE"
     }
   ],
   "video_data_scope": {
