@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-28T11:29:29.080824+09:00",
+  "updated_at_jst": "2026-10-29T11:36:55.055906+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-21",
-    "end": "2026-10-27",
+    "start": "2026-10-22",
+    "end": "2026-10-28",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-21",
-      "views": 558,
-      "watch_minutes": 46.0,
-      "average_view_seconds": 15.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 5,
-      "comments": 0
-    },
     {
       "day": "2026-10-22",
       "views": 1509,
@@ -33,8 +23,8 @@
     },
     {
       "day": "2026-10-23",
-      "views": 2840,
-      "watch_minutes": 299.0,
+      "views": 2821,
+      "watch_minutes": 298.0,
       "average_view_seconds": 17.0,
       "subscribers_gained": 0,
       "subscribers_lost": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 12,
       "comments": 1
+    },
+    {
+      "day": "2026-10-26",
+      "views": 2418,
+      "watch_minutes": 262.0,
+      "average_view_seconds": 22.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 5,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-22",
       "2026-10-23",
-      "2026-10-24"
+      "2026-10-24",
+      "2026-10-25"
     ],
     "recent_3_days": [
-      "2026-10-25",
       "2026-10-26",
-      "2026-10-27"
+      "2026-10-27",
+      "2026-10-28"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -85,7 +85,7 @@
       "published_at": "2026-10-24T23:17:11Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1106,
+      "views": 1105,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
@@ -96,7 +96,7 @@
       "published_at": "2026-10-23T17:37:38Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1106,
+      "views": 1104,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
@@ -118,10 +118,21 @@
       "published_at": "2026-10-24T16:27:14Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 1030,
+      "views": 1031,
       "likes": 5,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+    },
+    {
+      "video_id": "iUUXQp9MAn4",
+      "title": "声優の演技力、子供心をくすぐる",
+      "published_at": "2026-10-28T17:11:55Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1023,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "yS25nmOH1AA",
@@ -135,12 +146,23 @@
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
     },
     {
+      "video_id": "8arznkjC3Ec",
+      "title": "逆刃刀は実在しない！剣心の驚異的特殊武器",
+      "published_at": "2026-10-26T18:59:08Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 986,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
+    },
+    {
       "video_id": "uQwdNu_O9QQ",
       "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
       "published_at": "2026-10-23T08:20:03Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 986,
+      "views": 985,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
@@ -157,37 +179,15 @@
       "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
     },
     {
-      "video_id": "eWKGZt-_hNY",
-      "title": "22世紀の高島屋服、超能力の秘密とは？",
-      "published_at": "2026-10-25T05:56:57Z",
-      "duration_iso": "PT49S",
-      "duration_seconds": 49,
-      "views": 938,
-      "likes": 5,
+      "video_id": "fWS_w0NxKxQ",
+      "title": "ピーチの秘密！マリオカートワールドの真の最強キャラ",
+      "published_at": "2026-10-28T15:45:31Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 944,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
-    },
-    {
-      "video_id": "8arznkjC3Ec",
-      "title": "逆刃刀は実在しない！剣心の驚異的特殊武器",
-      "published_at": "2026-10-26T18:59:08Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 935,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
-    },
-    {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 931,
-      "likes": 2,
-      "comments": 2,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
+      "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
     }
   ],
   "all_videos": [
@@ -197,7 +197,7 @@
       "published_at": "2026-10-24T23:17:11Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1106,
+      "views": 1105,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
@@ -208,7 +208,7 @@
       "published_at": "2026-10-23T17:37:38Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1106,
+      "views": 1104,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=wractFD7ZwA"
@@ -230,10 +230,21 @@
       "published_at": "2026-10-24T16:27:14Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 1030,
+      "views": 1031,
       "likes": 5,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
+    },
+    {
+      "video_id": "iUUXQp9MAn4",
+      "title": "声優の演技力、子供心をくすぐる",
+      "published_at": "2026-10-28T17:11:55Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1023,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "yS25nmOH1AA",
@@ -247,12 +258,23 @@
       "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
     },
     {
+      "video_id": "8arznkjC3Ec",
+      "title": "逆刃刀は実在しない！剣心の驚異的特殊武器",
+      "published_at": "2026-10-26T18:59:08Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 986,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
+    },
+    {
       "video_id": "uQwdNu_O9QQ",
       "title": "VRで『ドラゴンクエスト』世界体験、実現可能か？",
       "published_at": "2026-10-23T08:20:03Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 986,
+      "views": 985,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
@@ -269,6 +291,17 @@
       "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
     },
     {
+      "video_id": "fWS_w0NxKxQ",
+      "title": "ピーチの秘密！マリオカートワールドの真の最強キャラ",
+      "published_at": "2026-10-28T15:45:31Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 944,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
+    },
+    {
       "video_id": "eWKGZt-_hNY",
       "title": "22世紀の高島屋服、超能力の秘密とは？",
       "published_at": "2026-10-25T05:56:57Z",
@@ -280,15 +313,15 @@
       "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
     },
     {
-      "video_id": "8arznkjC3Ec",
-      "title": "逆刃刀は実在しない！剣心の驚異的特殊武器",
-      "published_at": "2026-10-26T18:59:08Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 935,
-      "likes": 3,
+      "video_id": "bsDEGNcv4Vg",
+      "title": "新しいドラゴンクエストモンスターズ4、テンポが快適！",
+      "published_at": "2026-10-27T08:44:11Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 933,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
+      "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
     },
     {
       "video_id": "9sIAPKTBHuw",
@@ -302,23 +335,12 @@
       "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     },
     {
-      "video_id": "bsDEGNcv4Vg",
-      "title": "新しいドラゴンクエストモンスターズ4、テンポが快適！",
-      "published_at": "2026-10-27T08:44:11Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 928,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
-    },
-    {
       "video_id": "-RN_06jve9w",
       "title": "ノコノコこうらの驚異的スピードで、マリオに救世主の役割を果たせ！",
       "published_at": "2026-10-27T06:10:43Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 884,
+      "views": 883,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=-RN_06jve9w"
@@ -340,7 +362,7 @@
       "published_at": "2026-10-24T13:07:31Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 345,
+      "views": 344,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sEBsynKwKoU"
@@ -357,23 +379,12 @@
       "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
     },
     {
-      "video_id": "h0bgaZeiTR8",
-      "title": "スライスチーズの秘められた秘密：なぜとろけるのか",
-      "published_at": "2026-10-20T17:46:21Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 310,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=h0bgaZeiTR8"
-    },
-    {
       "video_id": "LC0i0TAl77E",
       "title": "マジンガーZのマジンガー、ドラえもんのドラえもんのドラえもん、実際には高身長！",
       "published_at": "2026-10-27T18:29:26Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 300,
+      "views": 302,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=LC0i0TAl77E"
@@ -395,21 +406,10 @@
       "published_at": "2026-10-27T11:50:09Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 266,
+      "views": 267,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=hpluZollPeM"
-    },
-    {
-      "video_id": "qqFCNOLvpS0",
-      "title": "ミニギターの真の原点が「ミニ」だった！",
-      "published_at": "2026-10-21T05:58:34Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 186,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=qqFCNOLvpS0"
     },
     {
       "video_id": "QmV0cHux1L4",
@@ -417,7 +417,7 @@
       "published_at": "2026-10-27T15:09:29Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 172,
+      "views": 171,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmV0cHux1L4"
@@ -428,7 +428,7 @@
       "published_at": "2026-10-26T17:42:13Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 154,
+      "views": 159,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=88oKJfeX95U"
@@ -439,10 +439,21 @@
       "published_at": "2026-10-24T01:25:06Z",
       "duration_iso": "PT22S",
       "duration_seconds": 22,
-      "views": 135,
+      "views": 136,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1tf4OHOmICk"
+    },
+    {
+      "video_id": "Sxb6BUMgeJ4",
+      "title": "第1話がシリーズ全体の縮図、坂本一也監督の巧みな構成技巧",
+      "published_at": "2026-10-28T18:38:52Z",
+      "duration_iso": "PT45S",
+      "duration_seconds": 45,
+      "views": 121,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Sxb6BUMgeJ4"
     },
     {
       "video_id": "zSCLFvaYcCU",
@@ -450,21 +461,10 @@
       "published_at": "2026-10-21T13:09:27Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 105,
+      "views": 106,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
-    },
-    {
-      "video_id": "ecwFrz2y96I",
-      "title": "今日の通勤途中を健康ウォーキングの15分で変える！",
-      "published_at": "2026-10-20T11:47:23Z",
-      "duration_iso": "PT52S",
-      "duration_seconds": 52,
-      "views": 95,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ecwFrz2y96I"
     },
     {
       "video_id": "8WOADA-HQXQ",
@@ -489,17 +489,6 @@
       "url": "https://www.youtube.com/watch?v=k28ysSo_X9g"
     },
     {
-      "video_id": "vZx8Og0Vmq8",
-      "title": "鳥」は「うるさい」にならない理由考える",
-      "published_at": "2026-10-21T01:22:16Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 77,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=vZx8Og0Vmq8"
-    },
-    {
       "video_id": "ybUoQg_Bm-A",
       "title": "未経験からの挑戦、松本拓也のプロデュース道",
       "published_at": "2026-10-25T11:01:51Z",
@@ -509,6 +498,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ybUoQg_Bm-A"
+    },
+    {
+      "video_id": "4ITSDibmjbE",
+      "title": "小野友樹、新たな恋愛ゲームでスイートルームの支配者",
+      "published_at": "2026-10-28T02:07:59Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 67,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=4ITSDibmjbE"
     },
     {
       "video_id": "KuCE-980pHM",
@@ -549,7 +549,7 @@
       "published_at": "2026-10-23T01:15:00Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 39,
+      "views": 40,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nj2MF0g8IRo"
@@ -582,7 +582,7 @@
       "published_at": "2026-10-27T01:53:08Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 32,
+      "views": 33,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=6P3mcgVe1mQ"
@@ -599,6 +599,17 @@
       "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
     },
     {
+      "video_id": "7jMGQPk5c9k",
+      "title": "ステラーブレイドの強化術、見たことない！",
+      "published_at": "2026-10-22T01:14:25Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 7,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
+    },
+    {
       "video_id": "SsTrj8qD4uE",
       "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
       "published_at": "2026-10-24T10:30:17Z",
@@ -610,26 +621,26 @@
       "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
     },
     {
-      "video_id": "7jMGQPk5c9k",
-      "title": "ステラーブレイドの強化術、見たことない！",
-      "published_at": "2026-10-22T01:14:25Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 5,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
-    },
-    {
       "video_id": "IhfC5uh5NNE",
       "title": "おもちゃで宇宙観測！日常物質の驚異的な現象",
       "published_at": "2026-10-24T05:42:27Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 4,
+      "views": 5,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IhfC5uh5NNE"
+    },
+    {
+      "video_id": "DDMn9JcdYgg",
+      "title": "外国人労働者年金、年齢を重ねても足りない",
+      "published_at": "2026-10-28T06:51:12Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 3,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=DDMn9JcdYgg"
     },
     {
       "video_id": "9EKHLk_TYJ0",
@@ -698,15 +709,26 @@
       "url": "https://www.youtube.com/watch?v=GVrZpledVJA"
     },
     {
-      "video_id": "4ITSDibmjbE",
-      "title": "小野友樹、新たな恋愛ゲームでスイートルームの支配者",
-      "published_at": "2026-10-28T02:07:59Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
+      "video_id": "exhhGV5SvCs",
+      "title": "高木渉の控えめな声でコナンを演じる理由",
+      "published_at": "2026-10-29T02:10:14Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=4ITSDibmjbE"
+      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
+    },
+    {
+      "video_id": "pFY4hCN52iM",
+      "title": "ナルトの不死身は、リアル世界の人間の死をどう捉えるか考える",
+      "published_at": "2026-10-28T12:29:42Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=pFY4hCN52iM"
     },
     {
       "video_id": "m9L5lyNFtdU",
@@ -718,28 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=m9L5lyNFtdU"
-    },
-    {
-      "video_id": "8-NYQqGl4t8",
-      "title": "今月の給与チェック、2.8%の減額にどう対応するか",
-      "published_at": "2026-10-20T15:45:46Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=8-NYQqGl4t8"
-    },
-    {
-      "video_id": "ToBThOAC6hg",
-      "title": "ビザ拡充求めデモ始める、労働者年金受け取れるか？",
-      "published_at": "2026-10-20T14:10:47Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ToBThOAC6hg"
     }
   ],
   "video_data_scope": {
