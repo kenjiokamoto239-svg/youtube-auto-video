@@ -2219,27 +2219,59 @@ jobs:
                   "modern office workplace",
                   "business meeting office",
                   "city skyscrapers"
+              ],
+              "雑学": [
+                  "science experiment",
+                  "scientific discovery",
+                  "educational science photography"
               ]
           }
 
-          # タイトルからも検索語を作る
-          # 日本語タイトルだけで検索が失敗する場合に備え、
-          # 英語のジャンル別キーワードも併用する
+          # 動画タイトルを背景検索に利用する
           keywords = []
 
-          if category == "ニュース・時事問題" and article:
-              article_title = clean_text(
-                  article.get("title", "")
-              )
-              if article_title:
-                  keywords.append(article_title)
+          if title:
+              keywords.append(title)
 
-          keywords.extend(
-              CATEGORY_KEYWORDS.get(
-                  category,
-                  ["nature landscape photography"]
+              # タイトルの前置きなどを取り除いて検索語を作る
+              cleaned_title = re.sub(
+                  r"[【】「」『』！？!?。、：:（）()\[\]【】]",
+                  " ",
+                  title
               )
-          )
+
+              cleaned_title = re.sub(
+                  r"\s+",
+                  " ",
+                  cleaned_title
+              ).strip()
+
+              if cleaned_title and cleaned_title != title:
+                  keywords.append(cleaned_title)
+
+          # 雑学ではタイトルを優先し、関連する画像を探す
+          if category == "雑学":
+              keywords.extend(
+                  CATEGORY_KEYWORDS["雑学"]
+              )
+
+          else:
+              keywords.extend(
+                  CATEGORY_KEYWORDS.get(
+                      category,
+                      ["educational photography"]
+                  )
+              )
+
+          # 検索語の重複を削除
+          keywords = list(dict.fromkeys(keywords))
+
+          # 空の検索語を除外
+          keywords = [
+              keyword
+              for keyword in keywords
+              if keyword and keyword.strip()
+          ]
 
           # 検索語の重複を削除
           keywords = list(dict.fromkeys(keywords))
