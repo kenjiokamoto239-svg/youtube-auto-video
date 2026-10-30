@@ -283,14 +283,106 @@ jobs:
                   "RSSからテーマを取得できませんでした。"
               )
 
-          article = random.choice(articles)
+          # 記事の新しさとタイトルの質を考慮して選定
+          from email.utils import parsedate_to_datetime
+          from datetime import timezone
+
+          now = datetime.now(timezone.utc)
+          scored_articles = []
+
+          for item in articles:
+              title = (item.get("title") or "").strip()
+              published = (item.get("published") or "").strip()
+              link = (item.get("link") or "").strip()
+
+              if not title or not link:
+                  continue
+
+              if len(title) < 8 or len(title) > 100:
+                  continue
+
+              if any(word in title for word in [
+                  "広告", "求人情報", "スポンサー"
+              ]):
+                  continue
+
+              score = 0
+              age_hours = None
+
+              if published:
+                  try:
+                      published_dt = parsedate_to_datetime(published)
+
+                      if published_dt.tzinfo is None:
+                          published_dt = published_dt.replace(
+                              tzinfo=timezone.utc
+                          )
+
+                      age_hours = (
+                          now - published_dt.astimezone(timezone.utc)
+                      ).total_seconds() / 3600
+
+                  except (TypeError, ValueError, OverflowError):
+                      age_hours = None
+
+              if age_hours is not None:
+                  if 0 <= age_hours <= 24:
+                      score += 5
+                  elif 24 < age_hours <= 72:
+                      score += 3
+                  elif 72 < age_hours <= 168:
+                      score += 1
+                  elif age_hours > 720:
+                      score -= 3
+
+              if any(word in title for word in [
+                  "なぜ", "理由", "仕組み", "秘密",
+                  "意外", "判明", "研究", "調査", "実は"
+              ]):
+                  score += 2
+
+              if any(word in title for word in [
+                  "最新", "新発表", "新作", "新登場",
+                  "発売", "公開"
+              ]):
+                  score += 1
+
+              if 15 <= len(title) <= 55:
+                  score += 1
+
+              scored_articles.append({
+                  "article": item,
+                  "score": score
+              })
+
+          if scored_articles:
+              scored_articles.sort(
+                  key=lambda x: x["score"],
+                  reverse=True
+              )
+
+              top_score = scored_articles[0]["score"]
+
+              finalists = [
+                  item for item in scored_articles
+                  if item["score"] >= top_score - 2
+              ]
+
+              selected = random.choice(finalists)
+              article = selected["article"]
+              selection_score = selected["score"]
+
+          else:
+              article = random.choice(articles)
+              selection_score = 0
+
           topic = article["title"]
 
           plan = {
               "genre": genre,
               "topic": topic,
               "trend_source": article["link"],
-              "selection_score": 1,
+              "selection_score": selection_score,
               "candidate_count": len(articles)
           }
 
