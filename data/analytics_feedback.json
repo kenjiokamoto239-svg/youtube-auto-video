@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-29T11:36:55.055906+09:00",
+  "updated_at_jst": "2026-10-30T11:46:03.223344+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-22",
-    "end": "2026-10-28",
+    "start": "2026-10-23",
+    "end": "2026-10-29",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-22",
-      "views": 1509,
-      "watch_minutes": 327.0,
-      "average_view_seconds": 36.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 5,
-      "comments": 0
-    },
     {
       "day": "2026-10-23",
       "views": 2821,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 5,
       "comments": 0
+    },
+    {
+      "day": "2026-10-27",
+      "views": 2621,
+      "watch_minutes": 245.0,
+      "average_view_seconds": 16.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 4,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-23",
       "2026-10-24",
-      "2026-10-25"
+      "2026-10-25",
+      "2026-10-26"
     ],
     "recent_3_days": [
-      "2026-10-26",
       "2026-10-27",
-      "2026-10-28"
+      "2026-10-28",
+      "2026-10-29"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -85,7 +85,7 @@
       "published_at": "2026-10-24T23:17:11Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1105,
+      "views": 1106,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
@@ -107,10 +107,21 @@
       "published_at": "2026-10-26T01:02:47Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 1055,
+      "views": 1052,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "iUUXQp9MAn4",
+      "title": "声優の演技力、子供心をくすぐる",
+      "published_at": "2026-10-28T17:11:55Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1036,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "ZRkcRswwliU",
@@ -122,17 +133,6 @@
       "likes": 5,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
-    },
-    {
-      "video_id": "iUUXQp9MAn4",
-      "title": "声優の演技力、子供心をくすぐる",
-      "published_at": "2026-10-28T17:11:55Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1023,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "yS25nmOH1AA",
@@ -151,7 +151,7 @@
       "published_at": "2026-10-26T18:59:08Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 986,
+      "views": 985,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
@@ -168,26 +168,26 @@
       "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
     },
     {
-      "video_id": "WpZkM88lWto",
-      "title": "意外な情報！博多華丸行列のない隠された人気店",
-      "published_at": "2026-10-26T08:34:10Z",
-      "duration_iso": "PT27S",
-      "duration_seconds": 27,
-      "views": 960,
-      "likes": 1,
+      "video_id": "exhhGV5SvCs",
+      "title": "高木渉の控えめな声でコナンを演じる理由",
+      "published_at": "2026-10-29T02:10:14Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 981,
+      "likes": 9,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
+      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
     },
     {
-      "video_id": "fWS_w0NxKxQ",
-      "title": "ピーチの秘密！マリオカートワールドの真の最強キャラ",
-      "published_at": "2026-10-28T15:45:31Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 944,
+      "video_id": "bsDEGNcv4Vg",
+      "title": "新しいドラゴンクエストモンスターズ4、テンポが快適！",
+      "published_at": "2026-10-27T08:44:11Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 965,
       "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
+      "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
     }
   ],
   "all_videos": [
@@ -197,7 +197,7 @@
       "published_at": "2026-10-24T23:17:11Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1105,
+      "views": 1106,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
@@ -219,10 +219,21 @@
       "published_at": "2026-10-26T01:02:47Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 1055,
+      "views": 1052,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "iUUXQp9MAn4",
+      "title": "声優の演技力、子供心をくすぐる",
+      "published_at": "2026-10-28T17:11:55Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1036,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "ZRkcRswwliU",
@@ -234,17 +245,6 @@
       "likes": 5,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
-    },
-    {
-      "video_id": "iUUXQp9MAn4",
-      "title": "声優の演技力、子供心をくすぐる",
-      "published_at": "2026-10-28T17:11:55Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1023,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "yS25nmOH1AA",
@@ -263,7 +263,7 @@
       "published_at": "2026-10-26T18:59:08Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 986,
+      "views": 985,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
@@ -278,6 +278,28 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
+    },
+    {
+      "video_id": "exhhGV5SvCs",
+      "title": "高木渉の控えめな声でコナンを演じる理由",
+      "published_at": "2026-10-29T02:10:14Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 981,
+      "likes": 9,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
+    },
+    {
+      "video_id": "bsDEGNcv4Vg",
+      "title": "新しいドラゴンクエストモンスターズ4、テンポが快適！",
+      "published_at": "2026-10-27T08:44:11Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 965,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
     },
     {
       "video_id": "WpZkM88lWto",
@@ -296,7 +318,7 @@
       "published_at": "2026-10-28T15:45:31Z",
       "duration_iso": "PT23S",
       "duration_seconds": 23,
-      "views": 944,
+      "views": 956,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
@@ -313,17 +335,6 @@
       "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
     },
     {
-      "video_id": "bsDEGNcv4Vg",
-      "title": "新しいドラゴンクエストモンスターズ4、テンポが快適！",
-      "published_at": "2026-10-27T08:44:11Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 933,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
-    },
-    {
       "video_id": "9sIAPKTBHuw",
       "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
       "published_at": "2026-10-22T17:47:25Z",
@@ -335,6 +346,17 @@
       "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
     },
     {
+      "video_id": "l02GaA2IKNE",
+      "title": "那田蜘蛛山編の驚き、服が溶けるシーンの実際の理由とは！",
+      "published_at": "2026-10-29T18:46:51Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 906,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=l02GaA2IKNE"
+    },
+    {
       "video_id": "-RN_06jve9w",
       "title": "ノコノコこうらの驚異的スピードで、マリオに救世主の役割を果たせ！",
       "published_at": "2026-10-27T06:10:43Z",
@@ -344,6 +366,17 @@
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=-RN_06jve9w"
+    },
+    {
+      "video_id": "y9u5BcNzDzo",
+      "title": "ドラクエ3リメイクの謎の洞窟は、プレイヤーがモンスターと戦い、アイテムを集め、レベルを上げ",
+      "published_at": "2026-10-29T12:29:11Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 858,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=y9u5BcNzDzo"
     },
     {
       "video_id": "F5YW0sX28iU",
@@ -390,17 +423,6 @@
       "url": "https://www.youtube.com/watch?v=LC0i0TAl77E"
     },
     {
-      "video_id": "s8z1A7J7S4Q",
-      "title": "物理学者のクイズ、あなたの常識を揺るがせろ！",
-      "published_at": "2026-10-21T14:23:34Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 285,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=s8z1A7J7S4Q"
-    },
-    {
       "video_id": "hpluZollPeM",
       "title": "今日の攻略、まるごと一撃の壁を越えて！",
       "published_at": "2026-10-27T11:50:09Z",
@@ -410,6 +432,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=hpluZollPeM"
+    },
+    {
+      "video_id": "JXgoXDqK68g",
+      "title": "ほんまかいな！大阪発、意外な意味の言葉",
+      "published_at": "2026-10-29T15:56:43Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 187,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=JXgoXDqK68g"
     },
     {
       "video_id": "QmV0cHux1L4",
@@ -434,6 +467,17 @@
       "url": "https://www.youtube.com/watch?v=88oKJfeX95U"
     },
     {
+      "video_id": "02RgTRRwtrY",
+      "title": "火の神の秘壷、ヒートギズモはどこに？",
+      "published_at": "2026-10-29T17:28:03Z",
+      "duration_iso": "PT50S",
+      "duration_seconds": 50,
+      "views": 150,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=02RgTRRwtrY"
+    },
+    {
       "video_id": "1tf4OHOmICk",
       "title": "なにわ男子の履歴書、USJのキャラクターの秘密とは？",
       "published_at": "2026-10-24T01:25:06Z",
@@ -450,21 +494,10 @@
       "published_at": "2026-10-28T18:38:52Z",
       "duration_iso": "PT45S",
       "duration_seconds": 45,
-      "views": 121,
+      "views": 119,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Sxb6BUMgeJ4"
-    },
-    {
-      "video_id": "zSCLFvaYcCU",
-      "title": "オコジョ、実はイタチだ！",
-      "published_at": "2026-10-21T13:09:27Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 106,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=zSCLFvaYcCU"
     },
     {
       "video_id": "8WOADA-HQXQ",
@@ -505,7 +538,7 @@
       "published_at": "2026-10-28T02:07:59Z",
       "duration_iso": "PT42S",
       "duration_seconds": 42,
-      "views": 67,
+      "views": 72,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=4ITSDibmjbE"
@@ -520,17 +553,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KuCE-980pHM"
-    },
-    {
-      "video_id": "C_6NCOwGYbg",
-      "title": "絵画展で発見！想像力の威力",
-      "published_at": "2026-10-22T03:10:53Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 53,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=C_6NCOwGYbg"
     },
     {
       "video_id": "p-ib4mo_tNI",
@@ -566,17 +588,6 @@
       "url": "https://www.youtube.com/watch?v=I3lsKaufNf8"
     },
     {
-      "video_id": "bvemglHBM8I",
-      "title": "ハキリアリの居場所を守ろう！野菜畑の未来を変える昆虫秘密",
-      "published_at": "2026-10-21T11:55:51Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 35,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bvemglHBM8I"
-    },
-    {
       "video_id": "6P3mcgVe1mQ",
       "title": "スプラトゥーン3サウンドトラック、実際のゲーム曲が使われる驚き",
       "published_at": "2026-10-27T01:53:08Z",
@@ -588,6 +599,17 @@
       "url": "https://www.youtube.com/watch?v=6P3mcgVe1mQ"
     },
     {
+      "video_id": "HacV4ZMzxVI",
+      "title": "USJ限定ヤクルトデザート、ヤクルトの真の本気 revealed",
+      "published_at": "2026-10-29T09:24:39Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 12,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=HacV4ZMzxVI"
+    },
+    {
       "video_id": "4TvaaUiwFa4",
       "title": "USJの『ドンキーコング・カントリー』ガイド、驚くべき秘密満載",
       "published_at": "2026-10-23T05:57:43Z",
@@ -597,17 +619,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
-    },
-    {
-      "video_id": "7jMGQPk5c9k",
-      "title": "ステラーブレイドの強化術、見たことない！",
-      "published_at": "2026-10-22T01:14:25Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 7,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=7jMGQPk5c9k"
     },
     {
       "video_id": "SsTrj8qD4uE",
@@ -676,28 +687,6 @@
       "url": "https://www.youtube.com/watch?v=xSkkmC5okww"
     },
     {
-      "video_id": "KcjPkmkqilE",
-      "title": "ジェームズ・ウェッブ、新たな惑星発見！",
-      "published_at": "2026-10-21T12:44:58Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=KcjPkmkqilE"
-    },
-    {
-      "video_id": "m2HLkndrZpQ",
-      "title": "節約アプリで実践！低所得層の貯蓄戦略",
-      "published_at": "2026-10-21T08:23:35Z",
-      "duration_iso": "PT52S",
-      "duration_seconds": 52,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=m2HLkndrZpQ"
-    },
-    {
       "video_id": "GVrZpledVJA",
       "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
       "published_at": "2026-10-22T06:02:44Z",
@@ -709,15 +698,26 @@
       "url": "https://www.youtube.com/watch?v=GVrZpledVJA"
     },
     {
-      "video_id": "exhhGV5SvCs",
-      "title": "高木渉の控えめな声でコナンを演じる理由",
-      "published_at": "2026-10-29T02:10:14Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
+      "video_id": "E8dOD1M9lqs",
+      "title": "マインクラフト」キャラクター、実在の秘密",
+      "published_at": "2026-10-30T02:30:44Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
+      "url": "https://www.youtube.com/watch?v=E8dOD1M9lqs"
+    },
+    {
+      "video_id": "UvPY6sOHzyg",
+      "title": "新たなジャワヒョウ生息地の保護、成功事例を学ぼう",
+      "published_at": "2026-10-29T06:59:01Z",
+      "duration_iso": "PT48S",
+      "duration_seconds": 48,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=UvPY6sOHzyg"
     },
     {
       "video_id": "pFY4hCN52iM",
