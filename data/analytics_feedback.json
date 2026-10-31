@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-10-30T11:46:03.223344+09:00",
+  "updated_at_jst": "2026-10-31T11:37:04.994182+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-23",
-    "end": "2026-10-29",
+    "start": "2026-10-24",
+    "end": "2026-10-30",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-23",
-      "views": 2821,
-      "watch_minutes": 298.0,
-      "average_view_seconds": 17.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 10,
-      "comments": 2
-    },
     {
       "day": "2026-10-24",
       "views": 2895,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-25",
-      "views": 2570,
+      "views": 2566,
       "watch_minutes": 435.0,
       "average_view_seconds": 22.0,
       "subscribers_gained": 1,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 4,
       "comments": 0
+    },
+    {
+      "day": "2026-10-28",
+      "views": 2258,
+      "watch_minutes": 256.0,
+      "average_view_seconds": 18.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 6,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-24",
       "2026-10-25",
-      "2026-10-26"
+      "2026-10-26",
+      "2026-10-27"
     ],
     "recent_3_days": [
-      "2026-10-27",
       "2026-10-28",
-      "2026-10-29"
+      "2026-10-29",
+      "2026-10-30"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -80,12 +80,23 @@
   },
   "top_videos_by_lifetime_views": [
     {
+      "video_id": "q3bOoAp6FoI",
+      "title": "キラーマシン、ただの嘘にしか見えない",
+      "published_at": "2026-10-30T15:36:56Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 1165,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=q3bOoAp6FoI"
+    },
+    {
       "video_id": "Nig6t2bHXt8",
       "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
       "published_at": "2026-10-24T23:17:11Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1106,
+      "views": 1108,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
@@ -107,10 +118,21 @@
       "published_at": "2026-10-26T01:02:47Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 1052,
+      "views": 1053,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "l02GaA2IKNE",
+      "title": "那田蜘蛛山編の驚き、服が溶けるシーンの実際の理由とは！",
+      "published_at": "2026-10-29T18:46:51Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 1044,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=l02GaA2IKNE"
     },
     {
       "video_id": "iUUXQp9MAn4",
@@ -118,7 +140,7 @@
       "published_at": "2026-10-28T17:11:55Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 1036,
+      "views": 1037,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
@@ -135,15 +157,15 @@
       "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
     },
     {
-      "video_id": "yS25nmOH1AA",
-      "title": "ナマコの切り離し生存、驚きの科学的真実",
-      "published_at": "2026-10-22T08:22:54Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 997,
-      "likes": 4,
+      "video_id": "fWS_w0NxKxQ",
+      "title": "ピーチの秘密！マリオカートワールドの真の最強キャラ",
+      "published_at": "2026-10-28T15:45:31Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 1001,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+      "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
     },
     {
       "video_id": "8arznkjC3Ec",
@@ -166,38 +188,27 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=uQwdNu_O9QQ"
-    },
-    {
-      "video_id": "exhhGV5SvCs",
-      "title": "高木渉の控えめな声でコナンを演じる理由",
-      "published_at": "2026-10-29T02:10:14Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 981,
-      "likes": 9,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
-    },
-    {
-      "video_id": "bsDEGNcv4Vg",
-      "title": "新しいドラゴンクエストモンスターズ4、テンポが快適！",
-      "published_at": "2026-10-27T08:44:11Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 965,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
     }
   ],
   "all_videos": [
     {
+      "video_id": "q3bOoAp6FoI",
+      "title": "キラーマシン、ただの嘘にしか見えない",
+      "published_at": "2026-10-30T15:36:56Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 1165,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=q3bOoAp6FoI"
+    },
+    {
       "video_id": "Nig6t2bHXt8",
       "title": "ボーちゃん」の中国語名、実は「阿呆」だった！",
       "published_at": "2026-10-24T23:17:11Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1106,
+      "views": 1108,
       "likes": 7,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Nig6t2bHXt8"
@@ -219,10 +230,21 @@
       "published_at": "2026-10-26T01:02:47Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 1052,
+      "views": 1053,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
+    },
+    {
+      "video_id": "l02GaA2IKNE",
+      "title": "那田蜘蛛山編の驚き、服が溶けるシーンの実際の理由とは！",
+      "published_at": "2026-10-29T18:46:51Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 1044,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=l02GaA2IKNE"
     },
     {
       "video_id": "iUUXQp9MAn4",
@@ -230,7 +252,7 @@
       "published_at": "2026-10-28T17:11:55Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 1036,
+      "views": 1037,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
@@ -247,15 +269,15 @@
       "url": "https://www.youtube.com/watch?v=ZRkcRswwliU"
     },
     {
-      "video_id": "yS25nmOH1AA",
-      "title": "ナマコの切り離し生存、驚きの科学的真実",
-      "published_at": "2026-10-22T08:22:54Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 997,
-      "likes": 4,
+      "video_id": "fWS_w0NxKxQ",
+      "title": "ピーチの秘密！マリオカートワールドの真の最強キャラ",
+      "published_at": "2026-10-28T15:45:31Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 1001,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=yS25nmOH1AA"
+      "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
     },
     {
       "video_id": "8arznkjC3Ec",
@@ -285,10 +307,21 @@
       "published_at": "2026-10-29T02:10:14Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 981,
+      "views": 980,
       "likes": 9,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
+    },
+    {
+      "video_id": "y9u5BcNzDzo",
+      "title": "ドラクエ3リメイクの謎の洞窟は、プレイヤーがモンスターと戦い、アイテムを集め、レベルを上げ",
+      "published_at": "2026-10-29T12:29:11Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 976,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=y9u5BcNzDzo"
     },
     {
       "video_id": "bsDEGNcv4Vg",
@@ -296,10 +329,21 @@
       "published_at": "2026-10-27T08:44:11Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 965,
+      "views": 967,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
+    },
+    {
+      "video_id": "I3Ir85bFtkw",
+      "title": "ゲームをクリアしても面白さが続くのは、新たな要素や戦略を追加することで深みが増すからです",
+      "published_at": "2026-10-30T17:05:17Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 965,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=I3Ir85bFtkw"
     },
     {
       "video_id": "WpZkM88lWto",
@@ -313,17 +357,6 @@
       "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
     },
     {
-      "video_id": "fWS_w0NxKxQ",
-      "title": "ピーチの秘密！マリオカートワールドの真の最強キャラ",
-      "published_at": "2026-10-28T15:45:31Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 956,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
-    },
-    {
       "video_id": "eWKGZt-_hNY",
       "title": "22世紀の高島屋服、超能力の秘密とは？",
       "published_at": "2026-10-25T05:56:57Z",
@@ -335,48 +368,48 @@
       "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
     },
     {
-      "video_id": "9sIAPKTBHuw",
-      "title": "ダチョウの名前は鳥に聞こえるけど、実は哺乳類！",
-      "published_at": "2026-10-22T17:47:25Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 931,
-      "likes": 2,
-      "comments": 2,
-      "url": "https://www.youtube.com/watch?v=9sIAPKTBHuw"
-    },
-    {
-      "video_id": "l02GaA2IKNE",
-      "title": "那田蜘蛛山編の驚き、服が溶けるシーンの実際の理由とは！",
-      "published_at": "2026-10-29T18:46:51Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
-      "views": 906,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=l02GaA2IKNE"
-    },
-    {
       "video_id": "-RN_06jve9w",
       "title": "ノコノコこうらの驚異的スピードで、マリオに救世主の役割を果たせ！",
       "published_at": "2026-10-27T06:10:43Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 883,
+      "views": 884,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=-RN_06jve9w"
     },
     {
-      "video_id": "y9u5BcNzDzo",
-      "title": "ドラクエ3リメイクの謎の洞窟は、プレイヤーがモンスターと戦い、アイテムを集め、レベルを上げ",
-      "published_at": "2026-10-29T12:29:11Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 858,
+      "video_id": "6mbap1i1G3s",
+      "title": "名探偵コナン、未発表作品の数が驚くほど！",
+      "published_at": "2026-10-30T09:42:34Z",
+      "duration_iso": "PT46S",
+      "duration_seconds": 46,
+      "views": 839,
       "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=y9u5BcNzDzo"
+      "url": "https://www.youtube.com/watch?v=6mbap1i1G3s"
+    },
+    {
+      "video_id": "02RgTRRwtrY",
+      "title": "火の神の秘壷、ヒートギズモはどこに？",
+      "published_at": "2026-10-29T17:28:03Z",
+      "duration_iso": "PT50S",
+      "duration_seconds": 50,
+      "views": 834,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=02RgTRRwtrY"
+    },
+    {
+      "video_id": "U7ERlG9kMVk",
+      "title": "コナンの正体、期待に反する驚きの展開",
+      "published_at": "2026-10-30T07:01:21Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 508,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=U7ERlG9kMVk"
     },
     {
       "video_id": "F5YW0sX28iU",
@@ -401,17 +434,6 @@
       "url": "https://www.youtube.com/watch?v=sEBsynKwKoU"
     },
     {
-      "video_id": "29OOEJzhWJU",
-      "title": "アフリカの川、カバの驚異的泳ぎを解き明かす",
-      "published_at": "2026-10-22T11:21:17Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 312,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=29OOEJzhWJU"
-    },
-    {
       "video_id": "LC0i0TAl77E",
       "title": "マジンガーZのマジンガー、ドラえもんのドラえもんのドラえもん、実際には高身長！",
       "published_at": "2026-10-27T18:29:26Z",
@@ -428,10 +450,21 @@
       "published_at": "2026-10-27T11:50:09Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 267,
+      "views": 268,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=hpluZollPeM"
+    },
+    {
+      "video_id": "E8dOD1M9lqs",
+      "title": "マインクラフト」キャラクター、実在の秘密",
+      "published_at": "2026-10-30T02:30:44Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 247,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=E8dOD1M9lqs"
     },
     {
       "video_id": "JXgoXDqK68g",
@@ -439,7 +472,7 @@
       "published_at": "2026-10-29T15:56:43Z",
       "duration_iso": "PT22S",
       "duration_seconds": 22,
-      "views": 187,
+      "views": 188,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JXgoXDqK68g"
@@ -465,17 +498,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=88oKJfeX95U"
-    },
-    {
-      "video_id": "02RgTRRwtrY",
-      "title": "火の神の秘壷、ヒートギズモはどこに？",
-      "published_at": "2026-10-29T17:28:03Z",
-      "duration_iso": "PT50S",
-      "duration_seconds": 50,
-      "views": 150,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=02RgTRRwtrY"
     },
     {
       "video_id": "1tf4OHOmICk",
@@ -544,6 +566,17 @@
       "url": "https://www.youtube.com/watch?v=4ITSDibmjbE"
     },
     {
+      "video_id": "HacV4ZMzxVI",
+      "title": "USJ限定ヤクルトデザート、ヤクルトの真の本気 revealed",
+      "published_at": "2026-10-29T09:24:39Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 56,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=HacV4ZMzxVI"
+    },
+    {
       "video_id": "KuCE-980pHM",
       "title": "お家にある材料で驚きの実験、鈴木弁護士の危惧",
       "published_at": "2026-10-23T11:12:44Z",
@@ -566,28 +599,6 @@
       "url": "https://www.youtube.com/watch?v=p-ib4mo_tNI"
     },
     {
-      "video_id": "Nj2MF0g8IRo",
-      "title": "実践してみて！なぜ風と水を理解すれば防災が可能になるのか",
-      "published_at": "2026-10-23T01:15:00Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 40,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Nj2MF0g8IRo"
-    },
-    {
-      "video_id": "I3lsKaufNf8",
-      "title": "深海の秘密、子供たちの興味をそそる15の珍奇生物",
-      "published_at": "2026-10-22T14:24:07Z",
-      "duration_iso": "PT45S",
-      "duration_seconds": 45,
-      "views": 37,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=I3lsKaufNf8"
-    },
-    {
       "video_id": "6P3mcgVe1mQ",
       "title": "スプラトゥーン3サウンドトラック、実際のゲーム曲が使われる驚き",
       "published_at": "2026-10-27T01:53:08Z",
@@ -599,15 +610,15 @@
       "url": "https://www.youtube.com/watch?v=6P3mcgVe1mQ"
     },
     {
-      "video_id": "HacV4ZMzxVI",
-      "title": "USJ限定ヤクルトデザート、ヤクルトの真の本気 revealed",
-      "published_at": "2026-10-29T09:24:39Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 12,
+      "video_id": "SsTrj8qD4uE",
+      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
+      "published_at": "2026-10-24T10:30:17Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 7,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HacV4ZMzxVI"
+      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
     },
     {
       "video_id": "4TvaaUiwFa4",
@@ -621,15 +632,15 @@
       "url": "https://www.youtube.com/watch?v=4TvaaUiwFa4"
     },
     {
-      "video_id": "SsTrj8qD4uE",
-      "title": "なぜ静岡県立大学の教授が賞を受賞したのか？驚いた秘密！",
-      "published_at": "2026-10-24T10:30:17Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 5,
+      "video_id": "eo0RsQny6Ng",
+      "title": "ドローン配送、郵便局で実験中！迅速で正確なサービスに期待",
+      "published_at": "2026-10-30T12:26:23Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 6,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=SsTrj8qD4uE"
+      "url": "https://www.youtube.com/watch?v=eo0RsQny6Ng"
     },
     {
       "video_id": "IhfC5uh5NNE",
@@ -676,37 +687,26 @@
       "url": "https://www.youtube.com/watch?v=IRklQ0cax9k"
     },
     {
-      "video_id": "xSkkmC5okww",
-      "title": "なぜボールライトニングの存在を信じる科学者はいないのか",
-      "published_at": "2026-10-22T15:56:17Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=xSkkmC5okww"
-    },
-    {
-      "video_id": "GVrZpledVJA",
-      "title": "メダカの卵分裂の謎を解くために、科学的観察を始めてみよう。",
-      "published_at": "2026-10-22T06:02:44Z",
-      "duration_iso": "PT49S",
-      "duration_seconds": 49,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=GVrZpledVJA"
-    },
-    {
-      "video_id": "E8dOD1M9lqs",
-      "title": "マインクラフト」キャラクター、実在の秘密",
-      "published_at": "2026-10-30T02:30:44Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
+      "video_id": "EYczQLxVk2g",
+      "title": "USJ、万聖節クルーに適切距離を",
+      "published_at": "2026-10-31T02:06:49Z",
+      "duration_iso": "PT47S",
+      "duration_seconds": 47,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=E8dOD1M9lqs"
+      "url": "https://www.youtube.com/watch?v=EYczQLxVk2g"
+    },
+    {
+      "video_id": "f1ctisC2Mxo",
+      "title": "今日の意外な歴史：なぜ日本の国旗は朱色なのか？",
+      "published_at": "2026-10-30T18:23:23Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=f1ctisC2Mxo"
     },
     {
       "video_id": "UvPY6sOHzyg",
