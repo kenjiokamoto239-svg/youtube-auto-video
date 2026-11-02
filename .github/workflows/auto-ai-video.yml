@@ -39,6 +39,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Restore topic history
+        uses: actions/cache@v4
+        with:
+          path: work/topic_history.json
+          key: topic-history-${{ github.run_id }}
+          restore-keys: |
+            topic-history-
+
       # 2. 必要なソフトをインストール
       - name: Install system packages
         run: |
@@ -355,6 +363,106 @@ jobs:
                   "score": score
               })
 
+          # 過去30日間のテーマとの重複を避ける
+          import difflib
+          from datetime import timedelta
+
+          history_path = Path("work/topic_history.json")
+          history_path.parent.mkdir(
+              parents=True,
+              exist_ok=True
+          )
+
+          topic_history = []
+
+          if history_path.exists():
+              try:
+                  topic_history = json.loads(
+                      history_path.read_text(
+                          encoding="utf-8"
+                      )
+                  )
+              except Exception as e:
+                  print("TOPIC HISTORY READ ERROR:", str(e)[:200])
+                  topic_history = []
+
+          cutoff_date = (
+              datetime.now() - timedelta(days=30)
+          ).date()
+
+          recent_history = []
+
+          for record in topic_history:
+              try:
+                  record_date = datetime.fromisoformat(
+                      record.get("date", "")
+                  ).date()
+
+                  if record_date >= cutoff_date:
+                      recent_history.append(record)
+              except Exception:
+                  continue
+
+          def normalize_topic(value):
+              value = str(value or "").lower()
+              value = re.sub(
+                  r"[\s　、。！？!?「」『』（）()・：:,.／/]",
+                  "",
+                  value
+              )
+              return value
+
+          def is_similar_topic(candidate, previous_topics):
+              candidate = normalize_topic(candidate)
+
+              if not candidate:
+                  return False
+
+              for previous in previous_topics:
+                  old_topic = normalize_topic(
+                      previous.get("topic", "")
+                  )
+
+                  if not old_topic:
+                      continue
+
+                  if candidate in old_topic or old_topic in candidate:
+                      return True
+
+                  similarity = difflib.SequenceMatcher(
+                      None,
+                      candidate,
+                      old_topic
+                  ).ratio()
+
+                  if similarity >= 0.65:
+                      return True
+
+              return False
+
+          filtered_articles = [
+              item
+              for item in scored_articles
+              if not is_similar_topic(
+                  item["article"]["title"],
+                  recent_history
+              )
+          ]
+
+          print("TOPIC HISTORY COUNT:", len(recent_history))
+          print(
+              "TOPIC DUPLICATES REMOVED:",
+              len(scored_articles) - len(filtered_articles)
+          )
+
+          if filtered_articles:
+              scored_articles = filtered_articles
+          elif scored_articles:
+              print(
+                  "TOPIC HISTORY WARNING: "
+                  "重複しない候補がないため通常候補から選びます。"
+              )
+
           if scored_articles:
               scored_articles.sort(
                   key=lambda x: x["score"],
@@ -378,6 +486,26 @@ jobs:
 
           topic = article["title"]
 
+          topic_history.append({
+              "topic": topic,
+              "date": datetime.now().isoformat(
+                  timespec="seconds"
+              )
+          })
+
+          topic_history = topic_history[-300:]
+
+          history_path.write_text(
+              json.dumps(
+                  topic_history,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8"
+          )
+
+          print("TOPIC HISTORY SAVED:", len(topic_history))
+          print("SELECTED TOPIC:", topic)
           plan = {
               "genre": genre,
               "topic": topic,
