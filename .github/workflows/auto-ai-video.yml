@@ -537,6 +537,7 @@ jobs:
           cat > generate_video.py <<'PYTHON'
           import os
           import sys
+          import re
           import time
           from pathlib import Path
 
