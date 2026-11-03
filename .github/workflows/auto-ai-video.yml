@@ -2322,15 +2322,15 @@ jobs:
               ]
           }
 
-          # 動画タイトルを背景検索に利用する
+          # 背景画像の検索語を作成する
           keywords = []
 
+          # ① 動画タイトルを最優先で検索
           if title:
               keywords.append(title)
 
-              # タイトルの前置きなどを取り除いて検索語を作る
               cleaned_title = re.sub(
-                  r"[【】「」『』！？!?。、：:（）()\[\]【】]",
+                  r"[【】「」『』！？!?。、：:（）()\[\]]",
                   " ",
                   title
               )
@@ -2344,9 +2344,31 @@ jobs:
               if cleaned_title and cleaned_title != title:
                   keywords.append(cleaned_title)
 
-          # 雑学ではタイトルに合った画像だけを検索する
+          # ② タイトルで見つからない場合に備え、
+          # 元のテーマも検索候補に加える
+          if topic:
+              cleaned_topic = re.sub(
+                  r"[【】「」『』！？!?。、：:（）()\[\]]",
+                  " ",
+                  str(topic)
+              )
+
+              cleaned_topic = re.sub(
+                  r"\s+",
+                  " ",
+                  cleaned_topic
+              ).strip()
+
+              if cleaned_topic:
+                  keywords.append(cleaned_topic)
+
+          # ③ 最後の候補としてジャンル別画像を検索
           if category == "雑学":
-              print("雑学ジャンル：タイトル由来の検索語のみ使用")
+              keywords.extend([
+                  "educational photography",
+                  "interesting facts everyday objects",
+                  "objects close up photography"
+              ])
           else:
               keywords.extend(
                   CATEGORY_KEYWORDS.get(
@@ -2355,18 +2377,17 @@ jobs:
                   )
               )
 
-          # 検索語の重複を削除
-          keywords = list(dict.fromkeys(keywords))
-
-          # 空の検索語を除外
+          # 空欄と重複を削除
           keywords = [
-              keyword
+              keyword.strip()
               for keyword in keywords
               if keyword and keyword.strip()
           ]
 
-          # 検索語の重複を削除
           keywords = list(dict.fromkeys(keywords))
+
+          print("BACKGROUND GENRE:", category)
+          print("BACKGROUND KEYWORDS:", keywords)
 
           print("BACKGROUND GENRE:", category)
           print("BACKGROUND KEYWORDS:", keywords)
