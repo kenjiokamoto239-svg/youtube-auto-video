@@ -536,8 +536,16 @@ jobs:
         run: |
           cat > generate_video.py <<'PYTHON'
           import os
-          import re
           import sys
+          import time
+          from pathlib import Path
+
+          from PIL import (
+              Image,
+              ImageOps,
+              ImageDraw,
+              ImageFont
+          )
           import json
           import time
           import math
@@ -3591,6 +3599,132 @@ jobs:
           script = script_path.read_text(
               encoding="utf-8"
           ).strip()
+          # ==========================================
+          # Shorts用サムネイルを自動生成
+          # ==========================================
+
+          thumbnail_path = work / "thumbnail.jpg"
+          background_path = work / "background.jpg"
+
+          if background_path.exists():
+              thumbnail = Image.open(
+                  background_path
+              ).convert("RGB")
+
+              thumbnail = ImageOps.fit(
+                  thumbnail,
+                  (1080, 1920),
+                  method=Image.Resampling.LANCZOS
+              )
+          else:
+              thumbnail = Image.new(
+                  "RGB",
+                  (1080, 1920),
+                  (25, 30, 45)
+              )
+
+          # 文字を読みやすくするため暗いフィルターを重ねる
+          overlay = Image.new(
+              "RGBA",
+              thumbnail.size,
+              (0, 0, 0, 105)
+          )
+
+          thumbnail = Image.alpha_composite(
+              thumbnail.convert("RGBA"),
+              overlay
+          )
+
+          draw = ImageDraw.Draw(thumbnail)
+
+          # 日本語フォント
+          font_path = (
+              "/usr/share/fonts/opentype/noto/"
+              "NotoSansCJK-Bold.ttc"
+          )
+
+          try:
+              category_font = ImageFont.truetype(
+                  font_path,
+                  48
+              )
+
+              title_font = ImageFont.truetype(
+                  font_path,
+                  112
+              )
+          except Exception:
+              category_font = ImageFont.load_default()
+              title_font = ImageFont.load_default()
+
+          # 上部にジャンルを表示
+          category_label = category[:12]
+
+          draw.text(
+              (540, 570),
+              category_label,
+              font=category_font,
+              fill=(255, 220, 80),
+              anchor="mm",
+              stroke_width=2,
+              stroke_fill=(0, 0, 0)
+          )
+
+          # タイトルを短く区切って最大3行にする
+          thumbnail_title = title.strip()
+
+          if not thumbnail_title:
+              thumbnail_title = "意外な事実"
+
+          max_chars = 27
+
+          if len(thumbnail_title) > max_chars:
+              thumbnail_title = (
+                  thumbnail_title[:max_chars - 1]
+                  + "…"
+              )
+
+          title_lines = [
+              thumbnail_title[i:i + 9]
+              for i in range(
+                  0,
+                  len(thumbnail_title),
+                  9
+              )
+          ]
+
+          title_lines = title_lines[:3]
+
+          # タイトルを中央に大きく配置
+          line_height = 155
+          total_height = len(title_lines) * line_height
+          start_y = 960 - total_height // 2
+
+          for index, line in enumerate(title_lines):
+              y = start_y + index * line_height
+
+              draw.text(
+                  (540, y),
+                  line,
+                  font=title_font,
+                  fill=(255, 255, 255),
+                  anchor="mm",
+                  stroke_width=9,
+                  stroke_fill=(0, 0, 0)
+              )
+
+          # JPEGで保存
+          thumbnail.convert("RGB").save(
+              thumbnail_path,
+              "JPEG",
+              quality=95,
+              optimize=True
+          )
+
+          print(
+              "THUMBNAIL CREATED:",
+              thumbnail_path
+          )
           # 動画のジャンルを読み込む
           category_path = work / "category.txt"
 
@@ -3894,7 +4028,91 @@ jobs:
           video_id = response["id"]
           print("UPLOADED:", video_id)
 
-          # アップロード後に公開へ変更
+          # ==========================================
+          # YouTubeの動画処理完了を待つ
+          # ==========================================
+
+          processing_succeeded = False
+
+          for attempt in range(40):
+              try:
+                  video_info = youtube.videos().list(
+                      part="processingDetails",
+                      id=video_id
+                  ).execute()
+
+                  items = video_info.get("items", [])
+
+                  if items:
+                      processing_status = (
+                          items[0]
+                          .get("processingDetails", {})
+                          .get("processingStatus", "")
+                      )
+
+                      print(
+                          "VIDEO PROCESSING:",
+                          processing_status
+                      )
+
+                      if processing_status == "succeeded":
+                          processing_succeeded = True
+                          break
+
+                      if processing_status in [
+                          "failed",
+                          "terminated"
+                      ]:
+                          print(
+                              "動画処理に失敗したため、"
+                              "サムネイル設定をスキップします"
+                          )
+                          break
+
+              except Exception as e:
+                  print(
+                      "PROCESSING CHECK ERROR:",
+                      str(e)
+                  )
+
+              time.sleep(15)
+
+          # ==========================================
+          # カスタムサムネイルを設定
+          # ==========================================
+
+          if processing_succeeded and thumbnail_path.exists():
+              try:
+                  thumbnail_media = MediaFileUpload(
+                      str(thumbnail_path),
+                      mimetype="image/jpeg",
+                      resumable=False
+                  )
+
+                  youtube.thumbnails().set(
+                      videoId=video_id,
+                      media_body=thumbnail_media
+                  ).execute()
+
+                  print(
+                      "CUSTOM THUMBNAIL SET:",
+                      video_id
+                  )
+
+              except Exception as e:
+                  print(
+                      "THUMBNAIL SET ERROR:",
+                      str(e)
+                  )
+          else:
+              print(
+                  "CUSTOM THUMBNAIL SKIPPED"
+              )
+
+          # ==========================================
+          # サムネイル処理後に公開
+          # ==========================================
+
           youtube.videos().update(
               part="status",
               body={
@@ -3905,6 +4123,8 @@ jobs:
                   }
               }
           ).execute()
+
+          print("PUBLISHED:", video_id)
 
           print("PUBLISHED:", video_id)
           print(
