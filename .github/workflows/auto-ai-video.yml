@@ -3668,6 +3668,15 @@ jobs:
               title_font = ImageFont.load_default()
 
           # 上部にジャンルを表示
+          category_path = work / "category.txt"
+
+          if category_path.exists():
+              category = category_path.read_text(
+                  encoding="utf-8"
+              ).strip()
+          else:
+              category = "雑学"
+
           category_label = category[:12]
 
           draw.text(
