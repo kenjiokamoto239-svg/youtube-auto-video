@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-02T11:39:43.129216+09:00",
+  "updated_at_jst": "2026-11-03T12:58:33.300899+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-26",
-    "end": "2026-11-01",
+    "start": "2026-10-27",
+    "end": "2026-11-02",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-26",
-      "views": 2411,
-      "watch_minutes": 262.0,
-      "average_view_seconds": 22.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 5,
-      "comments": 0
-    },
     {
       "day": "2026-10-27",
       "views": 2606,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 12,
       "comments": 0
+    },
+    {
+      "day": "2026-10-31",
+      "views": 2954,
+      "watch_minutes": 322.0,
+      "average_view_seconds": 15.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 9,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-27",
       "2026-10-28",
-      "2026-10-29"
+      "2026-10-29",
+      "2026-10-30"
     ],
     "recent_3_days": [
-      "2026-10-30",
       "2026-10-31",
-      "2026-11-01"
+      "2026-11-01",
+      "2026-11-02"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -85,7 +85,7 @@
       "published_at": "2026-10-30T15:36:56Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1466,
+      "views": 1486,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=q3bOoAp6FoI"
@@ -102,12 +102,23 @@
       "url": "https://www.youtube.com/watch?v=I3Ir85bFtkw"
     },
     {
+      "video_id": "rKL3sO23LkA",
+      "title": "スプラトゥーンの自由な変形、新しい自分を作ろう",
+      "published_at": "2026-10-31T11:54:53Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1069,
+      "likes": 5,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=rKL3sO23LkA"
+    },
+    {
       "video_id": "6mbap1i1G3s",
       "title": "名探偵コナン、未発表作品の数が驚くほど！",
       "published_at": "2026-10-30T09:42:34Z",
       "duration_iso": "PT46S",
       "duration_seconds": 46,
-      "views": 1064,
+      "views": 1067,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=6mbap1i1G3s"
@@ -151,7 +162,7 @@
       "published_at": "2026-10-28T17:11:55Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 1039,
+      "views": 1040,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
@@ -173,21 +184,10 @@
       "published_at": "2026-10-29T12:29:11Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 996,
+      "views": 997,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=y9u5BcNzDzo"
-    },
-    {
-      "video_id": "exhhGV5SvCs",
-      "title": "高木渉の控えめな声でコナンを演じる理由",
-      "published_at": "2026-10-29T02:10:14Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 991,
-      "likes": 9,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
     }
   ],
   "all_videos": [
@@ -197,7 +197,7 @@
       "published_at": "2026-10-30T15:36:56Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1466,
+      "views": 1486,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=q3bOoAp6FoI"
@@ -214,12 +214,23 @@
       "url": "https://www.youtube.com/watch?v=I3Ir85bFtkw"
     },
     {
+      "video_id": "rKL3sO23LkA",
+      "title": "スプラトゥーンの自由な変形、新しい自分を作ろう",
+      "published_at": "2026-10-31T11:54:53Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1069,
+      "likes": 5,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=rKL3sO23LkA"
+    },
+    {
       "video_id": "6mbap1i1G3s",
       "title": "名探偵コナン、未発表作品の数が驚くほど！",
       "published_at": "2026-10-30T09:42:34Z",
       "duration_iso": "PT46S",
       "duration_seconds": 46,
-      "views": 1064,
+      "views": 1067,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=6mbap1i1G3s"
@@ -263,7 +274,7 @@
       "published_at": "2026-10-28T17:11:55Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 1039,
+      "views": 1040,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
@@ -285,7 +296,7 @@
       "published_at": "2026-10-29T12:29:11Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 996,
+      "views": 997,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=y9u5BcNzDzo"
@@ -296,10 +307,21 @@
       "published_at": "2026-10-29T02:10:14Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 991,
+      "views": 996,
       "likes": 9,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
+    },
+    {
+      "video_id": "-eVHP4uoacI",
+      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
+      "published_at": "2026-11-02T15:02:13Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 990,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
     },
     {
       "video_id": "8arznkjC3Ec",
@@ -329,7 +351,7 @@
       "published_at": "2026-10-27T08:44:11Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 968,
+      "views": 971,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
@@ -344,6 +366,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
+    },
+    {
+      "video_id": "oabK9kM5QUM",
+      "title": "パズドラの秘密：3連打で報酬超える！",
+      "published_at": "2026-11-02T12:52:15Z",
+      "duration_iso": "PT39S",
+      "duration_seconds": 39,
+      "views": 959,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
     },
     {
       "video_id": "EYczQLxVk2g",
@@ -368,26 +401,26 @@
       "url": "https://www.youtube.com/watch?v=02RgTRRwtrY"
     },
     {
-      "video_id": "eWKGZt-_hNY",
-      "title": "22世紀の高島屋服、超能力の秘密とは？",
-      "published_at": "2026-10-25T05:56:57Z",
-      "duration_iso": "PT49S",
-      "duration_seconds": 49,
-      "views": 938,
-      "likes": 5,
+      "video_id": "tYr9p6HSyyM",
+      "title": "時のオカリナ」の魔法、ゲーム時間操作で深まる",
+      "published_at": "2026-11-02T12:17:42Z",
+      "duration_iso": "PT44S",
+      "duration_seconds": 44,
+      "views": 945,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=eWKGZt-_hNY"
+      "url": "https://www.youtube.com/watch?v=tYr9p6HSyyM"
     },
     {
-      "video_id": "rKL3sO23LkA",
-      "title": "スプラトゥーンの自由な変形、新しい自分を作ろう",
-      "published_at": "2026-10-31T11:54:53Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 909,
-      "likes": 3,
+      "video_id": "sJIOpg9tsQA",
+      "title": "ワンタッチで驚きの報酬パーティ！パズドラの秘密を解き明かす",
+      "published_at": "2026-11-01T18:14:19Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 930,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=rKL3sO23LkA"
+      "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
     },
     {
       "video_id": "96U-jJOg5l4",
@@ -395,10 +428,21 @@
       "published_at": "2026-10-31T15:06:51Z",
       "duration_iso": "PT55S",
       "duration_seconds": 55,
-      "views": 901,
+      "views": 929,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=96U-jJOg5l4"
+    },
+    {
+      "video_id": "eK2KhhT2Oxk",
+      "title": "ワンタッチダンジョン」で最大の報酬は？",
+      "published_at": "2026-11-01T15:47:33Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 922,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=eK2KhhT2Oxk"
     },
     {
       "video_id": "-RN_06jve9w",
@@ -423,37 +467,26 @@
       "url": "https://www.youtube.com/watch?v=BM4RxYbBFWk"
     },
     {
-      "video_id": "sJIOpg9tsQA",
-      "title": "ワンタッチで驚きの報酬パーティ！パズドラの秘密を解き明かす",
-      "published_at": "2026-11-01T18:14:19Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 751,
-      "likes": 1,
+      "video_id": "9smOGuPIM48",
+      "title": "スプラトゥーンレイダースの次なる進化を解き明かす！",
+      "published_at": "2026-11-02T02:09:35Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 875,
+      "likes": 3,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
+      "url": "https://www.youtube.com/watch?v=9smOGuPIM48"
     },
     {
-      "video_id": "eK2KhhT2Oxk",
-      "title": "ワンタッチダンジョン」で最大の報酬は？",
-      "published_at": "2026-11-01T15:47:33Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 739,
-      "likes": 2,
+      "video_id": "YUFHwpiyYuo",
+      "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
+      "published_at": "2026-11-02T22:02:01Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 813,
+      "likes": 4,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=eK2KhhT2Oxk"
-    },
-    {
-      "video_id": "F5YW0sX28iU",
-      "title": "スーパーニンテンドーワールド」プレイ時間の秘密公開",
-      "published_at": "2026-10-25T05:09:04Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 359,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=F5YW0sX28iU"
+      "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
       "video_id": "LC0i0TAl77E",
@@ -505,7 +538,7 @@
       "published_at": "2026-10-27T15:09:29Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 171,
+      "views": 173,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmV0cHux1L4"
@@ -544,17 +577,6 @@
       "url": "https://www.youtube.com/watch?v=Sxb6BUMgeJ4"
     },
     {
-      "video_id": "8WOADA-HQXQ",
-      "title": "マルチプレイ、友達と共闘の新しい時代",
-      "published_at": "2026-10-25T08:13:09Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 90,
-      "likes": 1,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=8WOADA-HQXQ"
-    },
-    {
       "video_id": "k28ysSo_X9g",
       "title": "スクランブル2024、ゲーム開発の扉を開けろ！",
       "published_at": "2026-10-26T06:02:31Z",
@@ -564,17 +586,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=k28ysSo_X9g"
-    },
-    {
-      "video_id": "ybUoQg_Bm-A",
-      "title": "未経験からの挑戦、松本拓也のプロデュース道",
-      "published_at": "2026-10-25T11:01:51Z",
-      "duration_iso": "PT52S",
-      "duration_seconds": 52,
-      "views": 74,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ybUoQg_Bm-A"
     },
     {
       "video_id": "4ITSDibmjbE",
@@ -588,6 +599,17 @@
       "url": "https://www.youtube.com/watch?v=4ITSDibmjbE"
     },
     {
+      "video_id": "a0l9oJ1IBH8",
+      "title": "今日紹介する動画は、「テムパル」の河野亜矢子監督による第51回社会人野球日本選手権大会のプ",
+      "published_at": "2026-10-31T06:56:06Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 50,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=a0l9oJ1IBH8"
+    },
+    {
       "video_id": "p-ib4mo_tNI",
       "title": "Celeste」の謎の時間「コヨーテタイム」で、あなたも「コヨーテ」の行動を模倣し始める！",
       "published_at": "2026-10-26T12:28:59Z",
@@ -597,17 +619,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=p-ib4mo_tNI"
-    },
-    {
-      "video_id": "a0l9oJ1IBH8",
-      "title": "今日紹介する動画は、「テムパル」の河野亜矢子監督による第51回社会人野球日本選手権大会のプ",
-      "published_at": "2026-10-31T06:56:06Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 48,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=a0l9oJ1IBH8"
     },
     {
       "video_id": "6P3mcgVe1mQ",
@@ -626,7 +637,7 @@
       "published_at": "2026-10-31T16:07:13Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 28,
+      "views": 29,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=005uXXS282A"
@@ -643,17 +654,6 @@
       "url": "https://www.youtube.com/watch?v=eo0RsQny6Ng"
     },
     {
-      "video_id": "34gXpDeakb4",
-      "title": "愛子さま訪新、歴史的問題深化の期待",
-      "published_at": "2026-11-01T01:56:34Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
-      "views": 3,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=34gXpDeakb4"
-    },
-    {
       "video_id": "DDMn9JcdYgg",
       "title": "外国人労働者年金、年齢を重ねても足りない",
       "published_at": "2026-10-28T06:51:12Z",
@@ -663,6 +663,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=DDMn9JcdYgg"
+    },
+    {
+      "video_id": "34gXpDeakb4",
+      "title": "愛子さま訪新、歴史的問題深化の期待",
+      "published_at": "2026-11-01T01:56:34Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=34gXpDeakb4"
     },
     {
       "video_id": "_keEymW4os4",
@@ -676,15 +687,15 @@
       "url": "https://www.youtube.com/watch?v=_keEymW4os4"
     },
     {
-      "video_id": "9smOGuPIM48",
-      "title": "スプラトゥーンレイダースの次なる進化を解き明かす！",
-      "published_at": "2026-11-02T02:09:35Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
+      "video_id": "DRjcoFxd8Lg",
+      "title": "パズドラで覚えた!攻撃強化の秘密",
+      "published_at": "2026-11-03T03:54:06Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=9smOGuPIM48"
+      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
     },
     {
       "video_id": "_ycmN6Lzufs",
@@ -729,17 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pFY4hCN52iM"
-    },
-    {
-      "video_id": "m9L5lyNFtdU",
-      "title": "キノコ城の難易度、子供たちもびっくり",
-      "published_at": "2026-10-25T15:04:17Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=m9L5lyNFtdU"
     }
   ],
   "video_data_scope": {
