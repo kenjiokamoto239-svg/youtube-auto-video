@@ -3597,6 +3597,7 @@ jobs:
           cat > upload_video.py <<'PYTHON'
           import os
           import sys
+          import time
           from pathlib import Path
 
           from PIL import (
