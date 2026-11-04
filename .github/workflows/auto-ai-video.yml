@@ -2914,6 +2914,195 @@ jobs:
           print("OPENING HEADLINE: SUCCESS")
           print("HEADLINE TEXT:", headline)
 
+          # ==========================================
+          # オリジナルキャラクターを自動生成
+          # ==========================================
+
+          CHARACTER_FILE = WORK / "character_overlay.png"
+
+          character = Image.new(
+              "RGBA",
+              (1080, 1920),
+              (0, 0, 0, 0)
+          )
+
+          cd = ImageDraw.Draw(character)
+
+          character_text = (
+              title + " " + script
+          ).lower()
+
+          if any(word in character_text for word in [
+              "危険", "問題", "注意", "失敗",
+              "警告", "リスク"
+          ]):
+              expression = "serious"
+
+          elif any(word in character_text for word in [
+              "驚", "衝撃", "意外", "なぜ",
+              "実は", "秘密", "発見"
+          ]):
+              expression = "surprised"
+
+          else:
+              expression = "smile"
+
+          # キャラクターの影
+          cd.ellipse(
+              (730, 1780, 1050, 1870),
+              fill=(0, 0, 0, 65)
+          )
+
+          # 体・パーカー
+          cd.rounded_rectangle(
+              (755, 1500, 1020, 1880),
+              radius=95,
+              fill=(55, 105, 175, 255),
+              outline=(25, 45, 80, 255),
+              width=10
+          )
+
+          # 首
+          cd.rounded_rectangle(
+              (840, 1430, 930, 1550),
+              radius=25,
+              fill=(245, 190, 155, 255)
+          )
+
+          # 耳
+          cd.ellipse(
+              (770, 1350, 825, 1430),
+              fill=(245, 190, 155, 255)
+          )
+
+          cd.ellipse(
+              (945, 1350, 1000, 1430),
+              fill=(245, 190, 155, 255)
+          )
+
+          # 顔
+          cd.ellipse(
+              (790, 1250, 980, 1480),
+              fill=(255, 218, 185, 255),
+              outline=(90, 55, 45, 255),
+              width=7
+          )
+
+          # 髪
+          cd.pieslice(
+              (775, 1190, 995, 1435),
+              180,
+              360,
+              fill=(40, 35, 45, 255)
+          )
+
+          cd.polygon(
+              [
+                  (785, 1320),
+                  (800, 1245),
+                  (850, 1280),
+                  (875, 1220),
+                  (910, 1280),
+                  (960, 1240),
+                  (985, 1340),
+                  (950, 1310),
+                  (920, 1350),
+                  (880, 1315),
+                  (840, 1350)
+              ],
+              fill=(40, 35, 45, 255)
+          )
+
+          # 眉毛
+          if expression == "surprised":
+              brow_y = 1300
+          else:
+              brow_y = 1320
+
+          cd.line(
+              (825, brow_y, 860, brow_y - 5),
+              fill=(55, 40, 35, 255),
+              width=8
+          )
+
+          cd.line(
+              (905, brow_y - 5, 940, brow_y),
+              fill=(55, 40, 35, 255),
+              width=8
+          )
+
+          # 目
+          if expression == "surprised":
+              cd.ellipse(
+                  (830, 1330, 855, 1370),
+                  fill=(35, 35, 40, 255)
+              )
+              cd.ellipse(
+                  (910, 1330, 935, 1370),
+                  fill=(35, 35, 40, 255)
+              )
+          else:
+              cd.ellipse(
+                  (832, 1340, 855, 1365),
+                  fill=(35, 35, 40, 255)
+              )
+              cd.ellipse(
+                  (912, 1340, 935, 1365),
+                  fill=(35, 35, 40, 255)
+              )
+
+          # 口：台本の内容に合わせて表情を変更
+          if expression == "surprised":
+              cd.ellipse(
+                  (865, 1390, 905, 1440),
+                  fill=(115, 45, 45, 255)
+              )
+
+          elif expression == "serious":
+              cd.line(
+                  (860, 1420, 910, 1420),
+                  fill=(115, 45, 45, 255),
+                  width=8
+              )
+
+          else:
+              cd.arc(
+                  (850, 1380, 920, 1450),
+                  start=10,
+                  end=170,
+                  fill=(115, 45, 45, 255),
+                  width=8
+              )
+
+          # パーカーのひも
+          cd.line(
+              (860, 1530, 850, 1640),
+              fill=(230, 230, 240, 255),
+              width=7
+          )
+
+          cd.line(
+              (910, 1530, 920, 1640),
+              fill=(230, 230, 240, 255),
+              width=7
+          )
+
+          # 画像保存
+          character.save(
+              CHARACTER_FILE,
+              "PNG"
+          )
+
+          print(
+              "CHARACTER CREATED:",
+              CHARACTER_FILE
+          )
+
+          print(
+              "CHARACTER EXPRESSION:",
+              expression
+          )
+
                               # 9.5 動画内容に合わせてBGMを自動取得
           # 検索語を増やし、分野別検索に失敗したら
           # 一般的なBGMも検索する
@@ -3463,31 +3652,101 @@ jobs:
                   "-i", str(BG_FILE)
               ]
 
+          # ==========================================
           # FFmpegの基本設定
+          # キャラクターを動画に自動合成
+          # ==========================================
+
+          if not CHARACTER_FILE.exists():
+              raise RuntimeError(
+                  "キャラクター画像がありません"
+              )
+
           ffmpeg_args = [
-              "ffmpeg", "-y",
+              "ffmpeg",
+              "-y",
               *background_input,
-              "-i", str(AUDIO_FILE)
+              "-i", str(AUDIO_FILE),
+              "-loop", "1",
+              "-framerate", "30",
+              "-i", str(CHARACTER_FILE)
           ]
 
-          # BGMが取得できている場合は音声をミックス
+          # 動画とキャラクターを合成
+          video_graph = (
+              "[0:v]"
+              + video_filter
+              + "[base];"
+              "[2:v]format=rgba[character];"
+              "[base][character]"
+              "overlay=0:0:format=auto:shortest=1"
+              "[vout]"
+          )
+
+          # BGMがある場合
           if bgm_found and BGM_FILE.exists():
+
               print("BGM MIX: START")
 
-              audio_filter = (
-                  "[2:a]volume=0.22[bgm];"
+              ffmpeg_args.extend([
+                  "-stream_loop", "-1",
+                  "-i", str(BGM_FILE)
+              ])
+
+              audio_graph = (
+                  "[3:a]volume=0.22[bgm];"
                   "[1:a][bgm]"
                   "amix=inputs=2:duration=first:"
                   "dropout_transition=2[aout]"
               )
 
+              filter_graph = (
+                  video_graph
+                  + ";"
+                  + audio_graph
+              )
+
               ffmpeg_args.extend([
-                  "-stream_loop", "-1",
-                  "-i", str(BGM_FILE),
-                  "-filter_complex", audio_filter,
-                  "-map", "0:v:0",
+                  "-filter_complex",
+                  filter_graph,
+                  "-map", "[vout]",
                   "-map", "[aout]"
               ])
+
+          else:
+
+              print(
+                  "BGM MIX: SKIPPED - BGM NOT FOUND"
+              )
+
+              ffmpeg_args.extend([
+                  "-filter_complex",
+                  video_graph,
+                  "-map", "[vout]",
+                  "-map", "1:a:0"
+              ])
+
+          print(
+              "CHARACTER OVERLAY: SUCCESS"
+          )
+
+          print(
+              "BACKGROUND MOTION:",
+              "REAL VIDEO" if background_video_found
+              else "ZOOMPAN IMAGE"
+          )
+
+          ffmpeg_args.extend([
+              "-c:v", "libx264",
+              "-preset", "veryfast",
+              "-pix_fmt", "yuv420p",
+              "-r", "30",
+              "-c:a", "aac",
+              "-b:a", "192k",
+              "-shortest",
+              "-movflags", "+faststart",
+              str(VIDEO_FILE)
+          ])
 
           else:
               print("BGM MIX: SKIPPED - BGM NOT FOUND")
