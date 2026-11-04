@@ -3737,6 +3737,7 @@ jobs:
           )
 
           ffmpeg_args.extend([
+              "-t", f"{duration:.3f}",
               "-c:v", "libx264",
               "-preset", "veryfast",
               "-pix_fmt", "yuv420p",
