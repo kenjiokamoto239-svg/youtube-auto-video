@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-03T12:58:33.300899+09:00",
+  "updated_at_jst": "2026-11-04T12:05:51.969214+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-27",
-    "end": "2026-11-02",
+    "start": "2026-10-28",
+    "end": "2026-11-03",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-27",
-      "views": 2606,
-      "watch_minutes": 244.0,
-      "average_view_seconds": 16.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 4,
-      "comments": 0
-    },
     {
       "day": "2026-10-28",
       "views": 2249,
@@ -33,7 +23,7 @@
     },
     {
       "day": "2026-10-29",
-      "views": 3573,
+      "views": 3562,
       "watch_minutes": 562.0,
       "average_view_seconds": 20.0,
       "subscribers_gained": 1,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 9,
       "comments": 0
+    },
+    {
+      "day": "2026-11-01",
+      "views": 3935,
+      "watch_minutes": 376.0,
+      "average_view_seconds": 16.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 10,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-28",
       "2026-10-29",
-      "2026-10-30"
+      "2026-10-30",
+      "2026-10-31"
     ],
     "recent_3_days": [
-      "2026-10-31",
       "2026-11-01",
-      "2026-11-02"
+      "2026-11-02",
+      "2026-11-03"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -85,7 +85,7 @@
       "published_at": "2026-10-30T15:36:56Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1486,
+      "views": 1487,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=q3bOoAp6FoI"
@@ -118,21 +118,10 @@
       "published_at": "2026-10-30T09:42:34Z",
       "duration_iso": "PT46S",
       "duration_seconds": 46,
-      "views": 1067,
+      "views": 1066,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=6mbap1i1G3s"
-    },
-    {
-      "video_id": "tSimwM0Swyk",
-      "title": "一ノ瀬四季の驚きの活躍で、『ナルト』の世界がさらに面白くなる",
-      "published_at": "2026-10-26T01:02:47Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 1053,
-      "likes": 5,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
     },
     {
       "video_id": "p7QE3bf2aPE",
@@ -146,6 +135,28 @@
       "url": "https://www.youtube.com/watch?v=p7QE3bf2aPE"
     },
     {
+      "video_id": "sJIOpg9tsQA",
+      "title": "ワンタッチで驚きの報酬パーティ！パズドラの秘密を解き明かす",
+      "published_at": "2026-11-01T18:14:19Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 1048,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
+    },
+    {
+      "video_id": "iUUXQp9MAn4",
+      "title": "声優の演技力、子供心をくすぐる",
+      "published_at": "2026-10-28T17:11:55Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1045,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
+    },
+    {
       "video_id": "l02GaA2IKNE",
       "title": "那田蜘蛛山編の驚き、服が溶けるシーンの実際の理由とは！",
       "published_at": "2026-10-29T18:46:51Z",
@@ -157,15 +168,15 @@
       "url": "https://www.youtube.com/watch?v=l02GaA2IKNE"
     },
     {
-      "video_id": "iUUXQp9MAn4",
-      "title": "声優の演技力、子供心をくすぐる",
-      "published_at": "2026-10-28T17:11:55Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1040,
-      "likes": 3,
+      "video_id": "YUFHwpiyYuo",
+      "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
+      "published_at": "2026-11-02T22:02:01Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 1033,
+      "likes": 4,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
+      "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
       "video_id": "fWS_w0NxKxQ",
@@ -177,17 +188,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=fWS_w0NxKxQ"
-    },
-    {
-      "video_id": "y9u5BcNzDzo",
-      "title": "ドラクエ3リメイクの謎の洞窟は、プレイヤーがモンスターと戦い、アイテムを集め、レベルを上げ",
-      "published_at": "2026-10-29T12:29:11Z",
-      "duration_iso": "PT36S",
-      "duration_seconds": 36,
-      "views": 997,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=y9u5BcNzDzo"
     }
   ],
   "all_videos": [
@@ -197,7 +197,7 @@
       "published_at": "2026-10-30T15:36:56Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1486,
+      "views": 1487,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=q3bOoAp6FoI"
@@ -230,21 +230,10 @@
       "published_at": "2026-10-30T09:42:34Z",
       "duration_iso": "PT46S",
       "duration_seconds": 46,
-      "views": 1067,
+      "views": 1066,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=6mbap1i1G3s"
-    },
-    {
-      "video_id": "tSimwM0Swyk",
-      "title": "一ノ瀬四季の驚きの活躍で、『ナルト』の世界がさらに面白くなる",
-      "published_at": "2026-10-26T01:02:47Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 1053,
-      "likes": 5,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tSimwM0Swyk"
     },
     {
       "video_id": "p7QE3bf2aPE",
@@ -258,6 +247,28 @@
       "url": "https://www.youtube.com/watch?v=p7QE3bf2aPE"
     },
     {
+      "video_id": "sJIOpg9tsQA",
+      "title": "ワンタッチで驚きの報酬パーティ！パズドラの秘密を解き明かす",
+      "published_at": "2026-11-01T18:14:19Z",
+      "duration_iso": "PT23S",
+      "duration_seconds": 23,
+      "views": 1048,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
+    },
+    {
+      "video_id": "iUUXQp9MAn4",
+      "title": "声優の演技力、子供心をくすぐる",
+      "published_at": "2026-10-28T17:11:55Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 1045,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
+    },
+    {
       "video_id": "l02GaA2IKNE",
       "title": "那田蜘蛛山編の驚き、服が溶けるシーンの実際の理由とは！",
       "published_at": "2026-10-29T18:46:51Z",
@@ -269,15 +280,15 @@
       "url": "https://www.youtube.com/watch?v=l02GaA2IKNE"
     },
     {
-      "video_id": "iUUXQp9MAn4",
-      "title": "声優の演技力、子供心をくすぐる",
-      "published_at": "2026-10-28T17:11:55Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1040,
-      "likes": 3,
+      "video_id": "YUFHwpiyYuo",
+      "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
+      "published_at": "2026-11-02T22:02:01Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 1033,
+      "likes": 4,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
+      "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
       "video_id": "fWS_w0NxKxQ",
@@ -307,10 +318,21 @@
       "published_at": "2026-10-29T02:10:14Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 996,
+      "views": 997,
       "likes": 9,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
+    },
+    {
+      "video_id": "DRjcoFxd8Lg",
+      "title": "パズドラで覚えた!攻撃強化の秘密",
+      "published_at": "2026-11-03T03:54:06Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 996,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
     },
     {
       "video_id": "-eVHP4uoacI",
@@ -318,21 +340,21 @@
       "published_at": "2026-11-02T15:02:13Z",
       "duration_iso": "PT43S",
       "duration_seconds": 43,
-      "views": 990,
+      "views": 995,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
     },
     {
-      "video_id": "8arznkjC3Ec",
-      "title": "逆刃刀は実在しない！剣心の驚異的特殊武器",
-      "published_at": "2026-10-26T18:59:08Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 984,
-      "likes": 4,
+      "video_id": "eK2KhhT2Oxk",
+      "title": "ワンタッチダンジョン」で最大の報酬は？",
+      "published_at": "2026-11-01T15:47:33Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 993,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=8arznkjC3Ec"
+      "url": "https://www.youtube.com/watch?v=eK2KhhT2Oxk"
     },
     {
       "video_id": "U7ERlG9kMVk",
@@ -351,21 +373,10 @@
       "published_at": "2026-10-27T08:44:11Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 971,
+      "views": 977,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bsDEGNcv4Vg"
-    },
-    {
-      "video_id": "WpZkM88lWto",
-      "title": "意外な情報！博多華丸行列のない隠された人気店",
-      "published_at": "2026-10-26T08:34:10Z",
-      "duration_iso": "PT27S",
-      "duration_seconds": 27,
-      "views": 961,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=WpZkM88lWto"
     },
     {
       "video_id": "oabK9kM5QUM",
@@ -373,7 +384,7 @@
       "published_at": "2026-11-02T12:52:15Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 959,
+      "views": 960,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
@@ -384,7 +395,7 @@
       "published_at": "2026-10-31T02:06:49Z",
       "duration_iso": "PT47S",
       "duration_seconds": 47,
-      "views": 959,
+      "views": 958,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=EYczQLxVk2g"
@@ -406,21 +417,10 @@
       "published_at": "2026-11-02T12:17:42Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 945,
+      "views": 947,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tYr9p6HSyyM"
-    },
-    {
-      "video_id": "sJIOpg9tsQA",
-      "title": "ワンタッチで驚きの報酬パーティ！パズドラの秘密を解き明かす",
-      "published_at": "2026-11-01T18:14:19Z",
-      "duration_iso": "PT23S",
-      "duration_seconds": 23,
-      "views": 930,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
     },
     {
       "video_id": "96U-jJOg5l4",
@@ -428,43 +428,10 @@
       "published_at": "2026-10-31T15:06:51Z",
       "duration_iso": "PT55S",
       "duration_seconds": 55,
-      "views": 929,
+      "views": 930,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=96U-jJOg5l4"
-    },
-    {
-      "video_id": "eK2KhhT2Oxk",
-      "title": "ワンタッチダンジョン」で最大の報酬は？",
-      "published_at": "2026-11-01T15:47:33Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 922,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=eK2KhhT2Oxk"
-    },
-    {
-      "video_id": "-RN_06jve9w",
-      "title": "ノコノコこうらの驚異的スピードで、マリオに救世主の役割を果たせ！",
-      "published_at": "2026-10-27T06:10:43Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 884,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-RN_06jve9w"
-    },
-    {
-      "video_id": "BM4RxYbBFWk",
-      "title": "【時のオカリナ】攻略チャート、ストーリーの流れを理解するためのガイド",
-      "published_at": "2026-10-31T09:21:45Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 880,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BM4RxYbBFWk"
     },
     {
       "video_id": "9smOGuPIM48",
@@ -472,21 +439,21 @@
       "published_at": "2026-11-02T02:09:35Z",
       "duration_iso": "PT42S",
       "duration_seconds": 42,
-      "views": 875,
+      "views": 881,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=9smOGuPIM48"
     },
     {
-      "video_id": "YUFHwpiyYuo",
-      "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
-      "published_at": "2026-11-02T22:02:01Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 813,
+      "video_id": "BM4RxYbBFWk",
+      "title": "【時のオカリナ】攻略チャート、ストーリーの流れを理解するためのガイド",
+      "published_at": "2026-10-31T09:21:45Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 878,
       "likes": 4,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
+      "url": "https://www.youtube.com/watch?v=BM4RxYbBFWk"
     },
     {
       "video_id": "LC0i0TAl77E",
@@ -544,23 +511,12 @@
       "url": "https://www.youtube.com/watch?v=QmV0cHux1L4"
     },
     {
-      "video_id": "88oKJfeX95U",
-      "title": "後発でも、深読みで魅せる『着せ恋』Season 2",
-      "published_at": "2026-10-26T17:42:13Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 159,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=88oKJfeX95U"
-    },
-    {
       "video_id": "HacV4ZMzxVI",
       "title": "USJ限定ヤクルトデザート、ヤクルトの真の本気 revealed",
       "published_at": "2026-10-29T09:24:39Z",
       "duration_iso": "PT42S",
       "duration_seconds": 42,
-      "views": 127,
+      "views": 126,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=HacV4ZMzxVI"
@@ -577,15 +533,26 @@
       "url": "https://www.youtube.com/watch?v=Sxb6BUMgeJ4"
     },
     {
-      "video_id": "k28ysSo_X9g",
-      "title": "スクランブル2024、ゲーム開発の扉を開けろ！",
-      "published_at": "2026-10-26T06:02:31Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 79,
+      "video_id": "ld5p5RVNUqw",
+      "title": "新たなキャラクター追加で【スプラレイダース】の世界が完全再編！",
+      "published_at": "2026-11-03T13:51:48Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 100,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=k28ysSo_X9g"
+      "url": "https://www.youtube.com/watch?v=ld5p5RVNUqw"
+    },
+    {
+      "video_id": "tbHssZqo2Xw",
+      "title": "バイオハザード9、クリア後も新たな挑戦！",
+      "published_at": "2026-11-03T16:56:40Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 74,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=tbHssZqo2Xw"
     },
     {
       "video_id": "4ITSDibmjbE",
@@ -610,28 +577,6 @@
       "url": "https://www.youtube.com/watch?v=a0l9oJ1IBH8"
     },
     {
-      "video_id": "p-ib4mo_tNI",
-      "title": "Celeste」の謎の時間「コヨーテタイム」で、あなたも「コヨーテ」の行動を模倣し始める！",
-      "published_at": "2026-10-26T12:28:59Z",
-      "duration_iso": "PT49S",
-      "duration_seconds": 49,
-      "views": 50,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=p-ib4mo_tNI"
-    },
-    {
-      "video_id": "6P3mcgVe1mQ",
-      "title": "スプラトゥーン3サウンドトラック、実際のゲーム曲が使われる驚き",
-      "published_at": "2026-10-27T01:53:08Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 33,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=6P3mcgVe1mQ"
-    },
-    {
       "video_id": "005uXXS282A",
       "title": "ワンタッチで勝つのは難しい！パズドラの秘密",
       "published_at": "2026-10-31T16:07:13Z",
@@ -643,6 +588,17 @@
       "url": "https://www.youtube.com/watch?v=005uXXS282A"
     },
     {
+      "video_id": "vSjKWCFGzF4",
+      "title": "新モンスター発表、ドラクエファンの期待を裏切る驚き",
+      "published_at": "2026-11-03T22:14:41Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 21,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=vSjKWCFGzF4"
+    },
+    {
       "video_id": "eo0RsQny6Ng",
       "title": "ドローン配送、郵便局で実験中！迅速で正確なサービスに期待",
       "published_at": "2026-10-30T12:26:23Z",
@@ -652,6 +608,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=eo0RsQny6Ng"
+    },
+    {
+      "video_id": "JRkOayjIc8w",
+      "title": "エターニア」の特定のキャラクターが特定のダンジョンにしか行けない理由、あなたは探求しますか？",
+      "published_at": "2026-11-04T00:32:07Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 4,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=JRkOayjIc8w"
     },
     {
       "video_id": "DDMn9JcdYgg",
@@ -687,26 +654,59 @@
       "url": "https://www.youtube.com/watch?v=_keEymW4os4"
     },
     {
-      "video_id": "DRjcoFxd8Lg",
-      "title": "パズドラで覚えた!攻撃強化の秘密",
-      "published_at": "2026-11-03T03:54:06Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
-    },
-    {
       "video_id": "_ycmN6Lzufs",
       "title": "万紫千紅」ゲームで見せる、驚くほど豊富な騎乗動物の世界観",
       "published_at": "2026-10-31T17:28:45Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 0,
+      "views": 1,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_ycmN6Lzufs"
+    },
+    {
+      "video_id": "VHE-u9wXsC0",
+      "title": "モバイル向け最適化、キャラクター表現の realism 上げて",
+      "published_at": "2026-11-04T03:01:46Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=VHE-u9wXsC0"
+    },
+    {
+      "video_id": "oZJq2Ele2fg",
+      "title": "モバイル向け最適化、『神不言』キャラクターの瞳を再現",
+      "published_at": "2026-11-04T00:18:40Z",
+      "duration_iso": "PT41S",
+      "duration_seconds": 41,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=oZJq2Ele2fg"
+    },
+    {
+      "video_id": "zRAWmsldO_8",
+      "title": "クッパ城の秘密部屋発見？",
+      "published_at": "2026-11-03T10:32:11Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=zRAWmsldO_8"
+    },
+    {
+      "video_id": "maoY-yIH_Ks",
+      "title": "時計の石」攻略法詳解！",
+      "published_at": "2026-11-03T07:50:32Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=maoY-yIH_Ks"
     },
     {
       "video_id": "f1ctisC2Mxo",
