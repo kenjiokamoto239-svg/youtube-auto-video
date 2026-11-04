@@ -1620,7 +1620,10 @@ jobs:
               ・自然で読みやすい日本語にする
               ・タイトル、説明文、ハッシュタグを混ぜない
               ・制作指示を台本に混ぜない
-              ・200〜300文字を目安にし、330文字を絶対に超えない
+              ・完成台本は180〜240文字にする
+              ・280文字を絶対に超えない
+              ・文字数を削るために重要な情報や根拠を省略しない
+              ・長い説明や重複表現を削り、短く自然な文章にする
               ・結論ではテーマに対する立場を明確に言い切る
               ・今日から実行できる具体的な行動を最低1つ入れる
               ・行動するタイミングと、実践後に効果を判断する基準を示す
@@ -1692,10 +1695,10 @@ jobs:
                   best_script = repaired_script
                   best_score = new_score
 
-              # 問題数が同じなら、内容が十分な文章も候補に残す
+              # 問題数が同じなら、短い台本を優先する
               elif (
                   new_score == best_score
-                  and len(repaired_script) > len(best_script)
+                  and len(repaired_script) < len(best_script)
               ):
                   best_script = repaired_script
 
@@ -1711,8 +1714,22 @@ jobs:
           if best_script:
               script = best_script
 
+          # 最終的な文字数を再検査
+          final_script_length = len(script)
+
+          print(
+              "FINAL SCRIPT LENGTH:",
+              final_script_length
+          )
+
+          if final_script_length > 280:
+              raise RuntimeError(
+                  "台本が280文字を超えています。"
+                  "長い台本を採用しないよう処理を停止しました。"
+                  f"文字数: {final_script_length}"
+              )
+
           # 残った問題はログに記録する
-          # 固定フレーズや文体の判定だけで処理を永久停止させない
           remaining_issues = inspect_script(script)
 
           if remaining_issues:
