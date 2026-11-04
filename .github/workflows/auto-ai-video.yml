@@ -3748,32 +3748,7 @@ jobs:
               str(VIDEO_FILE)
           ])
 
-          else:
-              print("BGM MIX: SKIPPED - BGM NOT FOUND")
-
-              ffmpeg_args.extend([
-                  "-map", "0:v:0",
-                  "-map", "1:a:0"
-              ])
-
-          print(
-              "BACKGROUND MOTION:",
-              "REAL VIDEO" if background_video_found
-              else "ZOOMPAN IMAGE"
-          )
-
-          ffmpeg_args.extend([
-              "-vf", video_filter,
-              "-c:v", "libx264",
-              "-preset", "veryfast",
-              "-pix_fmt", "yuv420p",
-              "-r", "30",
-              "-c:a", "aac",
-              "-b:a", "192k",
-              "-shortest",
-              "-movflags", "+faststart",
-              str(VIDEO_FILE)
-          ])
+          
 
           run(ffmpeg_args, timeout=900)
 
