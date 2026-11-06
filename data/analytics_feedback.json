@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-05T12:36:18.723205+09:00",
+  "updated_at_jst": "2026-11-06T12:30:22.213911+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-10-29",
-    "end": "2026-11-04",
+    "start": "2026-10-30",
+    "end": "2026-11-05",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-10-29",
-      "views": 3562,
-      "watch_minutes": 562.0,
-      "average_view_seconds": 20.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 1,
-      "likes": 15,
-      "comments": 0
-    },
     {
       "day": "2026-10-30",
       "views": 5610,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 15,
       "comments": 0
+    },
+    {
+      "day": "2026-11-03",
+      "views": 507,
+      "watch_minutes": 44.0,
+      "average_view_seconds": 17.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 2,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-10-30",
       "2026-10-31",
-      "2026-11-01"
+      "2026-11-01",
+      "2026-11-02"
     ],
     "recent_3_days": [
-      "2026-11-02",
       "2026-11-03",
-      "2026-11-04"
+      "2026-11-04",
+      "2026-11-05"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -129,7 +129,7 @@
       "published_at": "2026-11-01T18:14:19Z",
       "duration_iso": "PT23S",
       "duration_seconds": 23,
-      "views": 1050,
+      "views": 1053,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
@@ -144,17 +144,6 @@
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=p7QE3bf2aPE"
-    },
-    {
-      "video_id": "iUUXQp9MAn4",
-      "title": "声優の演技力、子供心をくすぐる",
-      "published_at": "2026-10-28T17:11:55Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1046,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "l02GaA2IKNE",
@@ -173,7 +162,7 @@
       "published_at": "2026-11-02T12:52:15Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 1040,
+      "views": 1039,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
@@ -188,6 +177,17 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
+    },
+    {
+      "video_id": "-eVHP4uoacI",
+      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
+      "published_at": "2026-11-02T15:02:13Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 1010,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
     }
   ],
   "all_videos": [
@@ -241,7 +241,7 @@
       "published_at": "2026-11-01T18:14:19Z",
       "duration_iso": "PT23S",
       "duration_seconds": 23,
-      "views": 1050,
+      "views": 1053,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
@@ -256,17 +256,6 @@
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=p7QE3bf2aPE"
-    },
-    {
-      "video_id": "iUUXQp9MAn4",
-      "title": "声優の演技力、子供心をくすぐる",
-      "published_at": "2026-10-28T17:11:55Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 1046,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=iUUXQp9MAn4"
     },
     {
       "video_id": "l02GaA2IKNE",
@@ -285,7 +274,7 @@
       "published_at": "2026-11-02T12:52:15Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 1040,
+      "views": 1039,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
@@ -318,21 +307,10 @@
       "published_at": "2026-11-03T03:54:06Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 1004,
+      "views": 1003,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
-    },
-    {
-      "video_id": "exhhGV5SvCs",
-      "title": "高木渉の控えめな声でコナンを演じる理由",
-      "published_at": "2026-10-29T02:10:14Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 999,
-      "likes": 9,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=exhhGV5SvCs"
     },
     {
       "video_id": "y9u5BcNzDzo",
@@ -373,7 +351,7 @@
       "published_at": "2026-11-02T12:17:42Z",
       "duration_iso": "PT44S",
       "duration_seconds": 44,
-      "views": 969,
+      "views": 970,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tYr9p6HSyyM"
@@ -401,6 +379,17 @@
       "url": "https://www.youtube.com/watch?v=02RgTRRwtrY"
     },
     {
+      "video_id": "IYDJl90fXt0",
+      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
+      "published_at": "2026-11-04T14:01:11Z",
+      "duration_iso": "PT39S",
+      "duration_seconds": 39,
+      "views": 938,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
+    },
+    {
       "video_id": "96U-jJOg5l4",
       "title": "WEBチケットストアでのチケット購入と支払いが一元化、手間が減る便利な変更",
       "published_at": "2026-10-31T15:06:51Z",
@@ -412,12 +401,23 @@
       "url": "https://www.youtube.com/watch?v=96U-jJOg5l4"
     },
     {
+      "video_id": "mAOg3cBf3hU",
+      "title": "名探偵コナン30周年、赤レンガ倉庫の神秘的美術展",
+      "published_at": "2026-11-05T03:14:40Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 918,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
+    },
+    {
       "video_id": "9smOGuPIM48",
       "title": "スプラトゥーンレイダースの次なる進化を解き明かす！",
       "published_at": "2026-11-02T02:09:35Z",
       "duration_iso": "PT42S",
       "duration_seconds": 42,
-      "views": 881,
+      "views": 878,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=9smOGuPIM48"
@@ -439,10 +439,54 @@
       "published_at": "2026-11-04T10:33:10Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 458,
-      "likes": 2,
+      "views": 824,
+      "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
+    },
+    {
+      "video_id": "bL71URbVkhY",
+      "title": "なぜ「跳ね橋」だけ改善されなかったか、その謎解くべき",
+      "published_at": "2026-11-04T18:35:52Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 667,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
+    },
+    {
+      "video_id": "auBHSp_7fAI",
+      "title": "プレイヤーの選択で変わる！ドラクエのモンスター設定",
+      "published_at": "2026-11-04T05:27:32Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 534,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=auBHSp_7fAI"
+    },
+    {
+      "video_id": "vSjKWCFGzF4",
+      "title": "新モンスター発表、ドラクエファンの期待を裏切る驚き",
+      "published_at": "2026-11-03T22:14:41Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 507,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=vSjKWCFGzF4"
+    },
+    {
+      "video_id": "tbHssZqo2Xw",
+      "title": "バイオハザード9、クリア後も新たな挑戦！",
+      "published_at": "2026-11-03T16:56:40Z",
+      "duration_iso": "PT42S",
+      "duration_seconds": 42,
+      "views": 312,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=tbHssZqo2Xw"
     },
     {
       "video_id": "E8dOD1M9lqs",
@@ -456,59 +500,15 @@
       "url": "https://www.youtube.com/watch?v=E8dOD1M9lqs"
     },
     {
-      "video_id": "tbHssZqo2Xw",
-      "title": "バイオハザード9、クリア後も新たな挑戦！",
-      "published_at": "2026-11-03T16:56:40Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 224,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tbHssZqo2Xw"
-    },
-    {
-      "video_id": "IYDJl90fXt0",
-      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
-      "published_at": "2026-11-04T14:01:11Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 208,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
-    },
-    {
-      "video_id": "vSjKWCFGzF4",
-      "title": "新モンスター発表、ドラクエファンの期待を裏切る驚き",
-      "published_at": "2026-11-03T22:14:41Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
-      "views": 207,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=vSjKWCFGzF4"
-    },
-    {
       "video_id": "b_O7TyBkZ6g",
       "title": "ランキング上位は予想外のアーティストが待つ！",
       "published_at": "2026-11-04T07:28:42Z",
       "duration_iso": "PT21S",
       "duration_seconds": 21,
-      "views": 200,
+      "views": 201,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=b_O7TyBkZ6g"
-    },
-    {
-      "video_id": "auBHSp_7fAI",
-      "title": "プレイヤーの選択で変わる！ドラクエのモンスター設定",
-      "published_at": "2026-11-04T05:27:32Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 189,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=auBHSp_7fAI"
     },
     {
       "video_id": "JXgoXDqK68g",
@@ -522,37 +522,37 @@
       "url": "https://www.youtube.com/watch?v=JXgoXDqK68g"
     },
     {
-      "video_id": "HacV4ZMzxVI",
-      "title": "USJ限定ヤクルトデザート、ヤクルトの真の本気 revealed",
-      "published_at": "2026-10-29T09:24:39Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 126,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HacV4ZMzxVI"
-    },
-    {
       "video_id": "VHE-u9wXsC0",
       "title": "モバイル向け最適化、キャラクター表現の realism 上げて",
       "published_at": "2026-11-04T03:01:46Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 124,
+      "views": 186,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=VHE-u9wXsC0"
     },
     {
-      "video_id": "Sxb6BUMgeJ4",
-      "title": "第1話がシリーズ全体の縮図、坂本一也監督の巧みな構成技巧",
-      "published_at": "2026-10-28T18:38:52Z",
-      "duration_iso": "PT45S",
-      "duration_seconds": 45,
-      "views": 119,
+      "video_id": "1Ks1iTKB_Zg",
+      "title": "USJ大みそか限定グルメ、年末の特別感を引き立てる",
+      "published_at": "2026-11-05T17:13:47Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 170,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Sxb6BUMgeJ4"
+      "url": "https://www.youtube.com/watch?v=1Ks1iTKB_Zg"
+    },
+    {
+      "video_id": "k5N-ejQ9_PA",
+      "title": "ドラクエ3」のモンスターバトルロード、攻略の難しさに驚き！",
+      "published_at": "2026-11-05T07:53:47Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 149,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=k5N-ejQ9_PA"
     },
     {
       "video_id": "ld5p5RVNUqw",
@@ -577,15 +577,15 @@
       "url": "https://www.youtube.com/watch?v=IiVGH54T3Ok"
     },
     {
-      "video_id": "bL71URbVkhY",
-      "title": "なぜ「跳ね橋」だけ改善されなかったか、その謎解くべき",
-      "published_at": "2026-11-04T18:35:52Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 73,
+      "video_id": "Sopuj8Twod8",
+      "title": "シルバニアファミリー40年、歴史とキャラ秘密大公開",
+      "published_at": "2026-11-04T20:13:59Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 67,
       "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
+      "url": "https://www.youtube.com/watch?v=Sopuj8Twod8"
     },
     {
       "video_id": "a0l9oJ1IBH8",
@@ -593,21 +593,32 @@
       "published_at": "2026-10-31T06:56:06Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 54,
+      "views": 55,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=a0l9oJ1IBH8"
     },
     {
-      "video_id": "Sopuj8Twod8",
-      "title": "シルバニアファミリー40年、歴史とキャラ秘密大公開",
-      "published_at": "2026-11-04T20:13:59Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 40,
-      "likes": 1,
+      "video_id": "v2Jj7qxskOc",
+      "title": "マリオガチャ、ペットボトルの秘密",
+      "published_at": "2026-11-05T18:42:20Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 38,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Sopuj8Twod8"
+      "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
+    },
+    {
+      "video_id": "JRkOayjIc8w",
+      "title": "エターニア」の特定のキャラクターが特定のダンジョンにしか行けない理由、あなたは探求しますか？",
+      "published_at": "2026-11-04T00:32:07Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 35,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=JRkOayjIc8w"
     },
     {
       "video_id": "005uXXS282A",
@@ -621,15 +632,15 @@
       "url": "https://www.youtube.com/watch?v=005uXXS282A"
     },
     {
-      "video_id": "JRkOayjIc8w",
-      "title": "エターニア」の特定のキャラクターが特定のダンジョンにしか行けない理由、あなたは探求しますか？",
-      "published_at": "2026-11-04T00:32:07Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 20,
+      "video_id": "gQSnQcQ9rAY",
+      "title": "★3メモリー選び：★2の約4倍のステータスで勝利！",
+      "published_at": "2026-11-05T10:26:32Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 24,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=JRkOayjIc8w"
+      "url": "https://www.youtube.com/watch?v=gQSnQcQ9rAY"
     },
     {
       "video_id": "oZJq2Ele2fg",
@@ -637,7 +648,7 @@
       "published_at": "2026-11-04T11:35:27Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 8,
+      "views": 7,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oZJq2Ele2fg"
@@ -687,15 +698,15 @@
       "url": "https://www.youtube.com/watch?v=_ycmN6Lzufs"
     },
     {
-      "video_id": "mAOg3cBf3hU",
-      "title": "名探偵コナン30周年、赤レンガ倉庫の神秘的美術展",
-      "published_at": "2026-11-05T03:14:40Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
+      "video_id": "4nfxHcV5jWA",
+      "title": "猫猫の新旅路、家族の外で冒険の始まり",
+      "published_at": "2026-11-06T03:13:29Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
       "views": 0,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
+      "url": "https://www.youtube.com/watch?v=4nfxHcV5jWA"
     },
     {
       "video_id": "zRAWmsldO_8",
@@ -729,17 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=f1ctisC2Mxo"
-    },
-    {
-      "video_id": "UvPY6sOHzyg",
-      "title": "新たなジャワヒョウ生息地の保護、成功事例を学ぼう",
-      "published_at": "2026-10-29T06:59:01Z",
-      "duration_iso": "PT48S",
-      "duration_seconds": 48,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=UvPY6sOHzyg"
     }
   ],
   "video_data_scope": {
