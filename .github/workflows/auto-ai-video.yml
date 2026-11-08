@@ -2296,6 +2296,7 @@ jobs:
               Image,
               ImageOps,
               ImageEnhance,
+              ImageStat,
               ImageDraw,
               ImageFont
           )
@@ -2534,10 +2535,31 @@ jobs:
                               centering=(0.5, 0.5)
                           )
 
-                          # 字幕を読みやすくするため少し暗くする
+                          # 白黒・色味の薄い画像は候補から除外
+                          saturation = ImageStat.Stat(
+                              image.convert("HSV").getchannel("S")
+                          ).mean[0]
+
+                          if saturation < 35:
+                              print(
+                                  "BACKGROUND SKIPPED: "
+                                  "LOW COLOR",
+                                  candidate["title"]
+                              )
+                              continue
+
+                          # 背景画像を明るく鮮やかに補正
                           image = ImageEnhance.Brightness(
                               image
-                          ).enhance(0.72)
+                          ).enhance(1.05)
+
+                          image = ImageEnhance.Color(
+                              image
+                          ).enhance(1.18)
+
+                          image = ImageEnhance.Contrast(
+                              image
+                          ).enhance(1.05)
 
                           image.save(
                               BACKGROUND_FILE,
@@ -3666,6 +3688,9 @@ jobs:
               "s=1080x1920:"
               "fps=30,"
               "setsar=1,"
+              "eq=brightness=0.05:"
+              "saturation=1.18:"
+              "contrast=1.03,"
               f"ass='{ass_path}'"
           )
 
