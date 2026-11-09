@@ -808,11 +808,40 @@ jobs:
               "qwen2.5:3b"
           )
 
+          
+          # Ollamaを最大3回インストールする
+          ollama_install_command = """
+          set -e
+          for attempt in 1 2 3; do
+              echo "OLLAMA INSTALL ATTEMPT: $attempt"
+
+              if curl -fL \
+                  --retry 3 \
+                  --retry-all-errors \
+                  --retry-delay 5 \
+                  https://ollama.com/install.sh \
+                  -o /tmp/ollama-install.sh; then
+
+                  if sh /tmp/ollama-install.sh && command -v ollama; then
+                      echo "OLLAMA INSTALL SUCCESS"
+                      exit 0
+                  fi
+              fi
+
+              echo "OLLAMA INSTALL FAILED: $attempt"
+              sleep 10
+          done
+
+          echo "OLLAMA INSTALL FAILED AFTER 3 ATTEMPTS"
+          exit 1
+          """
+
           run([
               "bash",
               "-lc",
-              "curl -fsSL https://ollama.com/install.sh | sh"
-          ], timeout=300)
+              ollama_install_command
+          ], timeout=600)
+
 
           subprocess.Popen(
               ["ollama", "serve"],
@@ -834,11 +863,45 @@ jobs:
                   "Ollamaを起動できませんでした"
               )
 
-          run([
-              "ollama",
-              "pull",
-              model
-          ], timeout=1200)
+          
+          # モデルのダウンロードを最大3回試す
+          ollama_pull_success = False
+
+          for attempt in range(1, 4):
+              try:
+                  print(
+                      "OLLAMA MODEL DOWNLOAD ATTEMPT:",
+                      attempt
+                  )
+
+                  run([
+                      "ollama",
+                      "pull",
+                      model
+                  ], timeout=1200)
+
+                  ollama_pull_success = True
+                  break
+
+              except (
+                  subprocess.CalledProcessError,
+                  subprocess.TimeoutExpired
+              ) as error:
+                  print(
+                      "OLLAMA MODEL DOWNLOAD FAILED:",
+                      attempt,
+                      str(error)
+                  )
+
+                  if attempt < 3:
+                      time.sleep(15)
+
+          if not ollama_pull_success:
+              raise RuntimeError(
+                  "Ollamaモデルのダウンロードに"
+                  "3回失敗しました。"
+              )
+
 
           # Wikipediaからテーマに関連する情報を取得
           # RSS記事の情報と組み合わせ、台本の分析と本文作成に利用する
@@ -1722,12 +1785,98 @@ jobs:
               final_script_length
           )
 
+          
+          # 280文字を超えた場合はAIに最大3回短縮させる
+          for attempt in range(1, 4):
+
+              if len(script) <= 280:
+                  break
+
+              print(
+                  "SCRIPT TOO LONG:",
+                  len(script),
+                  "SHORTEN ATTEMPT:",
+                  attempt
+              )
+
+              shorten_prompt = f"""
+              次の台本を、内容の正確さを保ったまま
+              必ず250文字以内に短縮してください。
+
+              【絶対条件】
+              ・読み上げる本文だけを出力する
+              ・250文字以内にする
+              ・重要な事実や根拠を残す
+              ・同じ説明を繰り返さない
+              ・自然な日本語にする
+              ・最後まで意味が通る文章にする
+              ・新しい情報を作らない
+
+              【現在の台本】
+              {script}
+              """
+
+              try:
+                  shorten_response = requests.post(
+                      "http://127.0.0.1:11434/api/generate",
+                      json={
+                          "model": model,
+                          "prompt": shorten_prompt,
+                          "stream": False,
+                          "options": {
+                              "temperature": 0.2
+                          }
+                      },
+                      timeout=900
+                  )
+
+                  shorten_response.raise_for_status()
+
+                  shortened_raw = strip_prompt_leakage(
+                      shorten_response.json().get(
+                          "response",
+                          ""
+                      )
+                  )
+
+                  shortened_script = clean_text(
+                      shortened_raw
+                  )
+
+                  shortened_script = re.sub(
+                      r"(?im)^\s*(台本|本文|SCRIPT)\s*[:：]\s*",
+                      "",
+                      shortened_script
+                  )
+
+                  if shortened_script:
+                      script = shortened_script
+
+                  print(
+                      "SHORTENED SCRIPT LENGTH:",
+                      len(script)
+                  )
+
+              except Exception as error:
+                  print(
+                      "SCRIPT SHORTEN ERROR:",
+                      str(error)
+                  )
+
+          # 最終確認。280文字を超えた台本は投稿しない
+          final_script_length = len(script)
+
+          print(
+              "FINAL SCRIPT LENGTH:",
+              final_script_length
+          )
+
           if final_script_length > 280:
               raise RuntimeError(
-                  "台本が280文字を超えています。"
-                  "長い台本を採用しないよう処理を停止しました。"
-                  f"文字数: {final_script_length}"
+                  "台本の短縮に3回失敗しました。"
+                  f"最終文字数: {final_script_length}"
               )
+
 
           # 残った問題はログに記録する
           remaining_issues = inspect_script(script)
