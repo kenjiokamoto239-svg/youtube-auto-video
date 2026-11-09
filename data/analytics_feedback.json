@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-08T11:37:23.714203+09:00",
+  "updated_at_jst": "2026-11-09T11:51:46.450894+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-01",
-    "end": "2026-11-07",
+    "start": "2026-11-02",
+    "end": "2026-11-08",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-01",
-      "views": 3913,
-      "watch_minutes": 375.0,
-      "average_view_seconds": 16.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 10,
-      "comments": 0
-    },
     {
       "day": "2026-11-02",
       "views": 5954,
@@ -43,7 +33,7 @@
     },
     {
       "day": "2026-11-04",
-      "views": 2399,
+      "views": 2398,
       "watch_minutes": 246.0,
       "average_view_seconds": 15.0,
       "subscribers_gained": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 5,
       "comments": 0
+    },
+    {
+      "day": "2026-11-06",
+      "views": 5135,
+      "watch_minutes": 690.0,
+      "average_view_seconds": 21.0,
+      "subscribers_gained": 1,
+      "subscribers_lost": 0,
+      "likes": 5,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-02",
       "2026-11-03",
-      "2026-11-04"
+      "2026-11-04",
+      "2026-11-05"
     ],
     "recent_3_days": [
-      "2026-11-05",
       "2026-11-06",
-      "2026-11-07"
+      "2026-11-07",
+      "2026-11-08"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -80,15 +80,26 @@
   },
   "top_videos_by_lifetime_views": [
     {
-      "video_id": "rKL3sO23LkA",
-      "title": "スプラトゥーンの自由な変形、新しい自分を作ろう",
-      "published_at": "2026-10-31T11:54:53Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 1067,
-      "likes": 5,
+      "video_id": "sYj7_xw_4eg",
+      "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
+      "published_at": "2026-11-06T10:30:15Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1129,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=rKL3sO23LkA"
+      "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
+    },
+    {
+      "video_id": "BUf6fTLqrZQ",
+      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
+      "published_at": "2026-11-06T19:51:24Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 1088,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "sJIOpg9tsQA",
@@ -96,7 +107,7 @@
       "published_at": "2026-11-01T18:14:19Z",
       "duration_iso": "PT23S",
       "duration_seconds": 23,
-      "views": 1060,
+      "views": 1067,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
@@ -118,7 +129,7 @@
       "published_at": "2026-11-07T09:42:57Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 1043,
+      "views": 1044,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_vyCsAzjFnM"
@@ -135,6 +146,17 @@
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
     },
     {
+      "video_id": "QzcUT_HhaEc",
+      "title": "新作「ゼルダ」、何が意外？",
+      "published_at": "2026-11-07T02:36:56Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1037,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
+    },
+    {
       "video_id": "YUFHwpiyYuo",
       "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
       "published_at": "2026-11-02T22:02:01Z",
@@ -146,61 +168,50 @@
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
-      "video_id": "-eVHP4uoacI",
-      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
-      "published_at": "2026-11-02T15:02:13Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 1010,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
-    },
-    {
-      "video_id": "DRjcoFxd8Lg",
-      "title": "パズドラで覚えた!攻撃強化の秘密",
-      "published_at": "2026-11-03T03:54:06Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 1003,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
-    },
-    {
-      "video_id": "eK2KhhT2Oxk",
-      "title": "ワンタッチダンジョン」で最大の報酬は？",
-      "published_at": "2026-11-01T15:47:33Z",
-      "duration_iso": "PT41S",
-      "duration_seconds": 41,
-      "views": 990,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=eK2KhhT2Oxk"
-    },
-    {
-      "video_id": "IYDJl90fXt0",
-      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
-      "published_at": "2026-11-04T14:01:11Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 979,
+      "video_id": "YUEgL6oBu1c",
+      "title": "マックチキン、ケンタッキーの塩分戦い 解き明かす",
+      "published_at": "2026-11-08T17:01:49Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 1026,
       "likes": 3,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
+    },
+    {
+      "video_id": "8aEp2tKe_7k",
+      "title": "平成」のアニメ、なぜ世代別評価が異なる？",
+      "published_at": "2026-11-08T18:18:32Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1018,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
+      "url": "https://www.youtube.com/watch?v=8aEp2tKe_7k"
     }
   ],
   "all_videos": [
     {
-      "video_id": "rKL3sO23LkA",
-      "title": "スプラトゥーンの自由な変形、新しい自分を作ろう",
-      "published_at": "2026-10-31T11:54:53Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 1067,
-      "likes": 5,
+      "video_id": "sYj7_xw_4eg",
+      "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
+      "published_at": "2026-11-06T10:30:15Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1129,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=rKL3sO23LkA"
+      "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
+    },
+    {
+      "video_id": "BUf6fTLqrZQ",
+      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
+      "published_at": "2026-11-06T19:51:24Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 1088,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "sJIOpg9tsQA",
@@ -208,7 +219,7 @@
       "published_at": "2026-11-01T18:14:19Z",
       "duration_iso": "PT23S",
       "duration_seconds": 23,
-      "views": 1060,
+      "views": 1067,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sJIOpg9tsQA"
@@ -230,7 +241,7 @@
       "published_at": "2026-11-07T09:42:57Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 1043,
+      "views": 1044,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_vyCsAzjFnM"
@@ -247,6 +258,17 @@
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
     },
     {
+      "video_id": "QzcUT_HhaEc",
+      "title": "新作「ゼルダ」、何が意外？",
+      "published_at": "2026-11-07T02:36:56Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1037,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
+    },
+    {
       "video_id": "YUFHwpiyYuo",
       "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
       "published_at": "2026-11-02T22:02:01Z",
@@ -258,6 +280,28 @@
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
+      "video_id": "YUEgL6oBu1c",
+      "title": "マックチキン、ケンタッキーの塩分戦い 解き明かす",
+      "published_at": "2026-11-08T17:01:49Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 1026,
+      "likes": 3,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
+    },
+    {
+      "video_id": "8aEp2tKe_7k",
+      "title": "平成」のアニメ、なぜ世代別評価が異なる？",
+      "published_at": "2026-11-08T18:18:32Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1018,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=8aEp2tKe_7k"
+    },
+    {
       "video_id": "-eVHP4uoacI",
       "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
       "published_at": "2026-11-02T15:02:13Z",
@@ -267,6 +311,17 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
+    },
+    {
+      "video_id": "igU1tU1Si1g",
+      "title": "新たなドラクエ、驚きのモンスター姿",
+      "published_at": "2026-11-06T16:40:15Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 1003,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
     },
     {
       "video_id": "DRjcoFxd8Lg",
@@ -289,17 +344,6 @@
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=eK2KhhT2Oxk"
-    },
-    {
-      "video_id": "IYDJl90fXt0",
-      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
-      "published_at": "2026-11-04T14:01:11Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 979,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
     },
     {
       "video_id": "bL71URbVkhY",
@@ -307,21 +351,32 @@
       "published_at": "2026-11-04T18:35:52Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 977,
+      "views": 989,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
     },
     {
-      "video_id": "sYj7_xw_4eg",
-      "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
-      "published_at": "2026-11-06T10:30:15Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 972,
-      "likes": 1,
+      "video_id": "IYDJl90fXt0",
+      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
+      "published_at": "2026-11-04T14:01:11Z",
+      "duration_iso": "PT39S",
+      "duration_seconds": 39,
+      "views": 984,
+      "likes": 3,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
+      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
+    },
+    {
+      "video_id": "pNdqHvLDhXQ",
+      "title": "ティアキンのアジト、誰も知らない秘訣とは？",
+      "published_at": "2026-11-07T16:55:18Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
+      "views": 983,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
     },
     {
       "video_id": "tYr9p6HSyyM",
@@ -335,50 +390,6 @@
       "url": "https://www.youtube.com/watch?v=tYr9p6HSyyM"
     },
     {
-      "video_id": "EYczQLxVk2g",
-      "title": "USJ、万聖節クルーに適切距離を",
-      "published_at": "2026-10-31T02:06:49Z",
-      "duration_iso": "PT47S",
-      "duration_seconds": 47,
-      "views": 958,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=EYczQLxVk2g"
-    },
-    {
-      "video_id": "igU1tU1Si1g",
-      "title": "新たなドラクエ、驚きのモンスター姿",
-      "published_at": "2026-11-06T16:40:15Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
-      "views": 953,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
-    },
-    {
-      "video_id": "96U-jJOg5l4",
-      "title": "WEBチケットストアでのチケット購入と支払いが一元化、手間が減る便利な変更",
-      "published_at": "2026-10-31T15:06:51Z",
-      "duration_iso": "PT55S",
-      "duration_seconds": 55,
-      "views": 933,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=96U-jJOg5l4"
-    },
-    {
-      "video_id": "BUf6fTLqrZQ",
-      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
-      "published_at": "2026-11-06T19:51:24Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 921,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
-    },
-    {
       "video_id": "mAOg3cBf3hU",
       "title": "名探偵コナン30周年、赤レンガ倉庫の神秘的美術展",
       "published_at": "2026-11-05T03:14:40Z",
@@ -390,23 +401,12 @@
       "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
     },
     {
-      "video_id": "QzcUT_HhaEc",
-      "title": "新作「ゼルダ」、何が意外？",
-      "published_at": "2026-11-07T02:36:56Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 918,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
-    },
-    {
       "video_id": "k5N-ejQ9_PA",
       "title": "ドラクエ3」のモンスターバトルロード、攻略の難しさに驚き！",
       "published_at": "2026-11-05T07:53:47Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 915,
+      "views": 914,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=k5N-ejQ9_PA"
@@ -417,7 +417,7 @@
       "published_at": "2026-11-04T10:33:10Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 879,
+      "views": 878,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
@@ -434,17 +434,6 @@
       "url": "https://www.youtube.com/watch?v=9smOGuPIM48"
     },
     {
-      "video_id": "BM4RxYbBFWk",
-      "title": "【時のオカリナ】攻略チャート、ストーリーの流れを理解するためのガイド",
-      "published_at": "2026-10-31T09:21:45Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 878,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BM4RxYbBFWk"
-    },
-    {
       "video_id": "1Ks1iTKB_Zg",
       "title": "USJ大みそか限定グルメ、年末の特別感を引き立てる",
       "published_at": "2026-11-05T17:13:47Z",
@@ -454,17 +443,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1Ks1iTKB_Zg"
-    },
-    {
-      "video_id": "pNdqHvLDhXQ",
-      "title": "ティアキンのアジト、誰も知らない秘訣とは？",
-      "published_at": "2026-11-07T16:55:18Z",
-      "duration_iso": "PT24S",
-      "duration_seconds": 24,
-      "views": 702,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
     },
     {
       "video_id": "auBHSp_7fAI",
@@ -483,7 +461,7 @@
       "published_at": "2026-11-03T22:14:41Z",
       "duration_iso": "PT34S",
       "duration_seconds": 34,
-      "views": 506,
+      "views": 507,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=vSjKWCFGzF4"
@@ -505,7 +483,7 @@
       "published_at": "2026-11-07T12:43:36Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 296,
+      "views": 298,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
@@ -516,7 +494,7 @@
       "published_at": "2026-11-07T15:31:10Z",
       "duration_iso": "PT34S",
       "duration_seconds": 34,
-      "views": 233,
+      "views": 234,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oqKXON88z5Y"
@@ -544,6 +522,17 @@
       "url": "https://www.youtube.com/watch?v=VHE-u9wXsC0"
     },
     {
+      "video_id": "3RtQyTCOe-Y",
+      "title": "2026年、恋愛漫画の新ジャンルが登場か",
+      "published_at": "2026-11-08T15:49:26Z",
+      "duration_iso": "PT39S",
+      "duration_seconds": 39,
+      "views": 179,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=3RtQyTCOe-Y"
+    },
+    {
       "video_id": "4nfxHcV5jWA",
       "title": "猫猫の新旅路、家族の外で冒険の始まり",
       "published_at": "2026-11-06T03:13:29Z",
@@ -553,6 +542,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=4nfxHcV5jWA"
+    },
+    {
+      "video_id": "tv464ZRRAeY",
+      "title": "時のオカリナ」裏ゼルダ、実際には収録なし？",
+      "published_at": "2026-11-08T02:09:35Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 112,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
     },
     {
       "video_id": "ld5p5RVNUqw",
@@ -566,12 +566,23 @@
       "url": "https://www.youtube.com/watch?v=ld5p5RVNUqw"
     },
     {
+      "video_id": "QmZERK6UlAI",
+      "title": "関西ジュニアのUSJステージ、細部にまでこだわりの“一瞬の輝き”",
+      "published_at": "2026-11-08T12:59:35Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 93,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
+    },
+    {
       "video_id": "IiVGH54T3Ok",
       "title": "宮田俊哉のアフレコ秘話とEDテーマ制作、プラネットアイドル夢の裏側",
       "published_at": "2026-11-04T05:49:47Z",
       "duration_iso": "PT33S",
       "duration_seconds": 33,
-      "views": 91,
+      "views": 93,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IiVGH54T3Ok"
@@ -588,15 +599,15 @@
       "url": "https://www.youtube.com/watch?v=Sopuj8Twod8"
     },
     {
-      "video_id": "a0l9oJ1IBH8",
-      "title": "今日紹介する動画は、「テムパル」の河野亜矢子監督による第51回社会人野球日本選手権大会のプ",
-      "published_at": "2026-10-31T06:56:06Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 57,
+      "video_id": "f1ctisC2Mxo",
+      "title": "今日の意外な歴史：なぜ日本の国旗は朱色なのか？",
+      "published_at": "2026-11-08T06:26:39Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 62,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=a0l9oJ1IBH8"
+      "url": "https://www.youtube.com/watch?v=f1ctisC2Mxo"
     },
     {
       "video_id": "v2Jj7qxskOc",
@@ -604,7 +615,7 @@
       "published_at": "2026-11-05T18:42:20Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 38,
+      "views": 37,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
@@ -619,17 +630,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JRkOayjIc8w"
-    },
-    {
-      "video_id": "005uXXS282A",
-      "title": "ワンタッチで勝つのは難しい！パズドラの秘密",
-      "published_at": "2026-10-31T16:07:13Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 29,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=005uXXS282A"
     },
     {
       "video_id": "gQSnQcQ9rAY",
@@ -652,6 +652,28 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oZJq2Ele2fg"
+    },
+    {
+      "video_id": "YB0-UlZNat0",
+      "title": "開発者作成、安全なコキリの森攻略チャート",
+      "published_at": "2026-11-07T18:00:42Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 4,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=YB0-UlZNat0"
+    },
+    {
+      "video_id": "Y6O3jc2ZG5o",
+      "title": "中退生の目から見た、驚くべき日本の習慣",
+      "published_at": "2026-11-08T06:24:34Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Y6O3jc2ZG5o"
     },
     {
       "video_id": "34gXpDeakb4",
@@ -696,28 +718,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=_ycmN6Lzufs"
-    },
-    {
-      "video_id": "tv464ZRRAeY",
-      "title": "時のオカリナ」裏ゼルダ、実際には収録なし？",
-      "published_at": "2026-11-08T02:09:35Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
-    },
-    {
-      "video_id": "YB0-UlZNat0",
-      "title": "開発者作成、安全なコキリの森攻略チャート",
-      "published_at": "2026-11-07T18:00:42Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=YB0-UlZNat0"
     },
     {
       "video_id": "zRAWmsldO_8",
