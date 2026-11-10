@@ -1890,8 +1890,8 @@ jobs:
               print("SCRIPT QUALITY CHECK: PASSED")
 
           print("TOTAL REPAIRS:", repair_count)
-           # 参考情報と台本の事実関係を独立チェック
-           if category != "ダジャレ":
+          # 参考情報と台本の事実関係を独立チェック
+          if category != "ダジャレ":
                import unicodedata
 
                def normalize_evidence(value):
