@@ -772,18 +772,77 @@ jobs:
                       str(e)[:200]
                   )
 
+          # テーマとの関連度が最も高い記事を選ぶ
+          def topic_match_score(text):
+              topic_clean = re.sub(
+                  r"[\W_]+", "", topic.lower()
+              )
+              text_clean = re.sub(
+                  r"[\W_]+", "", text.lower()
+              )
+
+              if not topic_clean or not text_clean:
+                  return 0.0
+
+              if (
+                  topic_clean in text_clean
+                  or text_clean in topic_clean
+              ):
+                  return 1.0
+
+              topic_pairs = {
+                  topic_clean[i:i + 2]
+                  for i in range(len(topic_clean) - 1)
+              }
+              text_pairs = {
+                  text_clean[i:i + 2]
+                  for i in range(len(text_clean) - 1)
+              }
+
+              if not topic_pairs or not text_pairs:
+                  return 0.0
+
+              return len(
+                  topic_pairs & text_pairs
+              ) / len(topic_pairs | text_pairs)
+
           if articles:
-              article = random.choice(articles)
+              ranked_articles = sorted(
+                  articles,
+                  key=lambda item: topic_match_score(
+                      item["title"]
+                  ),
+                  reverse=True
+              )
 
-              print(
-                  "RESEARCH ARTICLE:",
-                  article["title"]
+              best_article = ranked_articles[0]
+              best_score = topic_match_score(
+                  best_article["title"]
               )
 
               print(
-                  "RESEARCH SOURCE:",
-                  article["link"]
+                  "BEST RESEARCH MATCH SCORE:",
+                  round(best_score, 3)
               )
+
+              if best_score >= 0.12:
+                  article = best_article
+
+                  print(
+                      "RESEARCH ARTICLE:",
+                      article["title"]
+                  )
+
+                  print(
+                      "RESEARCH SOURCE:",
+                      article["link"]
+                  )
+              else:
+                  article = None
+                  print(
+                      "RESEARCH REJECTED: "
+                      "テーマとの関連性が不足しています。"
+                  )
 
           elif category == "ニュース・時事問題":
               raise RuntimeError(
@@ -795,9 +854,8 @@ jobs:
           else:
               print(
                   "RESEARCH FALLBACK: "
-                  "参考情報を取得できません。"
-                  "確認できない事実や統計を作らず、"
-                  "一般知識に限定します。"
+                  "関連する参考記事を取得できません。"
+                  "確認できない事実は使用しません。"
               )
 
           # 6. Ollamaでジャンル別の台本を作成
@@ -994,54 +1052,87 @@ jobs:
                   )
                   return ""
 
-          # 選定テーマを使ってWikipediaを検索
+          # テーマとの関連度が高いWikipedia記事だけを採用
           wikipedia_results = search_wikipedia(topic)
 
-          # テーマに関係する記事の本文を取得
-          for wiki_item in wikipedia_results:
+          ranked_wikipedia = sorted(
+              wikipedia_results,
+              key=lambda item: topic_match_score(
+                  clean_text(
+                      item.get("title", "")
+                      + " "
+                      + item.get("snippet", "")
+                  )
+              ),
+              reverse=True
+          )
+
+          for wiki_item in ranked_wikipedia:
               wiki_title = clean_text(
                   wiki_item.get("title", "")
               )
 
-              if not wiki_title:
+              wiki_score = topic_match_score(
+                  clean_text(
+                      wiki_title
+                      + " "
+                      + wiki_item.get("snippet", "")
+                  )
+              )
+
+              print(
+                  "WIKIPEDIA MATCH:",
+                  wiki_title,
+                  round(wiki_score, 3)
+              )
+
+              if not wiki_title or wiki_score < 0.12:
                   continue
 
               wiki_extract = get_wikipedia_extract(
                   wiki_title
               )
 
-              if wiki_extract:
-                  wikipedia_context = (
-                      "Wikipediaの記事名："
-                      + wiki_title
-                      + "\n\n"
-                      + "Wikipediaの記事本文：\n"
-                      + wiki_extract
-                  )
-
-                  wikipedia_source = (
-                      "https://ja.wikipedia.org/wiki/"
-                      + quote(
-                          wiki_title.replace(" ", "_"),
-                          safe=""
-                      )
-                  )
-
+              if not wiki_extract or len(wiki_extract) < 200:
                   print(
-                      "WIKIPEDIA ARTICLE:",
+                      "WIKIPEDIA REJECTED: "
+                      "本文が短すぎます。",
                       wiki_title
                   )
+                  continue
 
-                  print(
-                      "WIKIPEDIA SOURCE:",
-                      wikipedia_source
+              wikipedia_context = (
+                  "Wikipediaの記事名："
+                  + wiki_title
+                  + "\n\n"
+                  + "Wikipediaの記事本文：\n"
+                  + wiki_extract
+              )
+
+              wikipedia_source = (
+                  "https://ja.wikipedia.org/wiki/"
+                  + quote(
+                      wiki_title.replace(" ", "_"),
+                      safe=""
                   )
+              )
 
-                  break
+              print(
+                  "WIKIPEDIA ARTICLE:",
+                  wiki_title
+              )
+
+              print(
+                  "WIKIPEDIA SOURCE:",
+                  wikipedia_source
+              )
+
+              break
 
           if not wikipedia_context:
               print(
-                  "WIKIPEDIA: 関連情報を取得できませんでした。"
+                  "WIKIPEDIA: "
+                  "テーマに十分関連する記事がありません。"
               )
 
           # RSS記事とWikipediaの情報をまとめる
@@ -1995,14 +2086,32 @@ jobs:
                       "事実確認結果の形式が不正です。"
                   )
 
-              if str(
+              verdict = str(
                   fact_check.get("verdict", "")
-              ).strip().upper() != "PASS":
+              ).strip().upper()
+
+              if verdict != "PASS":
+                  reason = clean_text(
+                      fact_check.get("reason", "")
+                  )
+
+                  print(
+                      "FACT CHECK VERDICT:",
+                      verdict
+                  )
+                  print(
+                      "FACT CHECK REASON:",
+                      reason
+                  )
+                  print(
+                      "FACT CHECK RAW:",
+                      fact_check_raw[:1500]
+                  )
+
                   raise RuntimeError(
-                      "台本の出典確認に失敗しました。公開を中止します。"
-                      + clean_text(
-                          fact_check.get("reason", "")
-                      )[:150]
+                      "台本の出典確認に失敗しました。"
+                      "公開を中止します。"
+                      + reason[:300]
                   )
 
               claims = fact_check.get("claims", [])
