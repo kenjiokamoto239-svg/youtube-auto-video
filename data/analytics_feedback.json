@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-10T13:42:49.392958+09:00",
+  "updated_at_jst": "2026-11-11T05:43:20.137721+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-03",
-    "end": "2026-11-09",
+    "start": "2026-11-04",
+    "end": "2026-11-10",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-03",
-      "views": 506,
-      "watch_minutes": 44.0,
-      "average_view_seconds": 17.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 2,
-      "comments": 0
-    },
     {
       "day": "2026-11-04",
       "views": 2398,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 5,
       "comments": 0
+    },
+    {
+      "day": "2026-11-08",
+      "views": 2440,
+      "watch_minutes": 399.0,
+      "average_view_seconds": 22.0,
+      "subscribers_gained": 1,
+      "subscribers_lost": 1,
+      "likes": 4,
+      "comments": 1
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-04",
       "2026-11-05",
-      "2026-11-06"
+      "2026-11-06",
+      "2026-11-07"
     ],
     "recent_3_days": [
-      "2026-11-07",
       "2026-11-08",
-      "2026-11-09"
+      "2026-11-09",
+      "2026-11-10"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -102,6 +102,17 @@
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
+      "video_id": "ZwV_XMcBEEA",
+      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
+      "published_at": "2026-11-09T19:33:37Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 1054,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+    },
+    {
       "video_id": "_vyCsAzjFnM",
       "title": "サンジ成長、新能力に歓喜の新展開",
       "published_at": "2026-11-07T09:42:57Z",
@@ -135,17 +146,6 @@
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
     },
     {
-      "video_id": "QzcUT_HhaEc",
-      "title": "新作「ゼルダ」、何が意外？",
-      "published_at": "2026-11-07T02:36:56Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 1037,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
-    },
-    {
       "video_id": "YUFHwpiyYuo",
       "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
       "published_at": "2026-11-02T22:02:01Z",
@@ -155,6 +155,17 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
+    },
+    {
+      "video_id": "QzcUT_HhaEc",
+      "title": "新作「ゼルダ」、何が意外？",
+      "published_at": "2026-11-07T02:36:56Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1029,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
     },
     {
       "video_id": "8aEp2tKe_7k",
@@ -173,21 +184,10 @@
       "published_at": "2026-11-07T16:55:18Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 1014,
+      "views": 1015,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
-    },
-    {
-      "video_id": "-eVHP4uoacI",
-      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
-      "published_at": "2026-11-02T15:02:13Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 1010,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
     }
   ],
   "all_videos": [
@@ -214,6 +214,17 @@
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
+      "video_id": "ZwV_XMcBEEA",
+      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
+      "published_at": "2026-11-09T19:33:37Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 1054,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+    },
+    {
       "video_id": "_vyCsAzjFnM",
       "title": "サンジ成長、新能力に歓喜の新展開",
       "published_at": "2026-11-07T09:42:57Z",
@@ -247,17 +258,6 @@
       "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
     },
     {
-      "video_id": "QzcUT_HhaEc",
-      "title": "新作「ゼルダ」、何が意外？",
-      "published_at": "2026-11-07T02:36:56Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 1037,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
-    },
-    {
       "video_id": "YUFHwpiyYuo",
       "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
       "published_at": "2026-11-02T22:02:01Z",
@@ -267,6 +267,17 @@
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
+    },
+    {
+      "video_id": "QzcUT_HhaEc",
+      "title": "新作「ゼルダ」、何が意外？",
+      "published_at": "2026-11-07T02:36:56Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1029,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
     },
     {
       "video_id": "8aEp2tKe_7k",
@@ -285,7 +296,7 @@
       "published_at": "2026-11-07T16:55:18Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 1014,
+      "views": 1015,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
@@ -329,7 +340,7 @@
       "published_at": "2026-11-04T18:35:52Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 989,
+      "views": 990,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
@@ -340,7 +351,7 @@
       "published_at": "2026-11-04T14:01:11Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 984,
+      "views": 985,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
@@ -351,21 +362,10 @@
       "published_at": "2026-11-09T10:22:44Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 973,
+      "views": 975,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=D5e6pXD4PVs"
-    },
-    {
-      "video_id": "tYr9p6HSyyM",
-      "title": "時のオカリナ」の魔法、ゲーム時間操作で深まる",
-      "published_at": "2026-11-02T12:17:42Z",
-      "duration_iso": "PT44S",
-      "duration_seconds": 44,
-      "views": 970,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tYr9p6HSyyM"
     },
     {
       "video_id": "A11cM79AHAI",
@@ -373,21 +373,10 @@
       "published_at": "2026-11-09T10:59:58Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 968,
+      "views": 972,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=A11cM79AHAI"
-    },
-    {
-      "video_id": "ZwV_XMcBEEA",
-      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
-      "published_at": "2026-11-09T19:33:37Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
-      "views": 935,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
     },
     {
       "video_id": "mAOg3cBf3hU",
@@ -395,7 +384,7 @@
       "published_at": "2026-11-05T03:14:40Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 920,
+      "views": 923,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
@@ -406,7 +395,7 @@
       "published_at": "2026-11-05T07:53:47Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 915,
+      "views": 913,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=k5N-ejQ9_PA"
@@ -432,6 +421,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1Ks1iTKB_Zg"
+    },
+    {
+      "video_id": "JUgWlPUBXkE",
+      "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
+      "published_at": "2026-11-09T21:28:38Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 716,
+      "likes": 5,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
     },
     {
       "video_id": "auBHSp_7fAI",
@@ -461,21 +461,21 @@
       "published_at": "2026-11-09T15:32:55Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 457,
+      "views": 498,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8W0a67AWcH8"
     },
     {
-      "video_id": "JUgWlPUBXkE",
-      "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
-      "published_at": "2026-11-09T21:28:38Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 406,
-      "likes": 1,
+      "video_id": "kiKOEWl8R0Y",
+      "title": "NARUTO』新作アニメ、ファンの新たな楽しみをもたらす",
+      "published_at": "2026-11-07T12:43:36Z",
+      "duration_iso": "PT27S",
+      "duration_seconds": 27,
+      "views": 312,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
+      "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
     },
     {
       "video_id": "tbHssZqo2Xw",
@@ -487,17 +487,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tbHssZqo2Xw"
-    },
-    {
-      "video_id": "kiKOEWl8R0Y",
-      "title": "NARUTO』新作アニメ、ファンの新たな楽しみをもたらす",
-      "published_at": "2026-11-07T12:43:36Z",
-      "duration_iso": "PT27S",
-      "duration_seconds": 27,
-      "views": 309,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
     },
     {
       "video_id": "oqKXON88z5Y",
@@ -555,26 +544,26 @@
       "url": "https://www.youtube.com/watch?v=4nfxHcV5jWA"
     },
     {
-      "video_id": "tv464ZRRAeY",
-      "title": "時のオカリナ」裏ゼルダ、実際には収録なし？",
-      "published_at": "2026-11-08T02:09:35Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 112,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
-    },
-    {
       "video_id": "QmZERK6UlAI",
       "title": "関西ジュニアのUSJステージ、細部にまでこだわりの“一瞬の輝き”",
       "published_at": "2026-11-08T12:59:35Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 106,
+      "views": 122,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
+    },
+    {
+      "video_id": "tv464ZRRAeY",
+      "title": "時のオカリナ」裏ゼルダ、実際には収録なし？",
+      "published_at": "2026-11-08T02:09:35Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 115,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
     },
     {
       "video_id": "ld5p5RVNUqw",
@@ -626,7 +615,7 @@
       "published_at": "2026-11-09T22:53:34Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 44,
+      "views": 53,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=E6mRkyePFow"
@@ -637,7 +626,7 @@
       "published_at": "2026-11-05T18:42:20Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 37,
+      "views": 39,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
@@ -648,10 +637,21 @@
       "published_at": "2026-11-04T00:32:07Z",
       "duration_iso": "PT33S",
       "duration_seconds": 33,
-      "views": 37,
+      "views": 38,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JRkOayjIc8w"
+    },
+    {
+      "video_id": "HEcUQ2imAHw",
+      "title": "ビル内部の秘密、ピッキングで挑む不法侵入者！",
+      "published_at": "2026-11-10T04:34:35Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 36,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=HEcUQ2imAHw"
     },
     {
       "video_id": "gQSnQcQ9rAY",
@@ -698,6 +698,17 @@
       "url": "https://www.youtube.com/watch?v=Y6O3jc2ZG5o"
     },
     {
+      "video_id": "Snz0U5R89t8",
+      "title": "今日の学校、動物の驚異的コミュニケーション",
+      "published_at": "2026-11-10T08:28:33Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Snz0U5R89t8"
+    },
+    {
       "video_id": "IESaHTlJqTU",
       "title": "FXの大損とリスクの理解：FX始め前に専門家に聞いてみよう",
       "published_at": "2026-11-06T13:56:45Z",
@@ -707,17 +718,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
-    },
-    {
-      "video_id": "HEcUQ2imAHw",
-      "title": "ビル内部の秘密、ピッキングで挑む不法侵入者！",
-      "published_at": "2026-11-10T04:34:35Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=HEcUQ2imAHw"
     },
     {
       "video_id": "zRAWmsldO_8",
