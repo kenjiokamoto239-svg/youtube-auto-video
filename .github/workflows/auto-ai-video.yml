@@ -4170,7 +4170,7 @@ jobs:
           ):
               raise RuntimeError("動画サイズが正しくありません")
 
-                    # 投稿前の最終時間チェック
+          # 投稿前の最終時間チェック
           MAX_VIDEO_DURATION = 59.0
 
           if actual_duration < 5:
