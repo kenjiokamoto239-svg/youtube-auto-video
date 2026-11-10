@@ -2704,9 +2704,9 @@ jobs:
               if cleaned_topic:
                   keywords.append(cleaned_topic)
 
-           # ③ テーマ固有の画像が見つからない場合は、
-           # 汎用写真を採用せず、後段のオリジナル背景に切り替える
-           if category not in ("雑学", "ダジャレ"):
+          # ③ テーマ固有の画像が見つからない場合は、
+          # 汎用写真を採用せず、後段のオリジナル背景に切り替える
+          if category not in ("雑学", "ダジャレ"):
                keywords.extend(
                    CATEGORY_KEYWORDS.get(
                        category,
