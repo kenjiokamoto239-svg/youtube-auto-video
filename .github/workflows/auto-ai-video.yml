@@ -1688,9 +1688,9 @@ jobs:
               ・文字数を削るために重要な情報や根拠を省略しない
               ・長い説明や重複表現を削り、短く自然な文章にする
               ・結論ではテーマに対する立場を明確に言い切る
-              ・今日から実行できる具体的な行動を最低1つ入れる
-              ・行動するタイミングと、実践後に効果を判断する基準を示す
-              ・根拠のない数字や、テーマと無関係な行動を無理に追加しない
+              ・行動提案は、テーマに直接関係し、参考情報に根拠がある場合だけ入れる
+              ・雑学、ニュース、作品紹介では、無理な行動課題や教訓を追加しない
+              ・動画を見ること自体を、視聴者への行動提案にしない
 
               指摘された問題を改善しつつ、
               元の台本の良い部分は残してください。
@@ -1890,6 +1890,170 @@ jobs:
               print("SCRIPT QUALITY CHECK: PASSED")
 
           print("TOTAL REPAIRS:", repair_count)
+           # 参考情報と台本の事実関係を独立チェック
+           if category != "ダジャレ":
+               import unicodedata
+
+               def normalize_evidence(value):
+                   value = unicodedata.normalize(
+                       "NFKC",
+                       clean_text(value)
+                   )
+                   return re.sub(
+                       r"[\s、。！？!?「」『』（）()【】:：,，.．・\-ー]",
+                       "",
+                       value
+                   )
+
+               if not article and not wikipedia_context:
+                   raise RuntimeError(
+                       "事実確認に使える出典がありません。公開を中止します。"
+                   )
+
+               fact_check_prompt = f"""
+               あなたは厳格な事実確認担当者です。
+               台本に含まれるすべての具体的な事実主張を確認してください。
+
+               【合格条件】
+               ・すべての事実主張が参考情報に直接書かれている
+               ・テーマが似ているだけの情報を根拠にしない
+               ・参考情報と無関係なWikipedia記事を根拠にしない
+               ・動物の行動、人物の発言、数字、研究結果を推測で補わない
+               ・根拠として参考情報から連続した原文を引用する
+               ・引用文が主張を直接裏付けない場合はFAIL
+               ・出典が見出しや短い説明だけで内容を確認できない場合はFAIL
+               ・判断に迷った場合はFAIL
+               ・claimsには台本の事実主張を原文どおり抜き出してすべて列挙する
+
+               【参考情報】
+               {source_context}
+
+               【台本】
+               {script}
+
+               JSONのみで出力してください。
+               PASSの場合は、少なくとも2件のclaimとevidence_quoteを含めてください。
+               evidence_quoteは参考情報内の連続した原文にしてください。
+
+               {{
+                 "verdict": "PASS",
+                 "claims": [
+                   {{
+                     "claim": "台本内の事実主張を原文どおり抜き出す",
+                     "evidence_quote": "参考情報からの連続した原文引用"
+                   }},
+                   {{
+                     "claim": "別の事実主張を原文どおり抜き出す",
+                     "evidence_quote": "その主張を直接裏付ける連続した原文引用"
+                   }}
+                 ],
+                 "reason": "判定理由"
+               }}
+               """
+
+               fact_check_response = requests.post(
+                   "http://127.0.0.1:11434/api/generate",
+                   json={
+                       "model": model,
+                       "prompt": fact_check_prompt,
+                       "format": "json",
+                       "stream": False,
+                       "options": {
+                           "temperature": 0.0
+                       }
+                   },
+                   timeout=300
+               )
+
+               fact_check_response.raise_for_status()
+
+               fact_check_raw = clean_text(
+                   fact_check_response.json().get(
+                       "response", ""
+                   )
+               )
+
+               try:
+                   fact_check = json.loads(fact_check_raw)
+               except json.JSONDecodeError:
+                   match = re.search(
+                       r"\{.*\}",
+                       fact_check_raw,
+                       re.S
+                   )
+
+                   if not match:
+                       raise RuntimeError(
+                           "事実確認結果を読み取れません。公開を中止します。"
+                       )
+
+                   fact_check = json.loads(match.group(0))
+
+               if not isinstance(fact_check, dict):
+                   raise RuntimeError(
+                       "事実確認結果の形式が不正です。"
+                   )
+
+               if str(
+                   fact_check.get("verdict", "")
+               ).strip().upper() != "PASS":
+                   raise RuntimeError(
+                       "台本の出典確認に失敗しました。公開を中止します。"
+                       + clean_text(
+                           fact_check.get("reason", "")
+                       )[:150]
+                   )
+
+               claims = fact_check.get("claims", [])
+
+               if not isinstance(claims, list) or len(claims) < 2:
+                   raise RuntimeError(
+                       "事実確認の根拠が不足しています。"
+                   )
+
+               source_normalized = normalize_evidence(
+                   source_context
+               )
+
+               script_normalized = normalize_evidence(
+                   script
+               )
+
+               for claim_item in claims:
+                   if not isinstance(claim_item, dict):
+                       raise RuntimeError(
+                           "事実確認の項目が不正です。"
+                       )
+
+                   claim_text = normalize_evidence(
+                       claim_item.get("claim", "")
+                   )
+
+                   evidence_quote = normalize_evidence(
+                       claim_item.get("evidence_quote", "")
+                   )
+
+                   if (
+                       len(claim_text) < 6
+                       or claim_text not in script_normalized
+                   ):
+                       raise RuntimeError(
+                           "台本の事実主張を確認できません。"
+                       )
+
+                   if (
+                       len(evidence_quote) < 10
+                       or evidence_quote not in source_normalized
+                   ):
+                       raise RuntimeError(
+                           "根拠の原文引用が出典と一致しません。"
+                           "動画の公開を中止します。"
+                       )
+
+               print(
+                   "SOURCE FACT CHECK: PASSED",
+                   len(claims)
+               )
 
           # 合格した台本だけを保存
           SCRIPT_FILE.write_text(
