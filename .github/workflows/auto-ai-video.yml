@@ -2071,12 +2071,6 @@ jobs:
                   len(claims)
               )
 
-
-               print(
-                   "SOURCE FACT CHECK: PASSED",
-                   len(claims)
-               )
-
           # 合格した台本だけを保存
           SCRIPT_FILE.write_text(
               script,
