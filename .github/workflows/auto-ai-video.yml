@@ -2041,10 +2041,25 @@ jobs:
                            "台本の事実主張を確認できません。"
                        )
 
-                   if (
+                    if (
                        len(evidence_quote) < 10
                        or evidence_quote not in source_normalized
                    ):
+                       print(
+                           "FACT CHECK INVALID CLAIM:",
+                           repr(claim_item.get("claim", ""))
+                       )
+
+                       print(
+                           "FACT CHECK INVALID EVIDENCE:",
+                           repr(claim_item.get("evidence_quote", ""))
+                       )
+
+                       print(
+                           "FACT CHECK SOURCE LENGTH:",
+                           len(source_context)
+                       )
+
                        raise RuntimeError(
                            "根拠の原文引用が出典と一致しません。"
                            "動画の公開を中止します。"
