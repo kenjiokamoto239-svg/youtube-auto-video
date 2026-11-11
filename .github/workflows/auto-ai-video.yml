@@ -2474,6 +2474,7 @@ jobs:
                   if 10 <= len(clean_text(part)) <= 120
               ]
 
+              
               # 出典の文章をプログラム側で抽出する
               source_quote_candidates = [
                   clean_text(part)
@@ -2483,6 +2484,46 @@ jobs:
                   )
                   if 10 <= len(clean_text(part)) <= 180
               ]
+
+              # テーマと台本に関係する出典を優先する
+              topic_terms = list(dict.fromkeys(
+                  re.findall(
+                      r"[一-龯ぁ-んァ-ヶーA-Za-z0-9]{2,}",
+                      clean_text(topic + " " + script)
+                  )
+              ))
+
+              scored_source_candidates = []
+
+              for source_index, part in enumerate(
+                  source_quote_candidates
+              ):
+                  normalized_part = normalize_evidence(part)
+
+                  score = sum(
+                      1
+                      for term in topic_terms
+                      if normalize_evidence(term) in normalized_part
+                  )
+
+                  if score > 0:
+                      scored_source_candidates.append(
+                          (score, source_index, part)
+                      )
+
+              # 関連度の高い文章を最大24件に限定する
+              if scored_source_candidates:
+                  scored_source_candidates.sort(
+                      key=lambda item: (-item[0], item[1])
+                  )
+
+                  source_quote_candidates = [
+                      item[2]
+                      for item in scored_source_candidates[:24]
+                  ]
+              else:
+                  source_quote_candidates = source_quote_candidates[:24]
+
 
               print(
                   "SCRIPT QUOTE CANDIDATES:",
@@ -2559,8 +2600,10 @@ jobs:
                       "format": "json",
                       "stream": False,
                       "options": {
-                          "temperature": 0.0
+                          "temperature": 0.0,
+                          "num_predict": 96
                       }
+
                   },
                   timeout=300
               )
