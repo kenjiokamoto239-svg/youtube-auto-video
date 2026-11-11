@@ -1342,59 +1342,110 @@ jobs:
 
               return found_urls[0]
 
+          
           article_body = ""
 
-          if article:
-              try:
-                  original_link = article["link"]
+          # 本文を取得できる記事が見つかるまで、
+          # 関連度の高い記事を最大5件確認する
+          if article and articles:
+              checked_urls = set()
 
-                  print(
-                      "GOOGLE NEWS URL RESOLVE:",
-                      original_link
+              for candidate in ranked_articles[:5]:
+                  candidate_score = topic_match_score(
+                      candidate["title"]
                   )
 
-                  publisher_url = resolve_google_news_url(
-                      original_link
-                  )
+                  if candidate_score < 0.12:
+                      continue
 
-                  print(
-                      "PUBLISHER ARTICLE URL:",
-                      publisher_url
-                  )
+                  try:
+                      original_link = candidate["link"]
 
-                  article_response = requests.get(
-                      publisher_url,
-                      headers={
-                          "User-Agent": (
-                              "Mozilla/5.0 "
-                              "(compatible; AutoAIJapaneseVideo/1.0)"
+                      if original_link in checked_urls:
+                          continue
+
+                      checked_urls.add(original_link)
+
+                      print(
+                          "TRY RESEARCH ARTICLE:",
+                          candidate["title"]
+                      )
+
+                      publisher_url = resolve_google_news_url(
+                          original_link
+                      )
+
+                      print(
+                          "PUBLISHER ARTICLE URL:",
+                          publisher_url
+                      )
+
+                      article_response = requests.get(
+                          publisher_url,
+                          headers={
+                              "User-Agent": (
+                                  "Mozilla/5.0 (X11; Linux x86_64) "
+                                  "AppleWebKit/537.36 "
+                                  "(KHTML, like Gecko) "
+                                  "Chrome/120.0.0.0 Safari/537.36"
+                              ),
+                              "Accept": (
+                                  "text/html,application/xhtml+xml,"
+                                  "application/xml;q=0.9,*/*;q=0.8"
+                              ),
+                              "Accept-Language": "ja,en-US;q=0.9,en;q=0.8"
+                          },
+                          timeout=30
+                      )
+
+                      article_response.raise_for_status()
+
+                      parser = ArticleTextParser()
+                      parser.feed(article_response.text)
+
+                      candidate_body = clean_text(
+                          "\n".join(parser.parts)
+                      )
+
+                      print(
+                          "ARTICLE BODY LENGTH:",
+                          len(candidate_body)
+                      )
+
+                      if len(candidate_body) < 250:
+                          print(
+                              "ARTICLE REJECTED: "
+                              "本文が短すぎます。次の記事を確認します。"
                           )
-                      },
-                      timeout=30
-                  )
+                          continue
 
-                  article_response.raise_for_status()
-
-                  parser = ArticleTextParser()
-                  parser.feed(article_response.text)
-
-                  article_body = clean_text(
-                      "\n".join(parser.parts)
-                  )
-
-                  print(
-                      "ARTICLE BODY LENGTH:",
-                      len(article_body)
-                  )
-
-                  if article_body:
+                      article = candidate
                       article["link"] = publisher_url
+                      article_body = candidate_body
 
-              except Exception as e:
+                      print(
+                          "ARTICLE SOURCE ACCEPTED:",
+                          article["title"]
+                      )
+
+                      break
+
+                  except Exception as e:
+                      print(
+                          "ARTICLE FETCH FAILED:",
+                          str(e)[:300]
+                      )
+                      print(
+                          "次の関連記事を確認します。"
+                      )
+                      continue
+
+              if not article_body:
                   print(
-                      "ARTICLE BODY FETCH ERROR:",
-                      str(e)[:300]
+                      "ALL RESEARCH ARTICLES FAILED: "
+                      "本文を取得できる記事がありません。"
                   )
+
 
 
           # 本文が取得できた記事だけを事実確認の根拠にする
