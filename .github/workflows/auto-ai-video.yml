@@ -2447,16 +2447,37 @@ jobs:
               for issue in validation_errors:
                   print("FACT CHECK RETRY ISSUE:", issue)
 
+              
+              # 台本から実在する文章だけを引用候補にする
+              script_quote_candidates = [
+                  clean_text(part)
+                  for part in re.split(
+                      r"(?<=[。！？!?])",
+                      script
+                  )
+                  if 10 <= len(clean_text(part)) <= 80
+              ]
+
+              print(
+                  "FACT CHECK QUOTE CANDIDATES:",
+                  len(script_quote_candidates)
+              )
+
               retry_prompt = f"""
               あなたは厳格な事実確認担当者です。
               前回の結果は原文引用の形式が検証条件を満たしていません。
 
-              ・claimは台本から10〜80文字の連続した原文を一字一句そのままコピーする。
-              ・evidence_quoteは参考情報から10〜120文字の連続した原文をそのままコピーする。
-              ・言い換え、要約、語順変更、文字の補足は禁止。
-              ・引用が主張を直接裏付けない場合、または根拠がない場合はFAIL。
-              ・PASSには直接裏付けられるclaimを2件以上必要とする。
-              ・根拠が足りなければ必ずFAILにする。
+              【最重要ルール】
+              ・claimは下記の「引用候補」から一字一句そのまま選ぶ。
+              ・引用候補にない文章をclaimに作ってはいけない。
+              ・claimの文字を追加、削除、言い換えしてはいけない。
+              ・evidence_quoteは参考情報から10〜120文字の連続した原文をコピーする。
+              ・引用が主張を直接裏付けない場合はFAIL。
+              ・直接裏付けられる主張が2件未満ならFAIL。
+              ・根拠が足りなければ必ずFAIL。
+
+              【台本から選べる引用候補】
+              {json.dumps(script_quote_candidates, ensure_ascii=False)}
 
               【前回の検証エラー】
               {chr(10).join(validation_errors)}
@@ -2469,6 +2490,27 @@ jobs:
 
               【台本】
               {script}
+
+              JSONのみで出力してください。
+              PASSの場合は、引用候補から異なるclaimを2件以上選び、
+              それぞれを直接裏付けるevidence_quoteを付けてください。
+
+              {{
+                "verdict": "PASS",
+                "claims": [
+                  {{
+                    "claim": "引用候補からの完全一致した文章",
+                    "evidence_quote": "参考情報からの連続した原文引用"
+                  }},
+                  {{
+                    "claim": "別の引用候補からの完全一致した文章",
+                    "evidence_quote": "その主張を直接裏付ける連続した原文引用"
+                  }}
+                ],
+                "reason": "判定理由"
+              }}
+              """
+
 
               JSONのみで出力してください。
               {{
