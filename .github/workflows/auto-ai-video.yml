@@ -214,6 +214,8 @@ jobs:
               "ユニバーサルスタジオジャパン 裏話",
               "東京ディズニーランド アトラクション 秘密",
               "ディズニー 意外な豆知識",
+              "ドラゴンクエスト ファイナルファンタジー コラボ 横浜 みなとみらい",
+              "ドラゴンクエスト アイランド ドラゴンクエストモンスターズ4 コラボ",
               "ディズニー キャラクター 意外な設定",
           ]
 
@@ -297,6 +299,7 @@ jobs:
 
           now = datetime.now(timezone.utc)
           scored_articles = []
+          max_article_age_hours = 24 * 30
 
           for item in articles:
               title = (item.get("title") or "").strip()
@@ -314,34 +317,47 @@ jobs:
               ]):
                   continue
 
+              if not published:
+                  print("TOPIC REJECTED: pubDate missing:", title)
+                  continue
+
+              try:
+                  published_dt = parsedate_to_datetime(published)
+
+                  if published_dt.tzinfo is None:
+                      published_dt = published_dt.replace(
+                          tzinfo=timezone.utc
+                      )
+
+                  age_hours = (
+                      now - published_dt.astimezone(timezone.utc)
+                  ).total_seconds() / 3600
+
+              except (TypeError, ValueError, OverflowError):
+                  print("TOPIC REJECTED: invalid pubDate:", title)
+                  continue
+
+              if (
+                  age_hours < -2
+                  or age_hours > max_article_age_hours
+              ):
+                  print(
+                      "TOPIC REJECTED: outside 30-day window:",
+                      title,
+                      round(age_hours, 1)
+                  )
+                  continue
+
               score = 0
-              age_hours = None
 
-              if published:
-                  try:
-                      published_dt = parsedate_to_datetime(published)
-
-                      if published_dt.tzinfo is None:
-                          published_dt = published_dt.replace(
-                              tzinfo=timezone.utc
-                          )
-
-                      age_hours = (
-                          now - published_dt.astimezone(timezone.utc)
-                      ).total_seconds() / 3600
-
-                  except (TypeError, ValueError, OverflowError):
-                      age_hours = None
-
-              if age_hours is not None:
-                  if 0 <= age_hours <= 24:
-                      score += 5
-                  elif 24 < age_hours <= 72:
-                      score += 3
-                  elif 72 < age_hours <= 168:
-                      score += 1
-                  elif age_hours > 720:
-                      score -= 3
+              if 0 <= age_hours <= 24:
+                  score += 5
+              elif 24 < age_hours <= 72:
+                  score += 3
+              elif 72 < age_hours <= 168:
+                  score += 1
+              else:
+                  score -= 1
 
               if any(word in title for word in [
                   "なぜ", "理由", "仕組み", "秘密",
@@ -351,9 +367,9 @@ jobs:
 
               if any(word in title for word in [
                   "最新", "新発表", "新作", "新登場",
-                  "発売", "公開"
+                  "発売", "公開", "コラボ", "開催", "イベント"
               ]):
-                  score += 1
+                  score += 3
 
               if 15 <= len(title) <= 55:
                   score += 1
@@ -481,8 +497,10 @@ jobs:
               selection_score = selected["score"]
 
           else:
-              article = random.choice(articles)
-              selection_score = 0
+              raise RuntimeError(
+                  "過去30日以内の有効なRSS記事がありません。"
+                  "古い情報で動画を作らず、公開を中止します。"
+              )
 
           topic = article["title"]
 
@@ -2114,92 +2132,136 @@ jobs:
                       + reason[:300]
                   )
 
-              claims = fact_check.get("claims", [])
+          source_normalized = normalize_evidence(source_context)
+          script_normalized = normalize_evidence(script)
 
-              if not isinstance(claims, list) or len(claims) < 2:
+          def validate_claims(result):
+              items = result.get("claims", [])
+              if not isinstance(items, list) or len(items) < 2:
+                  return ["事実主張の引用が2件未満です。"]
+
+              errors = []
+              for index, item in enumerate(items, start=1):
+                  if not isinstance(item, dict):
+                      errors.append(f"claim {index}: JSON形式が不正です。")
+                      continue
+
+                  claim = normalize_evidence(item.get("claim", ""))
+                  quote = normalize_evidence(item.get("evidence_quote", ""))
+
+                  if len(claim) < 6 or claim not in script_normalized:
+                      errors.append(f"claim {index}: 台本原文と不一致")
+                  if len(quote) < 10 or quote not in source_normalized:
+                      errors.append(f"claim {index}: 出典原文と不一致")
+
+              return errors
+
+          validation_errors = validate_claims(fact_check)
+
+          if validation_errors:
+              print("FACT CHECK EXACT-QUOTE RETRY: START")
+              for issue in validation_errors:
+                  print("FACT CHECK RETRY ISSUE:", issue)
+
+              retry_prompt = f"""
+              あなたは厳格な事実確認担当者です。
+              前回の結果は原文引用の形式が検証条件を満たしていません。
+
+              ・claimは台本から10〜80文字の連続した原文を一字一句そのままコピーする。
+              ・evidence_quoteは参考情報から10〜120文字の連続した原文をそのままコピーする。
+              ・言い換え、要約、語順変更、文字の補足は禁止。
+              ・引用が主張を直接裏付けない場合、または根拠がない場合はFAIL。
+              ・PASSには直接裏付けられるclaimを2件以上必要とする。
+              ・根拠が足りなければ必ずFAILにする。
+
+              【前回の検証エラー】
+              {chr(10).join(validation_errors)}
+
+              【前回の判定】
+              {fact_check_raw[:2000]}
+
+              【参考情報】
+              {source_context}
+
+              【台本】
+              {script}
+
+              JSONのみで出力してください。
+              {{
+                "verdict": "PASS",
+                "claims": [
+                  {{
+                    "claim": "台本からの連続した原文",
+                    "evidence_quote": "参考情報からの連続した原文"
+                  }},
+                  {{
+                    "claim": "別の事実主張の連続した原文",
+                    "evidence_quote": "その主張を直接裏付ける連続した原文"
+                  }}
+                ],
+                "reason": "判定理由"
+              }}
+              """
+
+              retry_response = requests.post(
+                  "http://127.0.0.1:11434/api/generate",
+                  json={
+                      "model": model,
+                      "prompt": retry_prompt,
+                      "format": "json",
+                      "stream": False,
+                      "options": {"temperature": 0.0}
+                  },
+                  timeout=300
+              )
+              retry_response.raise_for_status()
+
+              fact_check_raw = clean_text(
+                  retry_response.json().get("response", "")
+              )
+
+              try:
+                  fact_check = json.loads(fact_check_raw)
+              except json.JSONDecodeError:
+                  match = re.search(r"\{.*\}", fact_check_raw, re.S)
+                  if not match:
+                      raise RuntimeError(
+                          "再確認結果のJSONを読み取れません。公開を中止します。"
+                      )
+                  fact_check = json.loads(match.group(0))
+
+              if not isinstance(fact_check, dict):
                   raise RuntimeError(
-                      "事実確認の根拠が不足しています。"
+                      "再確認結果の形式が不正です。公開を中止します。"
                   )
 
-              source_normalized = normalize_evidence(
-                  source_context
-              )
+              retry_verdict = str(
+                  fact_check.get("verdict", "")
+              ).strip().upper()
 
-              script_normalized = normalize_evidence(
-                  script
-              )
-
-              for claim_item in claims:
-                  if not isinstance(claim_item, dict):
-                      raise RuntimeError(
-                          "事実確認の項目が不正です。"
-                      )
-
-                  original_claim = str(
-                      claim_item.get("claim", "")
+              if retry_verdict != "PASS":
+                  reason = clean_text(fact_check.get("reason", ""))
+                  print("FACT CHECK RETRY VERDICT:", retry_verdict)
+                  print("FACT CHECK RETRY REASON:", reason[:400])
+                  raise RuntimeError(
+                      "再確認でも出典の裏付けを確認できません。"
+                      "公開を中止します。"
+                      + reason[:200]
                   )
 
-                  claim_text = normalize_evidence(
-                      original_claim
+              validation_errors = validate_claims(fact_check)
+              if validation_errors:
+                  for issue in validation_errors:
+                      print("FACT CHECK RETRY FAILED:", issue)
+                  raise RuntimeError(
+                      "再確認後も台本と出典の原文引用が一致しません。"
+                      "公開を中止します。"
                   )
 
-                  evidence_quote = normalize_evidence(
-                      claim_item.get("evidence_quote", "")
-                  )
+              print("FACT CHECK EXACT-QUOTE RETRY: PASSED")
 
-                  if (
-                      len(claim_text) < 6
-                      or claim_text not in script_normalized
-                  ):
-                      print(
-                          "FACT CHECK INVALID CLAIM:",
-                          repr(original_claim)
-                      )
-
-                      print(
-                          "FACT CHECK NORMALIZED CLAIM:",
-                          repr(claim_text)
-                      )
-
-                      print(
-                          "FACT CHECK SCRIPT:",
-                          repr(script)
-                      )
-
-                      raise RuntimeError(
-                          "事実確認AIが台本から"
-                          "正確な文章を抽出できませんでした。"
-                          "公開を中止します。"
-                      )
-
-                  if (
-                      len(evidence_quote) < 10
-                      or evidence_quote not in source_normalized
-                  ):
-                      print(
-                          "FACT CHECK INVALID CLAIM:",
-                          repr(claim_item.get("claim", ""))
-                      )
-
-                      print(
-                          "FACT CHECK INVALID EVIDENCE:",
-                          repr(claim_item.get("evidence_quote", ""))
-                      )
-
-                      print(
-                          "FACT CHECK SOURCE LENGTH:",
-                          len(source_context)
-                      )
-
-                      raise RuntimeError(
-                          "根拠の原文引用が出典と一致しません。"
-                          "動画の公開を中止します。"
-                      )
-
-              print(
-                  "SOURCE FACT CHECK: PASSED",
-                  len(claims)
-              )
+          claims = fact_check.get("claims", [])
+          print("SOURCE FACT CHECK: PASSED", len(claims))
 
           # 合格した台本だけを保存
           SCRIPT_FILE.write_text(
