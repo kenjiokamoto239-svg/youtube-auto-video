@@ -2135,8 +2135,12 @@ jobs:
                           "事実確認の項目が不正です。"
                       )
 
-                  claim_text = normalize_evidence(
+                  original_claim = str(
                       claim_item.get("claim", "")
+                  )
+
+                  claim_text = normalize_evidence(
+                      original_claim
                   )
 
                   evidence_quote = normalize_evidence(
@@ -2147,8 +2151,25 @@ jobs:
                       len(claim_text) < 6
                       or claim_text not in script_normalized
                   ):
+                      print(
+                          "FACT CHECK INVALID CLAIM:",
+                          repr(original_claim)
+                      )
+
+                      print(
+                          "FACT CHECK NORMALIZED CLAIM:",
+                          repr(claim_text)
+                      )
+
+                      print(
+                          "FACT CHECK SCRIPT:",
+                          repr(script)
+                      )
+
                       raise RuntimeError(
-                          "台本の事実主張を確認できません。"
+                          "事実確認AIが台本から"
+                          "正確な文章を抽出できませんでした。"
+                          "公開を中止します。"
                       )
 
                   if (
