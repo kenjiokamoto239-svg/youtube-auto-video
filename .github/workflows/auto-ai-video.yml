@@ -703,14 +703,21 @@ jobs:
               ]
           }
 
-          # 選定テーマに直接関係する情報を最優先する
+          
+          # 選定テーマに直接関係する検索語を複数用意する
           if topic:
-              queries = [topic]
+              queries = [
+                  topic,
+                  topic + " ニュース",
+                  topic + " 最新情報",
+                  topic + " 公式"
+              ]
           else:
               queries = []
 
           # 重複する検索語を除去
           queries = list(dict.fromkeys(queries))
+
 
           headers = {
               "User-Agent": (
@@ -753,7 +760,7 @@ jobs:
                       response.content
                   )
 
-                  for item in feed.entries[:10]:
+                  for item in feed.entries[:50]:
                       title_text = clean_text(
                           item.get("title", "")
                       )
@@ -780,9 +787,6 @@ jobs:
                                   "link": link_text
                               })
 
-                  # 記事が見つかったら検索を終了
-                  if articles:
-                      break
 
               except Exception as e:
                   print(
@@ -1350,7 +1354,7 @@ jobs:
           if article and articles:
               checked_urls = set()
 
-              for candidate in ranked_articles[:5]:
+              for candidate in ranked_articles[:15]:
                   candidate_score = topic_match_score(
                       candidate["title"]
                   )
