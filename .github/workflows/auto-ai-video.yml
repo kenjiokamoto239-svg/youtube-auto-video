@@ -2420,6 +2420,7 @@ jobs:
                       + reason[:300]
                   )
 
+          
           source_normalized = normalize_evidence(source_context)
           script_normalized = normalize_evidence(script)
 
@@ -2431,87 +2432,122 @@ jobs:
               errors = []
               for index, item in enumerate(items, start=1):
                   if not isinstance(item, dict):
-                      errors.append(f"claim {index}: JSON形式が不正です。")
+                      errors.append(
+                          f"claim {index}: JSON形式が不正です。"
+                      )
                       continue
 
-                  claim = normalize_evidence(item.get("claim", ""))
-                  quote = normalize_evidence(item.get("evidence_quote", ""))
+                  claim = normalize_evidence(
+                      item.get("claim", "")
+                  )
+                  quote = normalize_evidence(
+                      item.get("evidence_quote", "")
+                  )
 
                   if len(claim) < 6 or claim not in script_normalized:
-                      errors.append(f"claim {index}: 台本原文と不一致")
+                      errors.append(
+                          f"claim {index}: 台本原文と不一致"
+                      )
+
                   if len(quote) < 10 or quote not in source_normalized:
-                      errors.append(f"claim {index}: 出典原文と不一致")
+                      errors.append(
+                          f"claim {index}: 出典原文と不一致"
+                      )
 
               return errors
 
           validation_errors = validate_claims(fact_check)
 
           if validation_errors:
-              print("FACT CHECK EXACT-QUOTE RETRY: START")
+              print("FACT CHECK INDEX RETRY: START")
+
               for issue in validation_errors:
                   print("FACT CHECK RETRY ISSUE:", issue)
 
-              
-              # 台本から実在する文章だけを引用候補にする
+              # 台本の文章をプログラム側で抽出する
               script_quote_candidates = [
                   clean_text(part)
                   for part in re.split(
                       r"(?<=[。！？!?])",
                       script
                   )
-                  if 10 <= len(clean_text(part)) <= 80
+                  if 10 <= len(clean_text(part)) <= 120
+              ]
+
+              # 出典の文章をプログラム側で抽出する
+              source_quote_candidates = [
+                  clean_text(part)
+                  for part in re.split(
+                      r"(?<=[。！？!?])",
+                      source_context
+                  )
+                  if 10 <= len(clean_text(part)) <= 180
               ]
 
               print(
-                  "FACT CHECK QUOTE CANDIDATES:",
+                  "SCRIPT QUOTE CANDIDATES:",
                   len(script_quote_candidates)
               )
+              print(
+                  "SOURCE QUOTE CANDIDATES:",
+                  len(source_quote_candidates)
+              )
+
+              if len(script_quote_candidates) < 2:
+                  raise RuntimeError(
+                      "台本から事実確認用の文章を2件抽出できません。"
+                      "公開を中止します。"
+                  )
+
+              if len(source_quote_candidates) < 2:
+                  raise RuntimeError(
+                      "出典から確認用の文章を2件抽出できません。"
+                      "公開を中止します。"
+                  )
 
               retry_prompt = f"""
               あなたは厳格な事実確認担当者です。
-              前回の結果は原文引用の形式が検証条件を満たしていません。
+
+              台本の文章と出典の文章を比較してください。
 
               【最重要ルール】
-              ・claimは下記の「引用候補」から一字一句そのまま選ぶ。
-              ・引用候補にない文章をclaimに作ってはいけない。
-              ・claimの文字を追加、削除、言い換えしてはいけない。
-              ・evidence_quoteは参考情報から10〜120文字の連続した原文をコピーする。
-              ・引用が主張を直接裏付けない場合はFAIL。
-              ・直接裏付けられる主張が2件未満ならFAIL。
-              ・根拠が足りなければ必ずFAIL。
+              ・台本候補と出典候補は番号で指定する。
+              ・文章そのものを書き直してはいけない。
+              ・script_indexとsource_indexは0から始まる番号。
+              ・台本の主張を出典が直接裏付ける組み合わせだけを選ぶ。
+              ・直接裏付けられる組み合わせが2件未満ならFAIL。
+              ・無関係な文章を組み合わせてはいけない。
+              ・推測で補ってはいけない。
 
-              【台本から選べる引用候補】
+              【台本候補】
               {json.dumps(script_quote_candidates, ensure_ascii=False)}
 
-              【前回の検証エラー】
-              {chr(10).join(validation_errors)}
+              【出典候補】
+              {json.dumps(source_quote_candidates, ensure_ascii=False)}
 
-              【前回の判定】
-              {fact_check_raw[:2000]}
+              JSONのみで回答してください。
 
-              【参考情報】
-              {source_context}
-
-              【台本】
-              {script}
-
-              JSONのみで出力してください。
-              PASSの場合は、引用候補から異なるclaimを2件以上選び、
-              それぞれを直接裏付けるevidence_quoteを付けてください。
-
+              PASSの場合の形式：
               {{
                 "verdict": "PASS",
-                "claims": [
+                "pairs": [
                   {{
-                    "claim": "引用候補からの完全一致した文章",
-                    "evidence_quote": "参考情報からの連続した原文引用"
+                    "script_index": 0,
+                    "source_index": 0
                   }},
                   {{
-                    "claim": "別の引用候補からの完全一致した文章",
-                    "evidence_quote": "その主張を直接裏付ける連続した原文引用"
+                    "script_index": 1,
+                    "source_index": 1
                   }}
                 ],
                 "reason": "判定理由"
+              }}
+
+              FAILの場合：
+              {{
+                "verdict": "FAIL",
+                "pairs": [],
+                "reason": "裏付けが不足している理由"
               }}
               """
 
@@ -2522,55 +2558,157 @@ jobs:
                       "prompt": retry_prompt,
                       "format": "json",
                       "stream": False,
-                      "options": {"temperature": 0.0}
+                      "options": {
+                          "temperature": 0.0
+                      }
                   },
                   timeout=300
               )
+
               retry_response.raise_for_status()
 
               fact_check_raw = clean_text(
-                  retry_response.json().get("response", "")
+                  retry_response.json().get(
+                      "response",
+                      ""
+                  )
               )
 
               try:
-                  fact_check = json.loads(fact_check_raw)
+                  retry_result = json.loads(fact_check_raw)
               except json.JSONDecodeError:
-                  match = re.search(r"\{.*\}", fact_check_raw, re.S)
+                  match = re.search(
+                      r"\{.*\}",
+                      fact_check_raw,
+                      re.S
+                  )
+
                   if not match:
                       raise RuntimeError(
-                          "再確認結果のJSONを読み取れません。公開を中止します。"
+                          "再確認結果のJSONを読み取れません。"
+                          "公開を中止します。"
                       )
-                  fact_check = json.loads(match.group(0))
 
-              if not isinstance(fact_check, dict):
+                  retry_result = json.loads(match.group(0))
+
+              if not isinstance(retry_result, dict):
                   raise RuntimeError(
                       "再確認結果の形式が不正です。公開を中止します。"
                   )
 
               retry_verdict = str(
-                  fact_check.get("verdict", "")
+                  retry_result.get("verdict", "")
               ).strip().upper()
 
               if retry_verdict != "PASS":
-                  reason = clean_text(fact_check.get("reason", ""))
-                  print("FACT CHECK RETRY VERDICT:", retry_verdict)
-                  print("FACT CHECK RETRY REASON:", reason[:400])
-                  raise RuntimeError(
-                      "再確認でも出典の裏付けを確認できません。"
-                      "公開を中止します。"
-                      + reason[:200]
+                  reason = clean_text(
+                      retry_result.get("reason", "")
                   )
 
+                  print(
+                      "FACT CHECK RETRY VERDICT:",
+                      retry_verdict
+                  )
+                  print(
+                      "FACT CHECK RETRY REASON:",
+                      reason[:400]
+                  )
+
+                  raise RuntimeError(
+                      "出典が台本の主張を直接裏付けていません。"
+                      "公開を中止します。"
+                  )
+
+              pairs = retry_result.get("pairs", [])
+
+              if not isinstance(pairs, list) or len(pairs) < 2:
+                  raise RuntimeError(
+                      "事実確認の組み合わせが2件未満です。"
+                      "公開を中止します。"
+                  )
+
+              resolved_claims = []
+              used_script_indices = set()
+
+              for pair in pairs:
+                  if not isinstance(pair, dict):
+                      continue
+
+                  script_index = pair.get("script_index")
+                  source_index = pair.get("source_index")
+
+                  if type(script_index) is not int:
+                      continue
+
+                  if type(source_index) is not int:
+                      continue
+
+                  if not (
+                      0 <= script_index < len(script_quote_candidates)
+                  ):
+                      continue
+
+                  if not (
+                      0 <= source_index < len(source_quote_candidates)
+                  ):
+                      continue
+
+                  if script_index in used_script_indices:
+                      continue
+
+                  claim = script_quote_candidates[script_index]
+                  evidence_quote = source_quote_candidates[source_index]
+
+                  resolved_claims.append({
+                      "claim": claim,
+                      "evidence_quote": evidence_quote
+                  })
+
+                  used_script_indices.add(script_index)
+
+              fact_check = {
+                  "verdict": "PASS",
+                  "claims": resolved_claims,
+                  "reason": clean_text(
+                      retry_result.get("reason", "")
+                  )
+              }
+
+              # プログラムが原文から組み立てた引用を再検証
               validation_errors = validate_claims(fact_check)
+
               if validation_errors:
                   for issue in validation_errors:
-                      print("FACT CHECK RETRY FAILED:", issue)
+                      print(
+                          "FACT CHECK INDEX RETRY FAILED:",
+                          issue
+                      )
+
                   raise RuntimeError(
-                      "再確認後も台本と出典の原文引用が一致しません。"
+                      "原文の完全一致を確認できません。"
                       "公開を中止します。"
                   )
 
-              print("FACT CHECK EXACT-QUOTE RETRY: PASSED")
+              print(
+                  "FACT CHECK INDEX RETRY: PASSED"
+              )
+
+              for index, item in enumerate(
+                  fact_check["claims"],
+                  start=1
+              ):
+                  print(
+                      f"VERIFIED CLAIM {index}:",
+                      item["claim"]
+                  )
+                  print(
+                      f"VERIFIED SOURCE {index}:",
+                      item["evidence_quote"]
+                  )
+
+          claims = fact_check.get("claims", [])
+          print("SOURCE FACT CHECK: PASSED", len(claims))
+
 
           claims = fact_check.get("claims", [])
           print("SOURCE FACT CHECK: PASSED", len(claims))
