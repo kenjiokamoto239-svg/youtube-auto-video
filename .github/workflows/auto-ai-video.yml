@@ -1153,16 +1153,108 @@ jobs:
                   "テーマに十分関連する記事がありません。"
               )
 
-          # RSS記事とWikipediaの情報をまとめる
+          
+          # RSS記事のリンク先から本文を取得する
+          from html.parser import HTMLParser
+
+          class ArticleTextParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.parts = []
+                  self.current = []
+                  self.in_paragraph = False
+                  self.skip_depth = 0
+
+              def handle_starttag(self, tag, attrs):
+                  if tag in (
+                      "script", "style", "nav",
+                      "footer", "header", "aside"
+                  ):
+                      self.skip_depth += 1
+                  elif tag == "p" and self.skip_depth == 0:
+                      self.in_paragraph = True
+                      self.current = []
+
+              def handle_data(self, data):
+                  if self.in_paragraph and self.skip_depth == 0:
+                      self.current.append(data)
+
+              def handle_endtag(self, tag):
+                  if tag == "p" and self.in_paragraph:
+                      paragraph = clean_text(
+                          " ".join(self.current)
+                      )
+                      if len(paragraph) >= 20:
+                          self.parts.append(paragraph)
+
+                      self.current = []
+                      self.in_paragraph = False
+
+                  elif tag in (
+                      "script", "style", "nav",
+                      "footer", "header", "aside"
+                  ):
+                      self.skip_depth = max(
+                          0, self.skip_depth - 1
+                      )
+
+          article_body = ""
+
           if article:
+              try:
+                  print(
+                      "ARTICLE BODY FETCH:",
+                      article["link"]
+                  )
+
+                  article_response = requests.get(
+                      article["link"],
+                      headers={
+                          "User-Agent": (
+                              "Mozilla/5.0 "
+                              "(compatible; AutoAIJapaneseVideo/1.0)"
+                          )
+                      },
+                      timeout=30
+                  )
+
+                  article_response.raise_for_status()
+
+                  parser = ArticleTextParser()
+                  parser.feed(article_response.text)
+
+                  article_body = clean_text(
+                      "\n".join(parser.parts)
+                  )
+
+                  print(
+                      "ARTICLE BODY LENGTH:",
+                      len(article_body)
+                  )
+
+              except Exception as e:
+                  print(
+                      "ARTICLE BODY FETCH ERROR:",
+                      str(e)[:300]
+                  )
+
+          # 本文が取得できた記事だけを事実確認の根拠にする
+          if len(article_body) < 250:
+              print(
+                  "ARTICLE REJECTED: "
+                  "本文を十分に取得できませんでした。"
+              )
+              article_body = ""
+
+          if article_body:
               source_context = f"""
-              【RSSの参考記事】
+              【RSS記事の本文】
 
               記事タイトル：
               {article['title']}
 
-              記事の説明：
-              {article['summary']}
+              記事本文：
+              {article_body[:12000]}
 
               参考元URL：
               {article['link']}
@@ -1176,17 +1268,10 @@ jobs:
 
               【情報の扱い方】
 
-              RSS記事とWikipediaの情報を参考にしてください。
-              記事を丸写しせず、テーマの仕組みや理由を
-              分かりやすく説明してください。
-
-              参考情報に書かれていない数字、研究結果、
-              歴史的事実を作り出してはいけません。
-
-              情報が確認できない場合は、
-              無理に断定せず、確かな範囲で説明してください。
+              記事本文に直接書かれている事実だけを使用してください。
+              記事にない数字、研究結果、歴史的事実を作らないでください。
+              引用元の内容を正確に確認してください。
               """
-
           elif wikipedia_context:
               source_context = f"""
               【Wikipediaの参考情報】
@@ -1198,27 +1283,16 @@ jobs:
 
               【情報の扱い方】
 
-              Wikipediaの情報を参考にして、
-              テーマの答え、理由、仕組みを説明してください。
-
-              記事を丸写しせず、
-              誰にでも分かる自然な日本語にしてください。
-
-              確認できない数字、研究結果、
-              歴史的事実を作り出してはいけません。
+              Wikipedia本文に直接書かれている事実だけを使用してください。
+              確認できない数字や研究結果を作らないでください。
               """
-
           else:
-              source_context = """
-              RSS記事とWikipediaの両方から
-              参考情報を取得できませんでした。
+              raise RuntimeError(
+                  "記事本文とWikipedia本文の両方を"
+                  "取得できませんでした。"
+                  "根拠のない台本の生成を中止します。"
+              )
 
-              確認できない数字や研究結果、
-              歴史的事実を作り出してはいけません。
-
-              確かな一般知識の範囲で説明し、
-              不確かな内容は断定しないでください。
-              """
               
 
           # ==========================================
