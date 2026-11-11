@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-11T05:43:20.137721+09:00",
+  "updated_at_jst": "2026-11-12T06:05:53.372995+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-04",
-    "end": "2026-11-10",
+    "start": "2026-11-05",
+    "end": "2026-11-11",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-04",
-      "views": 2398,
-      "watch_minutes": 246.0,
-      "average_view_seconds": 15.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 10,
-      "comments": 0
-    },
     {
       "day": "2026-11-05",
       "views": 3789,
@@ -33,8 +23,8 @@
     },
     {
       "day": "2026-11-06",
-      "views": 5135,
-      "watch_minutes": 690.0,
+      "views": 5124,
+      "watch_minutes": 689.0,
       "average_view_seconds": 21.0,
       "subscribers_gained": 1,
       "subscribers_lost": 0,
@@ -60,19 +50,29 @@
       "subscribers_lost": 1,
       "likes": 4,
       "comments": 1
+    },
+    {
+      "day": "2026-11-09",
+      "views": 4182,
+      "watch_minutes": 449.0,
+      "average_view_seconds": 19.0,
+      "subscribers_gained": 1,
+      "subscribers_lost": 0,
+      "likes": 6,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-05",
       "2026-11-06",
-      "2026-11-07"
+      "2026-11-07",
+      "2026-11-08"
     ],
     "recent_3_days": [
-      "2026-11-08",
       "2026-11-09",
-      "2026-11-10"
+      "2026-11-10",
+      "2026-11-11"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -85,21 +85,10 @@
       "published_at": "2026-11-06T10:30:15Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1129,
+      "views": 1128,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
-    },
-    {
-      "video_id": "BUf6fTLqrZQ",
-      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
-      "published_at": "2026-11-06T19:51:24Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 1088,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "ZwV_XMcBEEA",
@@ -107,10 +96,21 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1054,
+      "views": 1088,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+    },
+    {
+      "video_id": "BUf6fTLqrZQ",
+      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
+      "published_at": "2026-11-06T19:51:24Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 1087,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "_vyCsAzjFnM",
@@ -135,23 +135,12 @@
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
     },
     {
-      "video_id": "oabK9kM5QUM",
-      "title": "パズドラの秘密：3連打で報酬超える！",
-      "published_at": "2026-11-02T12:52:15Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 1040,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
-    },
-    {
       "video_id": "YUFHwpiyYuo",
       "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
       "published_at": "2026-11-02T22:02:01Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 1033,
+      "views": 1035,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
@@ -184,10 +173,21 @@
       "published_at": "2026-11-07T16:55:18Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 1015,
+      "views": 1013,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
+    },
+    {
+      "video_id": "-eVHP4uoacI",
+      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
+      "published_at": "2026-11-02T15:02:13Z",
+      "duration_iso": "PT43S",
+      "duration_seconds": 43,
+      "views": 1010,
+      "likes": 4,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
     }
   ],
   "all_videos": [
@@ -197,21 +197,10 @@
       "published_at": "2026-11-06T10:30:15Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1129,
+      "views": 1128,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
-    },
-    {
-      "video_id": "BUf6fTLqrZQ",
-      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
-      "published_at": "2026-11-06T19:51:24Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 1088,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "ZwV_XMcBEEA",
@@ -219,10 +208,21 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1054,
+      "views": 1088,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+    },
+    {
+      "video_id": "BUf6fTLqrZQ",
+      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
+      "published_at": "2026-11-06T19:51:24Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 1087,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "_vyCsAzjFnM",
@@ -247,23 +247,12 @@
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
     },
     {
-      "video_id": "oabK9kM5QUM",
-      "title": "パズドラの秘密：3連打で報酬超える！",
-      "published_at": "2026-11-02T12:52:15Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 1040,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=oabK9kM5QUM"
-    },
-    {
       "video_id": "YUFHwpiyYuo",
       "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
       "published_at": "2026-11-02T22:02:01Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 1033,
+      "views": 1035,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
@@ -296,7 +285,7 @@
       "published_at": "2026-11-07T16:55:18Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 1015,
+      "views": 1013,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
@@ -351,7 +340,7 @@
       "published_at": "2026-11-04T14:01:11Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 985,
+      "views": 988,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
@@ -362,7 +351,7 @@
       "published_at": "2026-11-09T10:22:44Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 975,
+      "views": 974,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=D5e6pXD4PVs"
@@ -412,6 +401,17 @@
       "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
     },
     {
+      "video_id": "JUgWlPUBXkE",
+      "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
+      "published_at": "2026-11-09T21:28:38Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 778,
+      "likes": 5,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
+    },
+    {
       "video_id": "1Ks1iTKB_Zg",
       "title": "USJ大みそか限定グルメ、年末の特別感を引き立てる",
       "published_at": "2026-11-05T17:13:47Z",
@@ -421,17 +421,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1Ks1iTKB_Zg"
-    },
-    {
-      "video_id": "JUgWlPUBXkE",
-      "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
-      "published_at": "2026-11-09T21:28:38Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 716,
-      "likes": 5,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
     },
     {
       "video_id": "auBHSp_7fAI",
@@ -461,7 +450,7 @@
       "published_at": "2026-11-09T15:32:55Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 498,
+      "views": 496,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8W0a67AWcH8"
@@ -549,7 +538,7 @@
       "published_at": "2026-11-08T12:59:35Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 122,
+      "views": 129,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
@@ -560,7 +549,7 @@
       "published_at": "2026-11-08T02:09:35Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 115,
+      "views": 114,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
@@ -615,7 +604,7 @@
       "published_at": "2026-11-09T22:53:34Z",
       "duration_iso": "PT30S",
       "duration_seconds": 30,
-      "views": 53,
+      "views": 51,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=E6mRkyePFow"
@@ -626,7 +615,7 @@
       "published_at": "2026-11-05T18:42:20Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 39,
+      "views": 41,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
@@ -670,7 +659,7 @@
       "published_at": "2026-11-04T11:35:27Z",
       "duration_iso": "PT41S",
       "duration_seconds": 41,
-      "views": 10,
+      "views": 12,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=oZJq2Ele2fg"
@@ -720,6 +709,28 @@
       "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
     },
     {
+      "video_id": "maoY-yIH_Ks",
+      "title": "時計の石」攻略法詳解！",
+      "published_at": "2026-11-03T07:50:32Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=maoY-yIH_Ks"
+    },
+    {
+      "video_id": "QIZvyr2AX9c",
+      "title": "アマゾンジャパン、価格透明性強化へ",
+      "published_at": "2026-11-11T17:04:42Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
+    },
+    {
       "video_id": "zRAWmsldO_8",
       "title": "クッパ城の秘密部屋発見？",
       "published_at": "2026-11-03T10:32:11Z",
@@ -729,17 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zRAWmsldO_8"
-    },
-    {
-      "video_id": "maoY-yIH_Ks",
-      "title": "時計の石」攻略法詳解！",
-      "published_at": "2026-11-03T07:50:32Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=maoY-yIH_Ks"
     }
   ],
   "video_data_scope": {
