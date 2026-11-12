@@ -3483,16 +3483,237 @@ jobs:
               )
           }
 
+          
           image_url = None
           image_errors = []
 
-          # Wikimedia Commonsから画像を検索
-          for keyword in keywords:
+          # 検索語を日本語・英語の両方に拡張
+          extra_keywords = []
+
+          translation_map = {
+              "ドラクエ": "Dragon Quest fantasy RPG",
+              "ドラゴンクエスト": "Dragon Quest fantasy RPG",
+              "FF": "Final Fantasy fantasy game",
+              "ファイナルファンタジー": "Final Fantasy fantasy game",
+              "USJ": "Universal Studios Japan",
+              "ユニバーサルスタジオジャパン": "Universal Studios Japan",
+              "ドラえもん": "Doraemon",
+              "鬼滅の刃": "Demon Slayer anime",
+              "鬼滅": "Demon Slayer anime",
+              "ナルト": "Naruto anime",
+              "NARUTO": "Naruto anime",
+              "動物": "wild animals wildlife photography",
+              "恐竜": "dinosaurs prehistoric animals",
+              "宇宙": "outer space planets astronomy",
+              "海": "ocean sea underwater photography",
+              "犬": "dogs animal photography",
+              "猫": "cats animal photography"
+          }
+
+          for jp_word, en_word in translation_map.items():
+              if jp_word.lower() in title.lower():
+                  extra_keywords.append(en_word)
+
+          search_keywords = list(dict.fromkeys(
+              keywords + extra_keywords
+          ))
+
+          # 長いタイトルだけでなく短い検索語も試す
+          if title:
+              short_title = re.sub(
+                  r"[【】「」『』！？!?。、：:（）()\[\]　]",
+                  " ",
+                  title
+              )
+              short_title = re.sub(
+                  r"\s+",
+                  " ",
+                  short_title
+              ).strip()
+
+              if short_title:
+                  search_keywords.append(short_title[:35])
+
+          search_keywords = list(dict.fromkeys(
+              k.strip() for k in search_keywords
+              if k and k.strip()
+          ))[:10]
+
+          print("BACKGROUND SEARCH KEYWORDS:", search_keywords)
+
+          def save_background_candidate(candidate, source):
+              global image_url
+
+              try:
+                  img_response = requests.get(
+                      candidate["url"],
+                      headers=headers,
+                      timeout=30
+                  )
+                  img_response.raise_for_status()
+
+                  image = Image.open(
+                      BytesIO(img_response.content)
+                  ).convert("RGB")
+
+                  width, height = image.size
+
+                  if width < 400 or height < 400:
+                      print(
+                          "BACKGROUND SKIPPED: SMALL IMAGE",
+                          candidate.get("title", "")
+                      )
+                      return False
+
+                  image = ImageOps.fit(
+                      image,
+                      (1080, 1920),
+                      method=Image.Resampling.LANCZOS,
+                      centering=(0.5, 0.5)
+                  )
+
+                  saturation = ImageStat.Stat(
+                      image.convert("HSV").getchannel("S")
+                  ).mean[0]
+
+                  if saturation < 18:
+                      print(
+                          "BACKGROUND SKIPPED: LOW COLOR",
+                          candidate.get("title", "")
+                      )
+                      return False
+
+                  image = ImageEnhance.Brightness(
+                      image
+                  ).enhance(1.12)
+
+                  image = ImageEnhance.Color(
+                      image
+                  ).enhance(1.22)
+
+                  image = ImageEnhance.Contrast(
+                      image
+                  ).enhance(1.08)
+
+                  image.save(
+                      BACKGROUND_FILE,
+                      "JPEG",
+                      quality=91
+                  )
+
+                  image_url = candidate["url"]
+
+                  print("BACKGROUND SUCCESS:", source)
+                  print(
+                      "BACKGROUND TITLE:",
+                      candidate.get("title", "")
+                  )
+                  print(
+                      "BACKGROUND LICENSE:",
+                      candidate.get("license", "")
+                  )
+                  print(
+                      "BACKGROUND CREATOR:",
+                      candidate.get("artist", "")
+                  )
+                  print(
+                      "BACKGROUND SOURCE URL:",
+                      candidate.get("page_url", "")
+                  )
+
+                  return True
+
+              except Exception as e:
+                  image_errors.append(str(e)[:200])
+                  print(
+                      "BACKGROUND DOWNLOAD ERROR:",
+                      str(e)[:200]
+                  )
+                  return False
+
+          # ==========================================
+          # 第1検索先：Openverse
+          # APIキー不要・商用利用可能なライセンスを優先
+          # ==========================================
+
+          for keyword in search_keywords:
               if image_url:
                   break
 
               try:
-                  print("BACKGROUND SEARCH:", keyword)
+                  print("OPENVERSE SEARCH:", keyword)
+
+                  response = requests.get(
+                      "https://api.openverse.org/v1/images/",
+                      params={
+                          "q": keyword,
+                          "page_size": 20,
+                          "license_type": "commercial",
+                          "extension": "jpg,jpeg,png,webp",
+                          "mature": "false",
+                          "filter_dead": "true"
+                      },
+                      headers=headers,
+                      timeout=30
+                  )
+
+                  response.raise_for_status()
+
+                  results = response.json().get(
+                      "results",
+                      []
+                  )
+
+                  print(
+                      "OPENVERSE RESULTS:",
+                      len(results)
+                  )
+
+                  candidates = []
+
+                  for item in results:
+                      url = item.get("url")
+
+                      if not url:
+                          continue
+
+                      candidates.append({
+                          "url": url,
+                          "title": item.get("title", ""),
+                          "license": item.get("license", ""),
+                          "artist": item.get("creator", ""),
+                          "page_url": item.get(
+                              "foreign_landing_url",
+                              ""
+                          )
+                      })
+
+                  for candidate in candidates:
+                      if save_background_candidate(
+                          candidate,
+                          "OPENVERSE"
+                      ):
+                          break
+
+              except Exception as e:
+                  image_errors.append(str(e)[:200])
+                  print(
+                      "OPENVERSE SEARCH ERROR:",
+                      keyword,
+                      str(e)[:200]
+                  )
+
+          # ==========================================
+          # 第2検索先：Wikimedia Commons
+          # Openverseで見つからない場合に検索
+          # ==========================================
+
+          for keyword in search_keywords:
+              if image_url:
+                  break
+
+              try:
+                  print("WIKIMEDIA SEARCH:", keyword)
 
                   response = requests.get(
                       "https://commons.wikimedia.org/w/api.php",
@@ -3501,10 +3722,10 @@ jobs:
                           "generator": "search",
                           "gsrsearch": keyword,
                           "gsrnamespace": 6,
-                          "gsrlimit": 15,
+                          "gsrlimit": 20,
                           "prop": "imageinfo",
                           "iiprop": "url|extmetadata",
-                          "iiurlwidth": 1080,
+                          "iiurlwidth": 1200,
                           "format": "json"
                       },
                       headers=headers,
@@ -3512,10 +3733,10 @@ jobs:
                   )
 
                   response.raise_for_status()
-                  data = response.json()
 
                   pages = (
-                      data.get("query", {})
+                      response.json()
+                      .get("query", {})
                       .get("pages", {})
                   )
 
@@ -3533,7 +3754,6 @@ jobs:
                       if not url:
                           continue
 
-                      # 対応する画像形式に限定
                       if not re.search(
                           r"\.(jpg|jpeg|png|webp)(?:$|[?#])",
                           url,
@@ -3557,98 +3777,47 @@ jobs:
                           "url": url,
                           "title": page.get("title", ""),
                           "license": license_name,
-                          "artist": artist
+                          "artist": artist,
+                          "page_url": (
+                              "https://commons.wikimedia.org/wiki/"
+                              + page.get("title", "").replace(
+                                  " ",
+                                  "_"
+                              )
+                          )
                       })
 
                   random.shuffle(candidates)
 
+                  print(
+                      "WIKIMEDIA RESULTS:",
+                      len(candidates)
+                  )
+
                   for candidate in candidates:
-                      try:
-                          img_response = requests.get(
-                              candidate["url"],
-                              headers=headers,
-                              timeout=30
-                          )
-
-                          img_response.raise_for_status()
-
-                          image = Image.open(
-                              BytesIO(img_response.content)
-                          ).convert("RGB")
-
-                          width, height = image.size
-
-                          # 小さい画像や極端な画像は避ける
-                          if width < 500 or height < 500:
-                              continue
-
-                          # Shorts用の縦型サイズに調整
-                          image = ImageOps.fit(
-                              image,
-                              (1080, 1920),
-                              method=Image.Resampling.LANCZOS,
-                              centering=(0.5, 0.5)
-                          )
-
-                          # 白黒・色味の薄い画像は候補から除外
-                          saturation = ImageStat.Stat(
-                              image.convert("HSV").getchannel("S")
-                          ).mean[0]
-
-                          if saturation < 35:
-                              print(
-                                  "BACKGROUND SKIPPED: "
-                                  "LOW COLOR",
-                                  candidate["title"]
-                              )
-                              continue
-
-                          # 背景画像を明るく鮮やかに補正
-                          image = ImageEnhance.Brightness(
-                              image
-                          ).enhance(1.05)
-
-                          image = ImageEnhance.Color(
-                              image
-                          ).enhance(1.18)
-
-                          image = ImageEnhance.Contrast(
-                              image
-                          ).enhance(1.05)
-
-                          image.save(
-                              BACKGROUND_FILE,
-                              "JPEG",
-                              quality=90
-                          )
-
-                          image_url = candidate["url"]
-
-                          print(
-                              "BACKGROUND SUCCESS:",
-                              candidate["title"]
-                          )
-                          print(
-                              "BACKGROUND LICENSE:",
-                              candidate["license"]
-                          )
-                          print(
-                              "BACKGROUND ARTIST:",
-                              candidate["artist"]
-                          )
-
+                      if save_background_candidate(
+                          candidate,
+                          "WIKIMEDIA"
+                      ):
                           break
-
-                      except Exception as e:
-                          image_errors.append(str(e)[:200])
 
               except Exception as e:
                   image_errors.append(str(e)[:200])
                   print(
-                      "BACKGROUND SEARCH ERROR:",
+                      "WIKIMEDIA SEARCH ERROR:",
                       keyword,
                       str(e)[:200]
                   )
+
+          if image_url:
+              print("BACKGROUND FINAL STATUS: IMAGE FOUND")
+          else:
+              print("BACKGROUND FINAL STATUS: NO IMAGE FOUND")
+              print(
+                  "BACKGROUND ERRORS:",
+                  image_errors[:10]
+              )
+
 
           # 写真を取得できなかった場合は、
           # 真っ黒な画面ではなくジャンル別の背景を生成する
