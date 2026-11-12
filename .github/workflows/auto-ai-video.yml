@@ -2299,12 +2299,142 @@ jobs:
                   "品質警告が残っているため、公開を中止します。"
               )
 
+          
           print("SCRIPT QUALITY CHECK: PASSED")
 
           print("TOTAL REPAIRS:", repair_count)
-          # 参考情報と台本の事実関係を独立チェック
-          
+
+          # 出典に合わせて台本を最終調整する
           if category != "ダジャレ":
+
+              grounding_source = (
+                  article_body
+                  if article_body
+                  else wiki_extract
+              )
+
+              if not grounding_source:
+                  raise RuntimeError(
+                      "台本を裏付ける出典本文がありません。"
+                      "公開を中止します。"
+                  )
+
+              grounding_prompt = f"""
+              あなたは厳格な事実確認を行う
+              日本語YouTube Shortsの編集者です。
+
+              次の台本を、参考情報に直接書かれている
+              事実だけを使って書き直してください。
+
+              【動画テーマ】
+              {topic}
+
+              【参考情報の原文】
+              {grounding_source[:10000]}
+
+              【現在の台本】
+              {script}
+
+              【絶対に守る条件】
+
+              ・参考情報に直接書かれている事実だけを使う
+              ・参考情報にない数字や固有名詞を追加しない
+              ・研究結果や人物の発言を推測で作らない
+              ・一般常識を根拠にして事実を追加しない
+              ・参考情報と意味が違う言い換えをしない
+              ・参考情報にない理由や仕組みを作らない
+              ・テーマと関係のない情報を入れない
+              ・事実を最低2つ含める
+              ・事実を説明する文章は原文の意味を変えない
+              ・冒頭は興味を引く疑問や意外性を残す
+              ・180〜240文字を目安にする
+              ・280文字を超えない
+              ・自然でテンポのよい日本語にする
+              ・59秒以内で読み上げられる長さにする
+
+              参考情報だけでは事実を2つ説明できない場合は、
+              無理に作らず「出典不足」とだけ出力してください。
+
+              読み上げる本文だけを出力してください。
+              """
+
+              grounding_response = requests.post(
+                  "http://127.0.0.1:11434/api/generate",
+                  json={
+                      "model": model,
+                      "prompt": grounding_prompt,
+                      "stream": False,
+                      "options": {
+                          "temperature": 0.15,
+                          "num_predict": 512
+                      }
+                  },
+                  timeout=900
+              )
+
+              grounding_response.raise_for_status()
+
+              grounded_script = strip_prompt_leakage(
+                  grounding_response.json().get(
+                      "response",
+                      ""
+                  )
+              )
+
+              grounded_script = clean_text(
+                  grounded_script
+              )
+
+              grounded_script = re.sub(
+                  r"(?im)^\s*(台本|本文|SCRIPT)\s*[:：]\s*",
+                  "",
+                  grounded_script
+              )
+
+              if (
+                  not grounded_script
+                  or "出典不足" in grounded_script
+              ):
+                  raise RuntimeError(
+                      "出典から事実を2つ確認できません。"
+                      "公開を中止します。"
+                  )
+
+              if len(grounded_script) > 280:
+                  raise RuntimeError(
+                      "出典に合わせた台本が280文字を超えました。"
+                      "公開を中止します。"
+                  )
+
+              grounded_issues = inspect_script(
+                  grounded_script
+              )
+
+              if grounded_issues:
+                  for issue in grounded_issues:
+                      print(
+                          "GROUNDED SCRIPT ISSUE:",
+                          issue
+                      )
+
+                  raise RuntimeError(
+                      "出典に合わせた台本の品質検査に失敗しました。"
+                      "公開を中止します。"
+                  )
+
+              script = grounded_script
+
+              print(
+                  "SOURCE GROUNDED SCRIPT: PASSED"
+              )
+
+              print(
+                  "GROUNDED SCRIPT LENGTH:",
+                  len(script)
+              )
+
+          # 参考情報と台本の事実関係を独立チェック
+
               import unicodedata
 
               def normalize_evidence(value):
