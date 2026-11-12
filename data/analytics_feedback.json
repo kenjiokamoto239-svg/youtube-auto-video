@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-12T06:05:53.372995+09:00",
+  "updated_at_jst": "2026-11-13T06:20:06.400268+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-05",
-    "end": "2026-11-11",
+    "start": "2026-11-06",
+    "end": "2026-11-12",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-05",
-      "views": 3789,
-      "watch_minutes": 501.0,
-      "average_view_seconds": 16.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 5,
-      "comments": 0
-    },
     {
       "day": "2026-11-06",
       "views": 5124,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 6,
       "comments": 0
+    },
+    {
+      "day": "2026-11-10",
+      "views": 319,
+      "watch_minutes": 44.0,
+      "average_view_seconds": 17.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-06",
       "2026-11-07",
-      "2026-11-08"
+      "2026-11-08",
+      "2026-11-09"
     ],
     "recent_3_days": [
-      "2026-11-09",
       "2026-11-10",
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-12"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -96,7 +96,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1088,
+      "views": 1099,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -107,7 +107,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1087,
+      "views": 1088,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -179,15 +179,15 @@
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
     },
     {
-      "video_id": "-eVHP4uoacI",
-      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
-      "published_at": "2026-11-02T15:02:13Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 1010,
-      "likes": 4,
+      "video_id": "DRjcoFxd8Lg",
+      "title": "パズドラで覚えた!攻撃強化の秘密",
+      "published_at": "2026-11-03T03:54:06Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 1003,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
+      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
     }
   ],
   "all_videos": [
@@ -208,7 +208,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1088,
+      "views": 1099,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -219,7 +219,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1087,
+      "views": 1088,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -289,17 +289,6 @@
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
-    },
-    {
-      "video_id": "-eVHP4uoacI",
-      "title": "驚き！『スーパーマリオカート』が『スーパーマリオブラザーズ』を上回る人気です。",
-      "published_at": "2026-11-02T15:02:13Z",
-      "duration_iso": "PT43S",
-      "duration_seconds": 43,
-      "views": 1010,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=-eVHP4uoacI"
     },
     {
       "video_id": "DRjcoFxd8Lg",
@@ -340,7 +329,7 @@
       "published_at": "2026-11-04T14:01:11Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 988,
+      "views": 989,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
@@ -351,7 +340,7 @@
       "published_at": "2026-11-09T10:22:44Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 974,
+      "views": 978,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=D5e6pXD4PVs"
@@ -384,7 +373,7 @@
       "published_at": "2026-11-05T07:53:47Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 913,
+      "views": 914,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=k5N-ejQ9_PA"
@@ -476,6 +465,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tbHssZqo2Xw"
+    },
+    {
+      "video_id": "ToRnJM0IIV0",
+      "title": "有料パスでゲット！USJスペシャル・ファン・ナイトの秘密条件",
+      "published_at": "2026-11-11T22:02:48Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
+      "views": 293,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ToRnJM0IIV0"
     },
     {
       "video_id": "oqKXON88z5Y",
@@ -582,7 +582,7 @@
       "published_at": "2026-11-04T20:13:59Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 71,
+      "views": 72,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Sopuj8Twod8"
@@ -676,6 +676,17 @@
       "url": "https://www.youtube.com/watch?v=YB0-UlZNat0"
     },
     {
+      "video_id": "QIZvyr2AX9c",
+      "title": "アマゾンジャパン、価格透明性強化へ",
+      "published_at": "2026-11-11T17:04:42Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
+    },
+    {
       "video_id": "Y6O3jc2ZG5o",
       "title": "中退生の目から見た、驚くべき日本の習慣",
       "published_at": "2026-11-08T06:24:34Z",
@@ -718,17 +729,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=maoY-yIH_Ks"
-    },
-    {
-      "video_id": "QIZvyr2AX9c",
-      "title": "アマゾンジャパン、価格透明性強化へ",
-      "published_at": "2026-11-11T17:04:42Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
     },
     {
       "video_id": "zRAWmsldO_8",
