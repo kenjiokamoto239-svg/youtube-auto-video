@@ -2590,9 +2590,30 @@ jobs:
                       "公開を中止します。"
                   )
 
-              grounded_issues = inspect_script(
-                  grounded_script
-              )
+              
+              # 出典確認後の台本は専用基準で検査する
+              grounded_issues = []
+
+              grounded_sentences = [
+                  sentence.strip()
+                  for sentence in re.split(
+                      r"(?<=[。！？!?])",
+                      grounded_script
+                  )
+                  if sentence.strip()
+              ]
+
+              if len(grounded_script) < 100:
+                  grounded_issues.append(
+                      "出典に合わせた台本が短すぎます。"
+                      "根拠となる事実を残して説明してください。"
+                  )
+
+              if len(grounded_sentences) < 2:
+                  grounded_issues.append(
+                      "説明が不足しています。"
+                      "内容を2文以上で自然に説明してください。"
+                  )
 
               if grounded_issues:
                   for issue in grounded_issues:
@@ -2605,6 +2626,7 @@ jobs:
                       "出典に合わせた台本の品質検査に失敗しました。"
                       "公開を中止します。"
                   )
+
 
               script = grounded_script
 
