@@ -2293,7 +2293,7 @@ jobs:
                       "stream": False,
                       "options": {
                           "temperature": 0.25,
-                          "num_predict": 384
+                          "num_predict": 765
                       }
                   },
                   timeout=900
@@ -2346,12 +2346,22 @@ jobs:
                   best_script = repaired_script
                   best_score = new_score
 
-              # 問題数が同じなら、短い台本を優先する
-              elif (
-                  new_score == best_score
-                  and len(repaired_script) < len(best_script)
-              ):
-                  best_script = repaired_script
+              
+              # 問題数が同じなら、210文字に近い台本を優先する
+              elif new_score == best_score:
+                  target_length = 210
+
+                  best_distance = abs(
+                      len(best_script) - target_length
+                  )
+
+                  new_distance = abs(
+                      len(repaired_script) - target_length
+                  )
+
+                  if new_distance < best_distance:
+                      best_script = repaired_script
+
 
               script = repaired_script
               quality_issues = new_issues
