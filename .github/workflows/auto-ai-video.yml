@@ -2872,7 +2872,7 @@ jobs:
                           (score, source_index, part)
                       )
 
-              # 関連度の高い文章を最大24件に限定する
+              # 関連度の高い文章を最大60件に限定する
               if scored_source_candidates:
                   scored_source_candidates.sort(
                       key=lambda item: (-item[0], item[1])
@@ -2880,10 +2880,42 @@ jobs:
 
                   source_quote_candidates = [
                       item[2]
-                      for item in scored_source_candidates[:24]
+                      for item in scored_source_candidates[:60]
                   ]
               else:
-                  source_quote_candidates = source_quote_candidates[:24]
+                  source_quote_candidates = source_quote_candidates[:60]
+
+              # 照合に使う台本候補をログに記録
+              print("===== SCRIPT EVIDENCE CANDIDATES =====")
+
+              for index, part in enumerate(
+                  script_quote_candidates
+              ):
+                  print(
+                      f"SCRIPT CANDIDATE {index}:",
+                      part
+                  )
+
+              # 照合に使う出典候補をログに記録
+              print("===== SOURCE EVIDENCE CANDIDATES =====")
+
+              for index, part in enumerate(
+                  source_quote_candidates
+              ):
+                  print(
+                      f"SOURCE CANDIDATE {index}:",
+                      part
+                  )
+
+              print(
+                  "SCRIPT QUOTE CANDIDATES:",
+                  len(script_quote_candidates)
+              )
+
+              print(
+                  "SOURCE QUOTE CANDIDATES:",
+                  len(source_quote_candidates)
+              )
 
 
               print(
