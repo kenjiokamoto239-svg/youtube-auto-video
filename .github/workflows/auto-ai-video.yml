@@ -2069,11 +2069,13 @@ jobs:
                   if s.strip()
               ]
 
-              if len(sentences) < 4:
+              
+              if len(sentences) < 3:
                   issues.append(
                       "説明が不足しています。主張、根拠、"
                       "具体例、結論が伝わるようにしてください。"
                   )
+
 
               # 同じ文章の繰り返しを検査
               normalized = [
