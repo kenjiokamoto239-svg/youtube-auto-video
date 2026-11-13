@@ -2775,11 +2775,17 @@ jobs:
                       fact_check_raw[:1500]
                   )
 
-                  raise RuntimeError(
-                      "台本の出典確認に失敗しました。"
-                      "公開を中止します。"
-                      + reason[:300]
+                                    # 初回判定がFAILでも、候補文による再確認へ進める
+                  print(
+                      "FACT CHECK: 初回判定FAIL。"
+                      "候補文による再確認を実行します。"
                   )
+
+                  fact_check = {
+                      "verdict": "FAIL",
+                      "claims": [],
+                      "reason": reason
+                  }
 
           
           source_normalized = normalize_evidence(source_context)
