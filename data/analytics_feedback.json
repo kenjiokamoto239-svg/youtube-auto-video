@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-13T06:20:06.400268+09:00",
+  "updated_at_jst": "2026-11-14T05:46:58.836362+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-06",
-    "end": "2026-11-12",
+    "start": "2026-11-07",
+    "end": "2026-11-13",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-06",
-      "views": 5124,
-      "watch_minutes": 689.0,
-      "average_view_seconds": 21.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 0,
-      "likes": 5,
-      "comments": 0
-    },
     {
       "day": "2026-11-07",
       "views": 3222,
@@ -60,19 +50,29 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-11-11",
+      "views": 162,
+      "watch_minutes": 12.0,
+      "average_view_seconds": 13.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-07",
       "2026-11-08",
-      "2026-11-09"
+      "2026-11-09",
+      "2026-11-10"
     ],
     "recent_3_days": [
-      "2026-11-10",
       "2026-11-11",
-      "2026-11-12"
+      "2026-11-12",
+      "2026-11-13"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -96,7 +96,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1099,
+      "views": 1114,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -129,21 +129,10 @@
       "published_at": "2026-11-08T17:01:49Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 1041,
+      "views": 1040,
       "likes": 3,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
-    },
-    {
-      "video_id": "YUFHwpiyYuo",
-      "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
-      "published_at": "2026-11-02T22:02:01Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 1035,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
       "video_id": "QzcUT_HhaEc",
@@ -179,15 +168,26 @@
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
     },
     {
-      "video_id": "DRjcoFxd8Lg",
-      "title": "パズドラで覚えた!攻撃強化の秘密",
-      "published_at": "2026-11-03T03:54:06Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 1003,
-      "likes": 2,
+      "video_id": "igU1tU1Si1g",
+      "title": "新たなドラクエ、驚きのモンスター姿",
+      "published_at": "2026-11-06T16:40:15Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 1002,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
+      "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
+    },
+    {
+      "video_id": "bL71URbVkhY",
+      "title": "なぜ「跳ね橋」だけ改善されなかったか、その謎解くべき",
+      "published_at": "2026-11-04T18:35:52Z",
+      "duration_iso": "PT40S",
+      "duration_seconds": 40,
+      "views": 990,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
     }
   ],
   "all_videos": [
@@ -208,7 +208,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1099,
+      "views": 1114,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -241,21 +241,10 @@
       "published_at": "2026-11-08T17:01:49Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 1041,
+      "views": 1040,
       "likes": 3,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
-    },
-    {
-      "video_id": "YUFHwpiyYuo",
-      "title": "スプラトゥーン」で名前変更で新武器ゲット、小学生Aさんも！",
-      "published_at": "2026-11-02T22:02:01Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 1035,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=YUFHwpiyYuo"
     },
     {
       "video_id": "QzcUT_HhaEc",
@@ -289,17 +278,6 @@
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
-    },
-    {
-      "video_id": "DRjcoFxd8Lg",
-      "title": "パズドラで覚えた!攻撃強化の秘密",
-      "published_at": "2026-11-03T03:54:06Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 1003,
-      "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=DRjcoFxd8Lg"
     },
     {
       "video_id": "igU1tU1Si1g",
@@ -384,10 +362,21 @@
       "published_at": "2026-11-04T10:33:10Z",
       "duration_iso": "PT40S",
       "duration_seconds": 40,
-      "views": 878,
+      "views": 879,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
+    },
+    {
+      "video_id": "zth0xQAIEJ4",
+      "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
+      "published_at": "2026-11-13T07:54:11Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 846,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
     {
       "video_id": "JUgWlPUBXkE",
@@ -439,7 +428,7 @@
       "published_at": "2026-11-09T15:32:55Z",
       "duration_iso": "PT38S",
       "duration_seconds": 38,
-      "views": 496,
+      "views": 494,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8W0a67AWcH8"
@@ -454,17 +443,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
-    },
-    {
-      "video_id": "tbHssZqo2Xw",
-      "title": "バイオハザード9、クリア後も新たな挑戦！",
-      "published_at": "2026-11-03T16:56:40Z",
-      "duration_iso": "PT42S",
-      "duration_seconds": 42,
-      "views": 312,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=tbHssZqo2Xw"
     },
     {
       "video_id": "ToRnJM0IIV0",
@@ -533,6 +511,17 @@
       "url": "https://www.youtube.com/watch?v=4nfxHcV5jWA"
     },
     {
+      "video_id": "PmlEicZPYf4",
+      "title": "DQ」＆「FF」横浜でコラボ、期間限定イベント始まります！",
+      "published_at": "2026-11-12T21:25:12Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 133,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=PmlEicZPYf4"
+    },
+    {
       "video_id": "QmZERK6UlAI",
       "title": "関西ジュニアのUSJステージ、細部にまでこだわりの“一瞬の輝き”",
       "published_at": "2026-11-08T12:59:35Z",
@@ -555,17 +544,6 @@
       "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
     },
     {
-      "video_id": "ld5p5RVNUqw",
-      "title": "新たなキャラクター追加で【スプラレイダース】の世界が完全再編！",
-      "published_at": "2026-11-03T13:51:48Z",
-      "duration_iso": "PT25S",
-      "duration_seconds": 25,
-      "views": 98,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ld5p5RVNUqw"
-    },
-    {
       "video_id": "IiVGH54T3Ok",
       "title": "宮田俊哉のアフレコ秘話とEDテーマ制作、プラネットアイドル夢の裏側",
       "published_at": "2026-11-04T05:49:47Z",
@@ -577,6 +555,17 @@
       "url": "https://www.youtube.com/watch?v=IiVGH54T3Ok"
     },
     {
+      "video_id": "OkC4MB7Dc9A",
+      "title": "みなとみらいミラー2026、クリスマスもドラクエFFコラボ",
+      "published_at": "2026-11-13T10:40:14Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 88,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
+    },
+    {
       "video_id": "Sopuj8Twod8",
       "title": "シルバニアファミリー40年、歴史とキャラ秘密大公開",
       "published_at": "2026-11-04T20:13:59Z",
@@ -586,6 +575,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Sopuj8Twod8"
+    },
+    {
+      "video_id": "UZ9jFje6thU",
+      "title": "灯良の秘密、脱出へ",
+      "published_at": "2026-11-13T18:45:23Z",
+      "duration_iso": "PT20S",
+      "duration_seconds": 20,
+      "views": 66,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
     },
     {
       "video_id": "f1ctisC2Mxo",
@@ -608,6 +608,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=E6mRkyePFow"
+    },
+    {
+      "video_id": "WGm3B4wM_d8",
+      "title": "驚きの「性」：オスからメスへ、あるいは逆",
+      "published_at": "2026-11-13T01:40:04Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 47,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=WGm3B4wM_d8"
     },
     {
       "video_id": "v2Jj7qxskOc",
@@ -641,6 +652,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=HEcUQ2imAHw"
+    },
+    {
+      "video_id": "lZhAn-jT-70",
+      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
+      "published_at": "2026-11-13T04:30:31Z",
+      "duration_iso": "PT19S",
+      "duration_seconds": 19,
+      "views": 32,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
     },
     {
       "video_id": "gQSnQcQ9rAY",
@@ -718,28 +740,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
-    },
-    {
-      "video_id": "maoY-yIH_Ks",
-      "title": "時計の石」攻略法詳解！",
-      "published_at": "2026-11-03T07:50:32Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=maoY-yIH_Ks"
-    },
-    {
-      "video_id": "zRAWmsldO_8",
-      "title": "クッパ城の秘密部屋発見？",
-      "published_at": "2026-11-03T10:32:11Z",
-      "duration_iso": "PT24S",
-      "duration_seconds": 24,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=zRAWmsldO_8"
     }
   ],
   "video_data_scope": {
