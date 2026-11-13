@@ -704,19 +704,54 @@ jobs:
           }
 
           
-          # 選定テーマに直接関係する検索語を複数用意する
-          if topic:
-              queries = [
-                  topic,
-                  topic + " ニュース",
-                  topic + " 最新情報",
-                  topic + " 公式"
-              ]
-          else:
-              queries = []
+          
+          # 選定テーマから重要語を抽出して複数の検索語を作る
+          quoted_terms = re.findall(
+              r"[「『【]([^」』】]{2,40})[」』】]",
+              topic
+          )
 
-          # 重複する検索語を除去
-          queries = list(dict.fromkeys(queries))
+          topic_terms = re.findall(
+              r"[一-龯ぁ-んァ-ヶA-Za-z0-9ー]{2,}",
+              topic
+          )
+
+          stop_terms = {
+              "ニュース", "最新情報", "公式", "発売記念",
+              "提供開始", "開催決定", "について", "こちら"
+          }
+
+          useful_terms = [
+              term for term in topic_terms
+              if len(term) >= 3 and term not in stop_terms
+          ]
+
+          queries = []
+
+          if topic:
+              queries.append(topic[:100])
+
+          for term in quoted_terms[:3]:
+              queries.append(term)
+              queries.append(term + " ニュース")
+
+          for term in useful_terms[-3:]:
+              queries.append(term + " ニュース")
+
+          # 重複を除去し、検索数を最大8件に制限
+          queries = list(dict.fromkeys(
+              query.strip()
+              for query in queries
+              if query.strip()
+          ))[:8]
+
+          evidence_terms = list(dict.fromkeys(
+              quoted_terms + useful_terms
+          ))
+
+          print("RESEARCH QUERY COUNT:", len(queries))
+          print("RESEARCH QUERIES:", queries)
+
 
 
           headers = {
@@ -1348,6 +1383,7 @@ jobs:
 
           
           article_body = ""
+          rss_summary_context = ""
 
           # 本文を取得できる記事が見つかるまで、
           # 関連度の高い記事を最大5件確認する
@@ -1444,11 +1480,122 @@ jobs:
                       )
                       continue
 
-              if not article_body:
-                  print(
-                      "ALL RESEARCH ARTICLES FAILED: "
-                      "本文を取得できる記事がありません。"
+              
+          # 記事本文を取得できない場合はRSS要約を複数確認する
+          if not article_body and articles:
+              print("RSS SUMMARY FALLBACK: START")
+
+              summary_items = []
+              seen_titles = set()
+
+              ranked_summary_articles = sorted(
+                  articles,
+                  key=lambda item: topic_match_score(
+                      item.get("title", "")
+                      + " "
+                      + item.get("summary", "")
+                  ),
+                  reverse=True
+              )
+
+              for candidate in ranked_summary_articles:
+                  title_text = clean_text(
+                      candidate.get("title", "")
                   )
+
+                  summary_text = clean_text(
+                      re.sub(
+                          r"<[^>]+>",
+                          " ",
+                          candidate.get("summary", "")
+                      )
+                  )
+
+                  candidate_text = (
+                      title_text + " " + summary_text
+                  )
+
+                  if len(summary_text) < 70:
+                      continue
+
+                  # テーマに関係する重要語が含まれる記事だけ採用
+                  if evidence_terms and not any(
+                      term.lower() in candidate_text.lower()
+                      for term in evidence_terms
+                  ):
+                      continue
+
+                  title_key = re.sub(
+                      r"[\W_]+",
+                      "",
+                      title_text.lower()
+                  )
+
+                  if not title_key or title_key in seen_titles:
+                      continue
+
+                  seen_titles.add(title_key)
+
+                  summary_items.append({
+                      "title": title_text,
+                      "summary": summary_text[:1200],
+                      "link": candidate.get("link", "")
+                  })
+
+                  if len(summary_items) >= 5:
+                      break
+
+              summary_total = sum(
+                  len(item["summary"])
+                  for item in summary_items
+              )
+
+              # 2件以上、合計300文字以上の要約がある場合だけ採用
+              if len(summary_items) >= 2 and summary_total >= 300:
+                  summary_blocks = []
+
+                  for index, item in enumerate(
+                      summary_items,
+                      start=1
+                  ):
+                      summary_blocks.append(
+                          f"""
+          【参考記事 {index}】
+          タイトル：
+          {item["title"]}
+
+          RSS要約：
+          {item["summary"]}
+
+          参考URL：
+          {item["link"]}
+          """
+                      )
+
+                  rss_summary_context = "\n".join(
+                      summary_blocks
+                  )
+
+                  article_body = "\n\n".join(
+                      item["summary"]
+                      for item in summary_items
+                  )
+
+                  article = summary_items[0]
+
+                  print(
+                      "RSS SUMMARY FALLBACK: PASSED",
+                      len(summary_items),
+                      summary_total
+                  )
+
+              else:
+                  print(
+                      "RSS SUMMARY FALLBACK: REJECTED",
+                      len(summary_items),
+                      summary_total
+                  )
+
 
 
 
@@ -1460,52 +1607,77 @@ jobs:
               )
               article_body = ""
 
-          if article_body:
+          
+          if rss_summary_context:
               source_context = f"""
-              【RSS記事の本文】
+          【複数のRSS記事から取得した要約】
 
-              記事タイトル：
-              {article['title']}
+          {rss_summary_context}
 
-              記事本文：
-              {article_body[:12000]}
+          【Wikipediaの参考情報】
 
-              参考元URL：
-              {article['link']}
+          {wikipedia_context if wikipedia_context else "関連する記事を取得できませんでした。"}
 
-              【Wikipediaの参考情報】
+          Wikipediaの出典URL：
+          {wikipedia_source if wikipedia_source else "取得できませんでした。"}
 
-              {wikipedia_context if wikipedia_context else "関連する記事を取得できませんでした。"}
+          【情報の扱い方】
 
-              Wikipediaの出典URL：
-              {wikipedia_source if wikipedia_source else "取得できませんでした。"}
+          RSS要約に直接書かれている事実だけを使用してください。
+          複数の記事の内容を混同しないでください。
+          記事にない数字、研究結果、歴史的事実を作らないでください。
+          裏付けがない内容は台本に含めないでください。
+          """
 
-              【情報の扱い方】
+          elif article_body:
+              source_context = f"""
+          【RSS記事の本文】
 
-              記事本文に直接書かれている事実だけを使用してください。
-              記事にない数字、研究結果、歴史的事実を作らないでください。
-              引用元の内容を正確に確認してください。
-              """
+          記事タイトル：
+          {article['title']}
+
+          記事本文：
+          {article_body[:12000]}
+
+          参考元URL：
+          {article['link']}
+
+          【Wikipediaの参考情報】
+
+          {wikipedia_context if wikipedia_context else "関連する記事を取得できませんでした。"}
+
+          Wikipediaの出典URL：
+          {wikipedia_source if wikipedia_source else "取得できませんでした。"}
+
+          【情報の扱い方】
+
+          記事本文に直接書かれている事実だけを使用してください。
+          記事にない数字、研究結果、歴史的事実を作らないでください。
+          引用元の内容を正確に確認してください。
+          """
+
           elif wikipedia_context:
               source_context = f"""
-              【Wikipediaの参考情報】
+          【Wikipediaの参考情報】
 
-              {wikipedia_context}
+          {wikipedia_context}
 
-              出典URL：
-              {wikipedia_source}
+          出典URL：
+          {wikipedia_source}
 
-              【情報の扱い方】
+          【情報の扱い方】
 
-              Wikipedia本文に直接書かれている事実だけを使用してください。
-              確認できない数字や研究結果を作らないでください。
-              """
+          Wikipedia本文に直接書かれている事実だけを使用してください。
+          確認できない数字や研究結果を作らないでください。
+          """
+
           else:
               raise RuntimeError(
-                  "記事本文とWikipedia本文の両方を"
-                  "取得できませんでした。"
+                  "記事本文、RSS要約、Wikipedia本文の"
+                  "いずれも取得できませんでした。"
                   "根拠のない台本の生成を中止します。"
               )
+
 
               
 
