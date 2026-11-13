@@ -2066,8 +2066,8 @@ jobs:
               【テーマ】
               {topic}
 
-              【参考情報】
-              {source_context}
+             【参考情報】
+              {source_context[:5000]}
 
               【修正前の台本】
               {script}
@@ -2112,7 +2112,8 @@ jobs:
                       "prompt": repair_prompt,
                       "stream": False,
                       "options": {
-                          "temperature": 0.35
+                          "temperature": 0.25,
+                          "num_predict": 384
                       }
                   },
                   timeout=900
