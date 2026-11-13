@@ -1809,6 +1809,7 @@ jobs:
 
           分析結果だけを出力してください。
           """
+          
           analysis_response = requests.post(
               "http://127.0.0.1:11434/api/generate",
               json={
@@ -1816,11 +1817,13 @@ jobs:
                   "prompt": analysis_prompt,
                   "stream": False,
                   "options": {
-                      "temperature": 0.25
+                      "temperature": 0.25,
+                      "num_predict": 256
                   }
               },
               timeout=900
           )
+
 
           analysis_response.raise_for_status()
 
@@ -1933,6 +1936,7 @@ jobs:
           読み上げる本文だけを出力してください。
           """
 
+          
           response = requests.post(
               "http://127.0.0.1:11434/api/generate",
               json={
@@ -1940,11 +1944,13 @@ jobs:
                   "prompt": prompt,
                   "stream": False,
                   "options": {
-                      "temperature": 0.65
+                      "temperature": 0.65,
+                      "num_predict": 512
                   }
               },
               timeout=900
           )
+
 
           response.raise_for_status()
 
@@ -2397,6 +2403,7 @@ jobs:
               """
 
               try:
+                  
                   shorten_response = requests.post(
                       "http://127.0.0.1:11434/api/generate",
                       json={
@@ -2404,11 +2411,13 @@ jobs:
                           "prompt": shorten_prompt,
                           "stream": False,
                           "options": {
-                              "temperature": 0.2
+                              "temperature": 0.2,
+                              "num_predict": 384
                           }
                       },
                       timeout=900
                   )
+
 
                   shorten_response.raise_for_status()
 
