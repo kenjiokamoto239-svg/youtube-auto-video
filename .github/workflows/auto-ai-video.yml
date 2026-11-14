@@ -217,6 +217,8 @@ jobs:
               "ドラゴンクエスト ファイナルファンタジー コラボ 横浜 みなとみらい",
               "ドラゴンクエスト アイランド ドラゴンクエストモンスターズ4 コラボ",
               "ディズニー キャラクター 意外な設定",
+              "site:mhlw.go.jp 介護給付費分科会 11月16日",
+              "介護報酬 2027年度 改定 処遇改善 生産性向上",
           ]
 
           articles = []
@@ -428,11 +430,34 @@ jobs:
               )
               return value
 
+          def topic_ngrams(value):
+              value = normalize_topic(value).replace("×", "")
+
+              for term in (
+                  "本日", "開催", "イベント", "コラボ", "より",
+                  "登場", "公開", "発表", "最新", "情報", "限定",
+                  "キャンペーン", "ニュース", "記事", "日本",
+                  "新作", "開始", "予約", "発売", "特集",
+                  "まとめ", "速報", "動画", "番組"
+              ):
+                  value = value.replace(term, "")
+
+              grams = set()
+
+              for size in (2, 3):
+                  for index in range(len(value) - size + 1):
+                      grams.add(value[index:index + size])
+
+              return grams
+
+
           def is_similar_topic(candidate, previous_topics):
               candidate = normalize_topic(candidate)
 
               if not candidate:
                   return False
+
+              candidate_grams = topic_ngrams(candidate)
 
               for previous in previous_topics:
                   old_topic = normalize_topic(
@@ -453,6 +478,23 @@ jobs:
 
                   if similarity >= 0.65:
                       return True
+
+                  old_grams = topic_ngrams(old_topic)
+                  shared_grams = candidate_grams & old_grams
+
+                  if len(shared_grams) >= 12:
+                      overlap = len(shared_grams) / max(
+                          1,
+                          min(len(candidate_grams), len(old_grams))
+                      )
+
+                      if overlap >= 0.35:
+                          print(
+                              "TOPIC DUPLICATE NGRAM MATCH:",
+                              len(shared_grams),
+                              round(overlap, 2)
+                          )
+                          return True
 
               return False
 
@@ -503,6 +545,27 @@ jobs:
               )
 
           topic = article["title"]
+          topic_text = topic.lower()
+
+          if any(keyword in topic_text for keyword in [
+              "介護報酬", "厚生労働省", "厚労省", "社会保障",
+              "報酬改定", "制度改正", "介護給付費分科会"
+          ]):
+              genre = "ニュース・時事問題"
+
+          elif any(keyword in topic_text for keyword in [
+              "ゲーム", "ドラクエ", "ドラゴンクエスト",
+              "ファイナルファンタジー", "ff", "ゼルダ",
+              "ティアキン", "ポケモン", "アニメ", "漫画",
+              "マンガ", "鬼滅", "naruto", "ちいかわ",
+              "宮野真守", "早見沙織", "サンジ", "ワンピース",
+              "ドラえもん", "コナン", "usj", "ユニバ",
+              "ディズニー", "マリオ"
+          ]):
+              genre = "エンタメ・ゲーム"
+
+          else:
+              genre = "雑学"
 
           topic_history.append({
               "topic": topic,
@@ -3783,6 +3846,12 @@ jobs:
                   "open book reading",
                   "road mountain journey"
               ],
+              "エンタメ・ゲーム": [
+                  "video game controller",
+                  "gaming console setup",
+                  "arcade game machine",
+                  "anime convention"
+              ],
               "仕事・社会": [
                   "modern office workplace",
                   "business meeting office",
@@ -4242,6 +4311,8 @@ jobs:
                   "自己改善・習慣": "GROWTH",
                   "健康・ランニング": "RUNNING",
                   "名言・人生論": "LIFE",
+                  "エンタメ・ゲーム": "PLAY",
+                  "雑学": "FACTS",
                   "仕事・社会": "SOCIETY"
               }
 
@@ -4802,6 +4873,21 @@ jobs:
                   "energetic background music",
                   "electronic instrumental",
               ],
+              "雑学": [
+                  "curious upbeat instrumental",
+                  "light playful educational background music",
+                  "puzzle mystery instrumental",
+              ],
+              "エンタメ・ゲーム": [
+                  "upbeat electronic instrumental",
+                  "arcade style instrumental",
+                  "energetic synth background music",
+              ],
+              "ニュース・時事問題": [
+                  "news documentary instrumental",
+                  "calm investigative background music",
+                  "soft documentary piano music",
+              ],
               "経済・仕事": [
                   "corporate background music",
                   "technology instrumental",
@@ -4890,6 +4976,21 @@ jobs:
                           break
 
                       page_title = page.get("title", "")
+                      unrelated_audio_terms = (
+                          "national anthem", "anthem", "negaraku",
+                          "shahanshahi", "air force", "military band",
+                          "国歌", "軍歌", "hymn"
+                      )
+
+                      if any(
+                          term in page_title.lower()
+                          for term in unrelated_audio_terms
+                      ):
+                          print(
+                              "BGM SKIP: unrelated ceremonial music",
+                              page_title
+                          )
+                          continue
 
                       if page_title in checked_titles:
                           continue
@@ -5750,6 +5851,24 @@ jobs:
                   "#豆知識",
                   "#意外な事実",
                   "#解説"
+              ],
+              "雑学": [
+                  "#雑学",
+                  "#豆知識",
+                  "#意外な事実",
+                  "#解説"
+              ],
+              "エンタメ・ゲーム": [
+                  "#ゲーム",
+                  "#アニメ",
+                  "#エンタメ",
+                  "#キャラクター"
+              ],
+              "ニュース・時事問題": [
+                  "#日本ニュース",
+                  "#時事問題",
+                  "#社会保障",
+                  "#ニュース解説"
               ],
               "ニュース・社会問題": [
                   "#日本ニュース",
