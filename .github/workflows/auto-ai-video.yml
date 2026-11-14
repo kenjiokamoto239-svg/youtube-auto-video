@@ -2083,22 +2083,21 @@ jobs:
           # 検査に合格するまで繰り返す
 
           def inspect_script(text):
-              """台本の重大な欠陥を検出する。固定表現の有無では判定しない。"""
+              """全ジャンル共通の台本品質検査。"""
+
               issues = []
               text = clean_text(text)
+
+              # ダジャレ専用検査
               if category == "ダジャレ":
                   if not text:
                       return ["ダジャレ台本が空です。"]
 
                   if len(text) < 70:
-                      issues.append(
-                          "ダジャレを複数入れ、内容を少し増やしてください。"
-                      )
+                      issues.append("内容が短すぎます。")
 
                   if len(text) > 330:
-                      issues.append(
-                          "ダジャレ台本を330文字以内に短縮してください。"
-                      )
+                      issues.append("330文字以内に短縮してください。")
 
                   if len(re.findall(r"[。！？!?]", text)) < 3:
                       issues.append(
@@ -2106,44 +2105,44 @@ jobs:
                       )
 
                   return issues
-              if not text:
-                  return ["台本が空です。本文を作成してください。"]
 
-              # 文字数の検査：59秒以内を目指す
+              if not text:
+                  return ["台本が空です。"]
+
+              # 文字数
               if len(text) < 150:
                   issues.append(
-                      "説明が不足しています。主張と理由、"
-                      "具体例または判断基準を補ってください。"
+                      "説明が不足しています。具体的な事実や情報を補ってください。"
                   )
 
               if len(text) > 280:
                   issues.append(
-                      "台本が長すぎます。"
                       "280文字以内に短縮してください。"
-                      "最初の一文で強い興味を引き、"
-                      "重要な情報と具体例を残してください。"
-                      "最後まで自然に完結させてください。"
                   )
 
-              # 文章数の検査
+              # 文章数
               sentences = [
-                  s.strip()
-                  for s in re.split(r"(?<=[。！？!?])", text)
-                  if s.strip()
+                  sentence.strip()
+                  for sentence in re.split(
+                      r"(?<=[。！？!?])",
+                      text
+                  )
+                  if sentence.strip()
               ]
 
-              
               if len(sentences) < 3:
                   issues.append(
-                      "説明が不足しています。主張、根拠、"
-                      "具体例、結論が伝わるようにしてください。"
+                      "3文以上で、冒頭・具体的な説明・結論を構成してください。"
                   )
 
-
-              # 同じ文章の繰り返しを検査
+              # 同じ文章の繰り返し
               normalized = [
-                  re.sub(r"[\s、。！？!?「」『』（）()]", "", s)
-                  for s in sentences
+                  re.sub(
+                      r"[\s、。！？!?「」『』（）()]",
+                      "",
+                      sentence
+                  )
+                  for sentence in sentences
               ]
 
               if (
@@ -2152,117 +2151,32 @@ jobs:
               ):
                   issues.append(
                       "同じ文章の繰り返しが多すぎます。"
-                      "重複を削り、新しい情報を加えてください。"
                   )
 
-              # 同じ文字列が不自然に連続していないか検査
+              # 不自然な連続反復
               if re.search(r"(.{6,24})\1{2,}", text):
                   issues.append(
                       "同じ言葉や文章が不自然に連続しています。"
-                      "自然な日本語に書き直してください。"
                   )
 
-              # AIへの制作指示が混入していないか検査
+              # AIの制作指示・テンプレート混入
               forbidden_phrases = [
-                  "視聴者の常識を揺さぶる一文から始めましょう",
                   "読み上げ用の本文だけを出力する",
                   "あなたは、日本のYouTube Shorts向けに",
+                  "あなたは、小学3年生の男子が夢中になる",
+                  "【動画テーマ】",
                   "【動画ジャンル】",
                   "【台本の構成】",
+                  "【分析結果】",
+                  "【参考情報】",
                   "【最重要ルール】",
+                  "【必須条件】",
+                  "【修正前の台本】",
                   "ここに台本を書く",
                   "以下の条件に従って",
                   "具体例を入れてください",
                   "結論を明確にしてください",
-                  "【必須条件】",
-                  "【修正前の台本】"
-              ]
-
-              if any(p in text for p in forbidden_phrases):
-                  issues.append(
-                      "AIへの制作指示が混入しています。"
-                      "読み上げる本文だけにしてください。"
-                  )
-
-              # 理由や根拠が説明されているか検査
-              explanation_words = [
-                  "理由", "原因", "仕組み", "つまり",
-                  "たとえば", "例えば", "実際", "違い",
-                  "結果", "なぜなら", "ため", "ためです",
-                  "から", "からです", "ので", "によって",
-                  "による", "ことで", "そのため", "結果として"
-              ]
-
-
-              if not any(w in text for w in explanation_words):
-                  issues.append(
-                      "主張の根拠が読み取れません。"
-                      "理由や具体例を自然に説明してください。"
-                  )
-
-              # 抽象的な精神論への偏りを検査
-              vague_phrases = [
-                  "努力することが大切です",
-                  "諦めないことが重要です",
-                  "自分を信じることが大切です",
-                  "継続することが大切です",
-                  "人それぞれです"
-              ]
-
-              vague_count = sum(
-                  text.count(p) for p in vague_phrases
-              )
-
-              if vague_count >= 2:
-                  issues.append(
-                      "一般論や精神論が重複しています。"
-                      "具体的な根拠や例に置き換えてください。"
-                  )
-
-              # 雑学動画としての締め方を検査
-              ending = text[-100:].strip()
-
-              weak_endings = (
-                  "大切です",
-                  "重要です",
-                  "必要です",
-                  "意識しましょう",
-                  "頑張りましょう",
-                  "考えてみましょう"
-              )
-
-              if ending.endswith(weak_endings):
-                  issues.append(
-                      "雑学に関係のない教訓で終わっています。"
-                      "発見や知識に結びつく自然な締め方にしてください。"
-                  )
-
-              # 雑学の具体性を検査
-              explanation_words = [
-                  "なぜ", "理由", "仕組み", "ため",
-                  "から", "つまり", "例えば", "たとえば",
-                  "実際", "違い", "特徴", "という"
-              ]
-
-              if not any(
-                  word in text for word in explanation_words
-              ):
-                  issues.append(
-                      "説明が抽象的です。テーマの理由や仕組みを、"
-                      "子どもにも分かる言葉で説明してください。"
-                  )
-
-              # 制作指示が混入していないか検査
-              forbidden_phrases = [
-                  "読み上げ用の本文だけを出力する",
-                  "あなたは、小学3年生の男子が夢中になる",
-                  "【動画テーマ】",
-                  "【分析結果】",
-                  "【参考情報】",
-                  "【台本の構成】",
-                  "完成した読み上げ本文だけを出力してください",
-                  "以下の条件に従って",
-                  "【修正前の台本】"
+                  "完成した読み上げ本文だけを出力してください"
               ]
 
               if any(
@@ -2270,8 +2184,7 @@ jobs:
                   for phrase in forbidden_phrases
               ):
                   issues.append(
-                      "台本に制作指示が混入しています。"
-                      "読み上げる本文だけにしてください。"
+                      "AIへの制作指示やテンプレートが混入しています。"
                   )
 
               return issues
@@ -2664,29 +2577,10 @@ jobs:
                   )
 
               
-              # 出典確認後の台本は専用基準で検査する
-              grounded_issues = []
-
-              grounded_sentences = [
-                  sentence.strip()
-                  for sentence in re.split(
-                      r"(?<=[。！？!?])",
-                      grounded_script
-                  )
-                  if sentence.strip()
-              ]
-
-              if len(grounded_script) < 100:
-                  grounded_issues.append(
-                      "出典に合わせた台本が短すぎます。"
-                      "根拠となる事実を残して説明してください。"
-                  )
-
-              if len(grounded_sentences) < 2:
-                  grounded_issues.append(
-                      "説明が不足しています。"
-                      "内容を2文以上で自然に説明してください。"
-                  )
+              # 出典確認後の最終台本を再検査
+              grounded_issues = inspect_script(
+                  grounded_script
+              )
 
               if grounded_issues:
                   for issue in grounded_issues:
@@ -2696,7 +2590,7 @@ jobs:
                       )
 
                   raise RuntimeError(
-                      "出典に合わせた台本の品質検査に失敗しました。"
+                      "出典確認後の台本が品質検査に失敗しました。"
                       "公開を中止します。"
                   )
 
@@ -2887,6 +2781,11 @@ jobs:
               return errors
 
           validation_errors = validate_claims(fact_check)
+
+          # 初回PASSでも主張と出典の対応関係を再確認する
+          validation_errors.append(
+              "主張と出典の直接的な対応関係を番号照合してください。"
+          )
 
           if validation_errors:
               print("FACT CHECK INDEX RETRY: START")
