@@ -1,5 +1,7 @@
 {
-  "updated_at_jst": "2026-11-15T03:57:32.906488+09:00",
+  "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
+  "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
+  "updated_at_jst": "2026-11-15T08:25:56.884840+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
@@ -9,7 +11,7 @@
     "end": "2026-11-14",
     "timezone": "Asia/Tokyo"
   },
-  "daily_data_count": 4,
+  "daily_data_count": 5,
   "daily_data": [
     {
       "day": "2026-11-08",
@@ -50,6 +52,16 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-11-12",
+      "views": 392,
+      "watch_minutes": 19.0,
+      "average_view_seconds": 11.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "comparison": {
@@ -75,7 +87,7 @@
       "published_at": "2026-11-06T10:30:15Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1128,
+      "views": 1129,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
@@ -187,7 +199,7 @@
       "published_at": "2026-11-06T10:30:15Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1128,
+      "views": 1129,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
@@ -479,6 +491,17 @@
       "url": "https://www.youtube.com/watch?v=3RtQyTCOe-Y"
     },
     {
+      "video_id": "sP9_GjXxC9s",
+      "title": "時限解放の智を解き明かせ！ホブリング・クロウ奇踪録の謎",
+      "published_at": "2026-11-14T17:02:54Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 162,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
+    },
+    {
       "video_id": "PmlEicZPYf4",
       "title": "DQ」＆「FF」横浜でコラボ、期間限定イベント始まります！",
       "published_at": "2026-11-12T21:25:12Z",
@@ -545,6 +568,17 @@
       "url": "https://www.youtube.com/watch?v=IiVGH54T3Ok"
     },
     {
+      "video_id": "ICh__ZpX04E",
+      "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
+      "published_at": "2026-11-14T15:42:43Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 93,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
+    },
+    {
       "video_id": "OkC4MB7Dc9A",
       "title": "みなとみらいミラー2026、クリスマスもドラクエFFコラボ",
       "published_at": "2026-11-13T10:40:14Z",
@@ -554,17 +588,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
-    },
-    {
-      "video_id": "ICh__ZpX04E",
-      "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
-      "published_at": "2026-11-14T15:42:43Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 82,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
     },
     {
       "video_id": "Sopuj8Twod8",
@@ -627,7 +650,7 @@
       "published_at": "2026-11-13T04:30:31Z",
       "duration_iso": "PT19S",
       "duration_seconds": 19,
-      "views": 35,
+      "views": 36,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
@@ -719,17 +742,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
-    },
-    {
-      "video_id": "sP9_GjXxC9s",
-      "title": "時限解放の智を解き明かせ！ホブリング・クロウ奇踪録の謎",
-      "published_at": "2026-11-14T17:02:54Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
     }
   ],
   "video_data_scope": {
