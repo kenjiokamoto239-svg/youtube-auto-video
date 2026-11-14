@@ -168,7 +168,7 @@ jobs:
                   cache_discovery=False
               )
               channel_response = youtube.channels().list(
-                  part="contentDetails",
+              part="id,snippet,contentDetails",
                   mine=True
               ).execute()
               channel_items = channel_response.get("items", [])
@@ -176,6 +176,20 @@ jobs:
                   raise RuntimeError(
                       "認証されたYouTubeチャンネルを取得できませんでした"
                   )
+              channel_id = channel_items[0].get("id", "")
+              channel_title = (
+                  channel_items[0]
+                  .get("snippet", {})
+                  .get("title", "")
+              )
+
+              if not channel_id:
+                  raise RuntimeError(
+                      "認証されたYouTubeチャンネルIDを取得できませんでした"
+                  )
+
+              print("ANALYTICS CHANNEL ID:", channel_id)
+              print("ANALYTICS CHANNEL TITLE:", channel_title)
               uploads_id = (
                   channel_items[0]
                   .get("contentDetails", {})
@@ -350,6 +364,8 @@ jobs:
           # 改善用データを作成
           # --------------------------------------------------
           feedback = {
+              "channel_id": channel_id,
+              "channel_title": channel_title,
               "updated_at_jst": now.isoformat(),
               "data_sources": {
                   "daily_channel_analytics": "YouTube Analytics API",
