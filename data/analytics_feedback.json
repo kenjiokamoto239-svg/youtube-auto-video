@@ -1,26 +1,16 @@
 {
-  "updated_at_jst": "2026-11-14T05:46:58.836362+09:00",
+  "updated_at_jst": "2026-11-15T03:57:32.906488+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-07",
-    "end": "2026-11-13",
+    "start": "2026-11-08",
+    "end": "2026-11-14",
     "timezone": "Asia/Tokyo"
   },
-  "daily_data_count": 5,
+  "daily_data_count": 4,
   "daily_data": [
-    {
-      "day": "2026-11-07",
-      "views": 3222,
-      "watch_minutes": 339.0,
-      "average_view_seconds": 16.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 0,
-      "likes": 5,
-      "comments": 0
-    },
     {
       "day": "2026-11-08",
       "views": 2440,
@@ -65,14 +55,14 @@
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-08",
       "2026-11-09",
-      "2026-11-10"
+      "2026-11-10",
+      "2026-11-11"
     ],
     "recent_3_days": [
-      "2026-11-11",
       "2026-11-12",
-      "2026-11-13"
+      "2026-11-13",
+      "2026-11-14"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -96,7 +86,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1114,
+      "views": 1121,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -107,7 +97,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1088,
+      "views": 1089,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -151,7 +141,7 @@
       "published_at": "2026-11-08T18:18:32Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1019,
+      "views": 1020,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8aEp2tKe_7k"
@@ -179,15 +169,15 @@
       "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
     },
     {
-      "video_id": "bL71URbVkhY",
-      "title": "なぜ「跳ね橋」だけ改善されなかったか、その謎解くべき",
-      "published_at": "2026-11-04T18:35:52Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 990,
-      "likes": 1,
+      "video_id": "IYDJl90fXt0",
+      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
+      "published_at": "2026-11-04T14:01:11Z",
+      "duration_iso": "PT39S",
+      "duration_seconds": 39,
+      "views": 992,
+      "likes": 3,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
+      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
     }
   ],
   "all_videos": [
@@ -208,7 +198,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1114,
+      "views": 1121,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -219,7 +209,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1088,
+      "views": 1089,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -263,7 +253,7 @@
       "published_at": "2026-11-08T18:18:32Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 1019,
+      "views": 1020,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=8aEp2tKe_7k"
@@ -291,6 +281,17 @@
       "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
     },
     {
+      "video_id": "IYDJl90fXt0",
+      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
+      "published_at": "2026-11-04T14:01:11Z",
+      "duration_iso": "PT39S",
+      "duration_seconds": 39,
+      "views": 992,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
+    },
+    {
       "video_id": "bL71URbVkhY",
       "title": "なぜ「跳ね橋」だけ改善されなかったか、その謎解くべき",
       "published_at": "2026-11-04T18:35:52Z",
@@ -300,17 +301,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
-    },
-    {
-      "video_id": "IYDJl90fXt0",
-      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
-      "published_at": "2026-11-04T14:01:11Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 989,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
     },
     {
       "video_id": "D5e6pXD4PVs",
@@ -335,12 +325,23 @@
       "url": "https://www.youtube.com/watch?v=A11cM79AHAI"
     },
     {
+      "video_id": "zth0xQAIEJ4",
+      "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
+      "published_at": "2026-11-13T07:54:11Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 932,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
+    },
+    {
       "video_id": "mAOg3cBf3hU",
       "title": "名探偵コナン30周年、赤レンガ倉庫の神秘的美術展",
       "published_at": "2026-11-05T03:14:40Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 923,
+      "views": 926,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
@@ -368,23 +369,12 @@
       "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
     },
     {
-      "video_id": "zth0xQAIEJ4",
-      "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
-      "published_at": "2026-11-13T07:54:11Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 846,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
-    },
-    {
       "video_id": "JUgWlPUBXkE",
       "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
       "published_at": "2026-11-09T21:28:38Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 778,
+      "views": 779,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
@@ -410,17 +400,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=auBHSp_7fAI"
-    },
-    {
-      "video_id": "vSjKWCFGzF4",
-      "title": "新モンスター発表、ドラクエファンの期待を裏切る驚き",
-      "published_at": "2026-11-03T22:14:41Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
-      "views": 509,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=vSjKWCFGzF4"
     },
     {
       "video_id": "8W0a67AWcH8",
@@ -500,6 +479,17 @@
       "url": "https://www.youtube.com/watch?v=3RtQyTCOe-Y"
     },
     {
+      "video_id": "PmlEicZPYf4",
+      "title": "DQ」＆「FF」横浜でコラボ、期間限定イベント始まります！",
+      "published_at": "2026-11-12T21:25:12Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 134,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=PmlEicZPYf4"
+    },
+    {
       "video_id": "4nfxHcV5jWA",
       "title": "猫猫の新旅路、家族の外で冒険の始まり",
       "published_at": "2026-11-06T03:13:29Z",
@@ -511,23 +501,12 @@
       "url": "https://www.youtube.com/watch?v=4nfxHcV5jWA"
     },
     {
-      "video_id": "PmlEicZPYf4",
-      "title": "DQ」＆「FF」横浜でコラボ、期間限定イベント始まります！",
-      "published_at": "2026-11-12T21:25:12Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 133,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=PmlEicZPYf4"
-    },
-    {
       "video_id": "QmZERK6UlAI",
       "title": "関西ジュニアのUSJステージ、細部にまでこだわりの“一瞬の輝き”",
       "published_at": "2026-11-08T12:59:35Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 129,
+      "views": 131,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
@@ -542,6 +521,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
+    },
+    {
+      "video_id": "UZ9jFje6thU",
+      "title": "灯良の秘密、脱出へ",
+      "published_at": "2026-11-13T18:45:23Z",
+      "duration_iso": "PT20S",
+      "duration_seconds": 20,
+      "views": 97,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
     },
     {
       "video_id": "IiVGH54T3Ok",
@@ -560,10 +550,21 @@
       "published_at": "2026-11-13T10:40:14Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 88,
-      "likes": 0,
+      "views": 92,
+      "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
+    },
+    {
+      "video_id": "ICh__ZpX04E",
+      "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
+      "published_at": "2026-11-14T15:42:43Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 82,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
     },
     {
       "video_id": "Sopuj8Twod8",
@@ -575,17 +576,6 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Sopuj8Twod8"
-    },
-    {
-      "video_id": "UZ9jFje6thU",
-      "title": "灯良の秘密、脱出へ",
-      "published_at": "2026-11-13T18:45:23Z",
-      "duration_iso": "PT20S",
-      "duration_seconds": 20,
-      "views": 66,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
     },
     {
       "video_id": "f1ctisC2Mxo",
@@ -632,15 +622,15 @@
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
     },
     {
-      "video_id": "JRkOayjIc8w",
-      "title": "エターニア」の特定のキャラクターが特定のダンジョンにしか行けない理由、あなたは探求しますか？",
-      "published_at": "2026-11-04T00:32:07Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 38,
+      "video_id": "lZhAn-jT-70",
+      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
+      "published_at": "2026-11-13T04:30:31Z",
+      "duration_iso": "PT19S",
+      "duration_seconds": 19,
+      "views": 35,
       "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=JRkOayjIc8w"
+      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
     },
     {
       "video_id": "HEcUQ2imAHw",
@@ -648,21 +638,10 @@
       "published_at": "2026-11-10T04:34:35Z",
       "duration_iso": "PT34S",
       "duration_seconds": 34,
-      "views": 36,
+      "views": 34,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=HEcUQ2imAHw"
-    },
-    {
-      "video_id": "lZhAn-jT-70",
-      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
-      "published_at": "2026-11-13T04:30:31Z",
-      "duration_iso": "PT19S",
-      "duration_seconds": 19,
-      "views": 32,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
     },
     {
       "video_id": "gQSnQcQ9rAY",
@@ -740,6 +719,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
+    },
+    {
+      "video_id": "sP9_GjXxC9s",
+      "title": "時限解放の智を解き明かせ！ホブリング・クロウ奇踪録の謎",
+      "published_at": "2026-11-14T17:02:54Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
     }
   ],
   "video_data_scope": {
