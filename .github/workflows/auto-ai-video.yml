@@ -2223,7 +2223,7 @@ jobs:
           best_score = len(quality_issues)
 
           # 無意味な修正の繰り返しを防ぐ
-          while quality_issues and repair_count < 5:
+          while quality_issues and repair_count < 8:
 
               repair_count += 1
 
@@ -2292,8 +2292,8 @@ jobs:
                       "prompt": repair_prompt,
                       "stream": False,
                       "options": {
-                          "temperature": 0.25,
-                          "num_predict": 765
+                      "temperature": 0.25,
+                      "num_predict": 1024
                       }
                   },
                   timeout=900
