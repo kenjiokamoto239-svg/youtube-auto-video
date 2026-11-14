@@ -144,7 +144,7 @@ jobs:
           import xml.etree.ElementTree as ET
           import random
 
-          genre = "雑学・心理学"
+          genre = "雑学"
 
           rss_queries = [
               # ① 動物・生き物の雑学
