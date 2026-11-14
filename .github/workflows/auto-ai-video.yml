@@ -3000,7 +3000,7 @@ jobs:
                       "stream": False,
                       "options": {
                           "temperature": 0.0,
-                          "num_predict": 256
+                          "num_predict": 768
                       }
 
                   },
