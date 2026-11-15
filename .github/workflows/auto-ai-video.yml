@@ -2804,15 +2804,44 @@ jobs:
               ]
 
               
-              # 出典の文章をプログラム側で抽出する
-              source_quote_candidates = [
-                  clean_text(part)
-                  for part in re.split(
-                      r"(?<=[。！？!?])",
-                      source_context
+              # 出典の文章を段落・文単位で抽出する
+              source_text_for_check = source_context
+
+              # RSS記事本文だけを優先して取り出す
+              if "記事本文：" in source_context:
+                  source_text_for_check = (
+                      source_context.split("記事本文：", 1)[1]
+                      .split("参考元URL：", 1)[0]
                   )
-                  if 10 <= len(clean_text(part)) <= 180
-              ]
+
+              source_quote_candidates = []
+
+              source_blocks = re.split(
+                  r"[\r\n]+|(?<=[。！？!?])",
+                  source_text_for_check
+              )
+
+              for block in source_blocks:
+                  part = clean_text(block)
+
+                  if len(part) < 10:
+                      continue
+
+                  if len(part) <= 180:
+                      source_quote_candidates.append(part)
+
+                  else:
+                      # 長い段落も捨てずに分割する
+                      for start in range(0, len(part), 150):
+                          chunk = part[start:start + 150].strip()
+
+                          if len(chunk) >= 10:
+                              source_quote_candidates.append(chunk)
+
+              # 重複を除去
+              source_quote_candidates = list(
+                  dict.fromkeys(source_quote_candidates)
+              )
 
               # テーマと台本に関係する出典を優先する
               topic_terms = list(dict.fromkeys(
