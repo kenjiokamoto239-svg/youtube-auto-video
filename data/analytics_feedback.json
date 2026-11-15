@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-15T08:25:56.884840+09:00",
+  "updated_at_jst": "2026-11-16T04:35:57.123151+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-08",
-    "end": "2026-11-14",
+    "start": "2026-11-09",
+    "end": "2026-11-15",
     "timezone": "Asia/Tokyo"
   },
-  "daily_data_count": 5,
+  "daily_data_count": 4,
   "daily_data": [
-    {
-      "day": "2026-11-08",
-      "views": 2440,
-      "watch_minutes": 399.0,
-      "average_view_seconds": 22.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 1,
-      "likes": 4,
-      "comments": 1
-    },
     {
       "day": "2026-11-09",
       "views": 4182,
@@ -67,20 +57,31 @@
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-09",
       "2026-11-10",
-      "2026-11-11"
+      "2026-11-11",
+      "2026-11-12"
     ],
     "recent_3_days": [
-      "2026-11-12",
       "2026-11-13",
-      "2026-11-14"
+      "2026-11-14",
+      "2026-11-15"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
     "trend": "比較データ不足"
   },
   "top_videos_by_lifetime_views": [
+    {
+      "video_id": "ZwV_XMcBEEA",
+      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
+      "published_at": "2026-11-09T19:33:37Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 1133,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+    },
     {
       "video_id": "sYj7_xw_4eg",
       "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
@@ -93,15 +94,15 @@
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
     },
     {
-      "video_id": "ZwV_XMcBEEA",
-      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
-      "published_at": "2026-11-09T19:33:37Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
-      "views": 1121,
-      "likes": 0,
+      "video_id": "zth0xQAIEJ4",
+      "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
+      "published_at": "2026-11-13T07:54:11Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1109,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+      "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
     {
       "video_id": "BUf6fTLqrZQ",
@@ -179,20 +180,20 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
-    },
-    {
-      "video_id": "IYDJl90fXt0",
-      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
-      "published_at": "2026-11-04T14:01:11Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 992,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
     }
   ],
   "all_videos": [
+    {
+      "video_id": "ZwV_XMcBEEA",
+      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
+      "published_at": "2026-11-09T19:33:37Z",
+      "duration_iso": "PT32S",
+      "duration_seconds": 32,
+      "views": 1133,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+    },
     {
       "video_id": "sYj7_xw_4eg",
       "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
@@ -205,15 +206,15 @@
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
     },
     {
-      "video_id": "ZwV_XMcBEEA",
-      "title": "なぜ宮野真守と早見沙織が突然卒業を表明するのか？",
-      "published_at": "2026-11-09T19:33:37Z",
-      "duration_iso": "PT32S",
-      "duration_seconds": 32,
-      "views": 1121,
-      "likes": 0,
+      "video_id": "zth0xQAIEJ4",
+      "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
+      "published_at": "2026-11-13T07:54:11Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1109,
+      "likes": 2,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
+      "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
     {
       "video_id": "BUf6fTLqrZQ",
@@ -337,23 +338,12 @@
       "url": "https://www.youtube.com/watch?v=A11cM79AHAI"
     },
     {
-      "video_id": "zth0xQAIEJ4",
-      "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
-      "published_at": "2026-11-13T07:54:11Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 932,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
-    },
-    {
       "video_id": "mAOg3cBf3hU",
       "title": "名探偵コナン30周年、赤レンガ倉庫の神秘的美術展",
       "published_at": "2026-11-05T03:14:40Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 926,
+      "views": 929,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
@@ -381,6 +371,17 @@
       "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
     },
     {
+      "video_id": "KNaD0cxIQNg",
+      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
+      "published_at": "2026-11-15T16:07:32Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 841,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
+    },
+    {
       "video_id": "JUgWlPUBXkE",
       "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
       "published_at": "2026-11-09T21:28:38Z",
@@ -397,21 +398,10 @@
       "published_at": "2026-11-05T17:13:47Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 730,
+      "views": 732,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1Ks1iTKB_Zg"
-    },
-    {
-      "video_id": "auBHSp_7fAI",
-      "title": "プレイヤーの選択で変わる！ドラクエのモンスター設定",
-      "published_at": "2026-11-04T05:27:32Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 584,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=auBHSp_7fAI"
     },
     {
       "video_id": "8W0a67AWcH8",
@@ -441,7 +431,7 @@
       "published_at": "2026-11-11T22:02:48Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 293,
+      "views": 261,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ToRnJM0IIV0"
@@ -469,15 +459,15 @@
       "url": "https://www.youtube.com/watch?v=b_O7TyBkZ6g"
     },
     {
-      "video_id": "VHE-u9wXsC0",
-      "title": "モバイル向け最適化、キャラクター表現の realism 上げて",
-      "published_at": "2026-11-04T03:01:46Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 201,
-      "likes": 2,
+      "video_id": "MPXrZf26Jk0",
+      "title": "『MONOMOON』本日（11/12）発売の新作は、アクションアドベンチャー『MONOMO",
+      "published_at": "2026-11-14T23:35:04Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 192,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=VHE-u9wXsC0"
+      "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
     },
     {
       "video_id": "3RtQyTCOe-Y",
@@ -496,7 +486,7 @@
       "published_at": "2026-11-14T17:02:54Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 162,
+      "views": 165,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
@@ -507,7 +497,7 @@
       "published_at": "2026-11-12T21:25:12Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 134,
+      "views": 136,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PmlEicZPYf4"
@@ -529,7 +519,7 @@
       "published_at": "2026-11-08T12:59:35Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 131,
+      "views": 133,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
@@ -544,6 +534,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
+    },
+    {
+      "video_id": "ICh__ZpX04E",
+      "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
+      "published_at": "2026-11-14T15:42:43Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 97,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
     },
     {
       "video_id": "UZ9jFje6thU",
@@ -568,23 +569,12 @@
       "url": "https://www.youtube.com/watch?v=IiVGH54T3Ok"
     },
     {
-      "video_id": "ICh__ZpX04E",
-      "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
-      "published_at": "2026-11-14T15:42:43Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 93,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
-    },
-    {
       "video_id": "OkC4MB7Dc9A",
       "title": "みなとみらいミラー2026、クリスマスもドラクエFFコラボ",
       "published_at": "2026-11-13T10:40:14Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 92,
+      "views": 93,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
@@ -634,6 +624,17 @@
       "url": "https://www.youtube.com/watch?v=WGm3B4wM_d8"
     },
     {
+      "video_id": "lZhAn-jT-70",
+      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
+      "published_at": "2026-11-13T04:30:31Z",
+      "duration_iso": "PT19S",
+      "duration_seconds": 19,
+      "views": 41,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
+    },
+    {
       "video_id": "v2Jj7qxskOc",
       "title": "マリオガチャ、ペットボトルの秘密",
       "published_at": "2026-11-05T18:42:20Z",
@@ -643,17 +644,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
-    },
-    {
-      "video_id": "lZhAn-jT-70",
-      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
-      "published_at": "2026-11-13T04:30:31Z",
-      "duration_iso": "PT19S",
-      "duration_seconds": 19,
-      "views": 36,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
     },
     {
       "video_id": "HEcUQ2imAHw",
@@ -700,17 +690,6 @@
       "url": "https://www.youtube.com/watch?v=YB0-UlZNat0"
     },
     {
-      "video_id": "QIZvyr2AX9c",
-      "title": "アマゾンジャパン、価格透明性強化へ",
-      "published_at": "2026-11-11T17:04:42Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 2,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
-    },
-    {
       "video_id": "Y6O3jc2ZG5o",
       "title": "中退生の目から見た、驚くべき日本の習慣",
       "published_at": "2026-11-08T06:24:34Z",
@@ -720,6 +699,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Y6O3jc2ZG5o"
+    },
+    {
+      "video_id": "QIZvyr2AX9c",
+      "title": "アマゾンジャパン、価格透明性強化へ",
+      "published_at": "2026-11-11T17:04:42Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
     },
     {
       "video_id": "Snz0U5R89t8",
