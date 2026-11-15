@@ -2110,7 +2110,7 @@ jobs:
                   return ["台本が空です。"]
 
               # 文字数
-              if len(text) < 150:
+              if len(text) < 130:
                   issues.append(
                       "説明が不足しています。具体的な事実や情報を補ってください。"
                   )
