@@ -83,6 +83,7 @@ jobs:
           python - <<'PYTHON'
           import json
           import random
+          import time
           import re
           from datetime import datetime
           from pathlib import Path
@@ -217,7 +218,6 @@ jobs:
               "ドラゴンクエスト ファイナルファンタジー コラボ 横浜 みなとみらい",
               "ドラゴンクエスト アイランド ドラゴンクエストモンスターズ4 コラボ",
               "ディズニー キャラクター 意外な設定",
-              "site:mhlw.go.jp 介護給付費分科会 11月16日",
               "介護報酬 2027年度 改定 処遇改善 生産性向上",
           ]
 
@@ -225,6 +225,8 @@ jobs:
           seen_titles = set()
 
           random.shuffle(rss_queries)
+          rss_queries = rss_queries[:16]
+          print("RSS QUERY LIMIT:", len(rss_queries))
 
           for query in rss_queries:
               rss_url = (
@@ -236,14 +238,59 @@ jobs:
               try:
                   print("RSS取得:", query)
 
-                  response = requests.get(
-                      rss_url,
-                      timeout=20,
-                      headers={
-                          "User-Agent": "Mozilla/5.0"
-                      }
-                  )
-                  response.raise_for_status()
+                  response = None
+
+                  for attempt in range(3):
+                      try:
+                          response = requests.get(
+                              rss_url,
+                              timeout=20,
+                              headers={
+                                  "User-Agent": "Mozilla/5.0"
+                              }
+                          )
+
+                          if (
+                              response.status_code
+                              in (429, 500, 502, 503, 504)
+                              and attempt < 2
+                          ):
+                              wait_seconds = 2 ** (attempt + 1)
+
+                              print(
+                                  "RSS RETRY:",
+                                  response.status_code,
+                                  "attempt",
+                                  attempt + 1,
+                                  "wait",
+                                  wait_seconds
+                              )
+
+                              time.sleep(wait_seconds)
+                              continue
+
+                          response.raise_for_status()
+                          break
+
+                      except requests.RequestException as retry_error:
+                          if attempt >= 2:
+                              raise
+
+                          wait_seconds = 2 ** (attempt + 1)
+
+                          print(
+                              "RSS RETRY:",
+                              str(retry_error)[:150],
+                              "attempt",
+                              attempt + 1,
+                              "wait",
+                              wait_seconds
+                          )
+
+                          time.sleep(wait_seconds)
+
+                  if response is None:
+                      continue
 
                   root = ET.fromstring(response.content)
 
@@ -302,6 +349,98 @@ jobs:
           now = datetime.now(timezone.utc)
           scored_articles = []
           max_article_age_hours = 24 * 30
+
+          # 過去の実績から、視聴が伸びたテーマに小さな加点を行う
+          channel_interest_terms = []
+
+          try:
+              feedback_path = Path("data/analytics_feedback.json")
+              feedback = json.loads(
+                  feedback_path.read_text(encoding="utf-8")
+              )
+
+              feedback_videos = feedback.get("all_videos", [])
+              ranked_feedback_videos = []
+
+              for video in feedback_videos:
+                  video_title = str(
+                      video.get("title") or ""
+                  ).strip()
+                  published_at = str(
+                      video.get("published_at") or ""
+                  ).strip()
+                  views = int(video.get("views") or 0)
+
+                  if not video_title or not published_at or views <= 0:
+                      continue
+
+                  try:
+                      published_dt = datetime.fromisoformat(
+                          published_at.replace("Z", "+00:00")
+                      )
+
+                      if published_dt.tzinfo is None:
+                          published_dt = published_dt.replace(
+                              tzinfo=timezone.utc
+                          )
+
+                      age_hours = (
+                          now - published_dt.astimezone(timezone.utc)
+                      ).total_seconds() / 3600
+
+                  except (TypeError, ValueError, OverflowError):
+                      continue
+
+                  if age_hours < 0:
+                      continue
+
+                  # 12時間未満の初速を平滑化する
+                  views_per_hour = views / max(age_hours, 12)
+
+                  ranked_feedback_videos.append(
+                      (views_per_hour, video_title)
+                  )
+
+              ranked_feedback_videos.sort(
+                  key=lambda item: item[0],
+                  reverse=True
+              )
+
+              stop_terms = {
+                  "なぜ", "理由", "仕組み", "秘密", "意外", "事実",
+                  "判明", "驚き", "最新", "新作", "新情報", "新発表",
+                  "発表", "公開", "開催", "登場", "情報", "イベント",
+                  "コラボ", "まとめ", "速報", "解説", "本日", "今日",
+                  "明日", "日本", "世界", "人気", "動画", "国民的",
+                  "原作者", "実在", "人物", "先生", "キャラクター",
+                  "周年"
+              }
+
+              for _, video_title in ranked_feedback_videos[:12]:
+                  terms = re.findall(
+                      r"[一-龯ぁ-んァ-ヶーA-Za-z0-9]{2,}",
+                      video_title
+                  )
+
+                  for term in terms:
+                      if (
+                          term not in stop_terms
+                          and term not in channel_interest_terms
+                      ):
+                          channel_interest_terms.append(term)
+
+              channel_interest_terms = channel_interest_terms[:40]
+
+              print(
+                  "CHANNEL FIT TERMS:",
+                  channel_interest_terms
+              )
+
+          except Exception as e:
+              print(
+                  "CHANNEL FEEDBACK UNAVAILABLE:",
+                  str(e)[:200]
+              )
 
           for item in articles:
               title = (item.get("title") or "").strip()
