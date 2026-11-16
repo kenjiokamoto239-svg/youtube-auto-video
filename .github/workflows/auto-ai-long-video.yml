@@ -40,7 +40,7 @@ jobs:
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
-          python -m pip install requests feedparser pillow edge-tts google-api-python-client google-auth
+          python -m pip install requests pillow edge-tts google-api-python-client google-auth
 
       - name: Start Ollama
         run: |
@@ -54,23 +54,20 @@ jobs:
           done
           ollama pull "$OLLAMA_MODEL"
 
-      - name: Select long-video topic
+      - name: Generate evergreen long video
         run: |
           mkdir -p work
-          python .github/workflows/trend_strategy.py
-          test -s work/trend_plan.json
-          cat work/trend_plan.json
 
-      - name: Generate 16:9 long video
-        run: |
           cat > generate_long_video.py <<'PYTHON'
           import asyncio
+          import datetime
           import json
           import os
           import re
           import subprocess
           import textwrap
           from pathlib import Path
+          from collections import Counter
 
           import requests
           import edge_tts
@@ -80,43 +77,112 @@ jobs:
           WORK.mkdir(exist_ok=True)
 
           MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:3b")
-          PLAN = json.loads(
-              (WORK / "trend_plan.json").read_text(encoding="utf-8")
-          )
 
-          topic = str(PLAN.get("topic", "")).strip()
-          genre = str(PLAN.get("genre", "雑学")).strip()
+          # ニュースではなく、長く見られる雑学テーマ
+          TOPICS = [
+              ("血液型・星座", "血液型による性格診断はどこまで本当？楽しく知るためのポイント"),
+              ("血液型・星座", "星座占いはなぜ当たっているように感じるのか"),
+              ("血液型・星座", "12星座の恋愛傾向を楽しむための基礎知識"),
+              ("血液型・星座", "誕生日占いと性格の関係をどう楽しめばいい？"),
+              ("血液型・星座", "血液型と相性の話で知っておきたい意外な事実"),
+              ("栄養・健康", "タンパク質が身体に必要な本当の理由"),
+              ("栄養・健康", "ビタミンCにはどんな働きがある？"),
+              ("栄養・健康", "鉄分が不足すると身体に何が起こる？"),
+              ("栄養・健康", "カルシウムは骨以外にも必要なの？"),
+              ("栄養・健康", "朝食を食べることにはどんな意味がある？"),
+              ("栄養・健康", "食物繊維を摂ると身体にどんな変化がある？"),
+              ("栄養・健康", "水分補給が身体に欠かせない理由"),
+              ("心理・しぐさ", "腕を組むしぐさにはどんな心理が隠れている？"),
+              ("心理・しぐさ", "人はなぜ緊張すると早口になるのか"),
+              ("心理・しぐさ", "第一印象はどのように作られる？"),
+              ("心理・しぐさ", "目線や表情から相手の気持ちは分かるのか"),
+              ("心理・しぐさ", "人がつい嘘をついてしまう心理とは"),
+              ("心理・しぐさ", "なぜ人は他人の目が気になるのか"),
+              ("心理・しぐさ", "人はなぜ同じ失敗を繰り返してしまうのか"),
+              ("恋愛", "好きな人との距離を自然に縮める会話のコツ"),
+              ("恋愛", "好印象を持たれやすい人の会話の特徴"),
+              ("恋愛", "初デートで大切にしたい5つのこと"),
+              ("恋愛", "好きな人に自分を意識してもらう方法"),
+              ("恋愛", "長続きするカップルに共通するコミュニケーション"),
+              ("恋愛", "相手の気持ちを尊重しながら好意を伝える方法"),
+              ("人間関係・雑学", "なぜ人は夢を見るのか"),
+              ("人間関係・雑学", "なぜ人はあくびをすると他人にうつるのか"),
+              ("人間関係・雑学", "笑うと気持ちが楽になるのはなぜ？"),
+              ("人間関係・雑学", "記憶に残りやすいことと忘れやすいことの違い"),
+              ("人間関係・雑学", "なぜ人は初対面で相手の印象を決めるのか"),
+              ("人間関係・雑学", "集中力が続かないときに試したい工夫"),
+              ("人間関係・雑学", "習慣が身につく仕組みとは？"),
+              ("人間関係・雑学", "人はなぜ懐かしい思い出に心を動かされるのか"),
+              ("人間関係・雑学", "褒め上手な人が自然にしていること"),
+              ("人間関係・雑学", "なぜ人はついスマホを見てしまうのか")
+          ]
 
-          if not topic:
-              raise RuntimeError("動画テーマが空です")
+          today = datetime.datetime.now(
+              datetime.timezone(datetime.timedelta(hours=9))
+          ).date()
 
-          print("LONG VIDEO TOPIC:", topic)
-          print("GENRE:", genre)
+          # 日付を使って毎日違うテーマを選択
+          day_number = today.toordinal()
+          genre, topic = TOPICS[day_number % len(TOPICS)]
 
+          print("VIDEO DATE:", today.isoformat())
+          print("VIDEO GENRE:", genre)
+          print("VIDEO TOPIC:", topic)
+
+          # 台本は、具体例を中心に自然な日本語で作成
           prompt = f"""
-          あなたは日本語YouTube長尺動画の構成作家です。
+          あなたは日本語YouTube長尺動画のプロの構成作家です。
 
-          テーマ：
+          今回の動画テーマ：
           {topic}
 
           ジャンル：
           {genre}
 
-          約4分間のナレーション動画の台本を作成してください。
+          約4分の、視聴者が最後まで見たくなるナレーション台本を書いてください。
 
-          必ず守ること：
-          ・本文は日本語で約1300〜1700文字
-          ・最初の15秒で視聴者の興味を引く
-          ・最初に結論や疑問を提示する
-          ・内容を3〜4つの章に分けて自然につなぐ
-          ・具体例を入れて分かりやすく説明する
-          ・同じ説明を繰り返さない
-          ・最後に要点をまとめる
-          ・視聴者に問いかける自然な締め方にする
-          ・根拠のない数字、架空の研究、架空の専門家を作らない
-          ・確認できない情報は断定しない
-          ・見出し、番号、タイトル、前置き、注釈は出力しない
-          ・ナレーションとして読み上げる本文だけを出力する
+          【構成】
+          1. 最初の15秒：意外な事実、疑問、興味を引く問いかけ
+          2. 前半：テーマの基本を分かりやすく説明
+          3. 中盤：具体例や日常での場面を紹介
+          4. 後半：意外なポイントや実践できる知識
+          5. 最後：要点をまとめ、自然に締める
+
+          【絶対に守ること】
+          ・日本語で1300〜1700文字程度
+          ・実在しない人物、職業、研究、実験、統計を作らない
+          ・架空の専門家や架空のエピソードを事実として紹介しない
+          ・同じ説明や結論を何度も繰り返さない
+          ・「注目されている理由の一つ」などの中身のない表現を繰り返さない
+          ・具体的な説明、例、理由を必ず入れる
+          ・不確かなことは断定しない
+          ・難しい専門用語には簡単な説明を加える
+          ・視聴者に話しかける自然な日本語にする
+          ・「こんにちは、皆さま」などの長い挨拶は不要
+          ・タイトル、章番号、見出し、前置きは出さない
+          ・ナレーション本文だけを出力する
+
+          【ジャンル別の注意】
+          血液型・星座：
+          性格や相性を科学的事実と断定しない。
+          占いやエンターテインメントとして紹介する。
+
+          栄養・健康：
+          栄養素の働きを正確に説明する。
+          病気が治る、必ず痩せるなどの誇張は禁止。
+          医療行為の代わりになるような説明は禁止。
+
+          心理・しぐさ：
+          ひとつのしぐさだけで相手の本心を断定しない。
+          状況や個人差があることを説明する。
+
+          恋愛：
+          相手を操作したり、嫌がることを強要したりしない。
+          相手の意思や気持ちを尊重した方法を紹介する。
+
+          人間関係・雑学：
+          日常で役立つ具体的な知識を中心にする。
+          根拠のない心理学用語や数字を作らない。
           """
 
           response = requests.post(
@@ -126,8 +192,8 @@ jobs:
                   "prompt": prompt,
                   "stream": False,
                   "options": {
-                      "temperature": 0.7,
-                      "num_predict": 2200
+                      "temperature": 0.55,
+                      "num_predict": 2400
                   }
               },
               timeout=2400
@@ -135,29 +201,94 @@ jobs:
           response.raise_for_status()
 
           script = response.json().get("response", "").strip()
-          script = re.sub(r"<think>.*?</think>", "", script, flags=re.S)
-          script = re.sub(r"```.*?```", "", script, flags=re.S)
-          script = re.sub(r"^\s*台本\s*[:：]?", "", script)
+          script = re.sub(
+              r"<think>.*?</think>", "", script, flags=re.S
+          )
+          script = re.sub(
+              r"```.*?```", "", script, flags=re.S
+          )
+          script = re.sub(
+              r"^(台本|ナレーション|本文)\s*[:：]?",
+              "", script
+          ).strip()
 
+          # 台本の基本品質チェック
           if len(script) < 1000:
               raise RuntimeError(
-                  f"台本が短すぎます: {len(script)}文字"
+                  f"台本が短すぎます: {len(script)}文字。公開を中止します。"
               )
 
           if len(script) > 2600:
-              script = script[:2600]
+              raise RuntimeError(
+                  f"台本が長すぎます: {len(script)}文字。公開を中止します。"
+              )
+
+          sentences = [
+              x.strip()
+              for x in re.split(r"(?<=[。！？])", script)
+              if x.strip()
+          ]
+
+          if len(sentences) < 12:
+              raise RuntimeError(
+                  "文章の数が少なすぎます。台本を確認してください。"
+              )
+
+          # 同じ文章が何度も出ていないか確認
+          normalized = [
+              re.sub(r"\s+", "", s)
+              for s in sentences
+          ]
+          duplicates = [
+              s for s, count in Counter(normalized).items()
+              if count >= 2 and len(s) >= 15
+          ]
+
+          if duplicates:
+              raise RuntimeError(
+                  "同じ文章の繰り返しを検出しました。公開を中止します。"
+              )
+
+          # 中身のない定型句の連続を検出
+          filler_phrases = [
+              "理由の一つです",
+              "理由の一つにあります",
+              "驚くべき人生",
+              "深く理解することができます",
+              "知識を磨きました"
+          ]
+
+          for phrase in filler_phrases:
+              count = script.count(phrase)
+              if count >= 3:
+                  raise RuntimeError(
+                      f"不自然な表現の繰り返し: {phrase}"
+                  )
+
+          # 文章の内容がほぼ同じになっていないか確認
+          if script.count("彼の") > 15:
+              raise RuntimeError(
+                  "不自然な人物紹介の繰り返しを検出しました。"
+              )
+
+          if script.count("ナッシュ・ウォルターズ") >= 2:
+              raise RuntimeError(
+                  "過去の不自然な人物名が混入しています。"
+              )
 
           (WORK / "script.txt").write_text(
               script, encoding="utf-8"
           )
           (WORK / "title.txt").write_text(
-              topic[:90], encoding="utf-8"
+              topic, encoding="utf-8"
           )
           (WORK / "category.txt").write_text(
               genre, encoding="utf-8"
           )
 
+          print("SCRIPT QUALITY CHECK: PASSED")
           print("SCRIPT CHARACTERS:", len(script))
+          print("SCRIPT SENTENCES:", len(sentences))
 
           async def make_voice():
               communicate = edge_tts.Communicate(
@@ -172,7 +303,7 @@ jobs:
 
           audio = WORK / "voice.mp3"
           if not audio.exists() or audio.stat().st_size < 10000:
-              raise RuntimeError("音声ファイルの生成に失敗しました")
+              raise RuntimeError("音声生成に失敗しました")
 
           probe = subprocess.run(
               [
@@ -185,17 +316,16 @@ jobs:
               text=True,
               check=True
           )
-          duration = float(probe.stdout.strip())
 
-          print("AUDIO DURATION:", round(duration, 1), "seconds")
+          duration = float(probe.stdout.strip())
+          print("AUDIO DURATION:", round(duration, 1))
 
           if duration < 150 or duration > 360:
               raise RuntimeError(
-                  f"音声の長さが想定外です: {duration:.1f}秒。"
-                  "約4分の台本になるよう調整が必要です。"
+                  f"音声の長さが想定外です: {duration:.1f}秒"
               )
 
-          # 横型16:9の背景を生成
+          # 16:9背景画像
           width, height = 1280, 720
           bg = Image.new("RGB", (width, height))
           pixels = bg.load()
@@ -235,13 +365,13 @@ jobs:
 
           draw.text(
               (100, 115),
-              genre[:20],
+              genre,
               font=small_font,
               fill=(255, 210, 100)
           )
 
           title_lines = textwrap.wrap(topic, width=19)[:3]
-          y = 270 - (len(title_lines) * 38)
+          y = 270 - len(title_lines) * 38
 
           for line in title_lines:
               draw.text(
@@ -263,18 +393,12 @@ jobs:
 
           bg.save(WORK / "background.jpg", quality=95)
 
-          # 字幕を音声時間に合わせて作成
+          # 字幕作成
           def ass_time(seconds):
               h = int(seconds // 3600)
               m = int((seconds % 3600) // 60)
               s = seconds % 60
               return f"{h}:{m:02d}:{s:05.2f}"
-
-          sentences = re.split(
-              r"(?<=[。！？])",
-              script
-          )
-          sentences = [x.strip() for x in sentences if x.strip()]
 
           chunks = []
           for sentence in sentences:
@@ -326,7 +450,7 @@ jobs:
               encoding="utf-8-sig"
           )
 
-          # 16:9横型動画を作成。静止背景に緩やかなズームを付ける
+          # 動画生成
           subprocess.run(
               [
                   "ffmpeg", "-y",
@@ -352,7 +476,7 @@ jobs:
               timeout=2400
           )
 
-          # 16:9サムネイル
+          # サムネイル
           thumb = bg.copy()
           td = ImageDraw.Draw(thumb)
           ty = 260 - len(title_lines) * 38
@@ -376,7 +500,7 @@ jobs:
 
           video = WORK / "video.mp4"
           if not video.exists() or video.stat().st_size < 100000:
-              raise RuntimeError("動画ファイルが正常に生成されませんでした")
+              raise RuntimeError("動画生成に失敗しました")
 
           check = subprocess.run(
               [
@@ -393,12 +517,13 @@ jobs:
 
           if check != "1280x720":
               raise RuntimeError(
-                  f"動画サイズが16:9ではありません: {check}"
+                  f"動画サイズが不正です: {check}"
               )
 
-          print("LONG VIDEO READY:", video)
+          print("EVERGREEN VIDEO READY")
           print("VIDEO SIZE:", check)
           print("VIDEO SECONDS:", round(duration, 1))
+          print("VIDEO TOPIC:", topic)
           PYTHON
 
           python generate_long_video.py
@@ -440,9 +565,6 @@ jobs:
           script = script_path.read_text(encoding="utf-8").strip()
           category = category_path.read_text(encoding="utf-8").strip()
 
-          if not title or not script:
-              raise RuntimeError("タイトルまたは台本が空です")
-
           client_id = os.environ.get("YOUTUBE_CLIENT_ID")
           client_secret = os.environ.get("YOUTUBE_CLIENT_SECRET")
           refresh_token = os.environ.get("YOUTUBE_REFRESH_TOKEN")
@@ -468,43 +590,31 @@ jobs:
               cache_discovery=False
           )
 
-          content = (title + " " + script).lower()
-
-          if any(x in content for x in [
-              "サッカー", "野球", "スポーツ", "マラソン",
-              "陸上", "バスケット", "テニス"
-          ]):
-              category_id = "17"
-          elif any(x in content for x in [
-              "ポケモン", "ゲーム", "マインクラフト",
-              "ドラゴンクエスト", "ドラクエ"
-          ]):
-              category_id = "20"
-          elif any(x in content for x in [
-              "犬", "猫", "動物", "生き物", "ペット"
-          ]):
-              category_id = "15"
-          elif any(x in content for x in [
-              "アニメ", "漫画", "映画", "ドラえもん",
-              "鬼滅の刃", "ナルト"
-          ]):
-              category_id = "24"
-          else:
-              category_id = "27"
-
+          # 長尺の雑学・教育動画として登録
           description = (
               script[:4500].strip()
               + "\n\n"
               + "#雑学 #豆知識 #解説"
           )
 
-          tags = ["雑学", "豆知識", "解説", category]
+          tags = [
+              "雑学",
+              "豆知識",
+              "心理学",
+              "恋愛",
+              "栄養",
+              "血液型",
+              "星座",
+              "人間関係",
+              "解説",
+              category
+          ]
 
           body = {
               "snippet": {
                   "title": title[:100],
                   "description": description[:5000],
-                  "categoryId": category_id,
+                  "categoryId": "27",
                   "tags": list(dict.fromkeys(tags))[:10],
                   "defaultLanguage": "ja",
                   "defaultAudioLanguage": "ja"
@@ -540,7 +650,7 @@ jobs:
           video_id = response["id"]
           print("UPLOADED PRIVATE:", video_id)
 
-          # YouTube側の動画処理完了を確認
+          # YouTubeの動画処理完了を待つ
           processing_succeeded = False
 
           for attempt in range(40):
@@ -565,19 +675,17 @@ jobs:
 
                   if processing in ["failed", "terminated"]:
                       raise RuntimeError(
-                          "YouTube側の動画処理に失敗しました。"
-                          "非公開のまま停止します。"
+                          "YouTube動画処理に失敗。非公開のまま停止します。"
                       )
 
               time.sleep(15)
 
           if not processing_succeeded:
               raise RuntimeError(
-                  "動画処理が時間内に完了しませんでした。"
-                  "非公開のまま停止します。"
+                  "YouTube動画処理が完了しませんでした。非公開のまま停止します。"
               )
 
-          # カスタムサムネイルを設定
+          # サムネイル設定
           thumbnail_media = MediaFileUpload(
               str(thumbnail_path),
               mimetype="image/jpeg",
@@ -616,7 +724,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: japanese-long-video
+          name: japanese-evergreen-long-video
           path: |
             work/video.mp4
             work/thumbnail.jpg
@@ -626,6 +734,5 @@ jobs:
             work/voice.mp3
             work/subtitles.ass
             work/background.jpg
-            work/trend_plan.json
           if-no-files-found: ignore
           retention-days: 7
