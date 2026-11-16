@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-16T04:35:57.123151+09:00",
+  "updated_at_jst": "2026-11-17T08:14:16.100308+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-09",
-    "end": "2026-11-15",
+    "start": "2026-11-10",
+    "end": "2026-11-16",
     "timezone": "Asia/Tokyo"
   },
-  "daily_data_count": 4,
+  "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-09",
-      "views": 4182,
-      "watch_minutes": 449.0,
-      "average_view_seconds": 19.0,
-      "subscribers_gained": 1,
-      "subscribers_lost": 0,
-      "likes": 6,
-      "comments": 0
-    },
     {
       "day": "2026-11-10",
       "views": 319,
@@ -52,19 +42,39 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-11-13",
+      "views": 1133,
+      "watch_minutes": 236.0,
+      "average_view_seconds": 39.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
+    },
+    {
+      "day": "2026-11-14",
+      "views": 673,
+      "watch_minutes": 41.0,
+      "average_view_seconds": 12.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 3,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-10",
       "2026-11-11",
-      "2026-11-12"
+      "2026-11-12",
+      "2026-11-13"
     ],
     "recent_3_days": [
-      "2026-11-13",
       "2026-11-14",
-      "2026-11-15"
+      "2026-11-15",
+      "2026-11-16"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -77,8 +87,8 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1133,
-      "likes": 0,
+      "views": 1263,
+      "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
     },
@@ -94,13 +104,24 @@
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
     },
     {
+      "video_id": "KNaD0cxIQNg",
+      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
+      "published_at": "2026-11-15T16:07:32Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 1126,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
+    },
+    {
       "video_id": "zth0xQAIEJ4",
       "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1109,
-      "likes": 2,
+      "views": 1111,
+      "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
@@ -110,7 +131,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1089,
+      "views": 1090,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -165,21 +186,10 @@
       "published_at": "2026-11-07T16:55:18Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 1013,
+      "views": 1014,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
-    },
-    {
-      "video_id": "igU1tU1Si1g",
-      "title": "新たなドラクエ、驚きのモンスター姿",
-      "published_at": "2026-11-06T16:40:15Z",
-      "duration_iso": "PT34S",
-      "duration_seconds": 34,
-      "views": 1002,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
     }
   ],
   "all_videos": [
@@ -189,8 +199,8 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1133,
-      "likes": 0,
+      "views": 1263,
+      "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
     },
@@ -206,13 +216,24 @@
       "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
     },
     {
+      "video_id": "KNaD0cxIQNg",
+      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
+      "published_at": "2026-11-15T16:07:32Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 1126,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
+    },
+    {
       "video_id": "zth0xQAIEJ4",
       "title": "みなとみらいの冬祭、ドラクエ×FFのコラボでホリデーオブジェ登場",
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1109,
-      "likes": 2,
+      "views": 1111,
+      "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
@@ -222,7 +243,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1089,
+      "views": 1090,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -277,7 +298,7 @@
       "published_at": "2026-11-07T16:55:18Z",
       "duration_iso": "PT24S",
       "duration_seconds": 24,
-      "views": 1013,
+      "views": 1014,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=pNdqHvLDhXQ"
@@ -299,7 +320,7 @@
       "published_at": "2026-11-04T14:01:11Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 992,
+      "views": 993,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
@@ -321,7 +342,7 @@
       "published_at": "2026-11-09T10:22:44Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 978,
+      "views": 979,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=D5e6pXD4PVs"
@@ -358,28 +379,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=k5N-ejQ9_PA"
-    },
-    {
-      "video_id": "m7o2ZLRQraY",
-      "title": "再婚承認の秘密：前夫の不倫だけで許される",
-      "published_at": "2026-11-04T10:33:10Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 879,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=m7o2ZLRQraY"
-    },
-    {
-      "video_id": "KNaD0cxIQNg",
-      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
-      "published_at": "2026-11-15T16:07:32Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 841,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
     },
     {
       "video_id": "JUgWlPUBXkE",
@@ -448,23 +447,12 @@
       "url": "https://www.youtube.com/watch?v=oqKXON88z5Y"
     },
     {
-      "video_id": "b_O7TyBkZ6g",
-      "title": "ランキング上位は予想外のアーティストが待つ！",
-      "published_at": "2026-11-04T07:28:42Z",
-      "duration_iso": "PT21S",
-      "duration_seconds": 21,
-      "views": 201,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=b_O7TyBkZ6g"
-    },
-    {
       "video_id": "MPXrZf26Jk0",
       "title": "『MONOMOON』本日（11/12）発売の新作は、アクションアドベンチャー『MONOMO",
       "published_at": "2026-11-14T23:35:04Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 192,
+      "views": 197,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
@@ -486,10 +474,21 @@
       "published_at": "2026-11-14T17:02:54Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 165,
+      "views": 168,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
+    },
+    {
+      "video_id": "QmZERK6UlAI",
+      "title": "関西ジュニアのUSJステージ、細部にまでこだわりの“一瞬の輝き”",
+      "published_at": "2026-11-08T12:59:35Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 136,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
     },
     {
       "video_id": "PmlEicZPYf4",
@@ -497,7 +496,7 @@
       "published_at": "2026-11-12T21:25:12Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 136,
+      "views": 135,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PmlEicZPYf4"
@@ -514,17 +513,6 @@
       "url": "https://www.youtube.com/watch?v=4nfxHcV5jWA"
     },
     {
-      "video_id": "QmZERK6UlAI",
-      "title": "関西ジュニアのUSJステージ、細部にまでこだわりの“一瞬の輝き”",
-      "published_at": "2026-11-08T12:59:35Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 133,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
-    },
-    {
       "video_id": "tv464ZRRAeY",
       "title": "時のオカリナ」裏ゼルダ、実際には収録なし？",
       "published_at": "2026-11-08T02:09:35Z",
@@ -536,6 +524,17 @@
       "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
     },
     {
+      "video_id": "UZ9jFje6thU",
+      "title": "灯良の秘密、脱出へ",
+      "published_at": "2026-11-13T18:45:23Z",
+      "duration_iso": "PT20S",
+      "duration_seconds": 20,
+      "views": 98,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
+    },
+    {
       "video_id": "ICh__ZpX04E",
       "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
       "published_at": "2026-11-14T15:42:43Z",
@@ -545,28 +544,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
-    },
-    {
-      "video_id": "UZ9jFje6thU",
-      "title": "灯良の秘密、脱出へ",
-      "published_at": "2026-11-13T18:45:23Z",
-      "duration_iso": "PT20S",
-      "duration_seconds": 20,
-      "views": 97,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
-    },
-    {
-      "video_id": "IiVGH54T3Ok",
-      "title": "宮田俊哉のアフレコ秘話とEDテーマ制作、プラネットアイドル夢の裏側",
-      "published_at": "2026-11-04T05:49:47Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 94,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IiVGH54T3Ok"
     },
     {
       "video_id": "OkC4MB7Dc9A",
@@ -618,21 +595,10 @@
       "published_at": "2026-11-13T01:40:04Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 47,
+      "views": 45,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=WGm3B4wM_d8"
-    },
-    {
-      "video_id": "lZhAn-jT-70",
-      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
-      "published_at": "2026-11-13T04:30:31Z",
-      "duration_iso": "PT19S",
-      "duration_seconds": 19,
-      "views": 41,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
     },
     {
       "video_id": "v2Jj7qxskOc",
@@ -644,6 +610,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
+    },
+    {
+      "video_id": "lZhAn-jT-70",
+      "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
+      "published_at": "2026-11-13T04:30:31Z",
+      "duration_iso": "PT19S",
+      "duration_seconds": 19,
+      "views": 40,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=lZhAn-jT-70"
     },
     {
       "video_id": "HEcUQ2imAHw",
@@ -690,6 +667,17 @@
       "url": "https://www.youtube.com/watch?v=YB0-UlZNat0"
     },
     {
+      "video_id": "sqZBZjQMPBQ",
+      "title": "ナッシュ・ウォルターズは、なぜ今注目されているのか",
+      "published_at": "2026-11-16T04:48:11Z",
+      "duration_iso": "PT3M15S",
+      "duration_seconds": 195,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=sqZBZjQMPBQ"
+    },
+    {
       "video_id": "Y6O3jc2ZG5o",
       "title": "中退生の目から見た、驚くべき日本の習慣",
       "published_at": "2026-11-08T06:24:34Z",
@@ -699,6 +687,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=Y6O3jc2ZG5o"
+    },
+    {
+      "video_id": "0VGgmoIWYXY",
+      "title": "星座占いはなぜ当たっているように感じるのか",
+      "published_at": "2026-11-16T05:16:52Z",
+      "duration_iso": "PT3M17S",
+      "duration_seconds": 197,
+      "views": 1,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=0VGgmoIWYXY"
     },
     {
       "video_id": "QIZvyr2AX9c",
@@ -732,6 +731,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
+    },
+    {
+      "video_id": "kxpdKEy_920",
+      "title": "なぜ社会保障審議会の介護給付費分科会が開催される必要があるのか、そしてその中で最も驚くべき",
+      "published_at": "2026-11-16T02:38:53Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=kxpdKEy_920"
     }
   ],
   "video_data_scope": {
