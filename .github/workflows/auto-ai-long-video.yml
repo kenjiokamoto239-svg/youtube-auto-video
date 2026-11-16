@@ -3,6 +3,8 @@ name: Auto AI Japanese Long Video
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 21 * * *"
 
 permissions:
   contents: read
@@ -14,7 +16,7 @@ concurrency:
 jobs:
   generate-long-video:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
 
     env:
       PYTHONUNBUFFERED: "1"
@@ -38,7 +40,7 @@ jobs:
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
-          python -m pip install requests feedparser pillow edge-tts
+          python -m pip install requests feedparser pillow edge-tts google-api-python-client google-auth
 
       - name: Start Ollama
         run: |
@@ -274,7 +276,6 @@ jobs:
           )
           sentences = [x.strip() for x in sentences if x.strip()]
 
-          # 長い文は読みやすい長さに分割
           chunks = []
           for sentence in sentences:
               chunks.extend(
@@ -402,15 +403,225 @@ jobs:
 
           python generate_long_video.py
 
+      - name: Upload and publish long video to YouTube
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          cat > upload_long_video.py <<'PYTHON'
+          import os
+          import time
+          from pathlib import Path
+
+          from google.oauth2.credentials import Credentials
+          from google.auth.transport.requests import Request
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+
+          work = Path("work")
+          video_path = work / "video.mp4"
+          thumbnail_path = work / "thumbnail.jpg"
+          title_path = work / "title.txt"
+          script_path = work / "script.txt"
+          category_path = work / "category.txt"
+
+          for path in [
+              video_path,
+              thumbnail_path,
+              title_path,
+              script_path,
+              category_path
+          ]:
+              if not path.exists() or path.stat().st_size == 0:
+                  raise RuntimeError(f"必要なファイルがありません: {path}")
+
+          title = title_path.read_text(encoding="utf-8").strip()
+          script = script_path.read_text(encoding="utf-8").strip()
+          category = category_path.read_text(encoding="utf-8").strip()
+
+          if not title or not script:
+              raise RuntimeError("タイトルまたは台本が空です")
+
+          client_id = os.environ.get("YOUTUBE_CLIENT_ID")
+          client_secret = os.environ.get("YOUTUBE_CLIENT_SECRET")
+          refresh_token = os.environ.get("YOUTUBE_REFRESH_TOKEN")
+
+          if not all([client_id, client_secret, refresh_token]):
+              raise RuntimeError("YouTube認証Secretsが不足しています")
+
+          credentials = Credentials(
+              token=None,
+              refresh_token=refresh_token,
+              token_uri="https://oauth2.googleapis.com/token",
+              client_id=client_id,
+              client_secret=client_secret,
+              scopes=["https://www.googleapis.com/auth/youtube"]
+          )
+
+          credentials.refresh(Request())
+
+          youtube = build(
+              "youtube",
+              "v3",
+              credentials=credentials,
+              cache_discovery=False
+          )
+
+          content = (title + " " + script).lower()
+
+          if any(x in content for x in [
+              "サッカー", "野球", "スポーツ", "マラソン",
+              "陸上", "バスケット", "テニス"
+          ]):
+              category_id = "17"
+          elif any(x in content for x in [
+              "ポケモン", "ゲーム", "マインクラフト",
+              "ドラゴンクエスト", "ドラクエ"
+          ]):
+              category_id = "20"
+          elif any(x in content for x in [
+              "犬", "猫", "動物", "生き物", "ペット"
+          ]):
+              category_id = "15"
+          elif any(x in content for x in [
+              "アニメ", "漫画", "映画", "ドラえもん",
+              "鬼滅の刃", "ナルト"
+          ]):
+              category_id = "24"
+          else:
+              category_id = "27"
+
+          description = (
+              script[:4500].strip()
+              + "\n\n"
+              + "#雑学 #豆知識 #解説"
+          )
+
+          tags = ["雑学", "豆知識", "解説", category]
+
+          body = {
+              "snippet": {
+                  "title": title[:100],
+                  "description": description[:5000],
+                  "categoryId": category_id,
+                  "tags": list(dict.fromkeys(tags))[:10],
+                  "defaultLanguage": "ja",
+                  "defaultAudioLanguage": "ja"
+              },
+              "status": {
+                  "privacyStatus": "private",
+                  "selfDeclaredMadeForKids": False
+              }
+          }
+
+          media = MediaFileUpload(
+              str(video_path),
+              mimetype="video/mp4",
+              resumable=True
+          )
+
+          upload_request = youtube.videos().insert(
+              part="snippet,status",
+              body=body,
+              media_body=media
+          )
+
+          response = None
+          while response is None:
+              status, response = upload_request.next_chunk()
+              if status:
+                  print(
+                      "UPLOAD PROGRESS:",
+                      round(status.progress() * 100),
+                      "%"
+                  )
+
+          video_id = response["id"]
+          print("UPLOADED PRIVATE:", video_id)
+
+          # YouTube側の動画処理完了を確認
+          processing_succeeded = False
+
+          for attempt in range(40):
+              result = youtube.videos().list(
+                  part="processingDetails,status",
+                  id=video_id
+              ).execute()
+
+              items = result.get("items", [])
+
+              if items:
+                  item = items[0]
+                  processing = item.get(
+                      "processingDetails", {}
+                  ).get("processingStatus", "")
+
+                  print("VIDEO PROCESSING:", processing)
+
+                  if processing == "succeeded":
+                      processing_succeeded = True
+                      break
+
+                  if processing in ["failed", "terminated"]:
+                      raise RuntimeError(
+                          "YouTube側の動画処理に失敗しました。"
+                          "非公開のまま停止します。"
+                      )
+
+              time.sleep(15)
+
+          if not processing_succeeded:
+              raise RuntimeError(
+                  "動画処理が時間内に完了しませんでした。"
+                  "非公開のまま停止します。"
+              )
+
+          # カスタムサムネイルを設定
+          thumbnail_media = MediaFileUpload(
+              str(thumbnail_path),
+              mimetype="image/jpeg",
+              resumable=False
+          )
+
+          youtube.thumbnails().set(
+              videoId=video_id,
+              media_body=thumbnail_media
+          ).execute()
+
+          print("CUSTOM THUMBNAIL SET:", video_id)
+
+          # すべて成功した場合だけ一般公開
+          youtube.videos().update(
+              part="status",
+              body={
+                  "id": video_id,
+                  "status": {
+                      "privacyStatus": "public",
+                      "selfDeclaredMadeForKids": False
+                  }
+              }
+          ).execute()
+
+          print("PUBLISHED:", video_id)
+          print(
+              "PUBLIC URL:",
+              "https://www.youtube.com/watch?v=" + video_id
+          )
+          PYTHON
+
+          python upload_long_video.py
+
       - name: Save long video artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: japanese-long-video-test
+          name: japanese-long-video
           path: |
             work/video.mp4
             work/thumbnail.jpg
             work/title.txt
+            work/category.txt
             work/script.txt
             work/voice.mp3
             work/subtitles.ass
