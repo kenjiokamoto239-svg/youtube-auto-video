@@ -515,6 +515,41 @@ jobs:
               if 15 <= len(title) <= 55:
                   score += 1
 
+              channel_matches = [
+                  term
+                  for term in channel_interest_terms
+                  if term.lower() in title.lower()
+              ]
+
+              if channel_matches:
+                  channel_bonus = min(
+                      3,
+                      len(channel_matches)
+                  )
+                  score += channel_bonus
+
+                  print(
+                      "CHANNEL FIT BONUS:",
+                      title,
+                      channel_matches[:5],
+                      channel_bonus
+                  )
+
+              if any(term in title for term in [
+                  "審議会",
+                  "分科会",
+                  "委員会",
+                  "開催案内",
+                  "会議資料",
+                  "議事録"
+              ]):
+                  score -= 5
+
+                  print(
+                      "LOW CHANNEL FIT PENALTY:",
+                      title
+                  )
+
               scored_articles.append({
                   "article": item,
                   "score": score
