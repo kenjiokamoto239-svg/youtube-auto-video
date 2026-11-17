@@ -527,7 +527,163 @@ jobs:
           PYTHON
 
           python generate_long_video.py
+      - name: Validate long-video script before upload
+        run: |
+          python - <<'PYTHON'
+          import json
+          import os
+          import re
+          import time
+          from pathlib import Path
+          from urllib.parse import quote
 
+          import requests
+
+          work = Path("work")
+          script = (work / "script.txt").read_text(encoding="utf-8").strip()
+          plan = json.loads((work / "trend_plan.json").read_text(encoding="utf-8"))
+          topic = str(plan.get("topic", "")).strip()
+          genre = str(plan.get("genre", "雑学")).strip()
+
+          def stop(reason):
+              (work / "fact_check.txt").write_text(
+                  "FAIL: " + reason,
+                  encoding="utf-8"
+              )
+              raise RuntimeError(reason)
+
+          if not topic or not script:
+              stop("テーマまたは台本がありません")
+
+          if not 1300 <= len(script) <= 1900:
+              stop(f"台本は1300〜1900文字が必要です。現在は{len(script)}文字です")
+
+          if re.match(r"^(こんにちは|どうも|皆さんこんにちは|皆さまこんにちは)", script):
+              stop("冒頭に挨拶があります")
+
+          if re.search(r"【章|【第[0-9０-９一二三四五六七八九]+章", script):
+              stop("読み上げ本文に章見出しが混ざっています")
+
+          lower = topic.lower()
+          queries = [topic]
+
+          if any(x in lower for x in ["星座", "占い"]):
+              queries += ["バーナム効果", "確証バイアス", "占星術 科学的検証"]
+          if "血液型" in lower:
+              queries += ["血液型性格分類", "血液型 性格 科学的研究"]
+          if any(x in lower for x in ["栄養", "ビタミン", "鉄", "タンパク質", "カルシウム"]):
+              queries += ["栄養素", "ビタミンC", "鉄の吸収"]
+          if any(x in lower for x in ["しぐさ", "目線", "表情", "嘘"]):
+              queries += ["非言語コミュニケーション", "嘘の検出"]
+          if any(x in lower for x in ["恋愛", "好きな人", "デート", "カップル"]):
+              queries += ["傾聴", "対人関係"]
+
+          api = "https://ja.wikipedia.org/w/api.php"
+          headers = {"User-Agent": "AutoAIJapaneseLongVideo/1.0"}
+          sources = {}
+
+          for query in list(dict.fromkeys(queries))[:5]:
+              for attempt in range(3):
+                  response = requests.get(
+                      api,
+                      params={
+                          "action": "query",
+                          "generator": "search",
+                          "gsrsearch": query,
+                          "gsrnamespace": 0,
+                          "gsrlimit": 3,
+                          "prop": "extracts",
+                          "exintro": 1,
+                          "explaintext": 1,
+                          "format": "json"
+                      },
+                      headers=headers,
+                      timeout=25
+                  )
+                  if response.status_code == 429 and attempt < 2:
+                      time.sleep(2 ** (attempt + 1))
+                      continue
+                  response.raise_for_status()
+                  pages = response.json().get("query", {}).get("pages", {})
+                  break
+
+              for page in pages.values():
+                  name = str(page.get("title", "")).strip()
+                  extract = str(page.get("extract", "")).strip()
+                  if name and len(extract) >= 120 and name not in sources:
+                      url = "https://ja.wikipedia.org/wiki/" + quote(name.replace(" ", "_"), safe="")
+                      sources[name] = {"url": url, "extract": extract[:1800]}
+
+          if not sources:
+              stop("参考情報を取得できません")
+
+          source_context = "\n\n".join(
+              f"【{name}】 {item['url']}\n{item['extract']}"
+              for name, item in sources.items()
+          )
+          if len(source_context) < 500:
+              stop("参考情報が不足しています")
+
+          sources_text = "\n".join(
+              f"{name} - {item['url']}"
+              for name, item in sources.items()
+          )
+          (work / "sources.txt").write_text(sources_text, encoding="utf-8")
+
+          if any(x in lower for x in ["血液型", "星座", "占い"]):
+              forbidden = [
+                  "A型血の健康を維持しやすく",
+                  "牡羊座の行動パターンを理解しやすい",
+                  "A型と牡羊座の人は"
+              ]
+              if any(x in script for x in forbidden):
+                  stop("血液型・星座について根拠のない断定を検出しました")
+
+          prompt = f"""
+          あなたは厳格なファクトチェッカーです。
+          テーマ：{topic}
+          ジャンル：{genre}
+          参考情報：
+          {source_context[:14000]}
+          台本：
+          {script}
+
+          事実主張を一つずつ参考情報と照合してください。
+          参考情報にない数字、研究、人物、因果関係は不合格です。
+          不確かな内容の断定も不合格です。
+          血液型・星座で性格や健康が決まると科学的事実のように述べないでください。
+          しぐさや目線だけで本心や嘘を断定しないでください。
+          栄養情報は参考情報にある範囲だけにしてください。
+          恋愛の話は相手の意思と同意を尊重してください。
+          全ての重要な事実が参考情報に裏付けられる場合だけPASSにしてください。
+          出力は PASS または FAIL:理由 のどちらか一つだけ。
+          """
+
+          model = os.environ.get("OLLAMA_MODEL", "qwen2.5:3b")
+          check = requests.post(
+              "http://127.0.0.1:11434/api/generate",
+              json={
+                  "model": model,
+                  "prompt": prompt,
+                  "stream": False,
+                  "options": {"temperature": 0, "num_predict": 180}
+              },
+              timeout=900
+          )
+          check.raise_for_status()
+          verdict = check.json().get("response", "").strip()
+
+          (work / "fact_check.txt").write_text(
+              "TOPIC: " + topic + "\nVERDICT: " + verdict + "\n" + sources_text,
+              encoding="utf-8"
+          )
+
+          print("LONG VIDEO FACT CHECK:", verdict)
+          if not verdict.upper().startswith("PASS"):
+              stop("台本の事実確認に合格しませんでした: " + verdict[:300])
+
+          print("LONG VIDEO FACT CHECK: PASSED")
+          PYTHON
       - name: Upload and publish long video to YouTube
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
@@ -591,11 +747,28 @@ jobs:
           )
 
           # 長尺の雑学・教育動画として登録
-          description = (
-              script[:4500].strip()
-              + "\n\n"
-              + "#雑学 #豆知識 #解説"
+          sources_path = work / "sources.txt"
+          sources_text = (
+              sources_path.read_text(encoding="utf-8").strip()
+              if sources_path.exists()
+              else ""
           )
+
+          description_parts = [script[:4200].strip()]
+
+          if sources_text:
+              description_parts.extend([
+                  "",
+                  "参考資料",
+                  sources_text[:700]
+              ])
+
+          description_parts.extend([
+              "",
+              "#雑学 #豆知識 #解説"
+          ])
+
+          description = "\n".join(description_parts)
 
           tags = [
               "雑学",
@@ -730,6 +903,8 @@ jobs:
             work/thumbnail.jpg
             work/title.txt
             work/category.txt
+            work/sources.txt
+            work/fact_check.txt
             work/script.txt
             work/voice.mp3
             work/subtitles.ass
