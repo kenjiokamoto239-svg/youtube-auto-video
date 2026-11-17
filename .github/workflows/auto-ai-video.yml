@@ -1957,85 +1957,346 @@ jobs:
                   )
 
 
+          
           # ==========================================
-          # Europe PMCによる学術論文の追加取得
-          # RSS・記事本文が取得できない場合の無料代替
+          # 汎用学術情報検索
+          # テーマ別の固定キーワードを使わず、
+          # 日本語テーマから英語検索語を自動生成する
           # ==========================================
 
           europepmc_context = ""
+          openalex_context = ""
 
           if not article_body and not rss_summary_context:
 
               import time
+              import requests
+              import re
 
-              topic_lower = topic.lower()
-              europepmc_queries = []
-              evidence_mode = ""
+              print("GENERIC RESEARCH: START")
+              print("RESEARCH TOPIC:", topic)
 
-              # 嘘・目線・視線の研究
-              if any(term in topic for term in (
-                  "目線", "視線", "嘘", "うそ", "見抜"
-              )):
-                  evidence_mode = "deception_eye"
-                  europepmc_queries = [
-                      "eye movement AND deception",
-                      "gaze aversion AND deception",
-                      "lie detection AND eye movement",
-                      "nonverbal cues AND deception"
-                  ]
+              # --------------------------------------
+              # 1. 日本語テーマを英語に翻訳
+              # --------------------------------------
 
-              # 鉄分とビタミンC
-              elif any(term in topic for term in (
-                  "ビタミンC", "鉄分", "鉄の吸収"
-              )):
-                  evidence_mode = "iron"
-                  europepmc_queries = [
-                      "iron absorption AND vitamin C",
-                      "nonheme iron AND ascorbic acid",
-                      "ascorbic acid AND iron bioavailability"
-                  ]
+              translated_topic = ""
 
-              # 睡眠と食欲
-              elif any(term in topic for term in (
-                  "睡眠", "眠り"
-              )):
-                  evidence_mode = "sleep"
-                  europepmc_queries = [
-                      "sleep deprivation AND appetite",
-                      "sleep duration AND hunger",
-                      "sleep AND food intake"
-                  ]
+              try:
+                  translation_response = requests.get(
+                      "https://api.mymemory.translated.net/get",
+                      params={
+                          "q": topic[:450],
+                          "langpair": "ja|en"
+                      },
+                      headers={
+                          "User-Agent": "AutoJapaneseVideo/1.0"
+                      },
+                      timeout=20
+                  )
 
-              # ランニングと怪我
-              elif any(term in topic for term in (
-                  "ランニング", "走る", "ランナー"
-              )):
-                  evidence_mode = "running"
-                  europepmc_queries = [
-                      "running AND injury prevention",
-                      "running injuries AND training",
-                      "exercise AND injury prevention"
-                  ]
+                  translation_response.raise_for_status()
 
-              # 傾聴と共感
-              elif any(term in topic for term in (
-                  "傾聴", "相づち", "共感"
-              )):
-                  evidence_mode = "listening"
-                  europepmc_queries = [
-                      "active listening AND empathy",
-                      "listening AND interpersonal relationships",
-                      "empathic listening AND communication"
-                  ]
+                  translated_topic = (
+                      translation_response.json()
+                      .get("responseData", {})
+                      .get("translatedText", "")
+                  )
 
-              if europepmc_queries:
+                  translated_topic = clean_text(
+                      translated_topic
+                  )
 
-                  print("EUROPE PMC: START")
-                  print("EUROPE PMC MODE:", evidence_mode)
+                  if (
+                      translated_topic
+                      and translated_topic.lower() != topic.lower()
+                  ):
+                      print(
+                          "TRANSLATED RESEARCH TOPIC:",
+                          translated_topic
+                      )
+                  else:
+                      translated_topic = ""
+
+              except Exception as error:
+                  print(
+                      "TRANSLATION ERROR:",
+                      str(error)[:200]
+                  )
+
+              # --------------------------------------
+              # 2. 検索語を自動作成
+              # --------------------------------------
+
+              research_queries = []
+
+              if translated_topic:
+                  research_queries.append(translated_topic)
+
+                  # 疑問文の末尾などを除いた検索語も作る
+                  simplified_query = re.sub(
+                      r"\b(why|what|how|does|do|is|are|the|a|an)\b",
+                      " ",
+                      translated_topic,
+                      flags=re.I
+                  )
+
+                  simplified_query = clean_text(
+                      simplified_query
+                  )
+
+                  if (
+                      simplified_query
+                      and simplified_query.lower()
+                      != translated_topic.lower()
+                  ):
+                      research_queries.append(
+                          simplified_query
+                      )
+
+              # 翻訳に失敗した場合も日本語で検索を試す
+              research_queries.append(topic)
+
+              # 重複を除去
+              research_queries = list(
+                  dict.fromkeys(
+                      query.strip()
+                      for query in research_queries
+                      if query and query.strip()
+                  )
+              )
+
+              print(
+                  "GENERIC SEARCH QUERIES:",
+                  research_queries
+              )
+
+              # --------------------------------------
+              # 3. OpenAlexで幅広い学術論文を検索
+              # 心理・社会・自然科学などを横断
+              # --------------------------------------
+
+              accepted_works = {}
+
+              def reconstruct_abstract(inverted_index):
+                  if not isinstance(inverted_index, dict):
+                      return ""
+
+                  positions = {}
+
+                  for word, indexes in inverted_index.items():
+                      for position in indexes:
+                          positions[position] = word
+
+                  if not positions:
+                      return ""
+
+                  return " ".join(
+                      positions[index]
+                      for index in sorted(positions)
+                  )
+
+              def research_match_score(title, abstract, query):
+                  combined = (
+                      str(title or "") + " "
+                      + str(abstract or "")
+                  ).lower()
+
+                  query_words = re.findall(
+                      r"[a-z]{3,}",
+                      str(query or "").lower()
+                  )
+
+                  query_words = list(dict.fromkeys(query_words))
+
+                  if not query_words:
+                      return 0
+
+                  title_lower = str(title or "").lower()
+
+                  title_hits = sum(
+                      1 for word in query_words
+                      if word in title_lower
+                  )
+
+                  total_hits = sum(
+                      1 for word in query_words
+                      if word in combined
+                  )
+
+                  return title_hits * 3 + total_hits
+
+              for research_query in research_queries:
+
+                  if len(accepted_works) >= 3:
+                      break
+
+                  print(
+                      "OPENALEX SEARCH:",
+                      research_query
+                  )
+
+                  try:
+                      response = requests.get(
+                          "https://api.openalex.org/works",
+                          params={
+                              "search": research_query,
+                              "per-page": 15,
+                              "sort": "relevance_score:desc"
+                          },
+                          headers={
+                              "User-Agent":
+                                  "AutoJapaneseVideo/1.0"
+                          },
+                          timeout=30
+                      )
+
+                      response.raise_for_status()
+
+                      works = response.json().get(
+                          "results", []
+                      )
+
+                      for work in works:
+
+                          title_text = clean_text(
+                              work.get("title", "")
+                          )
+
+                          abstract_text = clean_text(
+                              reconstruct_abstract(
+                                  work.get(
+                                      "abstract_inverted_index"
+                                  )
+                              )
+                          )
+
+                          if len(title_text) < 8:
+                              continue
+
+                          if len(abstract_text) < 200:
+                              continue
+
+                          score = research_match_score(
+                              title_text,
+                              abstract_text,
+                              research_query
+                          )
+
+                          # 検索語との関連性が低い論文は除外
+                          if score < 2:
+                              continue
+
+                          doi = str(
+                              work.get("doi") or ""
+                          ).strip()
+
+                          work_id = str(
+                              work.get("id") or ""
+                          ).strip()
+
+                          paper_url = doi or work_id
+
+                          if not paper_url:
+                              continue
+
+                          paper_key = (
+                              doi or work_id
+                              or title_text.lower()
+                          )
+
+                          if paper_key in accepted_works:
+                              continue
+
+                          publication_year = (
+                              work.get("publication_year")
+                          )
+
+                          accepted_works[paper_key] = {
+                              "title": title_text,
+                              "abstract": abstract_text[:3000],
+                              "year": str(
+                                  publication_year or ""
+                              ),
+                              "url": paper_url,
+                              "score": score
+                          }
+
+                          print(
+                              "OPENALEX ACCEPTED:",
+                              title_text,
+                              "SCORE:",
+                              score
+                          )
+
+                          if len(accepted_works) >= 3:
+                              break
+
+                  except Exception as error:
+                      print(
+                          "OPENALEX ERROR:",
+                          str(error)[:250]
+                      )
+
+                      time.sleep(2)
+
+              # --------------------------------------
+              # 4. OpenAlexの検索結果を資料化
+              # --------------------------------------
+
+              if accepted_works:
+
+                  work_blocks = []
+
+                  for index, work in enumerate(
+                      accepted_works.values(),
+                      start=1
+                  ):
+
+                      work_blocks.append(
+                          f"""
+          【学術論文 {index}】
+
+          論文タイトル：
+          {work["title"]}
+
+          出版年：
+          {work["year"]}
+
+          論文抄録：
+          {work["abstract"]}
+
+          出典URL：
+          {work["url"]}
+          """
+                      )
+
+                  openalex_context = "\n\n".join(
+                      work_blocks
+                  )
+
+                  print(
+                      "OPENALEX SUCCESS:",
+                      len(accepted_works),
+                      "papers"
+                  )
+
+              else:
+                  print(
+                      "OPENALEX: "
+                      "十分に関連する論文がありません。"
+                  )
+
+              # --------------------------------------
+              # 5. OpenAlexで不足した場合は
+              #    Europe PMCも同じ検索語で確認
+              # --------------------------------------
+
+              if len(accepted_works) < 2:
 
                   accepted_papers = {}
 
-                  for research_query in europepmc_queries:
+                  for research_query in research_queries:
 
                       if len(accepted_papers) >= 3:
                           break
@@ -2045,226 +2306,122 @@ jobs:
                           research_query
                       )
 
-                      records = []
+                      try:
+                          response = requests.get(
+                              "https://www.ebi.ac.uk/"
+                              "europepmc/webservices/rest/search",
+                              params={
+                                  "query": research_query,
+                                  "format": "json",
+                                  "resultType": "core",
+                                  "pageSize": 10
+                              },
+                              headers={
+                                  "User-Agent":
+                                      "AutoJapaneseVideo/1.0",
+                                  "Accept": "application/json"
+                              },
+                              timeout=30
+                          )
 
-                      for attempt in range(2):
-                          try:
-                              response = requests.get(
-                                  "https://www.ebi.ac.uk/"
-                                  "europepmc/webservices/rest/search",
-                                  params={
-                                      "query": research_query,
-                                      "format": "json",
-                                      "resultType": "core",
-                                      "pageSize": 8
-                                  },
-                                  headers={
-                                      "User-Agent":
-                                          "AutoJapaneseVideo/1.0",
-                                      "Accept": "application/json"
-                                  },
-                                  timeout=30
+                          response.raise_for_status()
+
+                          records = (
+                              response.json()
+                              .get("resultList", {})
+                              .get("result", [])
+                          )
+
+                          for paper in records:
+
+                              title_text = clean_text(
+                                  paper.get("title", "")
                               )
 
-                              if (
-                                  response.status_code in (
-                                      429, 500, 502, 503, 504
+                              abstract_text = clean_text(
+                                  re.sub(
+                                      r"<[^>]+>",
+                                      " ",
+                                      paper.get(
+                                          "abstractText", ""
+                                      )
                                   )
-                                  and attempt == 0
-                              ):
-                                  time.sleep(3)
+                              )
+
+                              if len(abstract_text) < 200:
                                   continue
 
-                              response.raise_for_status()
-
-                              records = (
-                                  response.json()
-                                  .get("resultList", {})
-                                  .get("result", [])
+                              score = research_match_score(
+                                  title_text,
+                                  abstract_text,
+                                  research_query
                               )
 
-                              break
+                              if score < 2:
+                                  continue
 
-                          except Exception as error:
+                              pmid = str(
+                                  paper.get("pmid", "")
+                              ).strip()
+
+                              pmcid = str(
+                                  paper.get("pmcid", "")
+                              ).strip()
+
+                              doi = str(
+                                  paper.get("doi", "")
+                              ).strip()
+
+                              if pmid:
+                                  paper_url = (
+                                      "https://europepmc.org/article/MED/"
+                                      + pmid
+                                  )
+                              elif pmcid:
+                                  paper_url = (
+                                      "https://europepmc.org/articles/"
+                                      + pmcid
+                                  )
+                              elif doi:
+                                  paper_url = (
+                                      "https://doi.org/" + doi
+                                  )
+                              else:
+                                  continue
+
+                              paper_key = (
+                                  pmid or pmcid or doi
+                                  or title_text.lower()
+                              )
+
+                              if paper_key in accepted_papers:
+                                  continue
+
+                              accepted_papers[paper_key] = {
+                                  "title": title_text,
+                                  "abstract": abstract_text[:2600],
+                                  "year": str(
+                                      paper.get("pubYear", "")
+                                  ),
+                                  "url": paper_url,
+                                  "score": score
+                              }
 
                               print(
-                                  "EUROPE PMC REQUEST ERROR:",
-                                  str(error)[:200]
+                                  "EUROPE PMC ACCEPTED:",
+                                  title_text,
+                                  "SCORE:",
+                                  score
                               )
 
-                              if attempt == 0:
-                                  time.sleep(2)
+                              if len(accepted_papers) >= 3:
+                                  break
 
-                      for paper in records:
-
-                          title_text = clean_text(
-                              paper.get("title", "")
-                          )
-
-                          abstract_text = clean_text(
-                              re.sub(
-                                  r"<[^>]+>",
-                                  " ",
-                                  paper.get("abstractText", "")
-                              )
-                          )
-
-                          if len(abstract_text) < 180:
-                              continue
-
-                          combined_text = (
-                              title_text + " " + abstract_text
-                          )
-
-                          # テーマと直接関係する論文だけ採用
-                          if evidence_mode == "deception_eye":
-
-                              has_deception = re.search(
-                                  r"\b(decept\w*|lie|lies|lying|"
-                                  r"veracity|truth)\b",
-                                  combined_text,
-                                  re.I
-                              )
-
-                              has_eye = re.search(
-                                  r"\b(eye\w*|gaze|ocular|"
-                                  r"saccad\w*|visual)\b",
-                                  combined_text,
-                                  re.I
-                              )
-
-                              if not has_deception or not has_eye:
-                                  continue
-
-                          elif evidence_mode == "iron":
-
-                              if not (
-                                  re.search(
-                                      r"\biron\b",
-                                      combined_text,
-                                      re.I
-                                  )
-                                  and re.search(
-                                      r"vitamin C|ascorbic acid",
-                                      combined_text,
-                                      re.I
-                                  )
-                                  and re.search(
-                                      r"absorpt|bioavailab",
-                                      combined_text,
-                                      re.I
-                                  )
-                              ):
-                                  continue
-
-                          elif evidence_mode == "sleep":
-
-                              if not (
-                                  re.search(
-                                      r"\bsleep\w*\b",
-                                      combined_text,
-                                      re.I
-                                  )
-                                  and re.search(
-                                      r"appetite|hunger|food intake",
-                                      combined_text,
-                                      re.I
-                                  )
-                              ):
-                                  continue
-
-                          elif evidence_mode == "running":
-
-                              if not (
-                                  re.search(
-                                      r"running|runner|exercise",
-                                      combined_text,
-                                      re.I
-                                  )
-                                  and re.search(
-                                      r"injur|musculoskeletal",
-                                      combined_text,
-                                      re.I
-                                  )
-                              ):
-                                  continue
-
-                          elif evidence_mode == "listening":
-
-                              if not (
-                                  re.search(
-                                      r"listen\w*",
-                                      combined_text,
-                                      re.I
-                                  )
-                                  and re.search(
-                                      r"empath\w*|interpersonal|"
-                                      r"relationship|communication",
-                                      combined_text,
-                                      re.I
-                                  )
-                              ):
-                                  continue
-
-                          pmid = str(
-                              paper.get("pmid", "")
-                          ).strip()
-
-                          pmcid = str(
-                              paper.get("pmcid", "")
-                          ).strip()
-
-                          doi = str(
-                              paper.get("doi", "")
-                          ).strip()
-
-                          if pmid:
-                              paper_url = (
-                                  "https://europepmc.org/article/MED/"
-                                  + pmid
-                              )
-                          elif pmcid:
-                              paper_url = (
-                                  "https://europepmc.org/articles/"
-                                  + pmcid
-                              )
-                          elif doi:
-                              paper_url = (
-                                  "https://doi.org/" + doi
-                              )
-                          else:
-                              continue
-
-                          paper_key = (
-                              pmid or pmcid or doi
-                              or title_text.lower()
-                          )
-
-                          if paper_key in accepted_papers:
-                              continue
-
-                          accepted_papers[paper_key] = {
-                              "title": title_text,
-                              "abstract": abstract_text[:2600],
-                              "author": clean_text(
-                                  paper.get("authorString", "")
-                              ),
-                              "journal": clean_text(
-                                  paper.get("journalTitle", "")
-                              ),
-                              "year": str(
-                                  paper.get("pubYear", "")
-                              ),
-                              "url": paper_url
-                          }
-
+                      except Exception as error:
                           print(
-                              "EUROPE PMC ACCEPTED:",
-                              title_text
+                              "EUROPE PMC ERROR:",
+                              str(error)[:200]
                           )
-
-                          if len(accepted_papers) >= 3:
-                              break
 
                   if accepted_papers:
 
@@ -2281,12 +2438,6 @@ jobs:
 
           論文タイトル：
           {paper["title"]}
-
-          著者：
-          {paper["author"]}
-
-          掲載誌：
-          {paper["journal"]}
 
           出版年：
           {paper["year"]}
@@ -2310,25 +2461,39 @@ jobs:
                       )
 
                   else:
-
                       print(
                           "EUROPE PMC: "
-                          "関連する論文・抄録を取得できませんでした。"
+                          "関連する論文がありません。"
                       )
 
-              else:
+              # --------------------------------------
+              # 6. 検索結果を台本用資料にまとめる
+              # --------------------------------------
 
-                  print(
-                      "EUROPE PMC: "
-                      "このテーマに対応する検索条件がありません。"
-                  )
+              if openalex_context:
+                  print("OPENALEX CONTEXT READY")
+
+              if europepmc_context:
+                  print("EUROPE PMC CONTEXT READY")
 
           else:
-
               print(
-                  "EUROPE PMC: "
-                  "RSSまたは記事本文を取得済みのため省略します。"
+                  "GENERIC RESEARCH: "
+                  "RSSまたは記事本文を取得済みのため省略"
               )
+
+
+          # ==========================================
+          # 記事本文の最低文字数チェック
+          # ==========================================
+
+          if len(article_body) < 250:
+              print(
+                  "ARTICLE REJECTED: "
+                  "本文を十分に取得できませんでした。"
+              )
+              article_body = ""
+
 
 
 
