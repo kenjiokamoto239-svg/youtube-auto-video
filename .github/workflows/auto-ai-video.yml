@@ -1957,6 +1957,379 @@ jobs:
                   )
 
 
+          # ==========================================
+          # Europe PMCによる学術論文の追加取得
+          # RSS・記事本文が取得できない場合の無料代替
+          # ==========================================
+
+          europepmc_context = ""
+
+          if not article_body and not rss_summary_context:
+
+              import time
+
+              topic_lower = topic.lower()
+              europepmc_queries = []
+              evidence_mode = ""
+
+              # 嘘・目線・視線の研究
+              if any(term in topic for term in (
+                  "目線", "視線", "嘘", "うそ", "見抜"
+              )):
+                  evidence_mode = "deception_eye"
+                  europepmc_queries = [
+                      "eye movement AND deception",
+                      "gaze aversion AND deception",
+                      "lie detection AND eye movement",
+                      "nonverbal cues AND deception"
+                  ]
+
+              # 鉄分とビタミンC
+              elif any(term in topic for term in (
+                  "ビタミンC", "鉄分", "鉄の吸収"
+              )):
+                  evidence_mode = "iron"
+                  europepmc_queries = [
+                      "iron absorption AND vitamin C",
+                      "nonheme iron AND ascorbic acid",
+                      "ascorbic acid AND iron bioavailability"
+                  ]
+
+              # 睡眠と食欲
+              elif any(term in topic for term in (
+                  "睡眠", "眠り"
+              )):
+                  evidence_mode = "sleep"
+                  europepmc_queries = [
+                      "sleep deprivation AND appetite",
+                      "sleep duration AND hunger",
+                      "sleep AND food intake"
+                  ]
+
+              # ランニングと怪我
+              elif any(term in topic for term in (
+                  "ランニング", "走る", "ランナー"
+              )):
+                  evidence_mode = "running"
+                  europepmc_queries = [
+                      "running AND injury prevention",
+                      "running injuries AND training",
+                      "exercise AND injury prevention"
+                  ]
+
+              # 傾聴と共感
+              elif any(term in topic for term in (
+                  "傾聴", "相づち", "共感"
+              )):
+                  evidence_mode = "listening"
+                  europepmc_queries = [
+                      "active listening AND empathy",
+                      "listening AND interpersonal relationships",
+                      "empathic listening AND communication"
+                  ]
+
+              if europepmc_queries:
+
+                  print("EUROPE PMC: START")
+                  print("EUROPE PMC MODE:", evidence_mode)
+
+                  accepted_papers = {}
+
+                  for research_query in europepmc_queries:
+
+                      if len(accepted_papers) >= 3:
+                          break
+
+                      print(
+                          "EUROPE PMC SEARCH:",
+                          research_query
+                      )
+
+                      records = []
+
+                      for attempt in range(2):
+                          try:
+                              response = requests.get(
+                                  "https://www.ebi.ac.uk/"
+                                  "europepmc/webservices/rest/search",
+                                  params={
+                                      "query": research_query,
+                                      "format": "json",
+                                      "resultType": "core",
+                                      "pageSize": 8
+                                  },
+                                  headers={
+                                      "User-Agent":
+                                          "AutoJapaneseVideo/1.0",
+                                      "Accept": "application/json"
+                                  },
+                                  timeout=30
+                              )
+
+                              if (
+                                  response.status_code in (
+                                      429, 500, 502, 503, 504
+                                  )
+                                  and attempt == 0
+                              ):
+                                  time.sleep(3)
+                                  continue
+
+                              response.raise_for_status()
+
+                              records = (
+                                  response.json()
+                                  .get("resultList", {})
+                                  .get("result", [])
+                              )
+
+                              break
+
+                          except Exception as error:
+
+                              print(
+                                  "EUROPE PMC REQUEST ERROR:",
+                                  str(error)[:200]
+                              )
+
+                              if attempt == 0:
+                                  time.sleep(2)
+
+                      for paper in records:
+
+                          title_text = clean_text(
+                              paper.get("title", "")
+                          )
+
+                          abstract_text = clean_text(
+                              re.sub(
+                                  r"<[^>]+>",
+                                  " ",
+                                  paper.get("abstractText", "")
+                              )
+                          )
+
+                          if len(abstract_text) < 180:
+                              continue
+
+                          combined_text = (
+                              title_text + " " + abstract_text
+                          )
+
+                          # テーマと直接関係する論文だけ採用
+                          if evidence_mode == "deception_eye":
+
+                              has_deception = re.search(
+                                  r"\b(decept\w*|lie|lies|lying|"
+                                  r"veracity|truth)\b",
+                                  combined_text,
+                                  re.I
+                              )
+
+                              has_eye = re.search(
+                                  r"\b(eye\w*|gaze|ocular|"
+                                  r"saccad\w*|visual)\b",
+                                  combined_text,
+                                  re.I
+                              )
+
+                              if not has_deception or not has_eye:
+                                  continue
+
+                          elif evidence_mode == "iron":
+
+                              if not (
+                                  re.search(
+                                      r"\biron\b",
+                                      combined_text,
+                                      re.I
+                                  )
+                                  and re.search(
+                                      r"vitamin C|ascorbic acid",
+                                      combined_text,
+                                      re.I
+                                  )
+                                  and re.search(
+                                      r"absorpt|bioavailab",
+                                      combined_text,
+                                      re.I
+                                  )
+                              ):
+                                  continue
+
+                          elif evidence_mode == "sleep":
+
+                              if not (
+                                  re.search(
+                                      r"\bsleep\w*\b",
+                                      combined_text,
+                                      re.I
+                                  )
+                                  and re.search(
+                                      r"appetite|hunger|food intake",
+                                      combined_text,
+                                      re.I
+                                  )
+                              ):
+                                  continue
+
+                          elif evidence_mode == "running":
+
+                              if not (
+                                  re.search(
+                                      r"running|runner|exercise",
+                                      combined_text,
+                                      re.I
+                                  )
+                                  and re.search(
+                                      r"injur|musculoskeletal",
+                                      combined_text,
+                                      re.I
+                                  )
+                              ):
+                                  continue
+
+                          elif evidence_mode == "listening":
+
+                              if not (
+                                  re.search(
+                                      r"listen\w*",
+                                      combined_text,
+                                      re.I
+                                  )
+                                  and re.search(
+                                      r"empath\w*|interpersonal|"
+                                      r"relationship|communication",
+                                      combined_text,
+                                      re.I
+                                  )
+                              ):
+                                  continue
+
+                          pmid = str(
+                              paper.get("pmid", "")
+                          ).strip()
+
+                          pmcid = str(
+                              paper.get("pmcid", "")
+                          ).strip()
+
+                          doi = str(
+                              paper.get("doi", "")
+                          ).strip()
+
+                          if pmid:
+                              paper_url = (
+                                  "https://europepmc.org/article/MED/"
+                                  + pmid
+                              )
+                          elif pmcid:
+                              paper_url = (
+                                  "https://europepmc.org/articles/"
+                                  + pmcid
+                              )
+                          elif doi:
+                              paper_url = (
+                                  "https://doi.org/" + doi
+                              )
+                          else:
+                              continue
+
+                          paper_key = (
+                              pmid or pmcid or doi
+                              or title_text.lower()
+                          )
+
+                          if paper_key in accepted_papers:
+                              continue
+
+                          accepted_papers[paper_key] = {
+                              "title": title_text,
+                              "abstract": abstract_text[:2600],
+                              "author": clean_text(
+                                  paper.get("authorString", "")
+                              ),
+                              "journal": clean_text(
+                                  paper.get("journalTitle", "")
+                              ),
+                              "year": str(
+                                  paper.get("pubYear", "")
+                              ),
+                              "url": paper_url
+                          }
+
+                          print(
+                              "EUROPE PMC ACCEPTED:",
+                              title_text
+                          )
+
+                          if len(accepted_papers) >= 3:
+                              break
+
+                  if accepted_papers:
+
+                      paper_blocks = []
+
+                      for index, paper in enumerate(
+                          accepted_papers.values(),
+                          start=1
+                      ):
+
+                          paper_blocks.append(
+                              f"""
+          【学術論文 {index}】
+
+          論文タイトル：
+          {paper["title"]}
+
+          著者：
+          {paper["author"]}
+
+          掲載誌：
+          {paper["journal"]}
+
+          出版年：
+          {paper["year"]}
+
+          論文抄録：
+          {paper["abstract"]}
+
+          出典URL：
+          {paper["url"]}
+          """
+                          )
+
+                      europepmc_context = "\n\n".join(
+                          paper_blocks
+                      )
+
+                      print(
+                          "EUROPE PMC SUCCESS:",
+                          len(accepted_papers),
+                          "papers"
+                      )
+
+                  else:
+
+                      print(
+                          "EUROPE PMC: "
+                          "関連する論文・抄録を取得できませんでした。"
+                      )
+
+              else:
+
+                  print(
+                      "EUROPE PMC: "
+                      "このテーマに対応する検索条件がありません。"
+                  )
+
+          else:
+
+              print(
+                  "EUROPE PMC: "
+                  "RSSまたは記事本文を取得済みのため省略します。"
+              )
+
 
 
           # 本文が取得できた記事だけを事実確認の根拠にする
@@ -1968,75 +2341,114 @@ jobs:
               article_body = ""
 
           
+          
+          
+          # ==========================================
+          # 取得したすべての参考資料を台本生成へ渡す
+          # ==========================================
+
+          source_sections = []
+
           if rss_summary_context:
-              source_context = f"""
-          【複数のRSS記事から取得した要約】
-
-          {rss_summary_context}
-
-          【Wikipediaの参考情報】
-
-          {wikipedia_context if wikipedia_context else "関連する記事を取得できませんでした。"}
-
-          Wikipediaの出典URL：
-          {wikipedia_source if wikipedia_source else "取得できませんでした。"}
-
-          【情報の扱い方】
-
-          RSS要約に直接書かれている事実だけを使用してください。
-          複数の記事の内容を混同しないでください。
-          記事にない数字、研究結果、歴史的事実を作らないでください。
-          裏付けがない内容は台本に含めないでください。
-          """
+              source_sections.append(
+                  "【複数のRSS記事から取得した要約】\n"
+                  + rss_summary_context
+              )
 
           elif article_body:
-              source_context = f"""
+
+              article_title = (
+                  article.get("title", "")
+                  if isinstance(article, dict)
+                  else topic
+              )
+
+              article_link = (
+                  article.get("link", "")
+                  if isinstance(article, dict)
+                  else ""
+              )
+
+              source_sections.append(
+                  f"""
           【RSS記事の本文】
 
           記事タイトル：
-          {article['title']}
+          {article_title}
 
           記事本文：
           {article_body[:12000]}
 
           参考元URL：
-          {article['link']}
-
-          【Wikipediaの参考情報】
-
-          {wikipedia_context if wikipedia_context else "関連する記事を取得できませんでした。"}
-
-          Wikipediaの出典URL：
-          {wikipedia_source if wikipedia_source else "取得できませんでした。"}
-
-          【情報の扱い方】
-
-          記事本文に直接書かれている事実だけを使用してください。
-          記事にない数字、研究結果、歴史的事実を作らないでください。
-          引用元の内容を正確に確認してください。
+          {article_link}
           """
+              )
 
-          elif wikipedia_context:
-              source_context = f"""
+          if wikipedia_context:
+              source_sections.append(
+                  f"""
           【Wikipediaの参考情報】
 
           {wikipedia_context}
 
           出典URL：
           {wikipedia_source}
-
-          【情報の扱い方】
-
-          Wikipedia本文に直接書かれている事実だけを使用してください。
-          確認できない数字や研究結果を作らないでください。
           """
+              )
 
-          else:
+          if europepmc_context:
+              source_sections.append(
+                  f"""
+          【Europe PMCの学術論文・抄録】
+
+          {europepmc_context}
+          """
+              )
+
+          if not source_sections:
               raise RuntimeError(
-                  "記事本文、RSS要約、Wikipedia本文の"
-                  "いずれも取得できませんでした。"
+                  "記事本文、RSS要約、Wikipedia、"
+                  "Europe PMCのいずれからも"
+                  "十分な参考情報を取得できませんでした。"
                   "根拠のない台本の生成を中止します。"
               )
+
+          source_context = "\n\n".join(
+              source_sections
+          )
+
+          source_context += """
+
+          【情報の扱い方・重要ルール】
+
+          ・参考資料に直接記載されている事実だけを使用してください。
+          ・資料にない数字、研究結果、人物の発言を作らないでください。
+          ・論文の抄録だけで確認できる範囲を超えて説明しないでください。
+          ・研究対象と一般の人全体を混同しないでください。
+          ・相関関係を因果関係として説明しないでください。
+          ・研究の限界や例外を無視して断定しないでください。
+          ・異なる資料の研究結果を混同しないでください。
+          ・確認できない情報は台本に含めないでください。
+          ・参考資料のURLを必ず保持してください。
+          """
+
+          print(
+              "SOURCE COLLECTION SUCCESS:",
+              len(source_sections),
+              "source sections"
+          )
+
+          print(
+              "EUROPE PMC INCLUDED:",
+              bool(europepmc_context)
+          )
+
+          print(
+              "SOURCE CONTEXT LENGTH:",
+              len(source_context)
+          )
+
+
 
 
               
@@ -2918,9 +3330,10 @@ jobs:
                       value
                   )
 
-              if not article and not wikipedia_context:
+              if not source_context.strip():
                   raise RuntimeError(
-                      "事実確認に使える出典がありません。公開を中止します。"
+                      "事実確認に使える参考資料がありません。"
+                      "公開を中止します。"
                   )
 
               fact_check_prompt = f"""
