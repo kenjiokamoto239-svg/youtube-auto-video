@@ -3241,8 +3241,9 @@ jobs:
           )
 
           
-          # 280文字を超えた場合はAIに最大3回短縮させる
-          for attempt in range(1, 4):
+          
+          # 280文字を超えた場合はAIに段階的に短縮させる
+          for attempt in range(1, 7):
 
               if len(script) <= 280:
                   break
@@ -3255,24 +3256,26 @@ jobs:
               )
 
               shorten_prompt = f"""
-              次の台本を、内容の正確さを保ったまま
-              必ず250文字以内に短縮してください。
+              次の台本を必ず280文字以内に短縮してください。
 
-              【絶対条件】
+              【最優先条件】
+              ・280文字を絶対に超えない
               ・読み上げる本文だけを出力する
-              ・250文字以内にする
-              ・重要な事実や根拠を残す
-              ・同じ説明を繰り返さない
-              ・自然な日本語にする
-              ・最後まで意味が通る文章にする
+              ・冒頭、具体的な説明、結論を残す
+              ・重要な事実は1つか2つに絞る
+              ・重複した説明や余分な表現を削る
               ・新しい情報を作らない
+              ・自然な日本語にする
+              ・短くても意味が通る文章にする
+
+              現在の文字数は{len(script)}文字です。
+              必ず280文字以内にしてください。
 
               【現在の台本】
               {script}
               """
 
               try:
-                  
                   shorten_response = requests.post(
                       "http://127.0.0.1:11434/api/generate",
                       json={
@@ -3280,13 +3283,12 @@ jobs:
                           "prompt": shorten_prompt,
                           "stream": False,
                           "options": {
-                              "temperature": 0.2,
-                              "num_predict": 384
+                              "temperature": 0.1,
+                              "num_predict": 512
                           }
                       },
                       timeout=900
                   )
-
 
                   shorten_response.raise_for_status()
 
@@ -3305,9 +3307,9 @@ jobs:
                       r"(?im)^\s*(台本|本文|SCRIPT)\s*[:：]\s*",
                       "",
                       shortened_script
-                  )
+                  ).strip()
 
-                  if shortened_script:
+                  if shortened_script and len(shortened_script) < len(script):
                       script = shortened_script
 
                   print(
@@ -3331,9 +3333,10 @@ jobs:
 
           if final_script_length > 280:
               raise RuntimeError(
-                  "台本の短縮に3回失敗しました。"
+                  "台本の短縮に失敗しました。"
                   f"最終文字数: {final_script_length}"
               )
+)
 
 
           # 残った問題がある台本は公開しない
