@@ -1822,6 +1822,66 @@ jobs:
                           )
                           continue
 
+                      # 記事本文が動画テーマと同じ内容かAIで確認
+                      relevance_prompt = f"""
+                      あなたは厳格な出典確認担当者です。
+
+                      次の記事本文が動画テーマと
+                      直接関係しているか判定してください。
+
+                      【重要】
+                      ・単に同じ言葉が出てくるだけでは不十分です。
+                      ・同じ言葉でも別の分野の話ならNOです。
+                      ・動画テーマについて説明する根拠として
+                        使える記事だけYESにしてください。
+                      ・判断に迷ったらNOにしてください。
+                      ・回答はYESまたはNOだけにしてください。
+
+                      【動画テーマ】
+                      {topic}
+
+                      【記事タイトル】
+                      {candidate["title"]}
+
+                      【記事本文】
+                      {candidate_body[:5000]}
+                      """
+
+                      relevance_response = requests.post(
+                          "http://127.0.0.1:11434/api/generate",
+                          json={
+                              "model": model,
+                              "prompt": relevance_prompt,
+                              "stream": False,
+                              "options": {
+                                  "temperature": 0.0,
+                                  "num_predict": 32
+                              }
+                          },
+                          timeout=180
+                      )
+
+                      relevance_response.raise_for_status()
+
+                      relevance_answer = clean_text(
+                          relevance_response.json().get(
+                              "response",
+                              ""
+                          )
+                      ).upper()
+
+                      print(
+                          "ARTICLE TOPIC RELEVANCE:",
+                          relevance_answer
+                      )
+
+                      if not relevance_answer.startswith("YES"):
+                          print(
+                              "ARTICLE REJECTED: "
+                              "動画テーマと本文の内容が異なります。"
+                          )
+                          continue
+
                       article = candidate
                       article["link"] = publisher_url
                       article_body = candidate_body
