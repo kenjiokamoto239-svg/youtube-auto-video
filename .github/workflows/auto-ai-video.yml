@@ -1483,7 +1483,10 @@ jobs:
               ),
               reverse=True
           )
-
+          
+          # Wikipedia記事が見つからない場合に備えて初期化
+          wiki_extract = ""
+          
           for wiki_item in ranked_wikipedia:
               wiki_title = clean_text(
                   wiki_item.get("title", "")
