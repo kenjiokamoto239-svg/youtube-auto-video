@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-18T07:03:53.983235+09:00",
+  "updated_at_jst": "2026-11-19T06:43:18.321058+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-11",
-    "end": "2026-11-17",
+    "start": "2026-11-12",
+    "end": "2026-11-18",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-11",
-      "views": 162,
-      "watch_minutes": 12.0,
-      "average_view_seconds": 13.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-11-12",
       "views": 392,
@@ -62,19 +52,29 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-11-16",
+      "views": 375,
+      "watch_minutes": 28.0,
+      "average_view_seconds": 16.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 1,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-12",
       "2026-11-13",
-      "2026-11-14"
+      "2026-11-14",
+      "2026-11-15"
     ],
     "recent_3_days": [
-      "2026-11-15",
       "2026-11-16",
-      "2026-11-17"
+      "2026-11-17",
+      "2026-11-18"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -87,7 +87,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1268,
+      "views": 1271,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -120,7 +120,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1114,
+      "views": 1117,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -199,7 +199,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1268,
+      "views": 1271,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -232,7 +232,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1114,
+      "views": 1117,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -364,7 +364,7 @@
       "published_at": "2026-11-05T03:14:40Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 932,
+      "views": 935,
       "likes": 4,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
@@ -386,7 +386,7 @@
       "published_at": "2026-11-09T21:28:38Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 779,
+      "views": 780,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
@@ -425,6 +425,17 @@
       "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
     },
     {
+      "video_id": "ToRnJM0IIV0",
+      "title": "有料パスでゲット！USJスペシャル・ファン・ナイトの秘密条件",
+      "published_at": "2026-11-11T22:02:48Z",
+      "duration_iso": "PT24S",
+      "duration_seconds": 24,
+      "views": 264,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=ToRnJM0IIV0"
+    },
+    {
       "video_id": "K-iwyFvNchk",
       "title": "ワールド・オブ・フローズンは、2026年3月29日にディズニーランド・パリのディズニー・ア",
       "published_at": "2026-11-17T05:11:42Z",
@@ -434,17 +445,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=K-iwyFvNchk"
-    },
-    {
-      "video_id": "ToRnJM0IIV0",
-      "title": "有料パスでゲット！USJスペシャル・ファン・ナイトの秘密条件",
-      "published_at": "2026-11-11T22:02:48Z",
-      "duration_iso": "PT24S",
-      "duration_seconds": 24,
-      "views": 262,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ToRnJM0IIV0"
     },
     {
       "video_id": "oqKXON88z5Y",
@@ -463,7 +463,7 @@
       "published_at": "2026-11-14T23:35:04Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 205,
+      "views": 208,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
@@ -474,7 +474,7 @@
       "published_at": "2026-11-08T15:49:26Z",
       "duration_iso": "PT39S",
       "duration_seconds": 39,
-      "views": 179,
+      "views": 181,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=3RtQyTCOe-Y"
@@ -485,7 +485,7 @@
       "published_at": "2026-11-14T17:02:54Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 169,
+      "views": 168,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
@@ -496,7 +496,7 @@
       "published_at": "2026-11-08T12:59:35Z",
       "duration_iso": "PT37S",
       "duration_seconds": 37,
-      "views": 138,
+      "views": 141,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=QmZERK6UlAI"
@@ -617,7 +617,7 @@
       "published_at": "2026-11-05T18:42:20Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 41,
+      "views": 42,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
