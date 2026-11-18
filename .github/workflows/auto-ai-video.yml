@@ -2569,7 +2569,14 @@ jobs:
           {europepmc_context}
           """
               )
+          if openalex_context:
+              source_sections.append(
+                  f"""
+          【OpenAlexの学術論文・抄録】
 
+          {openalex_context}
+          """
+              )
           if not source_sections:
               raise RuntimeError(
                   "記事本文、RSS要約、Wikipedia、"
