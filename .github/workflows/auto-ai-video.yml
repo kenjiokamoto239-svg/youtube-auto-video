@@ -3540,11 +3540,22 @@ jobs:
           # 出典に合わせて台本を最終調整する
           if category != "ダジャレ":
 
-              grounding_source = (
-                  article_body
-                  if article_body
-                  else wiki_extract
+
+              grounding_source_parts = [
+                  article_body,
+                  rss_summary_context,
+                  wiki_extract,
+                  wikipedia_context,
+                  openalex_context,
+                  europepmc_context
+              ]
+
+              grounding_source = "\n\n".join(
+                  part.strip()
+                  for part in grounding_source_parts
+                  if part and part.strip()
               )
+
 
               if not grounding_source:
                   raise RuntimeError(
