@@ -2030,7 +2030,7 @@ jobs:
           europepmc_context = ""
           openalex_context = ""
 
-          if not article_body and not rss_summary_context:
+          if True:
 
               import time
               import requests
@@ -2471,6 +2471,63 @@ jobs:
                               )
 
                               if len(abstract_text) < 200:
+                                  continue
+                              # Europe PMC論文のテーマ関連性をAIで確認
+                              europe_relevance_prompt = f"""
+                              あなたは厳格な学術資料確認担当者です。
+
+                              次の論文が動画テーマと直接関係するか判定してください。
+
+                              【ルール】
+                              ・単語の一致だけではYESにしない
+                              ・研究対象と動画テーマが一致する必要がある
+                              ・別分野の研究はNO
+                              ・判断に迷ったらNO
+                              ・YESまたはNOだけ回答する
+
+                              【動画テーマ】
+                              {topic}
+
+                              【論文タイトル】
+                              {title_text}
+
+                              【抄録】
+                              {abstract_text[:3000]}
+                              """
+
+                              europe_relevance_response = requests.post(
+                                  "http://127.0.0.1:11434/api/generate",
+                                  json={
+                                      "model": model,
+                                      "prompt": europe_relevance_prompt,
+                                      "stream": False,
+                                      "options": {
+                                          "temperature": 0.0,
+                                          "num_predict": 32
+                                      }
+                                  },
+                                  timeout=180
+                              )
+
+                              europe_relevance_response.raise_for_status()
+
+                              europe_relevance_answer = clean_text(
+                                  europe_relevance_response.json().get(
+                                      "response",
+                                      ""
+                                  )
+                              ).strip().upper()
+
+                              print(
+                                  "EUROPE PMC TOPIC RELEVANCE:",
+                                  europe_relevance_answer
+                              )
+
+                              if europe_relevance_answer != "YES":
+                                  print(
+                                      "EUROPE PMC REJECTED: "
+                                      "テーマと直接関係しません。"
+                                  )
                                   continue
 
                               score = research_match_score(
