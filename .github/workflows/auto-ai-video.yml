@@ -2240,13 +2240,72 @@ jobs:
                           if len(abstract_text) < 200:
                               continue
 
+                          # 論文タイトルと抄録が動画テーマに
+                          # 直接関係しているかAIで確認する
+                          relevance_prompt = f"""
+                          あなたは厳格な学術資料の確認担当者です。
+
+                          次の論文が動画テーマを直接裏付ける
+                          学術資料として使えるか判定してください。
+
+                          【判定ルール】
+                          ・単語が一致するだけでは不十分です。
+                          ・研究対象と動画テーマが一致する必要があります。
+                          ・別の分野の論文はNOにしてください。
+                          ・関連が少しでも曖昧ならNOにしてください。
+                          ・回答はYESまたはNOだけにしてください。
+
+                          【動画テーマ】
+                          {topic}
+
+                          【論文タイトル】
+                          {title_text}
+
+                          【論文抄録】
+                          {abstract_text[:4000]}
+                          """
+
+                          relevance_response = requests.post(
+                              "http://127.0.0.1:11434/api/generate",
+                              json={
+                                  "model": model,
+                                  "prompt": relevance_prompt,
+                                  "stream": False,
+                                  "options": {
+                                      "temperature": 0.0,
+                                      "num_predict": 32
+                                  }
+                              },
+                              timeout=180
+                          )
+
+                          relevance_response.raise_for_status()
+
+                          relevance_answer = clean_text(
+                              relevance_response.json().get(
+                                  "response",
+                                  ""
+                              )
+                          ).strip().upper()
+
+                          print(
+                              "OPENALEX TOPIC RELEVANCE:",
+                              relevance_answer
+                          )
+
+                          if relevance_answer != "YES":
+                              print(
+                                  "OPENALEX REJECTED: "
+                                  "動画テーマを直接裏付けていません。"
+                              )
+                              continue
+
                           score = research_match_score(
                               title_text,
                               abstract_text,
                               research_query
                           )
 
-                          # 検索語との関連性が低い論文は除外
                           if score < 2:
                               continue
 
