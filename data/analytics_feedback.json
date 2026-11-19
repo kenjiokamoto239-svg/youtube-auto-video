@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-19T06:43:18.321058+09:00",
+  "updated_at_jst": "2026-11-20T06:59:22.489469+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-12",
-    "end": "2026-11-18",
+    "start": "2026-11-13",
+    "end": "2026-11-19",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-12",
-      "views": 392,
-      "watch_minutes": 19.0,
-      "average_view_seconds": 11.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 1,
-      "comments": 0
-    },
     {
       "day": "2026-11-13",
       "views": 1133,
@@ -35,7 +25,7 @@
     },
     {
       "day": "2026-11-14",
-      "views": 673,
+      "views": 669,
       "watch_minutes": 41.0,
       "average_view_seconds": 12.0,
       "subscribers_gained": 0,
@@ -45,8 +35,8 @@
     },
     {
       "day": "2026-11-15",
-      "views": 1211,
-      "watch_minutes": 130.0,
+      "views": 1207,
+      "watch_minutes": 129.0,
       "average_view_seconds": 17.0,
       "subscribers_gained": 1,
       "subscribers_lost": 0,
@@ -62,19 +52,29 @@
       "subscribers_lost": 1,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-11-17",
+      "views": 41,
+      "watch_minutes": 2.0,
+      "average_view_seconds": 11.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 0,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-13",
       "2026-11-14",
-      "2026-11-15"
+      "2026-11-15",
+      "2026-11-16"
     ],
     "recent_3_days": [
-      "2026-11-16",
       "2026-11-17",
-      "2026-11-18"
+      "2026-11-18",
+      "2026-11-19"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -87,7 +87,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1271,
+      "views": 1273,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -120,7 +120,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1117,
+      "views": 1122,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -131,7 +131,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1090,
+      "views": 1097,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -199,7 +199,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1271,
+      "views": 1273,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -232,7 +232,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1117,
+      "views": 1122,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -243,7 +243,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1090,
+      "views": 1097,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -315,34 +315,12 @@
       "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
     },
     {
-      "video_id": "IYDJl90fXt0",
-      "title": "なぜマッシュルの誕生日特番が実写映画化と組み合わされたのか",
-      "published_at": "2026-11-04T14:01:11Z",
-      "duration_iso": "PT39S",
-      "duration_seconds": 39,
-      "views": 993,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IYDJl90fXt0"
-    },
-    {
-      "video_id": "bL71URbVkhY",
-      "title": "なぜ「跳ね橋」だけ改善されなかったか、その謎解くべき",
-      "published_at": "2026-11-04T18:35:52Z",
-      "duration_iso": "PT40S",
-      "duration_seconds": 40,
-      "views": 990,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=bL71URbVkhY"
-    },
-    {
       "video_id": "D5e6pXD4PVs",
       "title": "ドラクエ7リメイク」の裏技、経験値倍増場所教えます！",
       "published_at": "2026-11-09T10:22:44Z",
       "duration_iso": "PT27S",
       "duration_seconds": 27,
-      "views": 982,
+      "views": 983,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=D5e6pXD4PVs"
@@ -425,6 +403,17 @@
       "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
     },
     {
+      "video_id": "KBKfoTfy5jA",
+      "title": "なぜテーマパークのアトラクションが観客を引き込むのか、視覚的な相似性とリアリズムで心を捉える。",
+      "published_at": "2026-11-19T08:51:32Z",
+      "duration_iso": "PT31S",
+      "duration_seconds": 31,
+      "views": 277,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=KBKfoTfy5jA"
+    },
+    {
       "video_id": "ToRnJM0IIV0",
       "title": "有料パスでゲット！USJスペシャル・ファン・ナイトの秘密条件",
       "published_at": "2026-11-11T22:02:48Z",
@@ -436,12 +425,23 @@
       "url": "https://www.youtube.com/watch?v=ToRnJM0IIV0"
     },
     {
+      "video_id": "AtHzV-zPCcs",
+      "title": "また、ビタミンCが鉄を酸化し、それを吸収しやすい状態に変えるという基本原理は多くの科学者に",
+      "published_at": "2026-11-18T22:11:09Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 259,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=AtHzV-zPCcs"
+    },
+    {
       "video_id": "K-iwyFvNchk",
       "title": "ワールド・オブ・フローズンは、2026年3月29日にディズニーランド・パリのディズニー・ア",
       "published_at": "2026-11-17T05:11:42Z",
       "duration_iso": "PT34S",
       "duration_seconds": 34,
-      "views": 262,
+      "views": 258,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=K-iwyFvNchk"
@@ -463,7 +463,7 @@
       "published_at": "2026-11-14T23:35:04Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 208,
+      "views": 209,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
@@ -485,7 +485,7 @@
       "published_at": "2026-11-14T17:02:54Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 168,
+      "views": 169,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
@@ -535,6 +535,17 @@
       "url": "https://www.youtube.com/watch?v=tv464ZRRAeY"
     },
     {
+      "video_id": "UZ9jFje6thU",
+      "title": "灯良の秘密、脱出へ",
+      "published_at": "2026-11-13T18:45:23Z",
+      "duration_iso": "PT20S",
+      "duration_seconds": 20,
+      "views": 99,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
+    },
+    {
       "video_id": "ICh__ZpX04E",
       "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
       "published_at": "2026-11-14T15:42:43Z",
@@ -546,23 +557,12 @@
       "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
     },
     {
-      "video_id": "UZ9jFje6thU",
-      "title": "灯良の秘密、脱出へ",
-      "published_at": "2026-11-13T18:45:23Z",
-      "duration_iso": "PT20S",
-      "duration_seconds": 20,
-      "views": 97,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
-    },
-    {
       "video_id": "OkC4MB7Dc9A",
       "title": "みなとみらいミラー2026、クリスマスもドラクエFFコラボ",
       "published_at": "2026-11-13T10:40:14Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 95,
+      "views": 96,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
@@ -617,7 +617,7 @@
       "published_at": "2026-11-05T18:42:20Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 42,
+      "views": 44,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
@@ -661,7 +661,7 @@
       "published_at": "2026-11-16T02:38:53Z",
       "duration_iso": "PT33S",
       "duration_seconds": 33,
-      "views": 9,
+      "views": 10,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=kxpdKEy_920"
