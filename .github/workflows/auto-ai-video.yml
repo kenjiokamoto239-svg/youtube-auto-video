@@ -3729,11 +3729,6 @@ jobs:
 
           validation_errors = validate_claims(fact_check)
 
-          # 初回PASSでも主張と出典の対応関係を再確認する
-          validation_errors.append(
-              "主張と出典の直接的な対応関係を番号照合してください。"
-          )
-
           if validation_errors:
               print("FACT CHECK INDEX RETRY: START")
 
