@@ -2039,101 +2039,92 @@ jobs:
               print("GENERIC RESEARCH: START")
               print("RESEARCH TOPIC:", topic)
 
-              # --------------------------------------
-              # 1. 日本語テーマを英語に翻訳
-              # --------------------------------------
-
+              # 日本語テーマを英語化。MyMemory失敗時はローカルOllamaを使う。
               translated_topic = ""
 
               try:
                   translation_response = requests.get(
                       "https://api.mymemory.translated.net/get",
-                      params={
-                          "q": topic[:450],
-                          "langpair": "ja|en"
-                      },
-                      headers={
-                          "User-Agent": "AutoJapaneseVideo/1.0"
-                      },
+                      params={"q": topic[:450], "langpair": "ja|en"},
+                      headers={"User-Agent": "AutoJapaneseVideo/1.0"},
                       timeout=20
                   )
-
                   translation_response.raise_for_status()
-
-                  translated_topic = (
+                  translated_topic = clean_text(
                       translation_response.json()
                       .get("responseData", {})
                       .get("translatedText", "")
                   )
-
-                  translated_topic = clean_text(
-                      translated_topic
-                  )
-
-                  if (
-                      translated_topic
-                      and translated_topic.lower() != topic.lower()
-                  ):
-                      print(
-                          "TRANSLATED RESEARCH TOPIC:",
-                          translated_topic
-                      )
-                  else:
+                  if not re.search(r"[A-Za-z]{3,}", translated_topic):
                       translated_topic = ""
-
+                  if translated_topic:
+                      print("TRANSLATED RESEARCH TOPIC:", translated_topic)
               except Exception as error:
-                  print(
-                      "TRANSLATION ERROR:",
-                      str(error)[:200]
-                  )
+                  print("TRANSLATION ERROR:", str(error)[:200])
 
-              # --------------------------------------
-              # 2. 検索語を自動作成
-              # --------------------------------------
+              if not translated_topic:
+                  try:
+                      local_prompt = (
+                          "Translate this Japanese topic into one concise English "
+                          "search query. Output only the English query. Do not add "
+                          "facts or explanations.\nJapanese topic: "
+                          + topic
+                      )
+                      local_response = requests.post(
+                          "http://127.0.0.1:11434/api/generate",
+                          json={
+                              "model": model,
+                              "prompt": local_prompt,
+                              "stream": False,
+                              "options": {
+                                  "temperature": 0.1,
+                                  "num_predict": 128
+                              }
+                          },
+                          timeout=180
+                      )
+                      local_response.raise_for_status()
+                      translated_topic = clean_text(
+                          strip_prompt_leakage(
+                              local_response.json().get("response", "")
+                          )
+                      )
+                      translated_topic = (
+                          translated_topic.splitlines()[0].strip()
+                          if translated_topic else ""
+                      )
+                      translated_topic = re.sub(
+                          r"(?i)^\s*(?:english translation|translation)\s*[:：]\s*",
+                          "",
+                          translated_topic
+                      ).strip().strip('"')
+                      if not re.search(r"[A-Za-z]{3,}", translated_topic):
+                          translated_topic = ""
+                      if translated_topic:
+                          print("LOCAL TRANSLATION FALLBACK:", translated_topic)
+                  except Exception as error:
+                      print("LOCAL TRANSLATION ERROR:", str(error)[:200])
 
               research_queries = []
-
               if translated_topic:
                   research_queries.append(translated_topic)
-
-                  # 疑問文の末尾などを除いた検索語も作る
                   simplified_query = re.sub(
                       r"\b(why|what|how|does|do|is|are|the|a|an)\b",
                       " ",
                       translated_topic,
                       flags=re.I
                   )
+                  simplified_query = clean_text(simplified_query)
+                  if simplified_query and simplified_query.lower() != translated_topic.lower():
+                      research_queries.append(simplified_query)
 
-                  simplified_query = clean_text(
-                      simplified_query
-                  )
-
-                  if (
-                      simplified_query
-                      and simplified_query.lower()
-                      != translated_topic.lower()
-                  ):
-                      research_queries.append(
-                          simplified_query
-                      )
-
-              # 翻訳に失敗した場合も日本語で検索を試す
               research_queries.append(topic)
-
-              # 重複を除去
-              research_queries = list(
-                  dict.fromkeys(
-                      query.strip()
-                      for query in research_queries
-                      if query and query.strip()
-                  )
-              )
-
-              print(
-                  "GENERIC SEARCH QUERIES:",
-                  research_queries
-              )
-
+              research_queries = list(dict.fromkeys(
+                  query.strip()
+                  for query in research_queries
+                  if query and query.strip()
+              ))
+              print("GENERIC SEARCH QUERIES:", research_queries)
               # --------------------------------------
               # 3. OpenAlexで幅広い学術論文を検索
               # 心理・社会・自然科学などを横断
