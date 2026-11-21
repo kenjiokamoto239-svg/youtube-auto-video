@@ -1004,71 +1004,120 @@ jobs:
 
           articles = []
 
-          headers = {
-              "User-Agent": (
-                  "Mozilla/5.0 "
-                  "(compatible; AutoJapaneseVideo/1.0)"
+          # trend_strategy.pyで取得済みのGoogle News要約を再利用
+          plan_source_summary = clean_text(
+              plan.get("source_summary", "")
+          )
+          plan_source_url = clean_text(
+              plan.get("source_url", "")
+          )
+          plan_source_name = clean_text(
+              plan.get("trend_source", "")
+          )
+
+          plan_source_loaded = False
+
+          if (
+              plan_source_name == "Google News"
+              and len(plan_source_summary) >= 70
+              and plan_source_url.startswith("http")
+          ):
+              articles.append({
+                  "title": topic,
+                  "summary": plan_source_summary[:900],
+                  "link": plan_source_url,
+                  "source": "Google News"
+              })
+              plan_source_loaded = True
+              print(
+                  "TREND PLAN SOURCE LOADED:",
+                  len(plan_source_summary)
               )
-          }
 
-          articles = []
-
-          # 検索語を順番に試し、参考情報を取得する
+          # Google Newsが失敗した場合はBing News RSSへ切り替える
           for query in queries:
-              rss_url = (
-                  "https://news.google.com/rss/search?q="
-                  + quote(query, safe="")
-                  + "&hl=ja&gl=JP&ceid=JP:ja"
-              )
+              encoded_query = quote(query, safe="")
+              provider_urls = []
 
-              try:
-                  print("RESEARCH SEARCH:", query)
+              # trend_strategy.pyでGoogle Newsを取得済みなら再検索しない
+              if not plan_source_loaded:
+                  provider_urls.append((
+                      "Google News",
+                      "https://news.google.com/rss/search?q="
+                      + encoded_query
+                      + "&hl=ja&gl=JP&ceid=JP:ja"
+                  ))
 
-                  response = requests.get(
-                      rss_url,
-                      headers=headers,
-                      timeout=25
-                  )
+              provider_urls.append((
+                  "Bing News",
+                  "https://www.bing.com/news/search?q="
+                  + encoded_query
+                  + "&format=rss&setlang=ja-JP&cc=JP"
+              ))
 
-                  response.raise_for_status()
+              for provider, rss_url in provider_urls:
+                  try:
+                      print("RESEARCH SEARCH:", provider, query)
 
-                  feed = feedparser.parse(
-                      response.content
-                  )
-
-                  for item in feed.entries[:50]:
-                      title_text = clean_text(
-                          item.get("title", "")
+                      response = requests.get(
+                          rss_url,
+                          headers=headers,
+                          timeout=25
                       )
+                      response.raise_for_status()
 
-                      summary_text = clean_text(
-                          re.sub(
-                              r"<[^>]+>",
-                              " ",
-                              item.get("summary", "")
+                      feed = feedparser.parse(response.content)
+                      entries = feed.entries[:50]
+                      added = 0
+
+                      for item in entries:
+                          title_text = clean_text(
+                              item.get("title", "")
                           )
+                          summary_text = clean_text(
+                              re.sub(
+                                  r"<[^>]+>",
+                                  " ",
+                                  item.get(
+                                      "summary",
+                                      item.get("description", "")
+                                  )
+                              )
+                          )
+                          link_text = item.get("link", "")
+
+                          if title_text and link_text:
+                              if not any(
+                                  article_item["link"] == link_text
+                                  for article_item in articles
+                              ):
+                                  articles.append({
+                                      "title": title_text,
+                                      "summary": summary_text[:900],
+                                      "link": link_text,
+                                      "source": provider
+                                  })
+                                  added += 1
+
+                      print(
+                          provider,
+                          "RSS ITEMS:",
+                          len(entries),
+                          "ADDED:",
+                          added
                       )
 
-                      link_text = item.get("link", "")
+                      # 2件以上追加できたら、この検索語での代替検索は終了
+                      if added >= 2:
+                          break
 
-                      if title_text and link_text:
-                          # 同じ記事の重複を避ける
-                          if not any(
-                              a["link"] == link_text
-                              for a in articles
-                          ):
-                              articles.append({
-                                  "title": title_text,
-                                  "summary": summary_text[:900],
-                                  "link": link_text
-                              })
-
-
-              except Exception as e:
-                  print(
-                      "RESEARCH RSS ERROR:",
-                      str(e)[:200]
-                  )
+                  except Exception as e:
+                      print(
+                          provider,
+                          "RSS ERROR:",
+                          str(e)[:200]
+                      )
+                      continue
 
           # テーマとの関連度が最も高い記事を選ぶ
           def topic_match_score(text):
