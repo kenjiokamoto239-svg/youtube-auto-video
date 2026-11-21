@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-21T06:41:45.752621+09:00",
+  "updated_at_jst": "2026-11-22T05:23:42.459256+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-14",
-    "end": "2026-11-20",
+    "start": "2026-11-15",
+    "end": "2026-11-21",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-14",
-      "views": 669,
-      "watch_minutes": 41.0,
-      "average_view_seconds": 12.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 3,
-      "comments": 0
-    },
     {
       "day": "2026-11-15",
       "views": 1207,
@@ -35,7 +25,7 @@
     },
     {
       "day": "2026-11-16",
-      "views": 375,
+      "views": 374,
       "watch_minutes": 28.0,
       "average_view_seconds": 16.0,
       "subscribers_gained": 0,
@@ -62,19 +52,29 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-11-19",
+      "views": 1311,
+      "watch_minutes": 119.0,
+      "average_view_seconds": 16.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 3,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-15",
       "2026-11-16",
-      "2026-11-17"
+      "2026-11-17",
+      "2026-11-18"
     ],
     "recent_3_days": [
-      "2026-11-18",
       "2026-11-19",
-      "2026-11-20"
+      "2026-11-20",
+      "2026-11-21"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -87,7 +87,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1276,
+      "views": 1287,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -120,7 +120,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1122,
+      "views": 1124,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -131,7 +131,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1106,
+      "views": 1108,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -148,17 +148,6 @@
       "url": "https://www.youtube.com/watch?v=_vyCsAzjFnM"
     },
     {
-      "video_id": "hzUwQPazaf8",
-      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
-      "published_at": "2026-11-20T04:09:56Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 1043,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
-    },
-    {
       "video_id": "YUEgL6oBu1c",
       "title": "マックチキン、ケンタッキーの塩分戦い 解き明かす",
       "published_at": "2026-11-08T17:01:49Z",
@@ -168,6 +157,17 @@
       "likes": 3,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
+    },
+    {
+      "video_id": "hzUwQPazaf8",
+      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
+      "published_at": "2026-11-20T04:09:56Z",
+      "duration_iso": "PT30S",
+      "duration_seconds": 30,
+      "views": 1033,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
     },
     {
       "video_id": "QzcUT_HhaEc",
@@ -199,7 +199,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1276,
+      "views": 1287,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -232,7 +232,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1122,
+      "views": 1124,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -243,7 +243,7 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1106,
+      "views": 1108,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
@@ -260,17 +260,6 @@
       "url": "https://www.youtube.com/watch?v=_vyCsAzjFnM"
     },
     {
-      "video_id": "hzUwQPazaf8",
-      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
-      "published_at": "2026-11-20T04:09:56Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 1043,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
-    },
-    {
       "video_id": "YUEgL6oBu1c",
       "title": "マックチキン、ケンタッキーの塩分戦い 解き明かす",
       "published_at": "2026-11-08T17:01:49Z",
@@ -280,6 +269,17 @@
       "likes": 3,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
+    },
+    {
+      "video_id": "hzUwQPazaf8",
+      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
+      "published_at": "2026-11-20T04:09:56Z",
+      "duration_iso": "PT30S",
+      "duration_seconds": 30,
+      "views": 1033,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
     },
     {
       "video_id": "QzcUT_HhaEc",
@@ -348,34 +348,12 @@
       "url": "https://www.youtube.com/watch?v=A11cM79AHAI"
     },
     {
-      "video_id": "mAOg3cBf3hU",
-      "title": "名探偵コナン30周年、赤レンガ倉庫の神秘的美術展",
-      "published_at": "2026-11-05T03:14:40Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 939,
-      "likes": 4,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=mAOg3cBf3hU"
-    },
-    {
-      "video_id": "k5N-ejQ9_PA",
-      "title": "ドラクエ3」のモンスターバトルロード、攻略の難しさに驚き！",
-      "published_at": "2026-11-05T07:53:47Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 914,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=k5N-ejQ9_PA"
-    },
-    {
       "video_id": "JUgWlPUBXkE",
       "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
       "published_at": "2026-11-09T21:28:38Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 780,
+      "views": 781,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
@@ -390,6 +368,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=1Ks1iTKB_Zg"
+    },
+    {
+      "video_id": "NX73HYeGtGk",
+      "title": "なぜコベントリーとクリスタル・パレスの試合を注目すべきなのか？真相がここにある。坂元達裕と鎌田大地の驚くべき対決。",
+      "published_at": "2026-11-21T16:45:43Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 643,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
     },
     {
       "video_id": "8W0a67AWcH8",
@@ -474,7 +463,7 @@
       "published_at": "2026-11-14T23:35:04Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 214,
+      "views": 219,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
@@ -617,7 +606,7 @@
       "published_at": "2026-11-05T18:42:20Z",
       "duration_iso": "PT35S",
       "duration_seconds": 35,
-      "views": 44,
+      "views": 45,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
@@ -645,17 +634,6 @@
       "url": "https://www.youtube.com/watch?v=HEcUQ2imAHw"
     },
     {
-      "video_id": "gQSnQcQ9rAY",
-      "title": "★3メモリー選び：★2の約4倍のステータスで勝利！",
-      "published_at": "2026-11-05T10:26:32Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 24,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=gQSnQcQ9rAY"
-    },
-    {
       "video_id": "kxpdKEy_920",
       "title": "なぜ社会保障審議会の介護給付費分科会が開催される必要があるのか、そしてその中で最も驚くべき",
       "published_at": "2026-11-16T02:38:53Z",
@@ -665,6 +643,28 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=kxpdKEy_920"
+    },
+    {
+      "video_id": "h0KT7_teQ7o",
+      "title": "なぜ木村拓哉の長女・Cocomiが木村拓哉と工藤静香の長女・Kokiのプライベートショット",
+      "published_at": "2026-11-21T06:16:52Z",
+      "duration_iso": "PT36S",
+      "duration_seconds": 36,
+      "views": 8,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=h0KT7_teQ7o"
+    },
+    {
+      "video_id": "f3goAc1SDY4",
+      "title": "東京・中野区で24歳の女性を路上で刺殺した39歳の男が、彼女との食事代で約800万円を使い",
+      "published_at": "2026-11-21T14:12:24Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 6,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=f3goAc1SDY4"
     },
     {
       "video_id": "YB0-UlZNat0",
@@ -689,6 +689,28 @@
       "url": "https://www.youtube.com/watch?v=sqZBZjQMPBQ"
     },
     {
+      "video_id": "QIZvyr2AX9c",
+      "title": "アマゾンジャパン、価格透明性強化へ",
+      "published_at": "2026-11-11T17:04:42Z",
+      "duration_iso": "PT33S",
+      "duration_seconds": 33,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
+    },
+    {
+      "video_id": "Snz0U5R89t8",
+      "title": "今日の学校、動物の驚異的コミュニケーション",
+      "published_at": "2026-11-10T08:28:33Z",
+      "duration_iso": "PT37S",
+      "duration_seconds": 37,
+      "views": 2,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Snz0U5R89t8"
+    },
+    {
       "video_id": "Y6O3jc2ZG5o",
       "title": "中退生の目から見た、驚くべき日本の習慣",
       "published_at": "2026-11-08T06:24:34Z",
@@ -709,28 +731,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=0VGgmoIWYXY"
-    },
-    {
-      "video_id": "QIZvyr2AX9c",
-      "title": "アマゾンジャパン、価格透明性強化へ",
-      "published_at": "2026-11-11T17:04:42Z",
-      "duration_iso": "PT33S",
-      "duration_seconds": 33,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QIZvyr2AX9c"
-    },
-    {
-      "video_id": "Snz0U5R89t8",
-      "title": "今日の学校、動物の驚異的コミュニケーション",
-      "published_at": "2026-11-10T08:28:33Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=Snz0U5R89t8"
     },
     {
       "video_id": "IESaHTlJqTU",
