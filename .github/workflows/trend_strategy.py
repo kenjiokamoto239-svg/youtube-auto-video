@@ -207,9 +207,9 @@ def main():
         add(item, "Google Trends")
     print("GOOGLE TRENDS ITEMS:", len(trends))
 
-    terms = [x["title"] for x in trends[:5] if len(x["title"]) >= 2]
+    terms = [x["title"] for x in trends[:3] if len(x["title"]) >= 2]
     if not terms:
-        terms = ["日本 話題 最新 ニュース"]
+        print("GOOGLE TRENDS: no terms; evergreen fallback will be used")
 
     news_count = 0
     for term in terms:
