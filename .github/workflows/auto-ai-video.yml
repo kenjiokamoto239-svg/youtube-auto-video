@@ -979,12 +979,12 @@ jobs:
           for term in useful_terms[-3:]:
               queries.append(term + " ニュース")
 
-          # 重複を除去し、検索数を最大8件に制限
+          # 重複を除去し、検索数を最大3件に制限
           queries = list(dict.fromkeys(
               query.strip()
               for query in queries
               if query.strip()
-          ))[:8]
+          ))[:3]
 
           evidence_terms = list(dict.fromkeys(
               quoted_terms + useful_terms
