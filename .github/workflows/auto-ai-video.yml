@@ -3572,10 +3572,115 @@ jobs:
                   )
 
               
-              # 出典確認後の最終台本を再検査
-              grounded_issues = inspect_script(
-                  grounded_script
-              )
+              # 出典確認後の最終台本を再検査し、形式上の問題だけを最大2回修正
+              grounded_issues = inspect_script(grounded_script)
+              grounded_repair_attempt = 0
+
+              while grounded_issues and grounded_repair_attempt < 2:
+                  grounded_repair_attempt += 1
+
+                  print(
+                      "GROUNDED SCRIPT REPAIR ATTEMPT:",
+                      grounded_repair_attempt
+                  )
+
+                  for issue in grounded_issues:
+                      print(
+                          "GROUNDED SCRIPT ISSUE:",
+                          issue
+                      )
+
+                  grounded_repair_prompt = f"""
+                  あなたは厳格な日本語台本の校正者です。
+                  次の台本について、指摘された品質上の問題だけを修正してください。
+
+                  【最優先ルール】
+                  ・参考情報に直接書かれている事実だけを使う
+                  ・新しい数字、固有名詞、理由、発言、研究結果を追加しない
+                  ・参考情報と意味が変わる言い換えをしない
+                  ・事実主張を2つ未満にしない
+                  ・3文以上にして、冒頭・具体的な説明・結論を構成する
+                  ・制作指示、見出し、テンプレート、ラベルを出力しない
+                  ・読み上げ本文だけを出力する
+                  ・280文字以内
+                  ・条件を満たせない場合は「出典不足」とだけ出力する
+
+                  【参考情報】
+                  {grounding_source[:10000]}
+
+                  【現在の台本】
+                  {grounded_script}
+
+                  【検査で見つかった問題】
+                  {chr(10).join("- " + issue for issue in grounded_issues)}
+                  """
+
+                  grounded_repair_response = requests.post(
+                      "http://127.0.0.1:11434/api/generate",
+                      json={
+                          "model": model,
+                          "prompt": grounded_repair_prompt,
+                          "stream": False,
+                          "options": {
+                              "temperature": 0.05,
+                              "num_predict": 512
+                          }
+                      },
+                      timeout=900
+                  )
+
+                  grounded_repair_response.raise_for_status()
+
+                  grounded_candidate = strip_prompt_leakage(
+                      grounded_repair_response.json().get(
+                          "response",
+                          ""
+                      )
+                  )
+
+                  grounded_candidate = clean_text(
+                      grounded_candidate
+                  )
+
+                  grounded_candidate = re.sub(
+                      r"(?im)^\s*(台本|本文|SCRIPT)\s*[:：]\s*",
+                      "",
+                      grounded_candidate
+                  ).strip()
+
+                  if (
+                      not grounded_candidate
+                      or "出典不足" in grounded_candidate
+                  ):
+                      print(
+                          "GROUNDED SCRIPT REPAIR: "
+                          "source insufficient or empty"
+                      )
+                      break
+
+                  if len(grounded_candidate) > 280:
+                      print(
+                          "GROUNDED SCRIPT REPAIR: "
+                          "over 280 characters"
+                      )
+                      break
+
+                  candidate_issues = inspect_script(
+                      grounded_candidate
+                  )
+
+                  if len(candidate_issues) < len(grounded_issues):
+                      grounded_script = grounded_candidate
+                      grounded_issues = candidate_issues
+                      print(
+                          "GROUNDED SCRIPT REPAIR: IMPROVED"
+                      )
+                  else:
+                      print(
+                          "GROUNDED SCRIPT REPAIR: "
+                          "NO IMPROVEMENT"
+                      )
+                      break
 
               if grounded_issues:
                   for issue in grounded_issues:
