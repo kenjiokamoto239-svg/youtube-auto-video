@@ -291,102 +291,342 @@ def main():
 
     candidates = {}
 
-    def add(item, source):
-        title = clean(item.get("title", ""))
-        key = normalize(title)
-        published_at = parse_date(item.get("published_at"))
-        if published_at and (datetime.now(JST) - published_at.astimezone(JST)).total_seconds() > 7 * 86400:
+    def add(item, source, genre_override=None):
+        raw_title = clean(
+            item.get("title", "")
+        )
+
+        summary = clean(
+            item.get("summary", "")
+        )[:900]
+
+        key = normalize(raw_title)
+
+        published_at = parse_date(
+            item.get("published_at")
+        )
+
+        if (
+            published_at
+            and (
+                datetime.now(JST)
+                - published_at.astimezone(JST)
+            ).total_seconds() > 7 * 86400
+        ):
             return
-        if len(title) < 3 or not key:
+
+        if len(raw_title) < 3 or not key:
             return
+
+        genre = genre_override or genre_for(
+            raw_title + " " + summary
+        )
+
+        # ジャンル不明の見出しは選定しない
+        if not genre:
+            print(
+                "TOPIC REJECTED: genre not identified:",
+                source,
+                raw_title[:100]
+            )
+            return
+
+        # 媒体名をテーマから取り除く
+        title = re.sub(
+            r"\s+-\s+[^-]{2,50}$",
+            "",
+            raw_title
+        ).strip()
+
+        if len(title) < 3:
+            title = raw_title
+
+        title_key = normalize(raw_title)
+        summary_key = normalize(summary)
+
+        headline_only = False
+
+        if source == "Google News":
+            if len(summary_key) < 100:
+                headline_only = True
+
+            elif title_key and title_key in summary_key:
+                remainder = summary_key.replace(
+                    title_key,
+                    "",
+                    1
+                )
+
+                if len(remainder) < 35:
+                    headline_only = True
+
         candidate = {
             "title": title,
-            "summary": clean(item.get("summary", ""))[:900],
-            "link": str(item.get("link", "") or "").strip(),
-            "published_at": item.get("published_at", ""),
+            "summary": summary,
+            "link": str(
+                item.get("link", "") or ""
+            ).strip(),
+            "published_at": item.get(
+                "published_at", ""
+            ),
             "source": source,
-            "genre": genre_for(title + " " + clean(item.get("summary", "")))
+            "genre": genre,
+            "headline_only": headline_only
         }
+
         old = candidates.get(key)
-        if old is None or len(candidate["summary"]) > len(old["summary"]):
+
+        if old is None:
             candidates[key] = candidate
 
-    trends = fetch_feed("https://trends.google.com/trending/rss?geo=JP", 30)
+        else:
+            old_good = (
+                old["source"] == "Google News"
+                and not old["headline_only"]
+            )
+
+            new_good = (
+                candidate["source"] == "Google News"
+                and not candidate["headline_only"]
+            )
+
+            if (
+                (new_good and not old_good)
+                or (
+                    new_good == old_good
+                    and len(candidate["summary"])
+                    > len(old["summary"])
+                )
+            ):
+                candidates[key] = candidate
+
+    # Google Trendsから候補を取得
+    trends = fetch_feed(
+        "https://trends.google.com/trending/rss?geo=JP",
+        30
+    )
+
     for item in trends:
         add(item, "Google Trends")
+
     print("GOOGLE TRENDS ITEMS:", len(trends))
 
-    terms = [x["title"] for x in trends[:3] if len(x["title"]) >= 2]
+    # ジャンルを判定できるトレンドだけニュース検索に使う
+    terms = []
+
+    for item in trends:
+        term = clean(
+            item.get("title", "")
+        )
+
+        summary = clean(
+            item.get("summary", "")
+        )
+
+        if (
+            term
+            and genre_for(term + " " + summary)
+            and term not in terms
+        ):
+            terms.append(term)
+
+        if len(terms) >= 3:
+            break
+
     if not terms:
-        print("GOOGLE TRENDS: no terms; evergreen fallback will be used")
+        print(
+            "GOOGLE TRENDS: "
+            "no classified terms; evergreen fallback will be used"
+        )
 
     news_count = 0
+
     for term in terms:
         url = (
             "https://news.google.com/rss/search?q="
             + quote(term + " ニュース", safe="")
             + "&hl=ja&gl=JP&ceid=JP:ja"
         )
+
         items = fetch_feed(url, 15)
         news_count += len(items)
+
         for item in items:
             add(item, "Google News")
+
     print("GOOGLE NEWS ITEMS:", news_count)
 
+    # 信頼できる情報を探しやすい既存の汎用テーマ
     evergreen = [
-        ("エンタメ・ゲーム", "ゲームの隠し要素を見つけたくなる理由"),
-        ("エンタメ・ゲーム", "アニメの名場面が記憶に残る演出の仕組み"),
-        ("健康・ランニング", "睡眠不足が食欲に影響する仕組み"),
-        ("人間関係・心理", "初対面の会話で相手の名前が印象に残る理由"),
-        ("意外な事実・雑学", "猫が高い場所を好む理由"),
-        ("お金・仕事の現実", "給料明細で見落としやすい項目"),
-        ("ニュース・社会問題", "介護現場の人手不足を減らす取り組み")
+        (
+            "エンタメ・ゲーム",
+            "ゲームの隠し要素を見つけたくなる理由"
+        ),
+        (
+            "エンタメ・ゲーム",
+            "アニメの名場面が記憶に残る演出の仕組み"
+        ),
+        (
+            "健康・ランニング",
+            "睡眠不足が食欲に影響する仕組み"
+        ),
+        (
+            "人間関係・心理",
+            "初対面の会話で相手の名前が印象に残る理由"
+        ),
+        (
+            "動物・生き物",
+            "猫が高い場所を好む理由"
+        ),
+        (
+            "お金・仕事の現実",
+            "給料明細で見落としやすい項目"
+        ),
+        (
+            "ニュース・社会問題",
+            "介護現場の人手不足を減らす取り組み"
+        )
     ]
-    for genre, topic in evergreen:
-        add({"title": topic}, "Evergreen fallback")
-        candidates[normalize(topic)]["genre"] = genre
 
-    all_candidates = list(candidates.values())
+    for genre, topic in evergreen:
+        add(
+            {"title": topic},
+            "Evergreen fallback",
+            genre_override=genre
+        )
+
+    all_candidates = list(
+        candidates.values()
+    )
+
     recent_keys = [
         normalize(x.get("topic", ""))
-        for x in history[-14:] if isinstance(x, dict)
+        for x in history[-14:]
+        if isinstance(x, dict)
     ]
-    available = [x for x in all_candidates if not is_recent(x["title"], recent_keys)]
+
+    available = [
+        x for x in all_candidates
+        if not is_recent(x["title"], recent_keys)
+    ]
+
     if not available:
-        print("TOPIC HISTORY WARNING: recent candidates exhausted; reuse allowed")
+        print(
+            "TOPIC HISTORY WARNING: "
+            "recent candidates exhausted; reuse allowed"
+        )
         available = all_candidates
 
-    for item in available:
-        score = 4.5 if item["source"] == "Google News" else (
-            4.0 if item["source"] == "Google Trends" else 0.5
-        )
-        if len(item["summary"]) >= 80:
-            score += 0.75
-        if item["link"]:
-            score += 0.25
-        if 8 <= len(item["title"]) <= 55:
-            score += 0.25
-
-        genre_data = performance.get(item["genre"], {})
-        bonus = float(genre_data.get("bonus", 0))
-        item["channel_performance_bonus"] = round(bonus, 3)
-        item["genre_sample_count"] = int(genre_data.get("sample_count", 0))
-        item["genre_median_vph"] = genre_data.get("median_vph")
-        item["score"] = round(score + bonus, 3)
-
-    available.sort(key=lambda x: x["score"], reverse=True)
     if not available:
-        raise RuntimeError("動画テーマ候補を取得できませんでした。")
+        raise RuntimeError(
+            "動画テーマ候補を取得できませんでした。"
+        )
+
+    # 出典の質を優先し、ニュースの見出しだけでは勝ちにくくする
+    base_scores = {
+        "Google News": 1.8,
+        "Google Trends": 2.2,
+        "Evergreen fallback": 3.0
+    }
+
+    for item in available:
+        score = base_scores.get(
+            item["source"],
+            1.0
+        )
+
+        if item["source"] == "Google News":
+            if item["headline_only"]:
+                score -= 0.8
+            else:
+                score += 0.6
+
+        elif len(item["summary"]) >= 120:
+            score += 0.35
+
+        if item["link"]:
+            score += 0.2
+
+        if 8 <= len(item["title"]) <= 65:
+            score += 0.2
+
+        published = parse_date(
+            item["published_at"]
+        )
+
+        if published:
+            age_hours = (
+                datetime.now(JST)
+                - published.astimezone(JST)
+            ).total_seconds() / 3600
+
+            if 0 <= age_hours <= 24:
+                score += 0.4
+            elif 24 < age_hours <= 72:
+                score += 0.2
+
+        genre_data = performance.get(
+            item["genre"],
+            {}
+        )
+
+        sample_count = int(
+            genre_data.get("sample_count", 0)
+        )
+
+        bonus = (
+            float(genre_data.get("bonus", 0) or 0)
+            if sample_count >= 3
+            else 0.0
+        )
+
+        bonus = max(
+            -0.8,
+            min(0.8, bonus)
+        )
+
+        item["channel_performance_bonus"] = round(
+            bonus, 3
+        )
+
+        item["genre_sample_count"] = sample_count
+
+        item["genre_median_vph"] = genre_data.get(
+            "median_vph"
+        )
+
+        item["score"] = round(
+            score + bonus, 3
+        )
+
+    available.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
 
     selected = available[0]
+
     topic = selected["title"]
-    if selected["source"] == "Google Trends" and len(topic) < 18:
+
+    if (
+        selected["source"] == "Google Trends"
+        and len(topic) < 18
+    ):
         topic += "が今話題の理由"
 
     now = datetime.now(JST)
-    history.append({"topic": topic, "date": now.isoformat(timespec="seconds")})
+
+    history.append({
+        "topic": topic,
+        "date": now.isoformat(timespec="seconds")
+    })
+
     HISTORY_FILE.write_text(
-        json.dumps(history[-300:], ensure_ascii=False, indent=2),
+        json.dumps(
+            history[-300:],
+            ensure_ascii=False,
+            indent=2
+        ),
         encoding="utf-8"
     )
 
@@ -395,39 +635,90 @@ def main():
         "genre": selected["genre"],
         "topic": topic,
         "trend_source": selected["source"],
-        "source_summary": selected["summary"],
+
+        # 見出しだけの要約を出典本文として渡さない
+        "source_summary": (
+            selected["summary"]
+            if not selected["headline_only"]
+            else ""
+        ),
+
         "source_url": selected["link"],
+        "source_summary_is_headline_only": (
+            selected["headline_only"]
+        ),
         "selection_score": selected["score"],
         "candidate_count": len(all_candidates),
         "eligible_candidate_count": len(available),
+
         "channel_performance": {
             "shorts_sample_count": shorts_count,
-            "global_median_views_per_hour": round(global_median, 2) if global_median is not None else None,
-            "genre_sample_count": selected["genre_sample_count"],
-            "genre_median_views_per_hour": selected["genre_median_vph"],
-            "genre_bonus": selected["channel_performance_bonus"]
+            "global_median_views_per_hour": (
+                round(global_median, 2)
+                if global_median is not None
+                else None
+            ),
+            "genre_sample_count": (
+                selected["genre_sample_count"]
+            ),
+            "genre_median_views_per_hour": (
+                selected["genre_median_vph"]
+            ),
+            "genre_bonus": (
+                selected["channel_performance_bonus"]
+            )
         },
+
         "top_candidates": [
             {
-                "topic": x["title"], "genre": x["genre"], "source": x["source"],
-                "score": x["score"], "source_url": x["link"],
+                "topic": x["title"],
+                "genre": x["genre"],
+                "source": x["source"],
+                "score": x["score"],
+                "source_url": x["link"],
                 "published_at": x["published_at"],
                 "summary": x["summary"][:300],
-                "channel_sample_count": x["genre_sample_count"],
-                "genre_median_vph": x["genre_median_vph"]
+                "summary_is_headline_only": (
+                    x["headline_only"]
+                ),
+                "channel_sample_count": (
+                    x["genre_sample_count"]
+                ),
+                "genre_median_vph": (
+                    x["genre_median_vph"]
+                )
             }
             for x in available[:10]
         ],
+
         "selection_note": (
-            "Google Trends・Google Newsの日本語候補を優先。"
-            "直近50本以内のShortsだけを公開後経過時間で補正して採点。"
-            "長尺動画はShorts実績に混ぜず、直近14テーマの重複を避ける。"
-            "スコアは候補選定の目安であり、再生数を保証しない。"
+            "ジャンル不明の候補を除外。"
+            "Google Newsの見出しだけの要約は減点し、"
+            "出典要約として次工程に渡さない。"
+            "チャンネル実績は全体中央値との相対差で評価し、"
+            "同ジャンル3本未満は加点しない。"
         )
     }
-    PLAN_FILE.write_text(json.dumps(plan, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("TREND PLAN:", json.dumps(plan, ensure_ascii=False))
-    print("TOPIC STRATEGY: trends + channel Shorts performance")
+
+    PLAN_FILE.write_text(
+        json.dumps(
+            plan,
+            ensure_ascii=False,
+            indent=2
+        ),
+        encoding="utf-8"
+    )
+
+    print(
+        "TREND PLAN:",
+        json.dumps(plan, ensure_ascii=False)
+    )
+
+    print(
+        "TOPIC STRATEGY: "
+        "source quality + relative channel Shorts performance"
+    )
+
     print("VIDEO GENRE:", selected["genre"])
     print("VIDEO TOPIC:", topic)
     print("TREND SOURCE:", selected["source"])
