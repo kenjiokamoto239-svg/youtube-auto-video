@@ -83,54 +83,163 @@ def parse_date(value):
         return None
 
 
+# ジャンル判定の補完
+GENRE_RULES["エンタメ・ゲーム"] = list(dict.fromkeys(
+    GENRE_RULES.get("エンタメ・ゲーム", [])
+    + ["テレビ", "番組", "放送", "タレント", "芸能人", "バラエティ"]
+))
+
+GENRE_RULES["ニュース・社会問題"] = list(dict.fromkeys(
+    GENRE_RULES.get("ニュース・社会問題", [])
+    + ["復興", "防災", "地域", "災害", "火災", "避難", "消防", "被災", "復旧"]
+))
+
+GENRE_RULES["健康・ランニング"] = [
+    word for word in GENRE_RULES.get("健康・ランニング", [])
+    if word not in {"動物", "生き物", "犬", "猫", "タコ", "ミツバチ"}
+]
+
+GENRE_RULES["健康・ランニング"] = list(dict.fromkeys(
+    GENRE_RULES["健康・ランニング"]
+    + ["感染", "ウイルス", "ワクチン", "医療", "病気",
+       "鳥インフルエンザ", "殺処分", "養鶏"]
+))
+
+GENRE_RULES["動物・生き物"] = [
+    "動物", "生き物", "犬", "猫", "タコ", "ミツバチ",
+    "鳥", "昆虫", "深海生物", "恐竜", "魚",
+    "クジラ", "イルカ", "ニワトリ", "養鶏"
+]
+
+GENRE_RULES["スポーツ・競技"] = [
+    "スポーツ", "サッカー", "野球", "バスケットボール",
+    "バスケ", "テニス", "陸上", "マラソン", "選手",
+    "チーム", "リーグ", "試合", "監督", "移籍",
+    "得点", "ゴール", "優勝", "プロ野球", "Jリーグ",
+    "NBA", "F1", "日本代表", "阪神", "大谷翔平"
+]
+
+
 def genre_for(text):
     value = clean(text).lower()
+
+    # これらの言葉だけではジャンルを決めない
+    generic_terms = {
+        "なぜ", "理由", "実は", "仕組み",
+        "謎", "意外", "世界", "日本"
+    }
+
     scores = {
-        genre: sum(1 + min(len(word), 12) / 12 for word in words if word.lower() in value)
+        genre: sum(
+            1 + min(len(word), 12) / 12
+            for word in words
+            if word.lower() not in generic_terms
+            and word.lower() in value
+        )
         for genre, words in GENRE_RULES.items()
     }
+
     best = max(scores, key=scores.get)
-    return best if scores[best] > 0 else "意外な事実・雑学"
+
+    # 分類できないテーマは不明として返す
+    return best if scores[best] > 0 else None
 
 
 def channel_performance():
     data = load_json(ANALYTICS_FILE, {})
-    snapshot = parse_date(data.get("updated_at_jst")) or datetime.now(JST)
-    if (datetime.now(JST) - snapshot).total_seconds() > 7 * 86400:
-        print("CHANNEL ANALYTICS STALE: performance weighting skipped")
+    snapshot = parse_date(
+        data.get("updated_at_jst")
+    ) or datetime.now(JST)
+
+    if (
+        datetime.now(JST) - snapshot
+    ).total_seconds() > 7 * 86400:
+        print(
+            "CHANNEL ANALYTICS STALE: "
+            "performance weighting skipped"
+        )
         return {}, 0, None
 
-    rates, all_rates = {}, []
+    rates = {}
+    all_rates = []
+
     for video in data.get("all_videos", []):
         try:
-            duration, views = int(video.get("duration_seconds")), int(video.get("views"))
+            duration = int(
+                video.get("duration_seconds")
+            )
+            views = int(
+                video.get("views")
+            )
         except (TypeError, ValueError):
             continue
+
         if duration <= 0 or duration > 59 or views < 0:
             continue
 
-        published = parse_date(video.get("published_at"))
+        published = parse_date(
+            video.get("published_at")
+        )
+
         if not published:
             continue
-        raw_age = (snapshot - published).total_seconds() / 3600
+
+        raw_age = (
+            snapshot - published.astimezone(JST)
+        ).total_seconds() / 3600
+
         if raw_age < 0:
             continue
+
         vph = views / max(12.0, raw_age)
-        rates.setdefault(genre_for(video.get("title", "")), []).append(vph)
+
+        genre = genre_for(
+            video.get("title", "")
+        )
+
+        # 分類できた動画だけジャンル別実績に使う
+        if genre:
+            rates.setdefault(genre, []).append(vph)
+
+        # 全体中央値には分類できない動画も含める
         all_rates.append(vph)
 
     if not all_rates:
         return {}, 0, None
 
     global_median = statistics.median(all_rates)
+
     result = {}
+
     for genre, values in rates.items():
-        smoothed = (sum(values) + global_median * 2) / (len(values) + 2)
+        smoothed = (
+            sum(values) + global_median * 2
+        ) / (len(values) + 2)
+
+        # 3本未満のジャンルは加点しない
+        if len(values) >= 3 and global_median > 0:
+            relative = (
+                smoothed / max(global_median, 0.1)
+            )
+
+            bonus = max(
+                -0.8,
+                min(
+                    0.8,
+                    math.log(max(relative, 0.1)) * 0.5
+                )
+            )
+        else:
+            bonus = 0.0
+
         result[genre] = {
             "sample_count": len(values),
-            "median_vph": round(statistics.median(values), 2),
-            "bonus": round(min(3.0, math.log1p(smoothed)), 3)
+            "median_vph": round(
+                statistics.median(values), 2
+            ),
+            "bonus": round(bonus, 3)
         }
+
     return result, len(all_rates), global_median
 
 
