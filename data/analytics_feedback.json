@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-23T05:36:22.803729+09:00",
+  "updated_at_jst": "2026-11-24T10:30:00.423475+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-11-16",
-    "end": "2026-11-22",
+    "start": "2026-11-17",
+    "end": "2026-11-23",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 5,
   "daily_data": [
-    {
-      "day": "2026-11-16",
-      "views": 374,
-      "watch_minutes": 28.0,
-      "average_view_seconds": 16.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 1,
-      "likes": 1,
-      "comments": 0
-    },
     {
       "day": "2026-11-17",
       "views": 41,
@@ -45,8 +35,8 @@
     },
     {
       "day": "2026-11-19",
-      "views": 1311,
-      "watch_minutes": 119.0,
+      "views": 1294,
+      "watch_minutes": 118.0,
       "average_view_seconds": 16.0,
       "subscribers_gained": 0,
       "subscribers_lost": 0,
@@ -62,19 +52,29 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-11-21",
+      "views": 863,
+      "watch_minutes": 50.0,
+      "average_view_seconds": 10.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 2,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-17",
       "2026-11-18",
-      "2026-11-19"
+      "2026-11-19",
+      "2026-11-20"
     ],
     "recent_3_days": [
-      "2026-11-20",
       "2026-11-21",
-      "2026-11-22"
+      "2026-11-22",
+      "2026-11-23"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -120,7 +120,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1127,
+      "views": 1128,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -131,10 +131,21 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1112,
+      "views": 1128,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
+    },
+    {
+      "video_id": "NX73HYeGtGk",
+      "title": "なぜコベントリーとクリスタル・パレスの試合を注目すべきなのか？真相がここにある。坂元達裕と鎌田大地の驚くべき対決。",
+      "published_at": "2026-11-21T16:45:43Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 1117,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
     },
     {
       "video_id": "_vyCsAzjFnM",
@@ -157,17 +168,6 @@
       "likes": 3,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
-    },
-    {
-      "video_id": "hzUwQPazaf8",
-      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
-      "published_at": "2026-11-20T04:09:56Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 1033,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
     },
     {
       "video_id": "QzcUT_HhaEc",
@@ -232,7 +232,7 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1127,
+      "views": 1128,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
@@ -243,10 +243,21 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1112,
+      "views": 1128,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
+    },
+    {
+      "video_id": "NX73HYeGtGk",
+      "title": "なぜコベントリーとクリスタル・パレスの試合を注目すべきなのか？真相がここにある。坂元達裕と鎌田大地の驚くべき対決。",
+      "published_at": "2026-11-21T16:45:43Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 1117,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
     },
     {
       "video_id": "_vyCsAzjFnM",
@@ -269,17 +280,6 @@
       "likes": 3,
       "comments": 1,
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
-    },
-    {
-      "video_id": "hzUwQPazaf8",
-      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
-      "published_at": "2026-11-20T04:09:56Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 1033,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
     },
     {
       "video_id": "QzcUT_HhaEc",
@@ -326,6 +326,17 @@
       "url": "https://www.youtube.com/watch?v=igU1tU1Si1g"
     },
     {
+      "video_id": "hzUwQPazaf8",
+      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
+      "published_at": "2026-11-20T04:09:56Z",
+      "duration_iso": "PT30S",
+      "duration_seconds": 30,
+      "views": 985,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
+    },
+    {
       "video_id": "D5e6pXD4PVs",
       "title": "ドラクエ7リメイク」の裏技、経験値倍増場所教えます！",
       "published_at": "2026-11-09T10:22:44Z",
@@ -348,15 +359,15 @@
       "url": "https://www.youtube.com/watch?v=A11cM79AHAI"
     },
     {
-      "video_id": "NX73HYeGtGk",
-      "title": "なぜコベントリーとクリスタル・パレスの試合を注目すべきなのか？真相がここにある。坂元達裕と鎌田大地の驚くべき対決。",
-      "published_at": "2026-11-21T16:45:43Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 940,
-      "likes": 2,
+      "video_id": "a20nRYiWmy8",
+      "title": "なぜ大人になっても、あの頃のゲームを買いたくなるのか",
+      "published_at": "2026-11-23T21:25:21Z",
+      "duration_iso": "PT25S",
+      "duration_seconds": 25,
+      "views": 805,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
+      "url": "https://www.youtube.com/watch?v=a20nRYiWmy8"
     },
     {
       "video_id": "JUgWlPUBXkE",
@@ -381,6 +392,17 @@
       "url": "https://www.youtube.com/watch?v=8W0a67AWcH8"
     },
     {
+      "video_id": "MevObBcdl0Q",
+      "title": "佐賀関復興、未来プロジェクトで驚きの名言披露",
+      "published_at": "2026-11-22T17:06:12Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 312,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=MevObBcdl0Q"
+    },
+    {
       "video_id": "kiKOEWl8R0Y",
       "title": "NARUTO』新作アニメ、ファンの新たな楽しみをもたらす",
       "published_at": "2026-11-07T12:43:36Z",
@@ -390,17 +412,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
-    },
-    {
-      "video_id": "MevObBcdl0Q",
-      "title": "佐賀関復興、未来プロジェクトで驚きの名言披露",
-      "published_at": "2026-11-22T17:06:12Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 310,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=MevObBcdl0Q"
     },
     {
       "video_id": "KBKfoTfy5jA",
@@ -463,7 +474,7 @@
       "published_at": "2026-11-14T23:35:04Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 223,
+      "views": 229,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
@@ -507,7 +518,7 @@
       "published_at": "2026-11-12T21:25:12Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 139,
+      "views": 138,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=PmlEicZPYf4"
@@ -601,17 +612,6 @@
       "url": "https://www.youtube.com/watch?v=WGm3B4wM_d8"
     },
     {
-      "video_id": "v2Jj7qxskOc",
-      "title": "マリオガチャ、ペットボトルの秘密",
-      "published_at": "2026-11-05T18:42:20Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 45,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=v2Jj7qxskOc"
-    },
-    {
       "video_id": "lZhAn-jT-70",
       "title": "選べる！ 淡路島のドラクエコラボ、選ばれた方だけの限定フルーツプレート",
       "published_at": "2026-11-13T04:30:31Z",
@@ -639,7 +639,7 @@
       "published_at": "2026-11-21T06:16:52Z",
       "duration_iso": "PT36S",
       "duration_seconds": 36,
-      "views": 18,
+      "views": 22,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=h0KT7_teQ7o"
