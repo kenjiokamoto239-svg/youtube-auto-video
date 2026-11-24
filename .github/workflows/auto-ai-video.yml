@@ -911,6 +911,26 @@ jobs:
           article = None
 
           research_queries = {
+              "エンタメ・ゲーム": [
+                  "アニメ 演出 監督 インタビュー",
+                  "ゲーム 開発者 公式 インタビュー",
+                  "ゲーム 設定資料 公式"
+              ],
+              "動物・生き物": [
+                  "動物 生態 行動学 研究",
+                  "猫 行動学 獣医 研究",
+                  "動物 生態 大学 研究"
+              ],
+              "スポーツ": [
+                  "スポーツ 競技規則 公式",
+                  "サッカー 競技規則 FIFA 公式",
+                  "運動生理学 スポーツ 研究"
+              ],
+              "スポーツ・競技": [
+                  "スポーツ 競技規則 公式",
+                  "サッカー 競技規則 FIFA 公式",
+                  "運動生理学 スポーツ 研究"
+              ],
               "人間関係・心理": [
                   "人間関係 心理学 研究 信頼",
                   "コミュニケーション 心理学 研究",
@@ -927,7 +947,7 @@ jobs:
                   "時間管理 習慣 研究"
               ],
               "健康・ランニング": [
-                  "ランニング 初心者 トレーニング 研究",
+                  "睡眠不足 食欲 ホルモン 研究",
                   "運動 健康 ガイドライン 公的機関",
                   "ランニング 怪我 予防 研究"
               ],
@@ -939,13 +959,15 @@ jobs:
               "ニュース・社会問題": [
                   "日本 国内 社会 ニュース",
                   "日本 経済 賃金 物価 ニュース",
-                  "岡山 介護 福祉 AI ニュース",
-                  "世界　戦争 ニュース"
+                  "岡山 介護 福祉 AI ニュース"
+              ],
+              "ニュース・時事問題": [
+                  "日本 国内 社会 ニュース",
+                  "日本 経済 賃金 物価 ニュース",
+                  "行政 統計 公的資料"
               ]
           }
 
-          
-          
           # 選定テーマから重要語を抽出して複数の検索語を作る
           quoted_terms = re.findall(
               r"[「『【]([^」』】]{2,40})[」』】]",
@@ -959,40 +981,70 @@ jobs:
 
           stop_terms = {
               "ニュース", "最新情報", "公式", "発売記念",
-              "提供開始", "開催決定", "について", "こちら"
+              "提供開始", "開催決定", "について", "こちら",
+              "なぜ", "理由", "仕組み", "実は", "意外", "秘密"
           }
 
           useful_terms = [
               term for term in topic_terms
-              if len(term) >= 3 and term not in stop_terms
+              if len(term) >= 3
+              and term not in stop_terms
+              and term != topic
           ]
+
+          category_queries = research_queries.get(
+              category,
+              []
+          )
+
+          # エンタメはアニメとゲームを分けて検索する
+          if category == "エンタメ・ゲーム":
+              if any(
+                  term in topic
+                  for term in ("アニメ", "漫画", "マンガ")
+              ):
+                  category_queries = [
+                      "アニメ 演出 監督 インタビュー",
+                      "アニメ 制作 技法 公式"
+                  ]
+
+              elif any(
+                  term in topic
+                  for term in ("ゲーム", "ドラクエ", "ポケモン")
+              ):
+                  category_queries = [
+                      "ゲーム 開発者 公式 インタビュー",
+                      "ゲーム 設定資料 公式"
+                  ]
 
           queries = []
 
           if topic:
               queries.append(topic[:100])
 
-          for term in quoted_terms[:3]:
+          for term in quoted_terms[:2]:
               queries.append(term)
+
+          for query in category_queries[:2]:
+              queries.append(query)
+
+          for term in useful_terms[-2:]:
               queries.append(term + " ニュース")
 
-          for term in useful_terms[-3:]:
-              queries.append(term + " ニュース")
-
-          # 重複を除去し、検索数を最大3件に制限
+          # 重複を除去し、検索数を最大5件に制限
           queries = list(dict.fromkeys(
               query.strip()
               for query in queries
               if query.strip()
-          ))[:3]
+          ))[:5]
 
+          # 要約の採用判定には元のテーマ語を残す
           evidence_terms = list(dict.fromkeys(
-              quoted_terms + useful_terms
+              quoted_terms + topic_terms
           ))
 
           print("RESEARCH QUERY COUNT:", len(queries))
           print("RESEARCH QUERIES:", queries)
-
 
 
           headers = {
