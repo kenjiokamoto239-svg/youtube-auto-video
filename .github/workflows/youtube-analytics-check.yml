@@ -54,7 +54,7 @@ jobs:
           now = datetime.now(jst)
           today = now.date()
           end_date = today - timedelta(days=1)
-          start_date = end_date - timedelta(days=6)
+          start_date = end_date - timedelta(days=59)
           output = Path("analytics_output")
           output.mkdir(parents=True, exist_ok=True)
           Path("data").mkdir(exist_ok=True)
