@@ -712,9 +712,8 @@ jobs:
 
           work = Path("work")
           script = (work / "script.txt").read_text(encoding="utf-8").strip()
-          plan = json.loads((work / "trend_plan.json").read_text(encoding="utf-8"))
-          topic = str(plan.get("topic", "")).strip()
-          genre = str(plan.get("genre", "雑学")).strip()
+          topic = (work / "title.txt").read_text(encoding="utf-8").strip()
+          genre = (work / "category.txt").read_text(encoding="utf-8").strip()
 
           def stop(reason):
               (work / "fact_check.txt").write_text(
@@ -738,22 +737,78 @@ jobs:
           lower = topic.lower()
           queries = [topic]
 
+          # 占い・星座
           if any(x in lower for x in ["星座", "占い"]):
-              queries += ["バーナム効果", "確証バイアス", "占星術 科学的検証"]
+              queries += [
+                  "バーナム効果",
+                  "確証バイアス",
+                  "占星術 科学的検証"
+              ]
+
+          # 血液型
           if "血液型" in lower:
-              queries += ["血液型性格分類", "血液型 性格 科学的研究"]
-          if any(x in lower for x in ["栄養", "ビタミン", "鉄", "タンパク質", "カルシウム"]):
-              queries += ["栄養素", "ビタミンC", "鉄の吸収"]
-          if any(x in lower for x in ["しぐさ", "目線", "表情", "嘘"]):
-              queries += ["非言語コミュニケーション", "嘘の検出"]
-          if any(x in lower for x in ["恋愛", "好きな人", "デート", "カップル"]):
-              queries += ["傾聴", "対人関係"]
+              queries += [
+                  "血液型性格分類",
+                  "血液型 性格 科学的研究"
+              ]
+
+          # 栄養・健康
+          if any(x in lower for x in [
+              "栄養", "ビタミン", "鉄", "タンパク質", "カルシウム"
+          ]):
+              queries += [
+                  "栄養素",
+                  "ビタミンC",
+                  "鉄の吸収"
+              ]
+
+          # 心理・しぐさ
+          if any(x in lower for x in [
+              "しぐさ", "目線", "表情", "嘘"
+          ]):
+              queries += [
+                  "非言語コミュニケーション",
+                  "嘘の検出"
+              ]
+
+          # 恋愛・人間関係
+          if any(x in lower for x in [
+              "恋愛", "好きな人", "デート", "カップル"
+          ]):
+              queries += [
+                  "傾聴",
+                  "対人関係"
+              ]
+
+          # ゲーム・懐かしゲーム
+          if any(x in lower for x in [
+              "ゲーム", "ドラクエ", "ゼルダ", "ポケモン",
+              "任天堂", "マリオ"
+          ]):
+              queries += [
+                  "ゲームの歴史",
+                  "ゲームデザイン",
+                  "レトロゲーム",
+                  "ゲーム 音楽 記憶"
+              ]
+
+          # サッカー・スポーツ
+          if any(x in lower for x in [
+              "サッカー", "スポーツ", "オフサイド",
+              "観戦", "選手", "チーム"
+          ]):
+              queries += [
+                  "サッカーのルール",
+                  "サッカー戦術",
+                  "スポーツ心理学",
+                  "スポーツ観戦"
+              ]
 
           api = "https://ja.wikipedia.org/w/api.php"
           headers = {"User-Agent": "AutoAIJapaneseLongVideo/1.0"}
           sources = {}
 
-          for query in list(dict.fromkeys(queries))[:5]:
+          for query in list(dict.fromkeys(queries))[:20]:
               for attempt in range(3):
                   response = requests.get(
                       api,
