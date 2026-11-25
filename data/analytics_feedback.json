@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-25T08:23:58.407134+09:00",
+  "updated_at_jst": "2026-11-26T07:57:52.150582+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-09-26",
-    "end": "2026-11-24",
+    "start": "2026-09-27",
+    "end": "2026-11-25",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 58,
   "daily_data": [
-    {
-      "day": "2026-09-26",
-      "views": 2,
-      "watch_minutes": 0.0,
-      "average_view_seconds": 8.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 0,
-      "comments": 0
-    },
     {
       "day": "2026-09-27",
       "views": 519,
@@ -575,8 +565,8 @@
     },
     {
       "day": "2026-11-21",
-      "views": 863,
-      "watch_minutes": 50.0,
+      "views": 860,
+      "watch_minutes": 49.0,
       "average_view_seconds": 10.0,
       "subscribers_gained": 0,
       "subscribers_lost": 0,
@@ -592,19 +582,29 @@
       "subscribers_lost": 0,
       "likes": 0,
       "comments": 0
+    },
+    {
+      "day": "2026-11-23",
+      "views": 1067,
+      "watch_minutes": 81.0,
+      "average_view_seconds": 12.0,
+      "subscribers_gained": 0,
+      "subscribers_lost": 0,
+      "likes": 1,
+      "comments": 0
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-19",
       "2026-11-20",
-      "2026-11-21"
+      "2026-11-21",
+      "2026-11-22"
     ],
     "recent_3_days": [
-      "2026-11-22",
       "2026-11-23",
-      "2026-11-24"
+      "2026-11-24",
+      "2026-11-25"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -617,7 +617,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1295,
+      "views": 1298,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -628,21 +628,10 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1144,
+      "views": 1155,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
-    },
-    {
-      "video_id": "KNaD0cxIQNg",
-      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
-      "published_at": "2026-11-15T16:07:32Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 1133,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
     },
     {
       "video_id": "zth0xQAIEJ4",
@@ -650,21 +639,21 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1129,
+      "views": 1139,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
     {
-      "video_id": "sYj7_xw_4eg",
-      "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
-      "published_at": "2026-11-06T10:30:15Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 1129,
-      "likes": 2,
+      "video_id": "KNaD0cxIQNg",
+      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
+      "published_at": "2026-11-15T16:07:32Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 1135,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
+      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
     },
     {
       "video_id": "NX73HYeGtGk",
@@ -672,7 +661,7 @@
       "published_at": "2026-11-21T16:45:43Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 1118,
+      "views": 1119,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
@@ -720,6 +709,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=a20nRYiWmy8"
+    },
+    {
+      "video_id": "8aEp2tKe_7k",
+      "title": "平成」のアニメ、なぜ世代別評価が異なる？",
+      "published_at": "2026-11-08T18:18:32Z",
+      "duration_iso": "PT35S",
+      "duration_seconds": 35,
+      "views": 1020,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=8aEp2tKe_7k"
     }
   ],
   "all_videos": [
@@ -729,7 +729,7 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1295,
+      "views": 1298,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
@@ -740,21 +740,10 @@
       "published_at": "2026-11-06T19:51:24Z",
       "duration_iso": "PT31S",
       "duration_seconds": 31,
-      "views": 1144,
+      "views": 1155,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
-    },
-    {
-      "video_id": "KNaD0cxIQNg",
-      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
-      "published_at": "2026-11-15T16:07:32Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 1133,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
     },
     {
       "video_id": "zth0xQAIEJ4",
@@ -762,21 +751,21 @@
       "published_at": "2026-11-13T07:54:11Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 1129,
+      "views": 1139,
       "likes": 3,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=zth0xQAIEJ4"
     },
     {
-      "video_id": "sYj7_xw_4eg",
-      "title": "ちいかわ」の人間キャラ、意外な由来を解き明かす",
-      "published_at": "2026-11-06T10:30:15Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 1129,
-      "likes": 2,
+      "video_id": "KNaD0cxIQNg",
+      "title": "40周年を迎えた国民的アニメ『ちびまる子ちゃん』には、原作者さくらももこ先生と実在の人物が",
+      "published_at": "2026-11-15T16:07:32Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 1135,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=sYj7_xw_4eg"
+      "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
     },
     {
       "video_id": "NX73HYeGtGk",
@@ -784,7 +773,7 @@
       "published_at": "2026-11-21T16:45:43Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 1118,
+      "views": 1119,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
@@ -911,6 +900,17 @@
       "url": "https://www.youtube.com/watch?v=s39vLR2MoF8"
     },
     {
+      "video_id": "weIj7wdV5dM",
+      "title": "なぜサッカーのオフサイドルールが必要なのか、それがゲームの美しさを高めているのかを解説しま",
+      "published_at": "2026-11-25T09:50:11Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 883,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=weIj7wdV5dM"
+    },
+    {
       "video_id": "JUgWlPUBXkE",
       "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
       "published_at": "2026-11-09T21:28:38Z",
@@ -920,6 +920,17 @@
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
+    },
+    {
+      "video_id": "BmxehDLGtqc",
+      "title": "雪マンが今話題の理由は、6人体制から9人体制への変化にあるかもしれません",
+      "published_at": "2026-11-25T20:33:09Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 688,
+      "likes": 3,
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=BmxehDLGtqc"
     },
     {
       "video_id": "8W0a67AWcH8",
@@ -1015,7 +1026,7 @@
       "published_at": "2026-11-14T23:35:04Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 228,
+      "views": 229,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=MPXrZf26Jk0"
@@ -1087,6 +1098,17 @@
       "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
     },
     {
+      "video_id": "OkC4MB7Dc9A",
+      "title": "みなとみらいミラー2026、クリスマスもドラクエFFコラボ",
+      "published_at": "2026-11-13T10:40:14Z",
+      "duration_iso": "PT26S",
+      "duration_seconds": 26,
+      "views": 99,
+      "likes": 1,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
+    },
+    {
       "video_id": "ICh__ZpX04E",
       "title": "【動画テーマ】\n『再婚皇后』イ・ジョンソク×イ・セヨン、雑誌カバー飾る…羽根モチーフと意外",
       "published_at": "2026-11-14T15:42:43Z",
@@ -1096,17 +1118,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
-    },
-    {
-      "video_id": "OkC4MB7Dc9A",
-      "title": "みなとみらいミラー2026、クリスマスもドラクエFFコラボ",
-      "published_at": "2026-11-13T10:40:14Z",
-      "duration_iso": "PT26S",
-      "duration_seconds": 26,
-      "views": 98,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=OkC4MB7Dc9A"
     },
     {
       "video_id": "f1ctisC2Mxo",
@@ -1261,17 +1272,6 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=0VGgmoIWYXY"
-    },
-    {
-      "video_id": "IESaHTlJqTU",
-      "title": "FXの大損とリスクの理解：FX始め前に専門家に聞いてみよう",
-      "published_at": "2026-11-06T13:56:45Z",
-      "duration_iso": "PT29S",
-      "duration_seconds": 29,
-      "views": 1,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=IESaHTlJqTU"
     }
   ],
   "video_data_scope": {
