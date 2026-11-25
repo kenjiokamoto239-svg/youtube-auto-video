@@ -7152,17 +7152,94 @@ jobs:
               media_body=media
           )
 
+          # ==========================================
+          # YouTubeアップロード：一時エラー時に自動再試行
+          # 最大3回・指数バックオフ
+          # ==========================================
+          import socket
+          from googleapiclient.errors import HttpError
+
           response = None
+          retry_count = 0
+          max_retries = 3
+
           while response is None:
-              status, response = request.next_chunk()
-              if status:
-                  print(
-                      "Upload progress:",
-                      round(status.progress() * 100),
-                      "%"
+              try:
+                  status, response = request.next_chunk()
+
+                  if status:
+                      print(
+                          "Upload progress:",
+                          round(status.progress() * 100),
+                          "%"
+                      )
+
+                  # 成功したチャンク処理ではリトライ回数をリセット
+                  retry_count = 0
+
+              except Exception as upload_error:
+                  retry_count += 1
+
+                  # HTTPエラーの場合、再試行可能か判定
+                  http_status = None
+
+                  if isinstance(upload_error, HttpError):
+                      http_status = upload_error.resp.status
+
+                  retryable_http = (
+                      http_status in [408, 429, 500, 502, 503, 504]
                   )
 
+                  retryable_network = isinstance(
+                      upload_error,
+                      (
+                          TimeoutError,
+                          ConnectionError,
+                          socket.timeout,
+                          socket.error
+                      )
+                  )
+
+                  # 再試行対象外のエラーは即時終了
+                  if not (
+                      retryable_http
+                      or retryable_network
+                  ):
+                      print(
+                          "UPLOAD NON-RETRYABLE ERROR:",
+                          str(upload_error)[:300]
+                      )
+                      raise
+
+                  # 最大3回まで
+                  if retry_count >= max_retries:
+                      print(
+                          "UPLOAD RETRIES EXHAUSTED:",
+                          retry_count
+                      )
+                      raise
+
+                  wait_seconds = min(
+                      2 ** retry_count,
+                      30
+                  )
+
+                  print(
+                      "UPLOAD RETRY:",
+                      retry_count,
+                      "/",
+                      max_retries,
+                      "HTTP:",
+                      http_status,
+                      "WAIT:",
+                      wait_seconds,
+                      "SECONDS"
+                  )
+
+                  time.sleep(wait_seconds)
+
           video_id = response["id"]
+
           print("UPLOADED:", video_id)
 
           # ==========================================
