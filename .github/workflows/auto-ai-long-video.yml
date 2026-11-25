@@ -120,10 +120,157 @@ jobs:
           today = datetime.datetime.now(
               datetime.timezone(datetime.timedelta(hours=9))
           ).date()
-
-          # 日付を使って毎日違うテーマを選択
           day_number = today.toordinal()
-          genre, topic = TOPICS[day_number % len(TOPICS)]
+
+          def choose_topic_from_recent_shorts():
+              feedback_path = Path("data/analytics_feedback.json")
+              if not feedback_path.exists():
+                  return None
+
+              try:
+                  feedback = json.loads(
+                      feedback_path.read_text(encoding="utf-8")
+                  )
+                  updated_text = str(
+                      feedback.get("updated_at_jst", "")
+                  ).strip()
+
+                  if not updated_text:
+                      return None
+
+                  updated_at = datetime.datetime.fromisoformat(
+                      updated_text.replace("Z", "+00:00")
+                  )
+
+                  if updated_at.tzinfo is None:
+                      updated_at = updated_at.replace(
+                          tzinfo=datetime.timezone.utc
+                      )
+
+                  now_utc = datetime.datetime.now(
+                      datetime.timezone.utc
+                  )
+
+                  data_age = (
+                      now_utc - updated_at.astimezone(datetime.timezone.utc)
+                  ).total_seconds()
+
+                  if data_age < 0 or data_age > 48 * 3600:
+                      print("LONG TOPIC FEEDBACK STALE:", updated_text)
+                      return None
+
+                  rules = [
+                      (
+                          ("ゲーム", "ドラクエ", "ゼルダ", "ポケモン", "任天堂"),
+                          "ゲーム・記憶",
+                          "昔のゲームを大人になっても買いたくなる心理"
+                      ),
+                      (
+                          ("サッカー", "コベントリー", "クリスタル・パレス", "オフサイド"),
+                          "スポーツ・観戦",
+                          "サッカー観戦がもっと面白くなる3つの見方"
+                      ),
+                      (
+                          ("カップル", "恋愛", "会話", "人間関係"),
+                          "心理・人間関係",
+                          "長続きするカップルの会話に共通する3つの習慣"
+                      )
+                  ]
+
+                  ranked = {}
+
+                  for video in feedback.get("all_videos", []):
+                      try:
+                          duration = int(video.get("duration_seconds"))
+                          views = int(video.get("views"))
+                          published_text = str(
+                              video.get("published_at", "")
+                          ).strip()
+
+                          if (
+                              duration <= 0
+                              or duration > 59
+                              or views < 100
+                              or not published_text
+                          ):
+                              continue
+
+                          published = datetime.datetime.fromisoformat(
+                              published_text.replace("Z", "+00:00")
+                          )
+
+                          if published.tzinfo is None:
+                              published = published.replace(
+                                  tzinfo=datetime.timezone.utc
+                              )
+
+                          age_hours = (
+                              now_utc - published.astimezone(datetime.timezone.utc)
+                          ).total_seconds() / 3600
+
+                          if age_hours < 6 or age_hours > 168:
+                              continue
+
+                      except (TypeError, ValueError):
+                          continue
+
+                      title = str(video.get("title", "")).strip()
+                      lower_title = title.lower()
+                      matched = None
+
+                      for keywords, genre, topic in rules:
+                          if any(
+                              keyword.lower() in lower_title
+                              for keyword in keywords
+                          ):
+                              matched = (genre, topic)
+                              break
+
+                      if not matched:
+                          continue
+
+                      vph = views / age_hours
+                      current = ranked.get(matched)
+
+                      if current is None or vph > current["vph"]:
+                          ranked[matched] = {
+                              "genre": matched[0],
+                              "topic": matched[1],
+                              "vph": vph,
+                              "source_title": title
+                          }
+
+                  candidates = sorted(
+                      ranked.values(),
+                      key=lambda item: item["vph"],
+                      reverse=True
+                  )[:3]
+
+                  if candidates:
+                      chosen = candidates[day_number % len(candidates)]
+                      print("LONG TOPIC SOURCE SHORT:", chosen["source_title"])
+                      print(
+                          "LONG TOPIC SOURCE ESTIMATED VPH:",
+                          round(chosen["vph"], 2)
+                      )
+                      print(
+                          "LONG TOPIC SOURCE METRIC: "
+                          "latest 50 uploads; lifetime views / age hours"
+                      )
+                      return chosen["genre"], chosen["topic"]
+
+              except Exception as error:
+                  print("LONG TOPIC FEEDBACK WARNING:", str(error)[:300])
+
+              return None
+
+          selected_topic = choose_topic_from_recent_shorts()
+
+          if selected_topic:
+              genre, topic = selected_topic
+          else:
+              genre, topic = TOPICS[day_number % len(TOPICS)]
+              print("LONG TOPIC SOURCE: evergreen fallback")
 
           print("VIDEO DATE:", today.isoformat())
           print("VIDEO GENRE:", genre)
@@ -185,43 +332,67 @@ jobs:
           根拠のない心理学用語や数字を作らない。
           """
 
-          response = requests.post(
-              "http://localhost:11434/api/generate",
-              json={
-                  "model": MODEL,
-                  "prompt": prompt,
-                  "stream": False,
-                  "options": {
-                      "temperature": 0.55,
-                      "num_predict": 2400
-                  }
-              },
-              timeout=2400
-          )
-          response.raise_for_status()
+          generation_prompt = prompt
+          script = ""
 
-          script = response.json().get("response", "").strip()
-          script = re.sub(
-              r"<think>.*?</think>", "", script, flags=re.S
-          )
-          script = re.sub(
-              r"```.*?```", "", script, flags=re.S
-          )
-          script = re.sub(
-              r"^(台本|ナレーション|本文)\s*[:：]?",
-              "", script
-          ).strip()
-
-          # 台本の基本品質チェック
-          if len(script) < 1000:
-              raise RuntimeError(
-                  f"台本が短すぎます: {len(script)}文字。公開を中止します。"
+          for attempt in range(2):
+              response = requests.post(
+                  "http://localhost:11434/api/generate",
+                  json={
+                      "model": MODEL,
+                      "prompt": generation_prompt,
+                      "stream": False,
+                      "options": {
+                          "temperature": 0.55,
+                          "num_predict": 2400
+                      }
+                  },
+                  timeout=2400
               )
+              response.raise_for_status()
 
-          if len(script) > 2600:
-              raise RuntimeError(
-                  f"台本が長すぎます: {len(script)}文字。公開を中止します。"
+              script = response.json().get("response", "").strip()
+              script = re.sub(
+                  r"<think>.*?</think>", "", script, flags=re.S
               )
+              script = re.sub(
+                  r"```.*?```", "", script, flags=re.S
+              )
+              script = re.sub(
+                  r"^(台本|ナレーション|本文)\s*[:：]?",
+                  "", script
+              ).strip()
+
+              if 1300 <= len(script) <= 1900:
+                  break
+
+              if attempt == 0:
+                  if len(script) < 1300:
+                      correction = (
+                          f"前回の台本は{len(script)}文字で短すぎます。"
+                          "説明を水増しせず、仕組み・具体例・理由・"
+                          "視聴者が使える知識を追加し、"
+                          "1300〜1700文字に書き直してください。"
+                      )
+                  else:
+                      correction = (
+                          f"前回の台本は{len(script)}文字で長すぎます。"
+                          "重複や脱線を削り、重要な説明と具体例を残して、"
+                          "1300〜1700文字に整理してください。"
+                      )
+
+                  generation_prompt = (
+                      prompt
+                      + "\n\n【再生成指示】\n"
+                      + correction
+                      + "\n\n【前回の台本】\n"
+                      + script
+                  )
+              else:
+                  raise RuntimeError(
+                      f"台本の文字数が規定外です: {len(script)}文字。"
+                      "再生成後も1300〜1900文字に収まりませんでした。"
+                  )
 
           sentences = [
               x.strip()
