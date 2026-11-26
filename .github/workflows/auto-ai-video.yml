@@ -78,8 +78,16 @@ jobs:
             
           # トレンドから動画テーマを選定
       - name: Select video topic from trends and channel performance
+        id: select_topic
         run: |
           python .github/workflows/trend_strategy.py
+
+      - name: Save topic history before video generation
+        if: steps.select_topic.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: work/topic_history.json
+          key: topic-history-${{ github.run_id }}
       - name: Select video topic
         if: false
         run: |
@@ -4534,10 +4542,13 @@ jobs:
               ジャンル：
               {category}
 
-              台本：
+              【動画テーマ・正式表記】
+              {topic}
+
+              【台本】
               {script}
 
-              参考情報：
+              【参考情報】
               {source_context[:8000]}
 
               台本の内容と一致し、視聴者が続きを見たくなる
@@ -4547,17 +4558,20 @@ jobs:
               ・15～35文字を目安にする
               ・最大60文字
               ・具体的な主張や意外な盲点を示す
-              ・作品名・人物名・場所名・商品名・制度名など、
-                台本にある中心対象を含める
+              ・作品名・人物名・グループ名・場所名・商品名・制度名は
+                テーマの正式表記をそのまま使う
+              ・固有名詞を翻訳、当て字、改変、誤変換しない
+              ・固有名詞を勝手に短縮・変形しない
+              ・台本にない事実を追加しない
               ・「秘密」「真相」「謎」などの抽象語だけで終わらず、
                 何が起きるかを具体的に示す
               ・抽象的な精神論を避ける
-              ・台本にない事実を追加しない
               ・「タイトル：」などのラベルを付けない
               ・説明文や候補一覧を出さない
               ・タイトルだけを1行で出力する
               ・「今日から、価値ある名言を新解釈してみましょう」
                 のような内容の薄いタイトルは禁止
+
               {retry_note}
               """
 
