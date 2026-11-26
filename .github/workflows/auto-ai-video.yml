@@ -2040,37 +2040,62 @@ jobs:
               print("GENERIC RESEARCH: START")
               print("RESEARCH TOPIC:", topic)
 
-              # 日本語テーマを英語化。MyMemory失敗時はローカルOllamaを使う。
+
+              # 日本語テーマを英語検索用に変換
+              # MyMemory・ローカルAI・固定辞書の3段階
               translated_topic = ""
 
               try:
                   translation_response = requests.get(
                       "https://api.mymemory.translated.net/get",
-                      params={"q": topic[:450], "langpair": "ja|en"},
-                      headers={"User-Agent": "AutoJapaneseVideo/1.0"},
+                      params={
+                          "q": topic[:450],
+                          "langpair": "ja|en"
+                      },
+                      headers={
+                          "User-Agent": "AutoJapaneseVideo/1.0"
+                      },
                       timeout=20
                   )
+
                   translation_response.raise_for_status()
+
                   translated_topic = clean_text(
                       translation_response.json()
                       .get("responseData", {})
                       .get("translatedText", "")
                   )
-                  if not re.search(r"[A-Za-z]{3,}", translated_topic):
-                      translated_topic = ""
-                  if translated_topic:
-                      print("TRANSLATED RESEARCH TOPIC:", translated_topic)
-              except Exception as error:
-                  print("TRANSLATION ERROR:", str(error)[:200])
 
+                  if not re.search(
+                      r"[A-Za-z]{3,}",
+                      translated_topic
+                  ):
+                      translated_topic = ""
+
+                  if translated_topic:
+                      print(
+                          "TRANSLATED RESEARCH TOPIC:",
+                          translated_topic
+                      )
+
+              except Exception as error:
+                  print(
+                      "TRANSLATION ERROR:",
+                      str(error)[:200]
+                  )
+
+              # MyMemoryが失敗した場合はローカルAI翻訳
               if not translated_topic:
                   try:
                       local_prompt = (
-                          "Translate this Japanese topic into one concise English "
-                          "search query. Output only the English query. Do not add "
-                          "facts or explanations.\nJapanese topic: "
+                          "Translate this Japanese topic into one "
+                          "concise English search query. "
+                          "Output only the English query. "
+                          "Do not add facts or explanations.\n"
+                          "Japanese topic: "
                           + topic
                       )
+
                       local_response = requests.post(
                           "http://127.0.0.1:11434/api/generate",
                           json={
@@ -2084,27 +2109,93 @@ jobs:
                           },
                           timeout=180
                       )
+
                       local_response.raise_for_status()
+
                       translated_topic = clean_text(
                           strip_prompt_leakage(
-                              local_response.json().get("response", "")
+                              local_response.json().get(
+                                  "response",
+                                  ""
+                              )
                           )
                       )
+
                       translated_topic = (
                           translated_topic.splitlines()[0].strip()
                           if translated_topic else ""
                       )
+
                       translated_topic = re.sub(
                           r"(?i)^\s*(?:english translation|translation)\s*[:：]\s*",
                           "",
                           translated_topic
                       ).strip().strip('"')
-                      if not re.search(r"[A-Za-z]{3,}", translated_topic):
+
+                      if not re.search(
+                          r"[A-Za-z]{3,}",
+                          translated_topic
+                      ):
                           translated_topic = ""
+
                       if translated_topic:
-                          print("LOCAL TRANSLATION FALLBACK:", translated_topic)
+                          print(
+                              "LOCAL TRANSLATION FALLBACK:",
+                              translated_topic
+                          )
+
                   except Exception as error:
-                      print("LOCAL TRANSLATION ERROR:", str(error)[:200])
+                      print(
+                          "LOCAL TRANSLATION ERROR:",
+                          str(error)[:200]
+                      )
+
+              # APIとローカルAIの両方が失敗した場合の検索辞書
+              if not translated_topic:
+                  fallback_queries = {
+                      "マリオのゲームデザインが長く人気を保つ理由":
+                          "Mario game design popularity gameplay",
+
+                      "サッカーのオフサイドルールの仕組み":
+                          "football soccer offside rule explanation",
+
+                      "柔道の投げ技で相手のバランスを崩す仕組み":
+                          "judo throwing techniques balance kuzushi",
+
+                      "マリオカートのアイテムがレース展開を変える仕組み":
+                          "Mario Kart item mechanics racing strategy",
+
+                      "睡眠不足が食欲や集中力に影響する仕組み":
+                          "sleep deprivation appetite concentration research",
+
+                      "人間の記憶が忘れていく仕組み":
+                          "human memory forgetting mechanisms research",
+
+                      "猫がゴロゴロ鳴く理由とその仕組み":
+                          "cat purring behavior reasons research",
+
+                      "給料明細に書かれている税金と社会保険料":
+                          "Japan payslip taxes social insurance explanation",
+
+                      "介護現場の人手不足と改善への取り組み":
+                          "Japan elderly care staffing shortage solutions"
+                  }
+
+                  translated_topic = fallback_queries.get(
+                      topic,
+                      ""
+                  )
+
+                  if translated_topic:
+                      print(
+                          "FIXED ENGLISH QUERY FALLBACK:",
+                          translated_topic
+                      )
+                  else:
+                      print(
+                          "TRANSLATION FALLBACK: "
+                          "no dictionary match; Japanese query retained"
+                      )
 
               research_queries = []
 
