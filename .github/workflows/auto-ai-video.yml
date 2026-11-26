@@ -997,7 +997,18 @@ jobs:
               []
           )
 
-          # エンタメはアニメとゲームを分けて検索する
+          # 名前・人名・初対面のテーマは
+          # 記憶と認知心理学に絞って検索
+          if category == "人間関係・心理" and any(
+              term in topic
+              for term in ("名前", "人名", "初対面")
+          ):
+              category_queries = [
+                  "名前 記憶 認知心理学 研究",
+                  "人名記憶 自己参照効果 研究"
+              ]
+
+          # エンタメはアニメとゲームを分けて検索
           if category == "エンタメ・ゲーム":
               if any(
                   term in topic
@@ -2088,25 +2099,56 @@ jobs:
                       print("LOCAL TRANSLATION ERROR:", str(error)[:200])
 
               research_queries = []
+
               if translated_topic:
-                  research_queries.append(translated_topic)
+                  research_queries.append(
+                      translated_topic
+                  )
+
                   simplified_query = re.sub(
                       r"\b(why|what|how|does|do|is|are|the|a|an)\b",
                       " ",
                       translated_topic,
                       flags=re.I
                   )
-                  simplified_query = clean_text(simplified_query)
-                  if simplified_query and simplified_query.lower() != translated_topic.lower():
-                      research_queries.append(simplified_query)
+
+                  simplified_query = clean_text(
+                      simplified_query
+                  )
+
+                  if (
+                      simplified_query
+                      and simplified_query.lower()
+                      != translated_topic.lower()
+                  ):
+                      research_queries.append(
+                          simplified_query
+                      )
 
               research_queries.append(topic)
+
+              # 名前・人名・初対面のテーマは
+              # 名前記憶に関する学術検索を追加
+              if any(
+                  term in topic
+                  for term in ("名前", "人名", "初対面")
+              ):
+                  research_queries.extend([
+                      "memory for names self-reference effect",
+                      "name recognition memory faces",
+                      "memory for people same first name"
+                  ])
+
               research_queries = list(dict.fromkeys(
                   query.strip()
                   for query in research_queries
                   if query and query.strip()
               ))
-              print("GENERIC SEARCH QUERIES:", research_queries)
+
+              print(
+                  "GENERIC SEARCH QUERIES:",
+                  research_queries
+              )
               # --------------------------------------
               # 3. OpenAlexで幅広い学術論文を検索
               # 心理・社会・自然科学などを横断
