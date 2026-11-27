@@ -2,7 +2,7 @@ name: YouTube Analytics Auto Improvement
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 23 * * *"
+    - cron: "0 14 * * *"
       timezone: "Asia/Tokyo"
 permissions:
   contents: write
