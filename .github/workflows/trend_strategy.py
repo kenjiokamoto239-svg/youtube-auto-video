@@ -512,6 +512,29 @@ def main():
             genre_override=genre
         )
 
+    # 期間限定の公式トレンド企画
+    # add()の7日経過フィルターで自動的に期限切れになる
+    add(
+        {
+            "title": "マリオカート ワールドVer.1.9.0の新要素3つ",
+            "summary": (
+                "任天堂公式の更新情報によると、Ver.1.9.0では"
+                "既存コースをアレンジした新コースが8つ追加され、"
+                "サバイバルに「ハネラリー」と「まねきネコラリー」の"
+                "2ルートが加わった。さらに最近のレースやバトルの"
+                "リプレイが自動保存され、メニューから見返せる"
+                "機能も追加された。"
+            ),
+            "link": (
+                "https://www.nintendo.com/jp/topics/article/"
+                "8ec3b6ba-2029-401f-bdf5-c4822e96db09"
+            ),
+            "published_at": "2026-11-25T12:00:00+09:00"
+        },
+        "Current topic override",
+        genre_override="エンタメ・ゲーム"
+    )
+
     all_candidates = list(
         candidates.values()
     )
@@ -543,7 +566,8 @@ def main():
     base_scores = {
         "Google News": 1.8,
         "Google Trends": 2.2,
-        "Evergreen fallback": 3.0
+        "Evergreen fallback": 3.0,
+        "Current topic override": 4.3
     }
 
     for item in available:
