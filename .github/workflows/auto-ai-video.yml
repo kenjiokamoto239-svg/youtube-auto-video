@@ -9,7 +9,7 @@ on:
       timezone: "Asia/Tokyo"
     - cron: "0 12 * * *"
       timezone: "Asia/Tokyo"
-    - cron: "0 15 * * *"
+    - cron: "0 14 * * *"
       timezone: "Asia/Tokyo"
     - cron: "0 18 * * *"
       timezone: "Asia/Tokyo"
