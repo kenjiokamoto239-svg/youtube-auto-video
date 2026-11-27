@@ -1089,7 +1089,10 @@ jobs:
           plan_source_loaded = False
 
           if (
-              plan_source_name == "Google News"
+              plan_source_name in (
+                  "Google News",
+                  "Current topic override"
+              )
               and len(plan_source_summary) >= 70
               and plan_source_url.startswith("http")
           ):
@@ -1099,6 +1102,11 @@ jobs:
                   "link": plan_source_url,
                   "source": "Google News"
               })
+              plan_source_loaded = True
+              print(
+                  "TREND PLAN SOURCE LOADED:",
+                  len(plan_source_summary)
+              )
               plan_source_loaded = True
               print(
                   "TREND PLAN SOURCE LOADED:",
@@ -1470,11 +1478,14 @@ jobs:
                   )
                   return ""
 
-          # テーマとの関連度が高いWikipedia記事だけを採用
-          wikipedia_results = search_wikipedia(topic)
+          # まずテーマ全文で検索し、見つからない場合は主題語で再検索
+          wikipedia_context = ""
+          wikipedia_source = ""
+          wiki_extract = ""
 
+          wiki_results = search_wikipedia(topic)
           ranked_wikipedia = sorted(
-              wikipedia_results,
+              wiki_results,
               key=lambda item: topic_match_score(
                   clean_text(
                       item.get("title", "")
@@ -1484,21 +1495,17 @@ jobs:
               ),
               reverse=True
           )
-          
-          # Wikipedia記事が見つからない場合に備えて初期化
-          wiki_extract = ""
-          
+
           for wiki_item in ranked_wikipedia:
               wiki_title = clean_text(
                   wiki_item.get("title", "")
               )
-
-              wiki_score = topic_match_score(
-                  clean_text(
-                      wiki_title
-                      + " "
-                      + wiki_item.get("snippet", "")
-                  )
+              wiki_snippet = clean_text(
+                  wiki_item.get("snippet", "")
+              )
+              wiki_score = max(
+                  topic_match_score(wiki_title),
+                  topic_match_score(wiki_title + " " + wiki_snippet)
               )
 
               print(
@@ -1510,45 +1517,146 @@ jobs:
               if not wiki_title or wiki_score < 0.12:
                   continue
 
-              wiki_extract = get_wikipedia_extract(
-                  wiki_title
-              )
-
+              wiki_extract = get_wikipedia_extract(wiki_title)
               if not wiki_extract or len(wiki_extract) < 200:
-                  print(
-                      "WIKIPEDIA REJECTED: "
-                      "本文が短すぎます。",
-                      wiki_title
-                  )
                   continue
 
               wikipedia_context = (
                   "Wikipediaの記事名："
                   + wiki_title
-                  + "\n\n"
-                  + "Wikipediaの記事本文：\n"
+                  + "\n\nWikipediaの記事本文：\n"
                   + wiki_extract
               )
-
               wikipedia_source = (
                   "https://ja.wikipedia.org/wiki/"
-                  + quote(
-                      wiki_title.replace(" ", "_"),
-                      safe=""
-                  )
+                  + quote(wiki_title.replace(" ", "_"), safe="")
               )
-
-              print(
-                  "WIKIPEDIA ARTICLE:",
-                  wiki_title
-              )
-
-              print(
-                  "WIKIPEDIA SOURCE:",
-                  wikipedia_source
-              )
-
               break
+
+          # 全文検索が失敗したテーマは、主題語で再検索してAIが直接関連性を確認
+          if not wikipedia_context:
+              wiki_fallback_queries = {
+                  "マリオのゲームデザインが長く人気を保つ理由": "マリオ",
+                  "サッカーのオフサイドルールの仕組み": "オフサイド",
+                  "柔道の投げ技で相手のバランスを崩す仕組み": "柔道",
+                  "マリオカートのアイテムがレース展開を変える仕組み": "マリオカート",
+                  "マリオカート ワールドVer.1.9.0の新要素3つ": "マリオカート ワールド",
+                  "睡眠不足が食欲や集中力に影響する仕組み": "睡眠不足",
+                  "人間の記憶が忘れていく仕組み": "忘却",
+                  "猫がゴロゴロ鳴く理由とその仕組み": "猫",
+                  "給料明細に書かれている税金と社会保険料": "給与明細",
+                  "介護現場の人手不足と改善への取り組み": "介護",
+              }
+
+              fallback_query = wiki_fallback_queries.get(topic, "")
+              if fallback_query:
+                  print(
+                      "WIKIPEDIA FALLBACK QUERY:",
+                      fallback_query
+                  )
+
+                  fallback_results = search_wikipedia(
+                      fallback_query
+                  )
+                  ranked_fallback = sorted(
+                      fallback_results,
+                      key=lambda item: topic_match_score(
+                          clean_text(
+                              item.get("title", "")
+                              + " "
+                              + item.get("snippet", "")
+                          )
+                      ),
+                      reverse=True
+                  )
+
+                  for wiki_item in ranked_fallback[:2]:
+                      wiki_title = clean_text(
+                          wiki_item.get("title", "")
+                      )
+                      wiki_snippet = clean_text(
+                          wiki_item.get("snippet", "")
+                      )
+                      wiki_score = max(
+                          topic_match_score(wiki_title),
+                          topic_match_score(
+                              wiki_title + " " + wiki_snippet
+                          )
+                      )
+
+                      if not wiki_title or wiki_score < 0.12:
+                          continue
+
+                      wiki_extract = get_wikipedia_extract(
+                          wiki_title
+                      )
+                      if not wiki_extract or len(wiki_extract) < 200:
+                          continue
+
+                      relevance_prompt = f"""
+          あなたは厳格な出典確認担当者です。
+          次の記事本文が動画テーマを直接説明する根拠として使えるか判定してください。
+          単語が一致するだけ、一般的すぎる内容、別分野の内容はNO。
+          判断に迷ったらNO。回答はYESまたはNOだけ。
+
+          【動画テーマ】
+          {topic}
+
+          【記事タイトル】
+          {wiki_title}
+
+          【記事本文】
+          {wiki_extract[:4000]}
+          """
+
+                      relevance_response = requests.post(
+                          "http://127.0.0.1:11434/api/generate",
+                          json={
+                              "model": model,
+                              "prompt": relevance_prompt,
+                              "stream": False,
+                              "options": {
+                                  "temperature": 0.0,
+                                  "num_predict": 32
+                              }
+                          },
+                          timeout=180
+                      )
+                      relevance_response.raise_for_status()
+
+                      relevance_answer = clean_text(
+                          relevance_response.json().get(
+                              "response", ""
+                          )
+                      ).upper()
+
+                      print(
+                          "WIKIPEDIA FALLBACK RELEVANCE:",
+                          relevance_answer
+                      )
+
+                      if not relevance_answer.startswith("YES"):
+                          continue
+
+                      wikipedia_context = (
+                          "Wikipediaの記事名："
+                          + wiki_title
+                          + "\n\nWikipediaの記事本文：\n"
+                          + wiki_extract
+                      )
+                      wikipedia_source = (
+                          "https://ja.wikipedia.org/wiki/"
+                          + quote(
+                              wiki_title.replace(" ", "_"),
+                              safe=""
+                          )
+                      )
+
+                      print(
+                          "WIKIPEDIA FALLBACK ACCEPTED:",
+                          wiki_title
+                      )
+                      break
 
           if not wikipedia_context:
               print(
@@ -2806,6 +2914,28 @@ jobs:
           # ==========================================
 
           source_sections = []
+
+          # 期間限定企画の公式要約を直接の出典として使う
+          # RSS要約や記事本文が取れなかった場合のみ追加
+          if (
+              plan_source_name == "Current topic override"
+              and len(plan_source_summary) >= 120
+              and plan_source_url.startswith(
+                  "https://www.nintendo.com/jp/"
+              )
+              and not rss_summary_context
+              and not article_body
+          ):
+              source_sections.append(
+                  f"""
+          【任天堂公式更新情報の要約】
+
+          {plan_source_summary}
+
+          参考URL：
+          {plan_source_url}
+          """
+              )
 
           if rss_summary_context:
               source_sections.append(
