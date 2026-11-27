@@ -426,11 +426,11 @@ jobs:
 
               # ==================================
               # 2回生成しても短い場合、追加本文を生成
-              # 最大2回の補足生成
+              # 最大4回の補足生成
               # ==================================
               expansion_success = False
 
-              for expansion_attempt in range(2):
+              for expansion_attempt in range(4):
                   needed = 1300 - len(script)
 
                   max_add = (
@@ -574,7 +574,7 @@ jobs:
               if not expansion_success:
                   raise RuntimeError(
                       f"台本が短すぎます: {len(script)}文字。"
-                      "全体生成2回と補足生成2回でも"
+                      "全体生成2回と補足生成4回でも"
                       "1300文字に達しませんでした。"
                   )
 
@@ -912,8 +912,42 @@ jobs:
           if not 1300 <= len(script) <= 1900:
               stop(f"台本は1300〜1900文字が必要です。現在は{len(script)}文字です")
 
-          if re.match(r"^(こんにちは|どうも|皆さんこんにちは|皆さまこんにちは)", script):
-              stop("冒頭に挨拶があります")
+          # 冒頭挨拶があれば除去し、本文を残す
+          greeting_prefix = re.compile(
+              r"^(?:"
+              r"皆さん[、,]?\s*こんにちは"
+              r"|皆さま[、,]?\s*こんにちは"
+              r"|こんにちは(?:[、,]?\s*(?:皆さん|皆さま))?"
+              r"|どうも(?:[、,]?\s*(?:皆さん|皆さま))?"
+              r")[、,。!！\s]*"
+          )
+
+          cleaned_script = greeting_prefix.sub(
+              "",
+              script,
+              count=1
+          ).strip()
+
+          if cleaned_script != script:
+              script = cleaned_script
+              (work / "script.txt").write_text(
+                  script,
+                  encoding="utf-8"
+              )
+              print("SCRIPT GREETING REMOVED")
+
+          # 挨拶除去後に文字数を再確認
+          if not 1300 <= len(script) <= 1900:
+              stop(
+                  f"台本は1300〜1900文字が必要です。"
+                  f"現在は{len(script)}文字です"
+              )
+
+          if re.match(
+              r"^(こんにちは|どうも|皆さんこんにちは|皆さまこんにちは|皆さん、こんにちは|皆さま、こんにちは)",
+              script
+          ):
+              stop("挨拶除去後も冒頭に挨拶があります")
 
           if re.search(r"【章|【第[0-9０-９一二三四五六七八九]+章", script):
               stop("読み上げ本文に章見出しが混ざっています")
