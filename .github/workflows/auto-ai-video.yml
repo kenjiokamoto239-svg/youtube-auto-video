@@ -1236,14 +1236,18 @@ jobs:
               ranked_articles = sorted(
                   articles,
                   key=lambda item: topic_match_score(
-                      item["title"]
+                      item.get("title", "")
+                      + " "
+                      + item.get("summary", "")
                   ),
                   reverse=True
               )
 
               best_article = ranked_articles[0]
               best_score = topic_match_score(
-                  best_article["title"]
+                  best_article.get("title", "")
+                  + " "
+                  + best_article.get("summary", "")
               )
 
               print(
@@ -1251,7 +1255,7 @@ jobs:
                   round(best_score, 3)
               )
 
-              if best_score >= 0.12:
+              if best_score >= 0.10:
                   article = best_article
 
                   print(
@@ -1864,10 +1868,12 @@ jobs:
 
               for candidate in ranked_articles[:15]:
                   candidate_score = topic_match_score(
-                      candidate["title"]
+                      candidate.get("title", "")
+                      + " "
+                      + candidate.get("summary", "")
                   )
 
-                  if candidate_score < 0.12:
+                  if candidate_score < 0.10:
                       continue
 
                   try:
@@ -2030,7 +2036,7 @@ jobs:
                   reverse=True
               )
 
-              for candidate in ranked_summary_articles:
+              for candidate in ranked_summary_articles[:10]:
                   title_text = clean_text(
                       candidate.get("title", "")
                   )
@@ -2050,11 +2056,73 @@ jobs:
                   if len(summary_text) < 70:
                       continue
 
-                  # テーマに関係する重要語が含まれる記事だけ採用
-                  if evidence_terms and not any(
-                      term.lower() in candidate_text.lower()
-                      for term in evidence_terms
-                  ):
+                  summary_score = topic_match_score(
+                      candidate_text
+                  )
+
+                  if summary_score < 0.10:
+                      continue
+
+                  summary_relevance_prompt = f"""
+                  あなたは厳格な出典確認担当者です。
+
+                  次のRSS要約が動画テーマを
+                  直接説明する根拠になるか判定してください。
+
+                  ・単語が一致するだけではYESにしない
+                  ・別分野の話や曖昧な内容はNO
+                  ・要約に書かれている内容だけで判断する
+                  ・判断に迷ったらNO
+                  ・回答はYESまたはNOだけ
+
+                  【動画テーマ】
+                  {topic}
+
+                  【記事タイトル】
+                  {title_text}
+
+                  【RSS要約】
+                  {summary_text[:1200]}
+                  """
+
+                  try:
+                      summary_relevance_response = requests.post(
+                          "http://127.0.0.1:11434/api/generate",
+                          json={
+                              "model": model,
+                              "prompt": summary_relevance_prompt,
+                              "stream": False,
+                              "options": {
+                                  "temperature": 0.0,
+                                  "num_predict": 32
+                              }
+                          },
+                          timeout=180
+                      )
+
+                      summary_relevance_response.raise_for_status()
+
+                      summary_relevance = clean_text(
+                          summary_relevance_response.json().get(
+                              "response",
+                              ""
+                          )
+                      ).upper()
+
+                  except Exception as error:
+                      print(
+                          "RSS SUMMARY RELEVANCE ERROR:",
+                          str(error)[:200]
+                      )
+                      continue
+
+                  print(
+                      "RSS SUMMARY TOPIC RELEVANCE:",
+                      title_text,
+                      summary_relevance
+                  )
+
+                  if not summary_relevance.startswith("YES"):
                       continue
 
                   title_key = re.sub(
@@ -3434,9 +3502,9 @@ jobs:
                   if sentence.strip()
               ]
 
-              if len(sentences) < 3:
+              if len(sentences) < 2:
                   issues.append(
-                      "3文以上で、冒頭・具体的な説明・結論を構成してください。"
+                      "2文以上で、冒頭の引き・具体的な説明・結論を構成してください。"
                   )
 
               # 同じ文章の繰り返し
@@ -3922,7 +3990,8 @@ jobs:
                   ・新しい数字、固有名詞、理由、発言、研究結果を追加しない
                   ・参考情報と意味が変わる言い換えをしない
                   ・事実主張を2つ未満にしない
-                  ・3文以上にして、冒頭・具体的な説明・結論を構成する
+                  ・2文以上で、冒頭・具体的な説明・結論を構成する
+                  ・2文の場合は、1文目で具体的な引きと主張、2文目で根拠と結論をまとめる
                   ・制作指示、見出し、テンプレート、ラベルを出力しない
                   ・読み上げ本文だけを出力する
                   ・280文字以内
