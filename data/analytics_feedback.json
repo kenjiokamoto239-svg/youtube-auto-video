@@ -1,28 +1,18 @@
 {
   "channel_id": "UCatosUXnN66EsQM2EfgPpcQ",
   "channel_title": "ああああ@    ランニング・読書・仕事で人生を変える、マラソンサブスリー目指す",
-  "updated_at_jst": "2026-11-27T07:50:34.820179+09:00",
+  "updated_at_jst": "2026-11-28T22:46:33.814461+09:00",
   "data_sources": {
     "daily_channel_analytics": "YouTube Analytics API",
     "video_metadata_and_statistics": "YouTube Data API"
   },
   "period": {
-    "start": "2026-09-28",
-    "end": "2026-11-26",
+    "start": "2026-09-29",
+    "end": "2026-11-27",
     "timezone": "Asia/Tokyo"
   },
   "daily_data_count": 58,
   "daily_data": [
-    {
-      "day": "2026-09-28",
-      "views": 556,
-      "watch_minutes": 42.0,
-      "average_view_seconds": 16.0,
-      "subscribers_gained": 0,
-      "subscribers_lost": 0,
-      "likes": 1,
-      "comments": 0
-    },
     {
       "day": "2026-09-29",
       "views": 134,
@@ -195,7 +185,7 @@
     },
     {
       "day": "2026-10-16",
-      "views": 195,
+      "views": 193,
       "watch_minutes": 12.0,
       "average_view_seconds": 18.0,
       "subscribers_gained": 0,
@@ -225,7 +215,7 @@
     },
     {
       "day": "2026-10-19",
-      "views": 1340,
+      "views": 1321,
       "watch_minutes": 151.0,
       "average_view_seconds": 24.0,
       "subscribers_gained": 0,
@@ -275,7 +265,7 @@
     },
     {
       "day": "2026-10-24",
-      "views": 2895,
+      "views": 2873,
       "watch_minutes": 357.0,
       "average_view_seconds": 18.0,
       "subscribers_gained": 0,
@@ -575,7 +565,7 @@
     },
     {
       "day": "2026-11-23",
-      "views": 1067,
+      "views": 1064,
       "watch_minutes": 81.0,
       "average_view_seconds": 12.0,
       "subscribers_gained": 0,
@@ -592,19 +582,29 @@
       "subscribers_lost": 0,
       "likes": 1,
       "comments": 0
+    },
+    {
+      "day": "2026-11-25",
+      "views": 1882,
+      "watch_minutes": 258.0,
+      "average_view_seconds": 24.0,
+      "subscribers_gained": 1,
+      "subscribers_lost": 1,
+      "likes": 2,
+      "comments": 1
     }
   ],
   "comparison": {
     "comparison_available": false,
     "previous_3_days": [
-      "2026-11-21",
       "2026-11-22",
-      "2026-11-23"
+      "2026-11-23",
+      "2026-11-24"
     ],
     "recent_3_days": [
-      "2026-11-24",
       "2026-11-25",
-      "2026-11-26"
+      "2026-11-26",
+      "2026-11-27"
     ],
     "daily_views_previous_3_days": null,
     "daily_views_last_3_days": null,
@@ -617,21 +617,10 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1302,
+      "views": 1306,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
-    },
-    {
-      "video_id": "BUf6fTLqrZQ",
-      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
-      "published_at": "2026-11-06T19:51:24Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 1159,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "zth0xQAIEJ4",
@@ -650,7 +639,7 @@
       "published_at": "2026-11-15T16:07:32Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 1136,
+      "views": 1137,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
@@ -661,21 +650,21 @@
       "published_at": "2026-11-21T16:45:43Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 1119,
+      "views": 1120,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
     },
     {
-      "video_id": "_vyCsAzjFnM",
-      "title": "サンジ成長、新能力に歓喜の新展開",
-      "published_at": "2026-11-07T09:42:57Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 1045,
+      "video_id": "BmxehDLGtqc",
+      "title": "雪マンが今話題の理由は、6人体制から9人体制への変化にあるかもしれません",
+      "published_at": "2026-11-25T20:33:09Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 1053,
       "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=_vyCsAzjFnM"
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=BmxehDLGtqc"
     },
     {
       "video_id": "YUEgL6oBu1c",
@@ -689,15 +678,15 @@
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
     },
     {
-      "video_id": "QzcUT_HhaEc",
-      "title": "新作「ゼルダ」、何が意外？",
-      "published_at": "2026-11-07T02:36:56Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 1029,
-      "likes": 1,
+      "video_id": "ROU98dHN1so",
+      "title": "マリオのゲーム、報酬と罰則の巧みな設計で世代を超える人気",
+      "published_at": "2026-11-26T22:05:37Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1028,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
+      "url": "https://www.youtube.com/watch?v=ROU98dHN1so"
     },
     {
       "video_id": "a20nRYiWmy8",
@@ -709,6 +698,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=a20nRYiWmy8"
+    },
+    {
+      "video_id": "weIj7wdV5dM",
+      "title": "なぜサッカーのオフサイドルールが必要なのか、それがゲームの美しさを高めているのかを解説しま",
+      "published_at": "2026-11-25T09:50:11Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 1024,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=weIj7wdV5dM"
     },
     {
       "video_id": "8aEp2tKe_7k",
@@ -729,21 +729,10 @@
       "published_at": "2026-11-09T19:33:37Z",
       "duration_iso": "PT32S",
       "duration_seconds": 32,
-      "views": 1302,
+      "views": 1306,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ZwV_XMcBEEA"
-    },
-    {
-      "video_id": "BUf6fTLqrZQ",
-      "title": "サントリー×ドラクエ、限定ボトルで「TOY PEOPLE」登場！",
-      "published_at": "2026-11-06T19:51:24Z",
-      "duration_iso": "PT31S",
-      "duration_seconds": 31,
-      "views": 1159,
-      "likes": 1,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=BUf6fTLqrZQ"
     },
     {
       "video_id": "zth0xQAIEJ4",
@@ -762,7 +751,7 @@
       "published_at": "2026-11-15T16:07:32Z",
       "duration_iso": "PT29S",
       "duration_seconds": 29,
-      "views": 1136,
+      "views": 1137,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=KNaD0cxIQNg"
@@ -773,21 +762,21 @@
       "published_at": "2026-11-21T16:45:43Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 1119,
+      "views": 1120,
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=NX73HYeGtGk"
     },
     {
-      "video_id": "_vyCsAzjFnM",
-      "title": "サンジ成長、新能力に歓喜の新展開",
-      "published_at": "2026-11-07T09:42:57Z",
-      "duration_iso": "PT37S",
-      "duration_seconds": 37,
-      "views": 1045,
+      "video_id": "BmxehDLGtqc",
+      "title": "雪マンが今話題の理由は、6人体制から9人体制への変化にあるかもしれません",
+      "published_at": "2026-11-25T20:33:09Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 1053,
       "likes": 2,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=_vyCsAzjFnM"
+      "comments": 1,
+      "url": "https://www.youtube.com/watch?v=BmxehDLGtqc"
     },
     {
       "video_id": "YUEgL6oBu1c",
@@ -801,15 +790,15 @@
       "url": "https://www.youtube.com/watch?v=YUEgL6oBu1c"
     },
     {
-      "video_id": "QzcUT_HhaEc",
-      "title": "新作「ゼルダ」、何が意外？",
-      "published_at": "2026-11-07T02:36:56Z",
-      "duration_iso": "PT35S",
-      "duration_seconds": 35,
-      "views": 1029,
-      "likes": 1,
+      "video_id": "ROU98dHN1so",
+      "title": "マリオのゲーム、報酬と罰則の巧みな設計で世代を超える人気",
+      "published_at": "2026-11-26T22:05:37Z",
+      "duration_iso": "PT28S",
+      "duration_seconds": 28,
+      "views": 1028,
+      "likes": 0,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=QzcUT_HhaEc"
+      "url": "https://www.youtube.com/watch?v=ROU98dHN1so"
     },
     {
       "video_id": "a20nRYiWmy8",
@@ -821,6 +810,17 @@
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=a20nRYiWmy8"
+    },
+    {
+      "video_id": "weIj7wdV5dM",
+      "title": "なぜサッカーのオフサイドルールが必要なのか、それがゲームの美しさを高めているのかを解説しま",
+      "published_at": "2026-11-25T09:50:11Z",
+      "duration_iso": "PT38S",
+      "duration_seconds": 38,
+      "views": 1024,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=weIj7wdV5dM"
     },
     {
       "video_id": "8aEp2tKe_7k",
@@ -856,6 +856,17 @@
       "url": "https://www.youtube.com/watch?v=s39vLR2MoF8"
     },
     {
+      "video_id": "hzUwQPazaf8",
+      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
+      "published_at": "2026-11-20T04:09:56Z",
+      "duration_iso": "PT30S",
+      "duration_seconds": 30,
+      "views": 986,
+      "likes": 3,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
+    },
+    {
       "video_id": "D5e6pXD4PVs",
       "title": "ドラクエ7リメイク」の裏技、経験値倍増場所教えます！",
       "published_at": "2026-11-09T10:22:44Z",
@@ -865,17 +876,6 @@
       "likes": 2,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=D5e6pXD4PVs"
-    },
-    {
-      "video_id": "hzUwQPazaf8",
-      "title": "意外な事実ですが，長続きするカップルが維持するための要因として，社会交換理論とジョンソンの",
-      "published_at": "2026-11-20T04:09:56Z",
-      "duration_iso": "PT30S",
-      "duration_seconds": 30,
-      "views": 985,
-      "likes": 3,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=hzUwQPazaf8"
     },
     {
       "video_id": "A11cM79AHAI",
@@ -889,37 +889,26 @@
       "url": "https://www.youtube.com/watch?v=A11cM79AHAI"
     },
     {
-      "video_id": "BmxehDLGtqc",
-      "title": "雪マンが今話題の理由は、6人体制から9人体制への変化にあるかもしれません",
-      "published_at": "2026-11-25T20:33:09Z",
-      "duration_iso": "PT22S",
-      "duration_seconds": 22,
-      "views": 962,
-      "likes": 2,
-      "comments": 1,
-      "url": "https://www.youtube.com/watch?v=BmxehDLGtqc"
-    },
-    {
-      "video_id": "weIj7wdV5dM",
-      "title": "なぜサッカーのオフサイドルールが必要なのか、それがゲームの美しさを高めているのかを解説しま",
-      "published_at": "2026-11-25T09:50:11Z",
-      "duration_iso": "PT38S",
-      "duration_seconds": 38,
-      "views": 890,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=weIj7wdV5dM"
-    },
-    {
       "video_id": "JUgWlPUBXkE",
       "title": "USJスタッフの「こんばんは」、来年閉鎖のスパイダーマン・ザ・ライドへの特別な思い",
       "published_at": "2026-11-09T21:28:38Z",
       "duration_iso": "PT26S",
       "duration_seconds": 26,
-      "views": 781,
+      "views": 782,
       "likes": 5,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=JUgWlPUBXkE"
+    },
+    {
+      "video_id": "Tmwt6BOi5rM",
+      "title": "MステSUPERLIVE2026』6時間生放送、54組豪華アーティスト登場",
+      "published_at": "2026-11-27T19:01:47Z",
+      "duration_iso": "PT22S",
+      "duration_seconds": 22,
+      "views": 686,
+      "likes": 2,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=Tmwt6BOi5rM"
     },
     {
       "video_id": "8W0a67AWcH8",
@@ -933,15 +922,15 @@
       "url": "https://www.youtube.com/watch?v=8W0a67AWcH8"
     },
     {
-      "video_id": "kiKOEWl8R0Y",
-      "title": "NARUTO』新作アニメ、ファンの新たな楽しみをもたらす",
-      "published_at": "2026-11-07T12:43:36Z",
-      "duration_iso": "PT27S",
-      "duration_seconds": 27,
-      "views": 313,
-      "likes": 0,
+      "video_id": "57dXPSIvJSA",
+      "title": "YOSHIKIドラム辞退 新解釈、ファンに冷静に！",
+      "published_at": "2026-11-27T05:04:56Z",
+      "duration_iso": "PT29S",
+      "duration_seconds": 29,
+      "views": 356,
+      "likes": 1,
       "comments": 0,
-      "url": "https://www.youtube.com/watch?v=kiKOEWl8R0Y"
+      "url": "https://www.youtube.com/watch?v=57dXPSIvJSA"
     },
     {
       "video_id": "MevObBcdl0Q",
@@ -1037,7 +1026,7 @@
       "published_at": "2026-11-14T17:02:54Z",
       "duration_iso": "PT28S",
       "duration_seconds": 28,
-      "views": 176,
+      "views": 178,
       "likes": 1,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=sP9_GjXxC9s"
@@ -1081,7 +1070,7 @@
       "published_at": "2026-11-13T18:45:23Z",
       "duration_iso": "PT20S",
       "duration_seconds": 20,
-      "views": 103,
+      "views": 104,
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=UZ9jFje6thU"
@@ -1107,6 +1096,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=ICh__ZpX04E"
+    },
+    {
+      "video_id": "fisq4-FV5sI",
+      "title": "美容医療、若者たちの価値観の多様化へ",
+      "published_at": "2026-11-27T09:45:59Z",
+      "duration_iso": "PT34S",
+      "duration_seconds": 34,
+      "views": 78,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=fisq4-FV5sI"
     },
     {
       "video_id": "f1ctisC2Mxo",
@@ -1208,17 +1208,6 @@
       "url": "https://www.youtube.com/watch?v=YB0-UlZNat0"
     },
     {
-      "video_id": "ROU98dHN1so",
-      "title": "マリオのゲーム、報酬と罰則の巧みな設計で世代を超える人気",
-      "published_at": "2026-11-26T22:05:37Z",
-      "duration_iso": "PT28S",
-      "duration_seconds": 28,
-      "views": 3,
-      "likes": 0,
-      "comments": 0,
-      "url": "https://www.youtube.com/watch?v=ROU98dHN1so"
-    },
-    {
       "video_id": "sqZBZjQMPBQ",
       "title": "ナッシュ・ウォルターズは、なぜ今注目されているのか",
       "published_at": "2026-11-16T04:48:11Z",
@@ -1272,6 +1261,17 @@
       "likes": 0,
       "comments": 0,
       "url": "https://www.youtube.com/watch?v=0VGgmoIWYXY"
+    },
+    {
+      "video_id": "-a3JJmfE5EU",
+      "title": "昔のゲームを大人になっても買いたくなる心理",
+      "published_at": "2026-11-28T05:28:58Z",
+      "duration_iso": "PT4M19S",
+      "duration_seconds": 259,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "url": "https://www.youtube.com/watch?v=-a3JJmfE5EU"
     }
   ],
   "video_data_scope": {
