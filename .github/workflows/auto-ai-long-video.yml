@@ -589,19 +589,45 @@ jobs:
                   "文章の数が少なすぎます。台本を確認してください。"
               )
 
-          # 同じ文章が何度も出ていないか確認
-          normalized = [
-              re.sub(r"\s+", "", s)
-              for s in sentences
-          ]
-          duplicates = [
-              s for s, count in Counter(normalized).items()
-              if count >= 2 and len(s) >= 15
-          ]
+          # 完全一致する重複文だけを除去し、最初の文は残す
+          seen_sentences = set()
+          unique_sentences = []
+          removed_duplicate_count = 0
 
-          if duplicates:
+          for sentence in sentences:
+              normalized_sentence = re.sub(
+                  r"\s+",
+                  "",
+                  sentence
+              )
+
+              if (
+                  len(normalized_sentence) >= 15
+                  and normalized_sentence in seen_sentences
+              ):
+                  removed_duplicate_count += 1
+                  continue
+
+              if len(normalized_sentence) >= 15:
+                  seen_sentences.add(normalized_sentence)
+
+              unique_sentences.append(sentence)
+
+          if removed_duplicate_count:
+              sentences = unique_sentences
+              script = "".join(sentences)
+
+              print(
+                  "DUPLICATE SENTENCES REMOVED:",
+                  removed_duplicate_count
+              )
+
+          # 重複を除去しても長さと文数が足りる場合だけ続行
+          if len(sentences) < 12 or len(script) < 1300:
               raise RuntimeError(
-                  "同じ文章の繰り返しを検出しました。公開を中止します。"
+                  f"重複文除去後の台本が不足しています: "
+                  f"{len(script)}文字、{len(sentences)}文。"
+                  "公開を中止します。"
               )
 
           # 中身のない定型句の連続を検出
